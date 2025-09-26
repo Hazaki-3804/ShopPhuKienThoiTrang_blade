@@ -12,22 +12,28 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function loginForm() { return view('auth.login'); }
+    public function loginForm()
+    {
+        return view('auth.login');
+    }
 
-    public function registerForm() { return view('auth.register'); }
+    public function registerForm()
+    {
+        return view('auth.register');
+    }
 
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required','string']
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string']
         ]);
         $remember = (bool)$request->boolean('remember');
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            if (Auth::user()->status !== 'active') {
+            if (Auth::user()->status !== 1) {
                 Auth::logout();
-                return back()->withErrors(['email'=>'Tài khoản không hoạt động']);
+                return back()->withErrors(['email' => 'Tài khoản không hoạt động']);
             }
             return $this->redirectByRole();
         }
@@ -37,9 +43,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $data = $request->validate([
-            'name' => ['required','string','max:120'],
-            'email' => ['required','email','unique:users,email'],
-            'password' => ['required','string','min:6','confirmed'],
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
         $user = User::create([
             'name' => $data['name'],
@@ -66,11 +72,14 @@ class AuthController extends Controller
     }
 
     // Forgot password (custom token)
-    public function forgotForm() { return view('auth.forgot'); }
+    public function forgotForm()
+    {
+        return view('auth.forgot');
+    }
 
     public function forgotSend(Request $request)
     {
-        $data = $request->validate(['email'=>['required','email']]);
+        $data = $request->validate(['email' => ['required', 'email']]);
         $user = User::where('email', $data['email'])->first();
         if ($user) {
             $user->reset_token = Str::random(40);
@@ -89,13 +98,13 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $data = $request->validate([
-            'token' => ['required','string'],
-            'password' => ['required','string','min:6','confirmed'],
+            'token' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
         $user = User::where('reset_token', $data['token'])
             ->where('reset_token_expires_at', '>=', now())
             ->first();
-        if (!$user) return back()->withErrors(['token'=>'Token không hợp lệ hoặc đã hết hạn']);
+        if (!$user) return back()->withErrors(['token' => 'Token không hợp lệ hoặc đã hết hạn']);
         $user->password = Hash::make($data['password']);
         $user->reset_token = null;
         $user->reset_token_expires_at = null;
@@ -103,22 +112,23 @@ class AuthController extends Controller
         return redirect()->route('login')->with('status', 'Đã cập nhật mật khẩu.');
     }
 
-    public function changePasswordForm() { return view('auth.change'); }
+    public function changePasswordForm()
+    {
+        return view('auth.change');
+    }
 
     public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required','string'],
-            'password' => ['required','string','min:6','confirmed'],
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
         $user = $request->user();
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password'=>'Mật khẩu hiện tại không đúng']);
+            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng']);
         }
         $user->password = Hash::make($request->password);
         $user->save();
         return back()->with('status', 'Đã đổi mật khẩu');
     }
 }
-
-

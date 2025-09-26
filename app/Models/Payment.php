@@ -10,46 +10,43 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class OrderItem
+ * Class Payment
  * 
  * @property int $id
  * @property int $order_id
- * @property int $product_id
- * @property int $quantity
- * @property float $price
+ * @property float $amount
+ * @property string $payment_method
+ * @property string $status
+ * @property string|null $transaction_code
+ * @property Carbon|null $paid_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
  * @property Order $order
- * @property Product $product
  *
  * @package App\Models
  */
-class OrderItem extends Model
+class Payment extends Model
 {
-	protected $table = 'order_items';
+	protected $table = 'payments';
 
 	protected $casts = [
 		'order_id' => 'int',
-		'product_id' => 'int',
-		'quantity' => 'int',
-		'price' => 'float'
+		'amount' => 'float',
+		'paid_at' => 'datetime'
 	];
 
 	protected $fillable = [
 		'order_id',
-		'product_id',
-		'quantity',
-		'price'
+		'amount',
+		'payment_method',
+		'status',
+		'transaction_code',
+		'paid_at'
 	];
 
 	public function order()
 	{
 		return $this->belongsTo(Order::class);
-	}
-
-	public function product()
-	{
-		return $this->belongsTo(Product::class);
 	}
 }

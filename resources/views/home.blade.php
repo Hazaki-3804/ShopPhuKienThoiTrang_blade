@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Fasho - Pastel Accessories')
+@section('title', 'Mochi - Phụ kiện thời trang')
 
 @section('content')
 <div class="container">
@@ -30,18 +30,18 @@
 
     <!-- Product sections -->
     <div class="mt-4">
-        <h5 class="fw-semibold mb-3">Trending Accessories</h5>
+        <h5 class="fw-semibold mb-3">Đề xuất cho bạn</h5>
         <div class="row g-3">
             @php($demo = [
-                ['id'=>1,'name'=>'Túi pastel mini','category'=>'Túi xách','price'=>'499.000₫'],
-                ['id'=>2,'name'=>'Nón bucket beige','category'=>'Mũ','price'=>'199.000₫'],
-                ['id'=>3,'name'=>'Kính trong suốt','category'=>'Kính','price'=>'299.000₫'],
-                ['id'=>4,'name'=>'Vòng tay charm','category'=>'Vòng tay','price'=>'259.000₫']
+            ['id'=>1,'name'=>'Túi pastel mini','category'=>'Túi xách','price'=>'499.000₫'],
+            ['id'=>2,'name'=>'Nón bucket beige','category'=>'Mũ','price'=>'199.000₫'],
+            ['id'=>3,'name'=>'Kính trong suốt','category'=>'Kính','price'=>'299.000₫'],
+            ['id'=>4,'name'=>'Vòng tay charm','category'=>'Vòng tay','price'=>'259.000₫']
             ])
             @foreach($demo as $p)
-                <div class="col-6 col-md-3">
-                    @include('components.product-card', ['product' => $p])
-                </div>
+            <div class="col-6 col-md-3">
+                @include('components.product-card', ['product' => $p])
+            </div>
             @endforeach
         </div>
     </div>
@@ -62,5 +62,3 @@
     </div>
 </div>
 @endsection
-
-

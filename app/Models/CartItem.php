@@ -10,45 +10,43 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Review
+ * Class CartItem
  * 
  * @property int $id
+ * @property int $cart_id
  * @property int $product_id
- * @property int $user_id
- * @property int $rating
- * @property string|null $comment
+ * @property int $quantity
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Cart $cart
  * @property Product $product
- * @property User $user
  *
  * @package App\Models
  */
-class Review extends Model
+class CartItem extends Model
 {
-	protected $table = 'reviews';
+	protected $table = 'cart_items';
 
 	protected $casts = [
+		'cart_id' => 'int',
 		'product_id' => 'int',
-		'user_id' => 'int',
-		'rating' => 'int'
+		'quantity' => 'int'
 	];
 
 	protected $fillable = [
+		'cart_id',
 		'product_id',
-		'user_id',
-		'rating',
-		'comment'
+		'quantity'
 	];
+
+	public function cart()
+	{
+		return $this->belongsTo(Cart::class);
+	}
 
 	public function product()
 	{
 		return $this->belongsTo(Product::class);
-	}
-
-	public function user()
-	{
-		return $this->belongsTo(User::class);
 	}
 }

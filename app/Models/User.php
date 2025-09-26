@@ -1,54 +1,97 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+/**
+ * Class User
+ *
+ * @property int $id
+ * @property string $username
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property Carbon|null $two_factor_confirmed_at
+ * @property string|null $phone
+ * @property string|null $address
+ * @property Carbon|null $email_verified_at
+ * @property int $role_id
+ * @property int $status
+ * @property string|null $avatar
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property Role $role
+ * @property Collection|Cart[] $carts
+ * @property Collection|Order[] $orders
+ * @property Collection|Review[] $reviews
+ *
+ * @package App\Models
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+	/** @use HasFactory<\Database\Factories\UserFactory> */
+	use HasFactory, Notifiable;
+	protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name','email','password','role_id','status','reset_token','reset_token_expires_at'
-    ];
+	protected $casts = [
+		'email_verified_at' => 'datetime',
+		'role_id' => 'int',
+		'status' => 'int'
+	];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'reset_token',
-    ];
+	protected $hidden = [
+		'password',
+		'remember_token'
+	];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'reset_token_expires_at' => 'datetime',
-        ];
-    }
+	protected $fillable = [
+		'username',
+		'name',
+		'email',
+		'password',
+		'phone',
+		'address',
+		'email_verified_at',
+		'role_id',
+		'status',
+		'avatar',
+		'remember_token'
+	];
 
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
+	public function role()
+	{
+		return $this->belongsTo(Role::class);
+	}
+
+	public function carts()
+	{
+		return $this->hasMany(Cart::class);
+	}
+
+	public function orders()
+	{
+		return $this->hasMany(Order::class);
+	}
+
+	public function reviews()
+	{
+		return $this->hasMany(Review::class);
+	}
 }
