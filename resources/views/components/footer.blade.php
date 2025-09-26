@@ -1,44 +1,31 @@
 <footer class="footer bg-dark text-light pt-5">
     <div class="container">
         <div class="row gy-4">
-
             <!-- About -->
             <div class="col-lg-4 col-md-6">
                 <a href="index.html" class="d-flex align-items-center mb-3 text-decoration-none">
-                    <span class="h4 fw-bold text-light">BizLand</span>
+                    <span class="h4 fw-bold text-light">MochiShop</span>
                 </a>
-                <p class="mb-2">A108 Adam Street</p>
-                <p class="mb-2">New York, NY 535022</p>
-                <p class="mb-2"><strong>Phone:</strong> +1 5589 55488 55</p>
-                <p><strong>Email:</strong> info@example.com</p>
+                <p class="mb-2"><strong><i class="bi bi-geo-alt-fill"></i> Địa chỉ:</strong> 55 Phạm Thái Bường, Phường 4, Vĩnh Long</p>
+                <p class="mb-2"><strong><i class="bi bi-telephone"></i> Hotline:</strong> 0704741378</p>
+                <p><strong><i class="bi bi-envelope-at"></i> Email:</strong> cskh@mochi.com</p>
             </div>
 
             <!-- Useful Links -->
-            <div class="col-lg-2 col-md-6">
-                <h5 class="fw-bold mb-3">Useful Links</h5>
+            <div class="col-lg-4 col-md-6">
+                <h5 class="fw-bold mb-3">Liên kết hữu ích</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Home</a></li>
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> About Us</a></li>
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Services</a></li>
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Terms</a></li>
-                </ul>
-            </div>
-
-            <!-- Our Services -->
-            <div class="col-lg-2 col-md-6">
-                <h5 class="fw-bold mb-3">Our Services</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Web Design</a></li>
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Development</a></li>
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Management</a></li>
-                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Marketing</a></li>
+                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Trang chủ</a></li>
+                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Về MochiShop</a></li>
+                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Sản phẩm</a></li>
+                    <li><a href="#" class="text-light text-decoration-none d-block py-1"><i class="bi bi-chevron-right"></i> Liên hệ</a></li>
                 </ul>
             </div>
 
             <!-- Social -->
             <div class="col-lg-4 col-md-6">
-                <h5 class="fw-bold mb-3">Follow Us</h5>
-                <p>Stay connected with us through our social networks:</p>
+                <h5 class="fw-bold mb-3">Mạng xã hội</h5>
+                <p>Hãy theo dõi chúng tôi trên các trang mạng xã hội để cập nhật thông tin mới nhất về sản phẩm và dịch vụ của chúng tôi.</p>
                 <div class="d-flex gap-3">
                     <a href="#" class="text-light fs-5"><i class="bi bi-twitter-x"></i></a>
                     <a href="#" class="text-light fs-5"><i class="bi bi-facebook"></i></a>

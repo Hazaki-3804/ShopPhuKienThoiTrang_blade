@@ -73,7 +73,7 @@
                         <i class="bi bi-person-circle fs-5 me-1"></i>{{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Trang quản trị</a></li>
+                        <li><a class="dropdown-item" href="{{ route('dashboard') }}">Trang quản trị</a></li>
                         <li><a class="dropdown-item" href="{{ route('password.change') }}">Đổi mật khẩu</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">@csrf

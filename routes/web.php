@@ -6,6 +6,8 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Auth\SocialController;
 
 Route::get('/', fn() => redirect()->route('home'));
 
@@ -37,19 +39,28 @@ Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('
 Route::get('/password/change', [AuthController::class, 'changePasswordForm'])->middleware('auth')->name('password.change');
 Route::post('/password/change', [AuthController::class, 'changePassword'])->middleware('auth')->name('password.change.post');
 
-// OAuth mock routes (tích hợp thật dùng Socialite)
-use App\Http\Controllers\Auth\SocialController;
+// OAuth routes
+Route::get('/api/login/{provider}/redirect', [SocialController::class, 'redirect'])->name('oauth.redirect');
+Route::get('api/login/{provider}/callback', [SocialController::class, 'callback'])->name('oauth.callback');
 
-Route::get('/oauth/{provider}', [SocialController::class, 'redirect'])->name('oauth.redirect');
-Route::get('/oauth/{provider}/callback', [SocialController::class, 'callback'])->name('oauth.callback');
-
-// Admin
-Route::prefix('admin')->name('admin.')->group(function () {
+// Admin routes
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
     Route::get('/orders', fn() => view('admin.orders.index'))->name('orders.index');
-    Route::get('/products', fn() => view('admin.products.index'))->name('products.index');
     Route::get('/customers', fn() => view('admin.customers.index'))->name('customers.index');
     Route::get('/analytics', fn() => view('admin.analytics'))->name('analytics');
     Route::get('/settings', fn() => view('admin.settings'))->name('settings');
+
+    // User management
+
+    // Product management
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/data', [ProductController::class, 'data'])->name('data');
+        Route::get('/products', [ProductController::class, 'index'])->name('index');
+        Route::get('/products/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/products', [ProductController::class, 'store'])->name('store');
+        Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+        Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('destroy');
+    });
 });
 require __DIR__ . '/auth.php';

@@ -2,13 +2,16 @@
 @section('title', 'Products')
 
 @section('content_header')
-    <h1>Products</h1>
+<h1>Products</h1>
 @stop
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header fw-semibold">Add / Edit Product</div>
-    <div class="card-body">
+    <x-breadcrumbs :items="[
+        'Quản lý sản phẩm' => route('products.index'),
+        'Thêm sản phẩm' => null,
+        ]" />
+    <!-- <div class="card-body">
         <form class="row g-3">
             <div class="col-12 col-md-6">
                 <label class="form-label">Name</label>
@@ -44,7 +47,7 @@
                 <button class="btn btn-outline-secondary" type="reset">Reset</button>
             </div>
         </form>
-    </div>
+    </div> -->
 </div>
 
 <div class="card">
@@ -54,22 +57,19 @@
     </div>
     <div class="card-body table-responsive">
         <table class="table align-middle datatable" id="productsTable">
-            <thead><tr><th>#</th><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
-            <tbody>
-                @foreach(range(1,10) as $i)
-                <tr class="fade-up widget">
-                    <td>{{ $i }}</td>
-                    <td><img src="https://picsum.photos/seed/p{{ $i }}/64/64" class="rounded" width="48" height="48" alt=""></td>
-                    <td>Item {{ $i }}</td>
-                    <td>Accessory</td>
-                    <td>{{ number_format(rand(199,599)*1000,0,',','.') }}₫</td>
-                    <td>{{ rand(0,50) }}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button class="btn btn-sm btn-outline-danger">Delete</button>
-                    </td>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
                 </tr>
-                @endforeach
+            </thead>
+            <tbody>
+                <!-- DataTables will populate data here -->
             </tbody>
         </table>
     </div>
@@ -77,22 +77,61 @@
 
 @push('scripts')
 <script>
-    (function(){
+    (function() {
         // Preview
         const input = document.getElementById('imageInput');
         const preview = document.getElementById('imagePreview');
         if (input && preview) {
-            input.addEventListener('change', (e)=>{
+            input.addEventListener('change', (e) => {
                 const file = e.target.files?.[0];
-                if (!file) { preview.removeAttribute('src'); return; }
+                if (!file) {
+                    preview.removeAttribute('src');
+                    return;
+                }
                 preview.src = URL.createObjectURL(file);
             });
         }
-        // DataTable
-        if (window.DataTable) { new DataTable('#productsTable'); }
+        $(document).ready(function() {
+            $('#productsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route("products.data") }}',
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        render: function(data) {
+                            return `<img src="${data}" width="48" class="rounded">`;
+                        }
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category.name'
+                    },
+                    {
+                        data: 'price',
+                        name: 'price'
+                    },
+                    {
+                        data: 'stock',
+                        name: 'stock'
+                    },
+                    {
+                        data: 'actions',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+        });
     })();
 </script>
 @endpush
 @endsection
-
-
