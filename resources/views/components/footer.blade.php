@@ -1,3 +1,6 @@
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+@endpush
 <footer class="footer bg-dark text-light pt-5">
     <div class="container">
         <div class="row gy-4">
@@ -43,19 +46,3 @@
         </div>
     </div>
 </footer>
-<!-- End Footer -->
-<style>
-    .footer a:hover {
-        color: #0d6efd !important;
-        /* Xanh Bootstrap khi hover */
-        transition: 0.3s;
-    }
-
-    .footer .bi {
-        transition: transform 0.3s;
-    }
-
-    .footer .bi:hover {
-        transform: scale(1.2);
-    }
-</style>

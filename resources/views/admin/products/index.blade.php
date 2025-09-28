@@ -8,9 +8,9 @@
 @section('content')
 <div class="card mb-3">
     <x-breadcrumbs :items="[
-        'Quản lý sản phẩm' => route('products.index'),
-        'Thêm sản phẩm' => null,
-        ]" />
+        ['label' => 'Quản lý sản phẩm', 'url' => route('products.index')],
+        ['label' => 'Thêm sản phẩm', 'url' => null],
+    ]" />
     <!-- <div class="card-body">
         <form class="row g-3">
             <div class="col-12 col-md-6">

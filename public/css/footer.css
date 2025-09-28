@@ -1,0 +1,12 @@
+.footer a:hover {
+    color     : #0d6efd !important;
+    transition: 0.3s;
+}
+
+.footer .bi {
+    transition: transform 0.3s;
+}
+
+.footer .bi:hover {
+    transform: scale(1.2);
+}

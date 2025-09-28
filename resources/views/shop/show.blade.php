@@ -5,6 +5,13 @@
 <div class="container">
     <div class="row g-4">
         <div class="col-12 col-md-6">
+            <x-breadcrumbs :items="[
+                ['label' => 'Trang chủ', 'url' => route('home')],
+                ['label' => 'Sản phẩm', 'url' => route('shop.index')],
+                ['label' => $product->category->name ?? 'Danh mục', 'url' => route('shop.index', ['category' => $product->category->slug ?? ''])],
+                ['label' => $product->name]
+            ]" />
+
             <div class="ratio ratio-1x1 border rounded-3 overflow-hidden">
                 <img src="{{ $product->product_images[0]->image_url ?? 'https://picsum.photos/800/800?random=' . $product->id }}" class="w-100 h-100 object-fit-cover" alt="{{ $product->name }}">
             </div>
@@ -16,24 +23,70 @@
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <div class="text-muted small">Danh mục: {{ $product->category->name ?? 'N/A' }}</div>
-            <h4 class="fw-semibold">{{ $product->name }}</h4>
-            <div class="fs-5 fw-semibold mb-2">{{ number_format($product->price,0,',','.') }}₫</div>
-            <div class="mb-3 {{ $product->stock>0 ? 'text-success' : 'text-danger' }}">Stock: {{ $product->stock }}</div>
-            <p class="text-muted">{{ $product->description }}</p>
-            <div class="d-flex gap-2 align-items-center">
-                <form class="d-flex gap-2 align-items-center" method="POST" action="{{ route('cart.add', $product->id) }}">
-                    @csrf
-                    <input type="number" id="qtyInput" class="form-control" name="qty" value="1" min="1" max="{{ $product->stock }}" style="max-width:120px;">
-                    <button class="btn btn-brand" {{ $product->stock<1 ? 'disabled' : '' }}>Thêm vào giỏ</button>
-                </form>
-                <form method="POST" action="{{ route('cart.buynow', $product->id) }}" onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
-                    @csrf
-                    <input type="hidden" name="qty" value="1">
-                    <button class="btn btn-outline-secondary" {{ $product->stock<1 ? 'disabled' : '' }}>Mua ngay</button>
-                </form>
+            <!-- Card chọn số lượng + nút -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    <!-- Danh mục -->
+                    <div class="mb-2 text-muted small">
+                        <span class="fw-semibold">Danh mục:</span> {{ $product->category->name ?? 'N/A' }}
+                    </div>
+
+                    <!-- Tên sản phẩm -->
+                    <h3 class="fw-bold mb-3">{{ $product->name }}</h3>
+
+                    <!-- Giá -->
+                    <div class="fs-3 fw-bold text-danger mb-3">
+                        {{ number_format($product->price,0,',','.') }}₫
+                    </div>
+
+                    <!-- Tình trạng kho -->
+                    <div class="mb-3">
+                        @if($product->stock > 0)
+                        <span class="badge bg-success">Còn hàng ({{ $product->stock }})</span>
+                        @else
+                        <span class="badge bg-danger">Hết hàng</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Số lượng -->
+                    <div class="mb-3">
+                        <label for="qtyInput" class="fw-semibold me-3">Số lượng:</label>
+                        <x-quantity-selector id="qtyInput" name="qty" :max="$product->stock" value="1" />
+                    </div>
+
+                    <!-- Nút hành động -->
+                    <div class="d-flex flex-column flex-md-row gap-3">
+                        <!-- Thêm vào giỏ -->
+                        <form class="flex-fill" method="POST" action="{{ route('cart.add', $product->id) }}"
+                            onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
+                            @csrf
+                            <input type="hidden" name="qty" value="1">
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold {{ $product->stock < 1 ? 'disabled' : '' }}">
+                                <i class="bi bi-cart-plus me-1"></i> Thêm vào giỏ
+                            </button>
+                        </form>
+
+                        <!-- Mua ngay -->
+                        <form class="flex-fill" method="POST" action="{{ route('cart.buynow', $product->id) }}"
+                            onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
+                            @csrf
+                            <input type="hidden" name="qty" value="1">
+                            <button class="btn btn-outline-danger w-100 py-2 fw-semibold {{ $product->stock < 1 ? 'disabled' : '' }}">
+                                <i class="bi bi-lightning-charge-fill me-1"></i> Mua ngay
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mô tả -->
+            <div class="border-top pt-3 mt-4">
+                <h6 class="fw-semibold">Mô tả sản phẩm</h6>
+                <p class="text-muted">{{ $product->description }}</p>
             </div>
         </div>
+
     </div>
 
     <div class="mt-5">

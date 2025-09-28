@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'logo' => 'MochoShop',
+    'logo' => 'MochiShop',
     // 'logo_img' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',

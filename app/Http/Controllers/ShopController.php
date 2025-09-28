@@ -13,34 +13,62 @@ class ShopController extends Controller
     {
         $query = Product::query()->with('category', 'product_images')->where('status', 1);
 
-        // Filter category
-        if ($request->filled('category')) {
-            $category = Category::where('slug', $request->string('category'))->first();
+        // Normalize inputs once
+        $categorySlug = $request->filled('category') ? (string) $request->query('category') : null;
+        $priceMin = $request->filled('price_min') ? (int) $request->query('price_min') : null;
+        $priceMax = $request->filled('price_max') ? (int) $request->query('price_max') : null;
+        $keyword   = $request->filled('q') ? trim((string) $request->query('q', '')) : null;
+        $sort      = (string) $request->query('sort', '');
+
+        // 1) Category (always respect if provided)
+        $currentCategory = null;
+        if ($categorySlug) {
+            $category = Category::where('slug', $categorySlug)->first();
             if ($category) {
+                $currentCategory = $category;
                 $query->where('category_id', $category->id);
             }
         }
 
-        // Filter price range
-        if ($request->filled('price_min')) {
-            $query->where('price', '>=', (int)$request->integer('price_min'));
+        // 2) Price range
+        if ($priceMin !== null) {
+            $query->where('price', '>=', $priceMin);
         }
-        if ($request->filled('price_max')) {
-            $query->where('price', '<=', (int)$request->integer('price_max'));
+        if ($priceMax !== null) {
+            $query->where('price', '<=', $priceMax);
         }
 
-        // Sort
-        $sort = $request->string('sort');
-        if ($sort === 'price_asc') $query->orderBy('price');
-        if ($sort === 'price_desc') $query->orderByDesc('price');
-        if ($sort === 'popular') $query->orderByDesc('id'); // demo popularity
+        // 3) Keyword
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%")
+                  ->orWhere('description', 'like', "%{$keyword}%");
+            });
+        }
 
-        $products = $query->paginate(12)->withQueryString();
+        // 4) Sort (last)
+        if ($sort === 'price_asc') {
+            $query->orderBy('price');
+        } elseif ($sort === 'price_desc') {
+            $query->orderByDesc('price');
+        } elseif ($sort === 'popular') {
+            $query->orderByDesc('id'); // demo popularity
+        }
+
+        $products = $query->paginate(15)->withQueryString();
         $product_images = \App\Models\ProductImage::whereIn('product_id', $products->pluck('id'))->get()->groupBy('product_id');
         //Add product image in product
         $categories = Category::orderBy('name')->get();
 
-        return view('shop.index', compact('products', 'categories'));
+        // Dynamic price cap for slider (based on current category if selected)
+        $basePriceQuery = Product::query()->where('status', 1);
+        if ($currentCategory) {
+            $basePriceQuery->where('category_id', $currentCategory->id);
+        }
+        $priceCap = (int) ($basePriceQuery->max('price') ?? 1000000);
+        if ($priceCap < 100000) { $priceCap = 100000; } // sensible minimum cap
+
+        return view('shop.index', compact('products', 'categories', 'currentCategory', 'priceCap'));
     }
 
     public function show(string $id)

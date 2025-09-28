@@ -34,7 +34,6 @@ class AuthController extends Controller
                 Auth::logout();
                 return back()->withErrors(['email' => 'Tài khoản này không hoạt động. Vui lòng liên hệ quản trị viên.'])->withInput();
             }
-            Auth::login();
             $request->session()->regenerate();
             return $this->redirectByRole();
         }
@@ -77,7 +76,7 @@ class AuthController extends Controller
     protected function redirectByRole()
     {
         if (Auth::user()->role_id === 1) {
-            return redirect()->intended(route('admin.dashboard'));
+            return redirect()->intended(route('dashboard'));
         }
         return redirect()->intended(route('home'));
     }

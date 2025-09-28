@@ -1,3 +1,6 @@
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+@endpush
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
     <div class="container">
         <!-- Logo -->
@@ -37,7 +40,6 @@
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
                 <li class="nav-item"><a class="nav-link text-uppercase fw-semibold" href="{{ route('home') }}">Trang chủ</a></li>
                 <li class="nav-item"><a class="nav-link text-uppercase fw-semibold" href="{{ route('shop.index') }}">Sản phẩm</a></li>
-                <li class="nav-item"><a class="nav-link text-uppercase fw-semibold" href="{{ route('about') }}">Giới thiệu</a></li>
                 <li class="nav-item"><a class="nav-link text-uppercase fw-semibold" href="{{ route('contact') }}">Liên hệ</a></li>
             </ul>
 
@@ -45,23 +47,28 @@
             <ul class="navbar-nav ms-auto align-items-center d-none d-lg-flex">
                 <!-- Search -->
                 <li class="nav-item me-3">
-                    <form class="d-flex" action="" method="GET">
-                        <div class="input-group input-group-sm">
+                    <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
+                        <div class="input-group input-group-sm shadow-sm rounded-pill">
                             <input class="form-control border-end-0 rounded-start-pill"
-                                type="search" name="q" placeholder="Tìm sản phẩm..." aria-label="Search">
-                            <button class="btn btn-outline-secondary rounded-end-pill" type="submit">
+                                type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                            @if(request('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                            @endif
+                            <button class="btn btn-dark rounded-end-pill" type="submit" aria-label="Tìm kiếm">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
                     </form>
                 </li>
+
                 <!-- Cart -->
                 <li class="nav-item me-3">
-                    <a class="nav-link position-relative" href="{{ route('cart.index') }}">
-                        <i class="bi bi-bag fs-5"></i>
+                    <a class="nav-link position-relative p-0" href="{{ route('cart.index') }}">
+                        <i class="bi bi-bag-heart fs-3"></i>
                         @if(($sharedCartCount ?? 0) > 0)
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ $sharedCartCount }}
+                        <span class="position-absolute top-0 start-100 translate-middle bg-danger text-white d-flex align-items-center justify-content-center"
+                            style="width: 22px; height: 22px; border-radius: 50%; font-size: 12px;">
+                            <strong>{{ $sharedCartCount }}</strong>
                         </span>
                         @endif
                     </a>
@@ -96,30 +103,14 @@
 
     <!-- Search collapse (mobile) -->
     <div class="collapse bg-light p-3" id="searchBoxMobile">
-        <form class="d-flex" action="" method="GET">
+        <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
             <div class="input-group">
-                <input class="form-control border-end-0" type="search" name="q" placeholder="Tìm sản phẩm..." aria-label="Search">
-                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                <input class="form-control border-end-0" type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                @if(request('category'))
+                <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                <button class="btn btn-dark" type="submit" aria-label="Tìm kiếm"><i class="bi bi-search"></i></button>
             </div>
         </form>
     </div>
 </nav>
-
-<style>
-    .navbar-nav .nav-link {
-        font-size: 0.95rem;
-        letter-spacing: 1px;
-        transition: color 0.3s ease;
-    }
-
-    .navbar-nav .nav-link:hover {
-        color: #000 !important;
-        text-decoration: underline;
-    }
-
-    .navbar-brand {
-        font-family: 'Playfair Display', serif;
-        /* sang trọng */
-        letter-spacing: 2px;
-    }
-</style>
