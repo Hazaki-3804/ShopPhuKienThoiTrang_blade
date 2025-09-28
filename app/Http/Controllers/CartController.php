@@ -7,13 +7,19 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    private function getCart(): array { return session('cart', []); }
-    private function putCart(array $cart): void { session(['cart' => $cart]); }
+    private function getCart(): array
+    {
+        return session('cart', []);
+    }
+    private function putCart(array $cart): void
+    {
+        session(['cart' => $cart]);
+    }
 
     public function index()
     {
         $cart = $this->getCart();
-        $items = collect($cart)->map(function($line){
+        $items = collect($cart)->map(function ($line) {
             $product = Product::find($line['product_id']);
             if (!$product || (int)($product->status ?? 0) !== 1) return null;
             return [
@@ -24,6 +30,7 @@ class CartController extends Controller
             ];
         })->filter();
         $total = (int)$items->sum('subtotal');
+        return view('cart.index', compact('items', 'total'));
         // Related products: same categories as items in cart
         $related = collect();
         if ($items->isNotEmpty()) {
@@ -44,8 +51,9 @@ class CartController extends Controller
 
     public function add(Request $request, string $productId)
     {
-        $request->validate(['qty' => ['nullable','integer','min:1']]);
+        $request->validate(['qty' => ['nullable', 'integer', 'min:1']]);
         $qty = max(1, (int)$request->integer('qty'));
+        $product = Product::where('status', 1)->findOrFail($productId);
         // Require login: if guest, store pending action then redirect to login
         if (!auth()->check()) {
             session(['pending_add_to_cart' => [
@@ -62,27 +70,27 @@ class CartController extends Controller
         $current = $cart[$productId]['qty'] ?? 0;
         $newQty = $current + $qty;
         if ($newQty > $product->stock) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
-        $cart[$productId] = ['product_id'=>$product->id,'qty'=>$newQty];
+        $cart[$productId] = ['product_id' => $product->id, 'qty' => $newQty];
         $this->putCart($cart);
         return redirect()->back()->with('status', 'Đã thêm vào giỏ');
     }
 
     public function buyNow(Request $request, string $productId)
     {
-        $request->validate(['qty' => ['nullable','integer','min:1']]);
+        $request->validate(['qty' => ['nullable', 'integer', 'min:1']]);
         $qty = max(1, (int)$request->integer('qty'));
         $product = Product::where('active', true)->findOrFail($productId);
         if ($product->stock < $qty) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
 
         $cart = $this->getCart();
-        $cart[$productId] = ['product_id'=>$product->id,'qty'=>$qty];
+        $cart[$productId] = ['product_id' => $product->id, 'qty' => $qty];
         $this->putCart($cart);
         return redirect()->route('checkout.index');
     }
 
     public function update(Request $request, string $productId)
     {
-        $request->validate(['qty' => ['required','integer','min:1']]);
+        $request->validate(['qty' => ['required', 'integer', 'min:1']]);
         $qty = (int)$request->integer('qty');
         $product = Product::where('status', 1)->findOrFail($productId);
         if ($qty > $product->stock) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
@@ -101,5 +109,3 @@ class CartController extends Controller
         return back();
     }
 }
-
-

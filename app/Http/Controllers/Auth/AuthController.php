@@ -30,28 +30,37 @@ class AuthController extends Controller
         ]);
         $remember = (bool)$request->boolean('remember');
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
             if (Auth::user()->status !== 1) {
                 Auth::logout();
-                return back()->withErrors(['email' => 'Tài khoản không hoạt động']);
+                return back()->withErrors(['email' => 'Tài khoản này không hoạt động. Vui lòng liên hệ quản trị viên.'])->withInput();
             }
+            $request->session()->regenerate();
             return $this->redirectByRole();
         }
-        return back()->withErrors(['email' => 'Thông tin đăng nhập không đúng']);
+        return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng'])->withInput();
     }
 
     public function register(Request $request)
     {
         $data = $request->validate([
+            'username' => ['nullable', 'string', 'max:50'],
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'phone' => ['required', 'string', 'max:15'],
+            'address' => ['required', 'string', 'max:255'],
+
         ]);
         $user = User::create([
+            'username' => $data['username'] ?? null,
+            'phone' => $data['phone'],
+            'address' => $data['address'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => 2,
+            'status' => 1,
+            'avatar' => '/images/default-avatar.png',
         ]);
         Auth::login($user);
         return $this->redirectByRole();
@@ -64,11 +73,12 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('home');
     }
-
-    private function redirectByRole()
+    protected function redirectByRole()
     {
-        $role = Auth::user()->role_id ?? 2;
-        return redirect()->route('home');
+        if (Auth::user()->role_id === 1) {
+            return redirect()->intended(route('dashboard'));
+        }
+        return redirect()->intended(route('home'));
     }
 
     // Forgot password (custom token)

@@ -11,7 +11,7 @@
                     @if ($errors->any())
                         <div class="alert alert-danger small">@foreach ($errors->all() as $error) <div>{{ $error }}</div> @endforeach</div>
                     @endif
-                    <form method="POST" action="{{ route('register') }}" novalidate>
+                    <form method="POST" action="{{ route('register.post') }}" novalidate>
                         @csrf
                         <div class="row g-3">
                             <div class="col-12">
@@ -20,9 +20,24 @@
                                 @error('name')<div class="text-danger small">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12">
+                                <label for="username" class="form-label">Tên người dùng (tuỳ chọn)</label>
+                                <input id="username" type="text" name="username" value="{{ old('username') }}" class="form-control" maxlength="50">
+                                @error('username')<div class="text-danger small">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-12">
                                 <label for="email" class="form-label">Email</label>
                                 <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control" required>
                                 @error('email')<div class="text-danger small">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <input id="phone" type="text" name="phone" value="{{ old('phone') }}" class="form-control" required maxlength="15">
+                                @error('phone')<div class="text-danger small">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="address" class="form-label">Địa chỉ</label>
+                                <input id="address" type="text" name="address" value="{{ old('address') }}" class="form-control" required maxlength="255">
+                                @error('address')<div class="text-danger small">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="password" class="form-label">Mật khẩu</label>
@@ -54,7 +69,6 @@
     input, button { transition: box-shadow .2s ease, transform .1s ease; }
     input:focus { box-shadow: 0 0 0 .2rem rgba(195,155,211,.25); }
     .btn-brand:hover { transform: translateY(-1px); }
-    body { cursor: none; }
 </style>
 @endpush
 

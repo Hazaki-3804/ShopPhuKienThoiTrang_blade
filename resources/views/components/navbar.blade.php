@@ -58,16 +58,20 @@
             <ul class="navbar-nav ms-auto align-items-center d-none d-lg-flex">
                 <!-- Search -->
                 <li class="nav-item me-3">
-                    <form class="d-flex" action="" method="GET">
-                        <div class="input-group input-group-sm">
+                    <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
+                        <div class="input-group input-group-sm shadow-sm rounded-pill">
                             <input class="form-control border-end-0 rounded-start-pill"
-                                type="search" name="q" placeholder="Tìm sản phẩm..." aria-label="Search">
-                            <button class="btn btn-outline-secondary rounded-end-pill" type="submit">
+                                type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                            @if(request('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                            @endif
+                            <button class="btn btn-dark rounded-end-pill" type="submit" aria-label="Tìm kiếm">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
                     </form>
                 </li>
+
                 <!-- Cart -->
                 <li class="nav-item me-3">
                     <a class="nav-link position-relative" href="{{ route('cart.index') }}">
@@ -86,7 +90,7 @@
                         <i class="bi bi-person-circle fs-5 me-1"></i>{{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Trang quản trị</a></li>
+                        <li><a class="dropdown-item" href="{{ route('dashboard') }}">Trang quản trị</a></li>
                         <li><a class="dropdown-item" href="{{ route('password.change') }}">Đổi mật khẩu</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">@csrf
@@ -109,10 +113,13 @@
 
     <!-- Search collapse (mobile) -->
     <div class="collapse bg-light p-3" id="searchBoxMobile">
-        <form class="d-flex" action="" method="GET">
+        <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
             <div class="input-group">
-                <input class="form-control border-end-0" type="search" name="q" placeholder="Tìm sản phẩm..." aria-label="Search">
-                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                <input class="form-control border-end-0" type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                @if(request('category'))
+                <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                <button class="btn btn-dark" type="submit" aria-label="Tìm kiếm"><i class="bi bi-search"></i></button>
             </div>
         </form>
     </div>

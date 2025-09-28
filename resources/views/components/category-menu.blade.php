@@ -1,6 +1,9 @@
 @props(['categories' => collect()])
 @php($currentSlug = request()->string('category')->toString())
 <ul class="list-unstyled m-0">
+    <li class="my-1">
+        <a class="text-decoration-none {{ request('category') ? '' : 'fw-bold text-dark' }}" href="{{ route('shop.index', request()->except('page', 'category', 'price_min', 'price_max')) }}">Tất cả sản phẩm</a>
+    </li>
     @foreach(($categories ?? collect()) as $cat)
         @php($active = $currentSlug === ($cat->slug ?? ''))
         <li class="my-1">

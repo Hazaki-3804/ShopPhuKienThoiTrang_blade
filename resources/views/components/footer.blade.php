@@ -1,7 +1,6 @@
 <footer class="footer pt-5 border-top">
     <div class="container">
         <div class="row gy-4">
-
             <!-- About -->
             <div class="col-lg-4 col-md-6">
                 <a href="/" class="d-flex align-items-center mb-3 text-decoration-none">

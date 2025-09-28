@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +19,7 @@
 
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css" rel="stylesheet">
     <!-- Pastel theme + custom cursor + transitions -->
     <style>
         :root {
@@ -37,6 +38,35 @@
             /* Borders/shadows */
             --card-border: #efe9e6;
             --shadow: 0 10px 20px rgba(0,0,0,.08);
+        }
+
+        html,
+        body {
+            background: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        .brand-gradient {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-blue), var(--pastel-lavender));
+        }
+
+        .btn-brand {
+            background: var(--brand);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-brand:hover {
+            filter: brightness(0.95);
+        }
+
+        .card-hover {
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
         }
 
         html, body { background: var(--bg); color: var(--text); }
@@ -78,19 +108,18 @@
 
     @stack('styles')
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
     @include('components.navbar')
 
-    <main class="py-4">
+    <main class="py-4 flex-grow-1">
         @yield('content')
     </main>
 
     @include('components.footer')
-
-    <div class="cursor-dot" id="cursorDot"></div>
-
     <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 
     <!-- Basic animation + custom cursor script -->
     <script>
@@ -150,6 +179,5 @@
 
     @stack('scripts')
 </body>
+
 </html>
-
-

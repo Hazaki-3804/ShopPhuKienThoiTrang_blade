@@ -269,7 +269,21 @@
             </div>
             @endforeach
         </div>
+
+        <!-- {{-- Controls --}} -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev"
+            style="width: auto; left: -1rem;">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next"
+            style="width: auto; right: -1rem;">
+            <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+
 
     <!-- Newsletter -->
     <div class="mt-5 fade-up">
