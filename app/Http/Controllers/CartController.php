@@ -15,7 +15,7 @@ class CartController extends Controller
         $cart = $this->getCart();
         $items = collect($cart)->map(function($line){
             $product = Product::find($line['product_id']);
-            if (!$product || !$product->active) return null;
+            if (!$product || (int)($product->status ?? 0) !== 1) return null;
             return [
                 'product' => $product,
                 'qty' => $line['qty'],
@@ -24,14 +24,38 @@ class CartController extends Controller
             ];
         })->filter();
         $total = (int)$items->sum('subtotal');
-        return view('cart.index', compact('items','total'));
+        // Related products: same categories as items in cart
+        $related = collect();
+        if ($items->isNotEmpty()) {
+            $categoryIds = $items->pluck('product.category_id')->unique()->filter();
+            $excludeIds = $items->pluck('product.id')->unique();
+            if ($categoryIds->isNotEmpty()) {
+                $related = Product::with(['category','product_images'])
+                    ->where('status', 1)
+                    ->whereIn('category_id', $categoryIds)
+                    ->whereNotIn('id', $excludeIds)
+                    ->inRandomOrder()
+                    ->take(8)
+                    ->get();
+            }
+        }
+        return view('cart.index', compact('items','total','related'));
     }
 
     public function add(Request $request, string $productId)
     {
         $request->validate(['qty' => ['nullable','integer','min:1']]);
         $qty = max(1, (int)$request->integer('qty'));
-        $product = Product::where('active', true)->findOrFail($productId);
+        // Require login: if guest, store pending action then redirect to login
+        if (!auth()->check()) {
+            session(['pending_add_to_cart' => [
+                'product_id' => (string)$productId,
+                'qty' => $qty,
+                'intended' => url()->previous(),
+            ]]);
+            return redirect()->route('login');
+        }
+        $product = Product::where('status', 1)->findOrFail($productId);
         if ($product->stock < $qty) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
 
         $cart = $this->getCart();
@@ -60,7 +84,7 @@ class CartController extends Controller
     {
         $request->validate(['qty' => ['required','integer','min:1']]);
         $qty = (int)$request->integer('qty');
-        $product = Product::where('active', true)->findOrFail($productId);
+        $product = Product::where('status', 1)->findOrFail($productId);
         if ($qty > $product->stock) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
         $cart = $this->getCart();
         if (!isset($cart[$productId])) return back();

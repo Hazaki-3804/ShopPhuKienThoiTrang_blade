@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Shop - Fasho')
+@section('title', 'Shop Nàng Thơ - Phụ kiện thời trang')
 
 @section('content')
 <div class="container">
     <div class="row g-4">
         <div class="col-12 col-lg-3">
-            <h5 class="fw-semibold">Danh mục</h6>
+            <h5 class="fw-semibold">Danh mục sản phẩm</h6>
 
                 <div class="card">
                     <div class="card-body">

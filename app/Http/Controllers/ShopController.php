@@ -53,7 +53,7 @@ class ShopController extends Controller
             $userId = auth()->id();
             $canReview = \App\Models\Order::where('user_id', $userId)
                 ->whereIn('status', ['paid', 'shipped'])
-                ->whereHas('items', function ($q) use ($product) {
+                ->whereHas('order_items', function ($q) use ($product) {
                     $q->where('product_id', $product->id);
                 })
                 ->exists();
