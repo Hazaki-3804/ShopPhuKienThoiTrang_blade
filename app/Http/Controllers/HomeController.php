@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Product;
 use Illuminate\Support\Str;
 
@@ -22,57 +23,49 @@ class HomeController extends Controller
                 return redirect()->route('cart.index')->with('status', 'Đã thêm vào giỏ sau khi đăng nhập');
             }
         }
-        // Đề xuất: mỗi lần load, lấy ngẫu nhiên 1 sản phẩm cho mỗi danh mục (tối đa 6)
-        $categoryIds = Product::where('status', 1)
-            ->distinct()
-            ->pluck('category_id')
-            ->shuffle()
-            ->take(6);
-
-        $products = collect();
-        foreach ($categoryIds as $cid) {
-            $p = Product::with(['category','product_images'])
-                ->where('status', 1)
-                ->where('category_id', $cid)
-                ->inRandomOrder()
-                ->first();
-            if ($p) { $products->push($p); }
-        }
-
-        // Nếu chưa đủ 6, bổ sung ngẫu nhiên các sản phẩm còn lại
-        if ($products->count() < 6) {
-            $excludeIds = $products->pluck('id');
-            $fill = Product::with(['category','product_images'])
-                ->where('status', 1)
-                ->whereNotIn('id', $excludeIds)
-                ->inRandomOrder()
-                ->take(6 - $products->count())
-                ->get();
-            $products = $products->concat($fill);
-        }
+        // Đề xuất: Lấy ngẫu nhiên 12 sản phẩm (chỉ lấy sản phẩm có ảnh) và chia thành các nhóm 4 để hiển thị theo slide
+        $products = Product::with(['category', 'product_images'])
+            ->where('status', 1)
+            ->whereHas('product_images')
+            ->inRandomOrder()
+            ->take(12)
+            ->get()
+            ->chunk(4);
 
         // Ảnh nền cho banner New Arrivals (sản phẩm mới nhất)
-        $newProduct = Product::with('product_images')
-            ->where('status', 1)
-            ->latest('id')
+        // $newProduct = Product::with('product_images')
+        //     ->where('status', 1)
+        //     ->latest('id')
+        //     ->first();
+        $newProduct = Banner::where('status', 1)
+            ->where('type', '=', 'new_arrivals')
+            ->orderByDesc('created_at')
             ->first();
-        $newBannerImage = optional(optional($newProduct)->product_images->first())->image_url;
+        // $newBannerImage = optional(optional($newProduct)->product_images->first())->image_url;
+        $newBannerImage = optional($newProduct)->image_url;
 
         // Ảnh nền cho banner Best Sellers (tồn kho nhiều nhất)
-        $bestProduct = Product::with('product_images')
-            ->where('status', 1)
-            ->orderByDesc('stock')
+        // $bestProduct = Product::with('product_images')
+        //     ->where('status', 1)
+        //     ->orderByDesc('stock')
+        //     ->first();
+        $bestProduct = Banner::where('status', 1)
+            ->where('type', '=', 'best_sellers')
+            ->orderByDesc('created_at')
             ->first();
-        $bestBannerImage = optional(optional($bestProduct)->product_images->first())->image_url;
+
+        // $bestBannerImage = optional(optional($bestProduct)->product_images->first())->image_url;
+        $bestBannerImage = optional($bestProduct)->image_url;
 
         // Chuẩn hóa URL nếu là đường dẫn tương đối
         $normalize = function ($url) {
             if (!$url) return null;
-            return Str::startsWith($url, ['http://','https://','/']) ? $url : asset($url);
+            return Str::startsWith($url, ['http://', 'https://', '/']) ? $url : asset($url);
         };
         $newBannerImage = $normalize($newBannerImage);
         $bestBannerImage = $normalize($bestBannerImage);
-
-        return view('home', compact('products','newBannerImage','bestBannerImage'));
+        // dd($newBannerImage, $bestBannerImage);   
+        // dd($products);
+        return view('home', compact('products', 'newBannerImage', 'bestBannerImage'));
     }
 }

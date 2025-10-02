@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.admin')
 @section('title', 'Products')
 
 @section('content_header')
@@ -11,43 +11,6 @@
         ['label' => 'Quản lý sản phẩm', 'url' => route('products.index')],
         ['label' => 'Thêm sản phẩm', 'url' => null],
     ]" />
-    <!-- <div class="card-body">
-        <form class="row g-3">
-            <div class="col-12 col-md-6">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="Product name">
-            </div>
-            <div class="col-6 col-md-3">
-                <label class="form-label">Category</label>
-                <select class="form-select">
-                    <option>Túi xách</option>
-                    <option>Mũ</option>
-                    <option>Kính</option>
-                    <option>Vòng tay</option>
-                    <option>Dây chuyền</option>
-                </select>
-            </div>
-            <div class="col-6 col-md-3">
-                <label class="form-label">Price</label>
-                <input type="number" class="form-control" placeholder="499000">
-            </div>
-            <div class="col-12 col-md-6">
-                <label class="form-label">Image</label>
-                <input type="file" class="form-control" id="imageInput" accept="image/*">
-                <div class="mt-2">
-                    <img id="imagePreview" class="rounded border" style="max-height:140px;" alt="Preview" />
-                </div>
-            </div>
-            <div class="col-12">
-                <label class="form-label">Description</label>
-                <textarea class="form-control" rows="3" placeholder="Mô tả"></textarea>
-            </div>
-            <div class="col-12">
-                <button class="btn btn-brand">Save</button>
-                <button class="btn btn-outline-secondary" type="reset">Reset</button>
-            </div>
-        </form>
-    </div> -->
 </div>
 
 <div class="card">

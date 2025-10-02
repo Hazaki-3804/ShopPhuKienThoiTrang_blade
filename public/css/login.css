@@ -1,0 +1,26 @@
+.btn-social {
+    background-color: transparent;
+    border          : 1px solid #000;
+}
+
+.btn-social:hover {
+    background-color: #edf0f3;
+    border          : 1px solid #000;
+}
+
+.btn-login {
+    background: #EE4D2D;
+    color     : #fff;
+    border    : none;
+}
+
+.btn-login:hover {
+    background: #d43f1f;
+    /* đậm hơn #EE4D2D */
+    color     : #fff;
+    transform : translateY(-2px);
+}
+
+.form-label {
+    font-weight: bold;
+}

@@ -1,0 +1,51 @@
+input,
+button {
+    transition: box-shadow .2s ease, transform .1s ease;
+}
+
+input:focus {
+    box-shadow: 0 0 0 .2rem rgba(195, 155, 211, .25);
+}
+
+.btn-register {
+    background: #EE4D2D;
+    color     : #fff;
+    border    : none;
+}
+
+.btn-register:hover {
+    transform: translateY(-2px);
+}
+
+.label-input-important::after {
+    content    : '*';
+    color      : red;
+    font-weight: bold;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+
+/* Phần hiển thị chọn (ô chính) */
+.select2-container .select2-selection--single {
+    height       : 40px;
+    border       : 1px solid #ccc;
+    border-radius: 6px;
+    display      : flex;
+    align-items  : center;
+    padding      : 10px 0;
+    box-sizing   : border-box;
+}
+
+/* Text bên trong */
+.select2-container .select2-selection__rendered {
+    padding-left : 5px;
+    padding-right: 20px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #a7a7a7 !important;
+}

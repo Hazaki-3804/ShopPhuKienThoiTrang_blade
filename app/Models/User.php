@@ -53,7 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 		'role_id' => 'int',
-		'status' => 'int'
+		'status' => 'int',
+		'social_id' => 'int',
+		'ward_id' => 'int'
 	];
 
 	protected $hidden = [
@@ -69,9 +71,11 @@ class User extends Authenticatable implements MustVerifyEmail
 		'phone',
 		'address',
 		'email_verified_at',
+		'ward_id',
 		'role_id',
 		'status',
 		'avatar',
+		'social_id',
 		'remember_token'
 	];
 
@@ -93,5 +97,23 @@ class User extends Authenticatable implements MustVerifyEmail
 	public function reviews()
 	{
 		return $this->hasMany(Review::class);
+	}
+	public function ward()
+	{
+		return $this->belongsTo(Ward::class);
+	}
+
+	// Accessor: always return usable URL for avatar
+	public function getAvatarUrlAttribute(): string
+	{
+		$avatar = $this->avatar;
+		if (!$avatar) {
+			return asset('img/default-avatar.png');
+		}
+		if (str_starts_with($avatar, 'http://') || str_starts_with($avatar, 'https://')) {
+			return $avatar;
+		}
+		// Assume stored as 'storage/...'
+		return asset($avatar);
 	}
 }

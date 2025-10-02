@@ -2,7 +2,7 @@
 @section('title', 'Liên hệ')
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <div class="row g-4">
         <div class="col-12 col-lg-6">
             <h4 class="fw-semibold">Liên hệ</h4>

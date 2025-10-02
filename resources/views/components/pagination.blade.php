@@ -2,12 +2,12 @@
 
 @if ($paginator->hasPages())
 <nav>
-    <ul class="pagination justify-content-center pastel-pagination mt-2">
+    <ul class="pagination justify-content-center custom-pagination mt-4">
         {{-- Prev --}}
         @if ($paginator->onFirstPage())
-        <li class="page-item disabled"><span class="page-link">‹</span></li>
+        <!-- <li class="page-item disabled"><span class="page-link"></span></li> -->
         @else
-        <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}">‹</a></li>
+        <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}">Prev</a></li>
         @endif
 
         {{-- Page numbers --}}
@@ -19,9 +19,9 @@
 
             {{-- Next --}}
             @if ($paginator->hasMorePages())
-            <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}">›</a></li>
+            <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}">Next</a></li>
             @else
-            <li class="page-item disabled"><span class="page-link">›</span></li>
+            <!-- <li class="page-item disabled"><span class="page-link"></span></li> -->
             @endif
     </ul>
 </nav>

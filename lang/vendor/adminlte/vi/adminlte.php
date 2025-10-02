@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'full_name' => 'Tên đầy đủ',
     'email' => 'Email',
     'password' => 'Mật khẩu',

@@ -1,0 +1,40 @@
+.product-thumb-wrap {
+    height         : 220px;
+    background     : #fff;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    overflow       : hidden;
+}
+
+.product-thumb {
+    max-height: 100%;
+    max-width : 100%;
+    object-fit: contain;
+}
+
+@media (min-width: 992px) {
+    .product-thumb-wrap {
+        height: 260px;
+    }
+}
+
+/* Title color black inside product card */
+.product-title-link {
+    color: #2c2c2c;
+}
+
+.product-title-link:hover {
+    color          : #e28604;
+    text-decoration: underline;
+}
+
+.img-zoom {
+    transition: transform 0.3s ease;
+    /* hiệu ứng mượt */
+}
+
+.img-zoom:hover {
+    transform: scale(1.1);
+    /* phóng to 10% */
+}

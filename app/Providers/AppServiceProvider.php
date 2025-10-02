@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Category;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        Blade::componentNamespace('App\\View\\Components\\Admin\\Components', 'admin');
     }
 
     /**
@@ -25,13 +27,15 @@ class AppServiceProvider extends ServiceProvider
         // Share categories for navbar/sidebar
         View::composer(['*'], function ($view) {
             try {
-                $categories = Category::orderBy('name')->get(['id','name','slug']);
+                $categories = Category::orderBy('name')->get(['id', 'name', 'slug']);
             } catch (\Throwable $e) {
                 $categories = collect();
             }
             $cart = session('cart', []);
             $cartCount = 0;
-            foreach ($cart as $line) { $cartCount += (int)($line['qty'] ?? 0); }
+            foreach ($cart as $line) {
+                $cartCount += (int)($line['qty'] ?? 0);
+            }
             $view->with('sharedCategories', $categories)->with('sharedCartCount', $cartCount);
         });
 

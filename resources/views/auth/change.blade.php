@@ -2,14 +2,14 @@
 @section('title', 'Đổi mật khẩu')
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-5">
             <div class="card card-hover">
                 <div class="card-body p-4">
                     <h5 class="fw-semibold mb-3">Đổi mật khẩu</h5>
                     @if (session('status'))
-                        <x-alert type="success">{{ session('status') }}</x-alert>
+                    <x-alert type="success">{{ session('status') }}</x-alert>
                     @endif
                     <form method="POST" action="{{ route('password.change.post') }}">
                         @csrf
@@ -33,5 +33,3 @@
     </div>
 </div>
 @endsection
-
-

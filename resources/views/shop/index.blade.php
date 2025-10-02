@@ -1,53 +1,56 @@
 @extends('layouts.app')
 @section('title', 'Shop Nàng Thơ - Phụ kiện thời trang')
-
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+@endpush
 @section('content')
-<div class="container">
+<div class="container py-4">
     <div class="row g-4">
         <div class="col-12 col-lg-3">
-            <h5 class="fw-semibold">Danh mục sản phẩm</h6>
-
-                <div class="card">
-                    <div class="card-body">
-                        @include('components.category-menu', ['categories' => $categories ?? $sharedCategories])
-                        <hr>
-                        <h6 class="fw-semibold">Lọc theo giá</h6>
-                        <form method="GET" id="filterForm">
-                            <!-- Slider -->
-                            <div id="price-slider"></div>
-                            <!-- Hidden inputs để submit -->
-                            <input type="hidden" name="price_min" id="price_min" value="{{ request('price_min', 0) }}">
-                            <input type="hidden" name="price_max" id="price_max" value="{{ request('price_max', 1000000) }}">
-                            <!-- Preserve current filters -->
-                            @if(request('category'))
-                            <input type="hidden" name="category" value="{{ request('category') }}">
-                            @endif
-                            @if(request('q'))
-                            <input type="hidden" name="q" value="{{ request('q') }}">
-                            @endif
-                            @if(request('scope'))
-                            <input type="hidden" name="scope" value="{{ request('scope') }}">
-                            @endif
-
-                            <!-- Hiển thị giá -->
-                            <div class="d-flex justify-content-between small mt-2 mb-3">
-                                <span id="price-min-label">{{ number_format(request('price_min', 0)) }}₫</span>
-                                <span id="price-max-label">{{ number_format(request('price_max', 1000000)) }}₫</span>
-                            </div>
-
-                            <!-- Sort -->
-                            <div class="col-12">
-                                <select class="form-select form-select-sm" name="sort" id="sortSelect">
-                                    <option value="">Sắp xếp</option>
-                                    <option value="price_asc" @selected(request('sort')==='price_asc' )>Giá tăng dần</option>
-                                    <option value="price_desc" @selected(request('sort')==='price_desc' )>Giá giảm dần</option>
-                                    <option value="popular" @selected(request('sort')==='popular' )>Phổ biến</option>
-                                </select>
-                            </div>
-                        </form>
-
-                    </div>
+            <h5 class="fw-semibold">Danh mục sản phẩm</h5>
+            <div class="card">
+                <div class="card-body">
+                    @include('components.category-menu', ['categories' => $categories ?? $sharedCategories])
                 </div>
+            </div>
+            <h5 class="mt-2 fw-semibold">Giá</h5>
+            <div class="card">
+                <div class="card-body">
+                    <form method="GET" id="filterForm">
+                        <!-- Slider -->
+                        <div id="price-slider"></div>
+                        <!-- Hidden inputs để submit -->
+                        <input type="hidden" name="price_min" id="price_min" value="{{ request('price_min', 0) }}">
+                        <input type="hidden" name="price_max" id="price_max" value="{{ request('price_max', 1000000) }}">
+                        <!-- Preserve current filters -->
+                        @if(request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                        @endif
+                        @if(request('q'))
+                        <input type="hidden" name="q" value="{{ request('q') }}">
+                        @endif
+                        @if(request('scope'))
+                        <input type="hidden" name="scope" value="{{ request('scope') }}">
+                        @endif
+
+                        <!-- Hiển thị giá -->
+                        <div class="d-flex justify-content-between small mt-2 mb-3">
+                            <span id="price-min-label">{{ number_format(request('price_min', 0)) }}₫</span>
+                            <span id="price-max-label">{{ number_format(request('price_max', 1000000)) }}₫</span>
+                        </div>
+
+                        <!-- Sort -->
+                        <div class="col-12">
+                            <select class="form-select form-select-sm" name="sort" id="sortSelect">
+                                <option value="">Sắp xếp</option>
+                                <option value="price_asc" @selected(request('sort')==='price_asc' )>Giá tăng dần</option>
+                                <option value="price_desc" @selected(request('sort')==='price_desc' )>Giá giảm dần</option>
+                                <option value="popular" @selected(request('sort')==='popular' )>Phổ biến</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="col-12 col-lg-9">
             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -72,14 +75,16 @@
                     @else
                     <div class="small">Hãy thay đổi bộ lọc hoặc thử lại sau.</div>
                     @endif
+                    @endforelse
                 </div>
-                @endforelse
+                <x-pagination :paginator="$products" />
             </div>
-            <x-pagination :paginator="$products" />
         </div>
     </div>
-</div>
-@endsection
-@push('scripts')
-<script src="{{ asset('js/shop-index.js') }}"></script>
-@endpush
+    @endsection
+    @push('styles')
+    <link rel="stylesheet" href="{{ asset('css/shop-index.css') }}">
+    @endpush
+    @push('scripts')
+    <script src="{{ asset('js/shop-index.js') }}"></script>
+    @endpush

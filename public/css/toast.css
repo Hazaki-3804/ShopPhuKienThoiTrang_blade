@@ -1,0 +1,19 @@
+.toast-success-light {
+    background-color: #a3d9a5;
+    color           : #0f5132;
+}
+
+.toast-error-light {
+    background-color: #f5a39b;
+    color           : #842029;
+}
+
+.toast-warning-light {
+    background-color: #ffe08a;
+    color           : #664d03;
+}
+
+.toast-info-light {
+    background-color: #9be7f0;
+    color           : #055160;
+}

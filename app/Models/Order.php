@@ -59,4 +59,36 @@ class Order extends Model
 	{
 		return $this->hasMany(Payment::class);
 	}
+
+	// Convenience accessor so "$order->items" works in views
+	public function getItemsAttribute()
+	{
+		return $this->order_items;
+	}
+
+	// Map status to human text
+	public function getStatusTextAttribute(): string
+	{
+		$map = [
+			'pending' => 'Chờ xử lý',
+			'processing' => 'Đang xử lý',
+			'shipped' => 'Đã giao cho vận chuyển',
+			'delivered' => 'Đã giao',
+			'cancelled' => 'Đã hủy',
+		];
+		return $map[$this->status] ?? ucfirst($this->status);
+	}
+
+	// Map status to bootstrap badge color
+	public function getStatusClassAttribute(): string
+	{
+		$map = [
+			'pending' => 'secondary',
+			'processing' => 'warning',
+			'shipped' => 'info',
+			'delivered' => 'success',
+			'cancelled' => 'danger',
+		];
+		return $map[$this->status] ?? 'secondary';
+	}
 }

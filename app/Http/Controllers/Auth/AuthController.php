@@ -32,7 +32,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             if (Auth::user()->status !== 1) {
                 Auth::logout();
-                return back()->withErrors(['email' => 'Tài khoản này không hoạt động. Vui lòng liên hệ quản trị viên.'])->withInput();
+                return back()->withErrors(['login_error' => 'Tài khoản này không hoạt động. Vui lòng liên hệ quản trị viên.'])->withInput();
             }
             $request->session()->regenerate();
             return $this->redirectByRole();
@@ -44,13 +44,18 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'username' => ['nullable', 'string', 'max:50'],
-            'name' => ['required', 'string', 'max:120'],
+            'name' => ['required', 'string', 'max:120', 'regex:/^[\pL\s]+$/u'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password_confirmation' => ['required'],
             'phone' => ['required', 'string', 'max:15'],
             'address' => ['required', 'string', 'max:255'],
-
+            'province' => ['required', 'integer'],
+            'ward' => ['required', 'integer'],
         ]);
+        if (empty($data['username'])) {
+            $data['username'] = Str::slug($data['name'], '');
+        }
         $user = User::create([
             'username' => $data['username'] ?? null,
             'phone' => $data['phone'],
@@ -58,14 +63,14 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => 2,
+            'ward_id' => $data['ward'],
+            'role_id' => 3,
             'status' => 1,
-            'avatar' => '/images/default-avatar.png',
+            'avatar' => 'storage/default-avatar.png',
         ]);
-        Auth::login($user);
-        return $this->redirectByRole();
+        //redirect to login
+        return redirect()->route('login')->with('status', 'Đăng ký thành công. Vui lòng đăng nhập.');
     }
-
     public function logout(Request $request)
     {
         Auth::logout();

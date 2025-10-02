@@ -1,0 +1,29 @@
+.custom-pagination .page-link {
+    border       : none;
+    color        : #333;
+    font-weight  : 500;
+    border-radius: 6px;
+    margin       : 0 3px;
+    transition   : all 0.2s ease-in-out;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: #ff6f3c;
+    /* màu cam Shopee */
+    border-color    : #ff6f3c;
+    color           : #fff;
+    /* chữ trắng */
+    font-weight     : 600;
+}
+
+.custom-pagination .page-link:hover {
+    background-color: #ffe6d8;
+    /* nền hover cam nhạt */
+    color           : #ff6f3c;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    color           : #aaa;
+    pointer-events  : none;
+    background-color: #f8f9fa;
+}

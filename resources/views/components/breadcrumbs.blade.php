@@ -2,7 +2,7 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/breadcrumbs.css') }}">
 @endpush
-<ol class="breadcrumb fs-5">
+<ol class="breadcrumb fs-6">
     @foreach($items as $item)
     @if ($loop->last)
     @elseif ($loop->remaining === 1)

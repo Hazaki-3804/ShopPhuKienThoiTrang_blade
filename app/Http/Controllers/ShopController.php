@@ -42,7 +42,7 @@ class ShopController extends Controller
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('name', 'like', "%{$keyword}%")
-                  ->orWhere('description', 'like', "%{$keyword}%");
+                    ->orWhere('description', 'like', "%{$keyword}%");
             });
         }
 
@@ -65,8 +65,10 @@ class ShopController extends Controller
         if ($currentCategory) {
             $basePriceQuery->where('category_id', $currentCategory->id);
         }
-        $priceCap = (int) ($basePriceQuery->max('price') ?? 1000000);
-        if ($priceCap < 100000) { $priceCap = 100000; } // sensible minimum cap
+        $priceCap = (int) ($basePriceQuery->max('price') ?? 500000);
+        if ($priceCap < 100000) {
+            $priceCap = 100000;
+        } // sensible minimum cap
 
         return view('shop.index', compact('products', 'categories', 'currentCategory', 'priceCap'));
     }

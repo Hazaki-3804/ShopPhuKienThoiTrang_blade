@@ -1,0 +1,24 @@
+/* áp dụng cho toàn bộ table */
+
+table td,
+table th {
+    text-align    : center !important;
+    vertical-align: middle !important;
+}
+
+div.dataTables_filter {
+    display: none !important;
+}
+
+div.dt-buttons {
+    display: none !important;
+}
+
+.no-scrollbar {
+    overflow-y     : auto;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}

@@ -4,10 +4,6 @@
     transition    : color 0.3s ease;
 }
 
-.navbar-nav .nav-link:hover {
-    color          : #000 !important;
-    text-decoration: underline;
-}
 
 .navbar-brand {
     font-family   : 'Playfair Display', serif;
@@ -16,4 +12,81 @@
 
 .form-control:focus {
     box-shadow: 0 0 0 .2rem rgba(0, 0, 0, .05);
+}
+
+
+.navbar-nav .nav-link:hover {
+    color          : var(--accent) !important;
+    text-decoration: none;
+}
+
+/* Màu cam khi active */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:active {
+    color: var(--accent) !important;
+}
+
+/* Logo */
+.logo-shop {
+    height    : 40px;
+    /* Điều chỉnh chiều cao logo */
+    width     : auto;
+    object-fit: contain;
+    display   : inline-block;
+}
+
+/* Chữ Shop Nàng Thơ */
+.brand-text {
+    font-family   : 'Playfair Display', serif;
+    font-size     : 1.4rem;
+    font-weight   : bold;
+    letter-spacing: 2px;
+    color         : var(--accent);
+    /* Shopee orange */
+}
+
+/* Cart icon accent color (peach) */
+.icon-cart-shopee {
+    color    : var(--accent);
+    font-size: 1.35rem;
+}
+
+.icon-cart-shopee:hover {
+    color: var(--accent-600);
+}
+
+.bg-shopee {
+    background-color: var(--accent) !important;
+}
+
+/* Nút cam đào chủ đạo */
+.btn-shopee {
+    background-color: var(--accent);
+    border-color    : var(--accent);
+    color           : white;
+    font-weight     : 600;
+    transition      : all 0.3s ease;
+}
+
+.btn-shopee:hover {
+    background-color: var(--accent-600);
+    border-color    : var(--accent-600);
+    color           : white;
+    transform       : translateY(-1px);
+    box-shadow      : 0 4px 8px rgba(var(--accent-rgb), 0.3);
+}
+
+.btn-outline-shopee {
+    background-color: transparent;
+    color           : var(--accent);
+    font-weight     : 600;
+    transition      : all 0.3s ease;
+}
+
+.btn-outline-shopee:hover {
+    background-color: var(--accent);
+    border-color    : var(--accent);
+    color           : white;
+    transform       : translateY(-1px);
+    box-shadow      : 0 4px 8px rgba(var(--accent-rgb), 0.3);
 }

@@ -19,6 +19,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->getCart();
+        // dd($cart);
         $items = collect($cart)->map(function ($line) {
             $product = Product::find($line['product_id']);
             if (!$product || (int)($product->status ?? 0) !== 1) return null;
@@ -37,7 +38,7 @@ class CartController extends Controller
             $categoryIds = $items->pluck('product.category_id')->unique()->filter();
             $excludeIds = $items->pluck('product.id')->unique();
             if ($categoryIds->isNotEmpty()) {
-                $related = Product::with(['category','product_images'])
+                $related = Product::with(['category', 'product_images'])
                     ->where('status', 1)
                     ->whereIn('category_id', $categoryIds)
                     ->whereNotIn('id', $excludeIds)
@@ -46,7 +47,7 @@ class CartController extends Controller
                     ->get();
             }
         }
-        return view('cart.index', compact('items','total','related'));
+        return view('cart.index', compact('items', 'total', 'related'));
     }
 
     public function add(Request $request, string $productId)
@@ -79,7 +80,7 @@ class CartController extends Controller
     {
         $request->validate(['qty' => ['nullable', 'integer', 'min:1']]);
         $qty = max(1, (int)$request->integer('qty'));
-        $product = Product::where('active', true)->findOrFail($productId);
+        $product = Product::where('status', 1)->findOrFail($productId);
         if ($product->stock < $qty) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
 
         $cart = $this->getCart();

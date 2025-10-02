@@ -30,14 +30,6 @@ class ProductController extends Controller
                 'categories.name as category_name',
                 'product_images.image_url'
             ]);
-        dd($query);
-        // return DataTables::of($query)
-        //     ->addColumn('actions', function ($row) {
-        //         return '<button class="btn btn-sm btn-outline-secondary">Edit</button>
-        //             <button class="btn btn-sm btn-outline-danger">Delete</button>';
-        //     })
-        //     ->rawColumns(['actions'])
-        //     ->make(true);
     }
 
     public function create()
@@ -69,7 +61,6 @@ class ProductController extends Controller
                 ]);
             }
         }
-
         return redirect()->route('admin.products.index')->with('status', 'Đã thêm sản phẩm mới');
     }
     public function edit($id)

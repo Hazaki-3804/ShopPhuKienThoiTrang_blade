@@ -1,8 +1,8 @@
-@extends('adminlte::page')
+@extends('layouts.admin')
 @section('title', 'Orders')
 
 @section('content_header')
-    <h1>Orders</h1>
+<h1>Orders</h1>
 @stop
 
 @section('content')
@@ -16,7 +16,16 @@
     </div>
     <div class="card-body table-responsive">
         <table class="table align-middle datatable" id="ordersTable">
-            <thead><tr><th>#</th><th>Customer</th><th>Status</th><th>Total</th><th>Date</th><th>Actions</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach(range(1,10) as $i)
                 <tr class="fade-up widget">
@@ -45,9 +54,9 @@
 </div>
 @push('scripts')
 <script>
-    if (window.DataTable) { new DataTable('#ordersTable'); }
+    if (window.DataTable) {
+        new DataTable('#ordersTable');
+    }
 </script>
 @endpush
 @endsection
-
-

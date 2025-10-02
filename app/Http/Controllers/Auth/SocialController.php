@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @method static \Laravel\Socialite\Contracts\Provider stateless()
@@ -24,12 +24,16 @@ class SocialController extends Controller
         try {
             $providerUser = Socialite::driver($provider)->stateless()->user();
             $user = User::where('email', $providerUser->getEmail())->first();
-
             if ($user) {
                 // Cập nhật thông tin người dùng
+                $avatar = $user->avatar;
+                if (empty($avatar)) {
+                    $avatar = $this->saveAvatar($providerUser);
+                }
                 $user->update([
                     'name' => $providerUser->getName(),
-                    'avatar' => $providerUser->getAvatar(),
+                    'avatar' => $avatar,
+                    'social_id' => 1,
                 ]);
             } else {
                 // Tạo người dùng mới với role_id = 3
@@ -38,12 +42,12 @@ class SocialController extends Controller
                     'name' => $providerUser->getName(),
                     'email' => $providerUser->getEmail(),
                     'password' => Hash::make('default_password'),
-                    'avatar' => $providerUser->getAvatar(),
+                    'avatar' => $this->saveAvatar($providerUser),
                     'role_id' => 3,
                     'status' => 1,
+                    'social_id' => 1,
                 ]);
             }
-
             // Kiểm tra trạng thái tài khoản
             if ($user->status == 0) {
                 return redirect()->route('login')
@@ -55,7 +59,7 @@ class SocialController extends Controller
 
             // Redirect theo role
             if (in_array($user->role_id, [1, 2])) {
-                return redirect()->intended(route('admin.dashboard'));
+                return redirect()->intended(route('dashboard'));
             } else { // role_id = 3
                 return redirect()->intended(route('home'));
             }
@@ -63,5 +67,12 @@ class SocialController extends Controller
             Log::error('Error while login with ' . $provider . ': ' . $e->getMessage());
             return redirect()->route('login')->with('status', 'Đăng nhập thất bại. Vui lòng thử lại.');
         }
+    }
+    public function saveAvatar($providerUser)
+    {
+        $avatar = $providerUser->getAvatar();
+        $avatarName = $providerUser->getId() . '.png';
+        Storage::disk('public')->put('avatars/' . $avatarName, file_get_contents($avatar));
+        return 'storage/avatars/' . $avatarName;
     }
 }

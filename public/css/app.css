@@ -1,0 +1,102 @@
+:root {
+    /* Base neutrals */
+    --bg     : #ffffff;
+    --bg-soft: #faf7f5;
+    /* nhẹ nhàng hơn trắng tinh */
+    --text   : #2c2c2c;
+    --muted  : #6b6b6b;
+
+    /* Accent (Shopee Orange) */
+    --accent    : #EE4D2D;
+    /* Shopee primary */
+    --accent-600: #D73211;
+    /* darker hover/active */
+    --accent-100: #FFE5DE;
+    /* light tint for backgrounds */
+    --accent-rgb: 238, 77, 45;
+    /* for rgba() usages */
+
+    /* Borders/shadows */
+    --card-border: #efe9e6;
+    --shadow     : 0 10px 20px rgba(0, 0, 0, .08);
+}
+
+.brand-gradient {
+    background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-blue), var(--pastel-lavender));
+}
+
+.btn-brand:hover {
+    filter: brightness(0.95);
+}
+
+.card-hover {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card-hover:hover {
+    transform : translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+}
+
+html,
+body {
+    background: var(--bg);
+    color     : var(--text);
+    cursor    : default;
+}
+
+/* compensate fixed-top navbar height */
+body {
+    padding-top: 80px;
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 72px;
+    }
+}
+
+a {
+    color          : var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    color          : var(--accent-600);
+    text-decoration: none;
+}
+
+.brand-gradient {
+    background: linear-gradient(135deg, #ffd1dc, #cfe8ff, #e6d6ff);
+}
+
+.btn-brand {
+    background: var(--accent);
+    color     : #fff;
+    border    : none;
+}
+
+.btn-brand:hover {
+    background: var(--accent-600);
+}
+
+.card-hover {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card-hover:hover {
+    transform : translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+/* Fade/slide utility */
+.fade-up {
+    opacity   : 0;
+    transform : translateY(12px);
+    transition: all .4s ease;
+}
+
+.fade-up.in-view {
+    opacity  : 1;
+    transform: translateY(0);
+}

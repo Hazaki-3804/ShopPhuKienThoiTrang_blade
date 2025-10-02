@@ -2,53 +2,80 @@
 @section('title', $product->name)
 
 @section('content')
-<div class="container">
+<div class="container mt-4">
     <div class="row g-4">
         <div class="col-12 col-md-6">
+            <x-breadcrumbs :items="[
+                ['label' => 'Trang chủ', 'url' => route('home')],
+                ['label' => 'Sản phẩm', 'url' => route('shop.index')],
+                ['label' => $product->category->name ?? 'Danh mục', 'url' => route('shop.index', ['category' => $product->category->slug ?? ''])],
+                ['label' => $product->name]
+            ]" />
             <div class="ratio ratio-1x1 border rounded-3 overflow-hidden product-main-box">
                 <img src="{{ $product->product_images[0]->image_url ?? 'https://picsum.photos/800/800?random=' . $product->id }}" class="w-100 h-100 object-fit-cover" alt="{{ $product->name }}">
             </div>
             <!-- Mô tả sản phẩm bằng hình ảnh từ trường description (các URL cách nhau bởi dấu ,) -->
             @php
-                $desc = trim($product->description ?? '');
-                $descItems = collect($desc ? explode(',', $desc) : [])->map(fn($s)=>trim($s))->filter();
-                $isImages = $descItems->count() && $descItems->every(function($it){
-                    return str_contains($it, 'http') || preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $it);
-                });
+            $desc = trim($product->description ?? '');
+            $descItems = collect($desc ? explode(',', $desc) : [])->map(fn($s)=>trim($s))->filter();
+            $isImages = $descItems->count() && $descItems->every(function($it){
+            return str_contains($it, 'http') || preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $it);
+            });
             @endphp
             @if($isImages)
             <div class="mt-3 product-desc-box">
                 <div class="desc-title">Mô tả sản phẩm</div>
                 <div class="d-flex flex-column gap-3">
                     @foreach($descItems as $img)
-                        @php($url = (\Illuminate\Support\Str::startsWith($img, ['http://','https://','/'])) ? $img : asset($img))
-                        <img src="{{ $url }}" class="w-100 rounded border" alt="Mô tả sản phẩm" loading="lazy" onerror="this.style.display='none'">
+                    @php($url = (\Illuminate\Support\Str::startsWith($img, ['http://','https://','/'])) ? $img : asset($img))
+                    <img src="{{ $url }}" class="w-100 rounded border" alt="Mô tả sản phẩm" loading="lazy" onerror="this.style.display='none'">
                     @endforeach
                 </div>
             </div>
             @endif
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 mt-5">
+            <h4 class="fw-semibold">Sản phẩm: {{ $product->name }}</h4>
             <div class="text-muted small">Danh mục: {{ $product->category->name ?? 'N/A' }}</div>
-            <h4 class="fw-semibold">{{ $product->name }}</h4>
-            <div class="fs-5 fw-semibold mb-2">{{ number_format($product->price,0,',','.') }}₫</div>
+
+            <div class="fs-5 fw-semibold mb-2">Giá: {{ number_format($product->price,0,',','.') }}₫</div>
             @if(!$isImages)
-                <p class="text-muted">{{ $product->description }}</p>
+            <p class="text-muted">{{ $product->description }}</p>
             @endif
-            <div class="d-flex gap-2 align-items-center">
-                <form class="d-flex gap-2 align-items-center" method="POST" action="{{ route('cart.add', $product->id) }}">
-                    @csrf
-                    <input type="number" id="qtyInput" class="form-control text-center" name="qty" value="1" min="1" max="{{ $product->stock }}" style="max-width:120px;">
-                    <button class="btn btn-outline-shopee btn-outline-shopee-lg text-nowrap" {{ $product->stock<1 ? 'disabled' : '' }}>
-                        <i class="bi bi-cart3 me-1"></i> Thêm vào giỏ
-                    </button>
-                </form>
-                <form method="POST" action="{{ route('cart.buynow', $product->id) }}" onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
-                    @csrf
-                    <input type="hidden" name="qty" value="1">
-                    <button class="btn btn-shopee btn-shopee-lg text-nowrap" {{ $product->stock<1 ? 'disabled' : '' }}>Mua ngay</button>
-                </form>
+            <div class="d-flex flex-column gap-2 align-items-start">
+                <!-- qty chung -->
+                <div class="d-flex gap-2 align-items-center mb-2">
+                    <label for="qtyInput">Số lượng:</label>
+                    @include('components.quantity-selector', [
+                    'id' => 'qtyInput',
+                    'name' => 'qty',
+                    'max' => $product->stock,
+                    'value' => 1
+                    ])
+                </div>
+
+                <!-- nút hành động -->
+                <div class="d-flex gap-2">
+                    <form method="POST" action="{{ route('cart.add', $product->id) }}"
+                        onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
+                        @csrf
+                        <input type="hidden" name="qty" value="1">
+                        <button class="btn btn-shopee btn-shopee-lg text-nowrap">
+                            <i class="bi bi-bag-plus me-1"></i> Thêm vào giỏ
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ route('cart.buynow', $product->id) }}"
+                        onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
+                        @csrf
+                        <input type="hidden" name="qty" value="1">
+                        <button class="btn btn-shopee btn-shopee-lg text-nowrap">
+                            <i class="bi bi-lightning-charge"></i> Mua ngay
+                        </button>
+                    </form>
+                </div>
             </div>
+
         </div>
 
     </div>
@@ -83,38 +110,43 @@
             </div>
             <div class="col-12 col-md-8"><input class="form-control" name="comment" placeholder="Nhận xét (tuỳ chọn)"></div>
             <div class="col-12"><button class="btn btn-outline-secondary">Gửi đánh giá</button></div>
-        @endif
-        @endisset
+            @endif
+            @endisset
     </div>
 </div>
-    @push('styles')
-    <style>
-        .product-desc-box {
-            border: 1px solid #e8e1dd;
-            border-radius: 8px;
-            padding: 10px;
-            background: #fff;
-        }
-        .product-desc-box .desc-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: #2c2c2c;
-            margin-bottom: .4rem;
-        }
-        .product-desc-box img {
-            border-color: #f0e9e6 !important;
-        }
-        /* Main image should fill its column for consistent layout */
-        .product-main-box {
-            width: 100%;
-            margin: 0;
-        }
-        .product-title-logo {
-            height: 24px;
-            width: auto;
-            object-fit: contain;
-            display: inline-block;
-            vertical-align: middle;
-        }
-    </style>
-    @endpush
+@endsection
+@push('styles')
+<style>
+    .product-desc-box {
+        border: 1px solid #e8e1dd;
+        border-radius: 8px;
+        padding: 10px;
+        background: #fff;
+    }
+
+    .product-desc-box .desc-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #2c2c2c;
+        margin-bottom: .4rem;
+    }
+
+    .product-desc-box img {
+        border-color: #f0e9e6 !important;
+    }
+
+    .product-main-box {
+        width: 100%;
+        margin: 0;
+    }
+
+
+    .product-title-logo {
+        height: 24px;
+        width: auto;
+        object-fit: contain;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
+@endpush

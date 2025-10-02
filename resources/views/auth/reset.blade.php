@@ -2,7 +2,7 @@
 @section('title', 'Đặt lại mật khẩu')
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-5">
             <div class="card card-hover">
@@ -27,5 +27,3 @@
     </div>
 </div>
 @endsection
-
-

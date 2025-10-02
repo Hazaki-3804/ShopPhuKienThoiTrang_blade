@@ -1,8 +1,8 @@
-@extends('adminlte::page')
+@extends('layouts.admin')
 @section('title', 'Settings')
 
 @section('content_header')
-    <h1>Settings</h1>
+<h1>Settings</h1>
 @stop
 
 @section('content')
@@ -29,5 +29,3 @@
     </div>
 </div>
 @endsection
-
-
