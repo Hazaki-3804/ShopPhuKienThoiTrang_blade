@@ -9,7 +9,7 @@
             <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#searchBoxMobile">
                 <i class="bi bi-search fs-5"></i>
             </a>
-            <a class="nav-link position-relative" href="{{ route('cart.index') }}">
+            <a class="nav-link position-relative mx-2" href="{{ route('cart.index') }}">
                 <i class="bi bi-bag-heart-fill fs-4 icon-cart-shopee"></i>
                 @if(($sharedCartCount ?? 0) > 0)
                 <span class="position-absolute top-0 start-100 badge rounded-pill bg-shopee cart-badge-adjust ">
@@ -17,7 +17,6 @@
                 </span>
                 @endif
             </a>
-
             @auth
             <div class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
@@ -91,7 +90,7 @@
                     <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('shop.index') ? 'active' : '' }}" href="{{ route('shop.index') }}">Sản phẩm</a>
+                    <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('shop.index') || request()->routeIs('shop.show') ? 'active' : '' }}" href="{{ route('shop.index') }}">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Giới thiệu</a>
@@ -104,13 +103,13 @@
             <ul class="navbar-nav ms-auto align-items-center d-none d-lg-flex">
                 <li class="nav-item me-3">
                     <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
-                        <div class="input-group input-group-sm shadow-sm rounded-pill">
-                            <input class="form-control border-end-0 rounded-start-pill"
-                                type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                        <div class="input-group input-group-sm shadow-sm rounded-start-3">
+                            <input class="form-control border-end-0 p-2 rounded-start-3"
+                                type="search" style="width: 300px" name=" q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
                             @if(request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
                             @endif
-                            <button class="btn btn-dark rounded-end-pill" type="submit" aria-label="Tìm kiếm">
+                            <button class="btn btn-shopee" type="submit" aria-label="Tìm kiếm">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -230,11 +229,14 @@
 
     <div class="collapse bg-white shadow-sm p-3 border-top" id="searchBoxMobile">
         <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
-            <div class="input-group">
-                <input class="form-control border-end-0" type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+            <div class="input-group input-group-sm shadow-sm rounded-start-3">
+                <input class="form-control border-end-0 p-2 rounded-start-3"
+                    type="search" style="width: 300px" name=" q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
                 @if(request('category'))
                 @endif
-                <button class="btn btn-dark" type="submit" aria-label="Tìm kiếm"><i class="bi bi-search"></i></button>
+                <button class="btn btn-shopee " type="submit" aria-label="Tìm kiếm">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
         </form>
     </div>

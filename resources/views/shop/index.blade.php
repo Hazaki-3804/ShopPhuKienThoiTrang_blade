@@ -2,6 +2,7 @@
 @section('title', 'Shop Nàng Thơ - Phụ kiện thời trang')
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+<link rel="stylesheet" href="{{ asset('css/shop-index.css') }}">
 @endpush
 @section('content')
 <div class="container py-4">
@@ -81,10 +82,8 @@
             </div>
         </div>
     </div>
-    @endsection
-    @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/shop-index.css') }}">
-    @endpush
-    @push('scripts')
-    <script src="{{ asset('js/shop-index.js') }}"></script>
-    @endpush
+</div>
+@endsection
+@push('scripts')
+<script src="{{ asset('js/shop-index.js') }}"></script>
+@endpush

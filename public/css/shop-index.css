@@ -9,6 +9,7 @@
     .noUi-target,
     .noUi-connects {
         border-radius: 999px;
+        height: 5px;
     }
 
     .noUi-target {
@@ -22,42 +23,63 @@
 
     /* Handles (nút kéo) */
     .noUi-horizontal .noUi-handle {
-        width        : 14px;
-        height       : 14px;
+        width        : 18px;
+        height       : 18px;
         border-radius: 50%;
         border       : 2px solid #ffffff;
-        background   : #ffffff;
+        background   : #EE4D2D;
         box-shadow   : 0 1px 4px rgba(0, 0, 0, 0.16);
         cursor       : grab;
-        top          : -5px;
+        top          : -8px;
         /* căn giữa track */
         transition   : transform 0.2s ease;
     }
+    /* Giữ handle trong phạm vi track */
+    .noUi-horizontal .noUi-origin:first-child .noUi-handle {
+        left: 9px;
+    }
+    .noUi-horizontal .noUi-origin:last-child .noUi-handle {
+        right: -5px;
+    }
 
-    /* Ẩn các vạch dọc mặc định trên handle */
-    .noUi-handle:before,
+    /* Ẩn các vạch dọc mặc định trên handle và thêm icon */
+    .noUi-handle:before {
+        content: '💰'; 
+        position: absolute;
+        top: -16px; /* đẩy icon lên trên handle */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #f26e3e;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        pointer-events: none;
+        text-shadow: 0 0 4px rgba(242, 110, 62, 0.4);
+    }
+    
+
     .noUi-handle:after {
         display: none;
     }
 
     .noUi-handle:hover {
-        transform : scale(1.15);
-        background: var(--accent, #ff7da6);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        transform: scale(1.15);
+        background: #f26e3e;
+        /* Hiệu ứng đổ bóng đều xung quanh */
+        box-shadow: 
+            0 0 10px rgba(242, 110, 62, 0.7),
+            0 0 20px rgba(242, 110, 62, 0.5),
+            0 0 30px rgba(242, 110, 62, 0.3);
+        transition: all 0.2s ease;
     }
+    
 
     /* Khi đang kéo */
     .noUi-active {
         transform : scale(1.2) !important;
-        background: var(--accent, #ff7da6) !important;
+        background: var(--accent, #f26e3e) !important;
     }
 
-    /* Tooltip giá (nếu muốn bật sau này) */
-    .noUi-tooltip {
-        background   : #fff;
-        border       : 1px solid #ddd;
-        border-radius: 6px;
-        padding      : 3px 6px;
-        font-size    : 12px;
-        color        : #333;
-    }

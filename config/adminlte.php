@@ -21,11 +21,12 @@ return [
     | Layout
     |--------------------------------------------------------------------------
     */
-    'usermenu_enabled' => true,
-    'usermenu_header' => true,
+    'usermenu_enabled' => false,
+    'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
-    // 'usermenu_image' => true,
-    // 'usermenu_desc' => true,
+    'usermenu_image' => false,
+    'usermenu_desc' => false,
+    'usermenu_logout' => false,
 
     'layout_topnav' => null, // null = sidebar, 'topnav' = chỉ navbar
     'layout_boxed' => false,
@@ -97,11 +98,24 @@ return [
             'icon' => 'fas fa-home',
             'breadcrumb' => true, // bật breadcrumb
         ],
+        ['header' => 'SẢN PHẨM'],
         [
             'text' => 'Quản lý đơn hàng',
-            'route' => 'orders.index',
-            'icon' => 'fas fa-receipt',
+            'route' => 'admin.orders.index',
+            'icon' => 'fas fa-shopping-cart',
             'breadcrumb' => true,
+        ],
+        [
+            'text' => 'Quản lý danh mục',
+            'icon' => 'fas fa-tags',
+            'breadcrumb' => true,
+            'submenu' => [
+                [
+                    'text' => 'Danh sách danh mục',
+                    'route' => 'admin.categories.index',
+                    'breadcrumb' => true,
+                ],
+            ]
         ],
         [
             'text' => 'Quản lý sản phẩm',
@@ -110,18 +124,50 @@ return [
             'submenu' => [
                 [
                     'text' => 'Danh sách sản phẩm',
-                    'route' => 'products.index',
+                    'route' => 'admin.products.index',
                     'breadcrumb' => true,
                 ],
                 [
                     'text' => 'Thêm sản phẩm',
+                    'route' => 'admin.products.create',
                     'breadcrumb' => true,
-
+                ],
+            ],
+        ],
+        ['header' => 'KHÁCH HÀNG'],
+        [
+            'text' => 'Quản lý khách hàng',
+            'route' => 'admin.customers.index',
+            'icon' => 'far fa-user'
+        ],
+        [
+            'text' => 'Thống kê & Báo cáo',
+            'icon' => 'fas fa-chart-line',
+            'breadcrumb' => true,
+            'submenu' => [
+                [
+                    'text' => 'Tổng quan',
+                    'route' => 'admin.statistics.index',
+                    'icon' => 'fas fa-tachometer-alt',
+                    'breadcrumb' => true,
                 ],
                 [
-                    'text' => 'Danh mục sản phẩm',
+                    'text' => 'Thống kê khách hàng',
+                    'route' => 'admin.statistics.customers',
+                    'icon' => 'fas fa-users',
                     'breadcrumb' => true,
-
+                ],
+                [
+                    'text' => 'Thống kê sản phẩm',
+                    'route' => 'admin.statistics.products',
+                    'icon' => 'fas fa-box',
+                    'breadcrumb' => true,
+                ],
+                [
+                    'text' => 'Thống kê thời gian',
+                    'route' => 'admin.statistics.time',
+                    'icon' => 'fas fa-calendar-alt',
+                    'breadcrumb' => true,
                 ],
             ],
         ],

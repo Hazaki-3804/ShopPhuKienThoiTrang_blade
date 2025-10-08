@@ -7,7 +7,6 @@
         <div class="col-12 col-md-6 col-lg-5">
             <div class="card card-hover">
                 <div class="card-body p-4">
-                    <h5 class="fw-semibold mb-3">Đổi mật khẩu</h5>
                     @if (session('status'))
                     <x-alert type="success">{{ session('status') }}</x-alert>
                     @endif
@@ -16,20 +15,25 @@
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu hiện tại</label>
                             <input type="password" class="form-control" name="current_password" required>
+                            @error('current_password')
+                            <x-input-error :message="$message" />
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu mới</label>
                             <input type="password" class="form-control" name="password" required>
+                            @error('password')
+                            <x-input-error :message="$message" />
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Xác nhận mật khẩu</label>
                             <input type="password" class="form-control" name="password_confirmation" required>
+                            @error('password_confirmation')
+                            <x-input-error :message="$message" />
+                            @enderror
                         </div>
                         <button class="btn btn-brand w-100">Cập nhật</button>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection

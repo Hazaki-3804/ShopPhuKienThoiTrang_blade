@@ -99,7 +99,7 @@ class CartController extends Controller
         }
 
         // Require login: if guest, store pending action then redirect to login
-        if (!auth()->check()) {
+        if (!\Auth::check()) {
             session(['pending_add_to_cart' => [
                 'product_id' => (string)$productId,
                 'qty' => $qty,

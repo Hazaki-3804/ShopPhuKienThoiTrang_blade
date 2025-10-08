@@ -1,6 +1,5 @@
 @props([
 'name' => 'password',
-'placeholder' => 'Nhập mật khẩu',
 'autocomplete' => 'current-password',
 ])
 <div class="mb-3">
@@ -9,7 +8,6 @@
             type="password"
             name="{{ $name }}"
             id="{{ $name }}"
-            placeholder="{{ $placeholder }}"
             autocomplete="{{ $autocomplete }}"
             class="form-control pr-5">
         <button type="button"

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2025 at 09:02 PM
+-- Generation Time: Oct 04, 2025 at 06:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -121,8 +121,8 @@ CREATE TABLE `categories` (
   `name` varchar(100) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', NULL, NULL),
+(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', '2025-09-24 07:01:58', '2025-09-24 07:02:28'),
 (2, 'Móng tay giả', 'Các loại móng giả', 'mong-tay', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (5, 'Túi xách', 'Túi xách, balo, ví nam nữ', 'tui_xach', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (10, 'Kẹp tóc', 'Kẹp tóc', 'kep-toc', '2025-09-20 00:33:39', '2025-09-20 01:18:54'),
@@ -259,6 +259,14 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `shipping_address`, `payment_method`, `created_at`, `updated_at`) VALUES
+(1, 9, 130000.00, 'pending', 'ấp Định Thới B, xã An Phước, tỉnh Vĩnh Long', 'cod', '2025-10-04 16:24:06', '2025-10-04 16:24:06'),
+(2, 14, 140000.00, 'confirmed', 'Cần Thơ', 'momo', '2025-10-04 16:27:07', '2025-10-04 16:27:07');
+
 -- --------------------------------------------------------
 
 --
@@ -274,6 +282,14 @@ CREATE TABLE `order_items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
+(2, 1, 13, 1, 130000.00, '2025-10-04 16:28:59', '2025-10-04 16:28:59'),
+(3, 2, 14, 1, 140000.00, '2025-10-04 16:30:25', '2025-10-04 16:30:25');
 
 -- --------------------------------------------------------
 
@@ -786,7 +802,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('JqyKguTEyijTLVA1kXnjziB9rHtKSoY362Jt4Aeb', 8, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRW9MRXo3cnZpMHJlSTc1RTdKbnNXNFM2R0NseDVONXNxanFnaUprMSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9wcm9maWxlIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6ODt9', 1759345337);
+('hpMzu6DFTCNyrhADLY6SwJ9zrlr6jxNVaI4hw4Dk', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieFdFVDg5WVhKQnBsRUNsUVJIdTh5OW9aZHd5NkdIbU10ZGxtQUU0NCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9vcmRlcnMiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1759596084),
+('XncZTC043Et85BQ5w9m6yUZwysivUKXtmrJQP4ET', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiblJRTDRPZXd6OUFxb2hNOXpqZDJjNkdod1lWOFk4Z2lWMXl6OVpNMyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcGkvbG9naW4vZ29vZ2xlL3JlZGlyZWN0Ijt9czoxOToicGVuZGluZ19hZGRfdG9fY2FydCI7YTozOntzOjEwOiJwcm9kdWN0X2lkIjtzOjI6IjE0IjtzOjM6InF0eSI7aToxO3M6ODoiaW50ZW5kZWQiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wLzE0Ijt9fQ==', 1759590409);
 
 -- --------------------------------------------------------
 
@@ -801,7 +818,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `ward_id` int(11) DEFAULT NULL,
+  `ward_id` int(11) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `role_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -809,8 +826,8 @@ CREATE TABLE `users` (
   `social_id` tinyint(1) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -818,8 +835,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `phone`, `ward_id`, `address`, `email_verified_at`, `role_id`, `status`, `social_id`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/d7e6d222-3172-42a3-b197-0628119e1e9b.png', 'SwrhnStkNIiHjjw52o3ZFq3X2udDnG1nBbs8X7DRB9I90zHLDWGBMFzKvYjD', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
-(5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', NULL, 1, 1, 0, NULL, NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54');
+(2, 'Hazaki', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/d7e6d222-3172-42a3-b197-0628119e1e9b.png', 'Dj9cNM6W0ZqolE7eYGAv3o49leQ3bjJuKHj7oly494lYVuRWWTo76L2VSnA9', '2025-09-18 11:28:33', '2025-10-02 20:16:14'),
+(5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', NULL, 1, 1, 0, NULL, NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
+(9, '118088475042632170064', 'Trịnh Khắc Nhựt', '22004294@st.vlute.edu.vn', '$2y$12$WxWeJpNCDiIFO9T7qo2Ub.GDqnVdWEi3QSPKNK/e2OaTURb.EJ2bG', NULL, 0, NULL, NULL, 3, 1, 1, 'storage/avatars/b5047829-cd5d-4526-9a46-678d4830c781.jpg', NULL, '2025-10-01 17:05:13', '2025-10-01 17:06:02'),
+(14, 'a', 'a', 'a', 'aa', NULL, 29641, 'a', NULL, 3, 1, NULL, NULL, NULL, NULL, '2025-10-04 09:21:09');
 
 -- --------------------------------------------------------
 
@@ -4395,13 +4414,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -4443,7 +4462,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -4512,7 +4531,7 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_roles_users` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_wards_users` FOREIGN KEY (`ward_id`) REFERENCES `wards` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_wards_users` FOREIGN KEY (`ward_id`) REFERENCES `wards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `wards`

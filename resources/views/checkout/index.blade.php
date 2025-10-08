@@ -2,7 +2,7 @@
 @section('title', 'Thanh toán')
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <h5 class="fw-semibold mb-3">Thanh toán</h5>
     <div class="row g-4">
         <div class="col-12 col-lg-8">

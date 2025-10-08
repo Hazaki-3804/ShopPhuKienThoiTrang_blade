@@ -197,6 +197,7 @@
                     <div class="col-auto"><i class="bi bi-truck"></i></div>
                     <div class="col">Hỗ trợ ship 30k cho đơn hàng từ 500k các khu vực khác</div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

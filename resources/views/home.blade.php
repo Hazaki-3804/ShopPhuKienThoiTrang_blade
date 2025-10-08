@@ -397,7 +397,7 @@
 
                     <form class="row g-2">
                         <div class="col-12 col-md-9">
-                            <input type="email" class="form-control rounded-3" placeholder="📩 Email của bạn...">
+                            <input type="email" class="form-control rounded-3" placeholder="Email của bạn...">
                         </div>
                         <div class="col-12 col-md-3 d-grid">
                             <button class="btn text-white fw-semibold"

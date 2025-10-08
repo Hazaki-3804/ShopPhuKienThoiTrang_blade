@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Customers')
+@section('title', 'Quản lý khách hàng')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -28,10 +28,14 @@
                     <select id="statusFilter" class="form-control form-control-sm">
                         <option value="">-- Chọn trạng thái --</option>
                         <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="0">Blocked</option>
                     </select>
                 </div>
-
+                <div class="mr-2">
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCustomerModal">
+                        <i class="fas fa-user-plus"></i> Thêm khách hàng
+                    </button>
+                </div>
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,9 +50,6 @@
                 </div>
             </div>
         </div>
-
-
-
         <div class="card-body">
             <div class="table-responsive no-scrollbar">
                 <table class="table table-bordered table-striped align-middle w-100" id="customersTable">
@@ -68,12 +69,128 @@
         </div>
     </div>
 </div>
-<!-- use admin.modal component -->
+<!-- Add Customer Modal -->
+<x-admin.modal
+    modal_id='addCustomerModal'
+    title="Thêm khách hàng mới"
+    url="{{ route('admin.customers.store') }}"
+    button_type="create"
+    method="POST">
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <label for="add_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="add_name" name="name" required>
+            <x-input-error name="name" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_username" class="form-label">Tên người dùng</label>
+            <input type="text" class="form-control" id="add_username" name="username" maxlength="50">
+            <x-input-error name="username" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_email" class="form-label">Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="add_email" name="email" required>
+            <x-input-error name="email" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="add_phone" name="phone" required maxlength="15">
+            <x-input-error name="phone" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" id="add_password" name="password" required>
+            <x-input-error name="password" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_password_confirmation" class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" id="add_password_confirmation" name="password_confirmation" required>
+            <x-input-error name="password_confirmation" />
+        </div>
+        <div class="col-12">
+            <label for="add_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="add_address" name="address" rows="2" required maxlength="255"></textarea>
+            <x-input-error name="address" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_ward_id" class="form-label">Xã/Phường <span class="text-danger">*</span></label>
+            <select class="form-control" id="add_ward_id" name="ward_id" required>
+                <option value="">-- Chọn xã/phường --</option>
+            </select>
+            <x-input-error name="ward_id" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="add_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+            <select class="form-control" id="add_status" name="status" required>
+                <option value="1">✅ Hoạt động</option>
+                <option value="0">🚫 Bị chặn</option>
+            </select>
+            <x-input-error name="status" />
+        </div>
+    </div>
+</x-admin.modal>
+
+<!-- Edit Customer Modal -->
 <x-admin.modal
     modal_id='editCustomerModal'
-    title="Thêm khách hàng"
-    url="{{route('customers.store')}}"
-    button_type="Thêm">
+    title="Cập nhật thông tin khách hàng"
+    url="{{ route('admin.customers.update') }}"
+    button_type="update"
+    method="PUT">
+    <div class="row g-3">
+        <input type="hidden" name="id" id="edit_customer_id">
+        <div class="col-12 col-md-6">
+            <label for="edit_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="edit_name" name="name" required>
+            <x-input-error name="name" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="edit_username" class="form-label">Tên người dùng</label>
+            <input type="text" class="form-control" id="edit_username" name="username" maxlength="50">
+            <x-input-error name="username" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="edit_email" class="form-label">Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="edit_email" name="email" required>
+            <x-input-error name="email" />
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="edit_phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="edit_phone" name="phone" required maxlength="15">
+            <x-input-error name="phone" />
+        </div>
+        <div class="col-12">
+            <label for="edit_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="edit_address" name="address" rows="2" required maxlength="255"></textarea>
+            <x-input-error name="address" />
+        </div>
+        <!-- <div class="col-12 col-md-6">
+            <label for="edit_ward_id" class="form-label">Xã/Phường <span class="text-danger">*</span></label>
+            <select class="form-control" id="edit_ward_id" name="ward_id" required>
+                <option value="">-- Chọn xã/phường --</option>
+            </select>
+            <x-input-error name="ward_id" />
+        </div> -->
+        <div class="col-12 col-md-6">
+            <label for="edit_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+            <select class="form-control" id="edit_status" name="status" required>
+                <option value="1">✅ Hoạt động</option>
+                <option value="0">🚫 Bị chặn</option>
+            </select>
+            <x-input-error name="status" />
+        </div>
+    </div>
+</x-admin.modal>
+<x-admin.modal
+    modal_id='deleteCustomerModal'
+    title="Xóa khách hàng"
+    url="{{ route('admin.customers.destroy') }}"
+    button_type="delete"
+    method="DELETE">
+    <div class="mb-3 rounded-2">
+        <input type="hidden" name="id" id="del_customer_id">
+        <label for="delete_customer" class="form-label fw-bold">Bạn có chắc chắn muốn xóa khách hàng này? <br>Dữ liệu sẽ không thể khôi phục.</label>
+    </div>
 </x-admin.modal>
 @endsection
 @push('styles')
@@ -82,11 +199,11 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        var table = $('#customersTable').DataTable({
+        window.table = $('#customersTable').DataTable({
             processing: false,
             serverSide: true,
             ajax: {
-                url: "{{ route('customers.data') }}",
+                url: "{{ route('admin.customers.data') }}",
                 type: 'GET',
                 data: function(d) {
                     d.status = $('#statusFilter').val();
@@ -215,6 +332,105 @@
             e.preventDefault();
             table.button('.buttons-print').trigger();
         });
+        $(document).on('click', '.edit-customer', function() {
+            let customerId = $(this).data('id');
+            $('#edit_customer_id').val(customerId);
+
+            // Load customer data
+            $.ajax({
+                url: '/admin/customers/' + customerId,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const customer = response.customer;
+                        $('#edit_name').val(customer.name);
+                        $('#edit_username').val(customer.username);
+                        $('#edit_email').val(customer.email);
+                        $('#edit_phone').val(customer.phone);
+                        $('#edit_address').val(customer.address);
+                        $('#edit_ward_id').val(customer.ward_id);
+                        $('#edit_status').val(customer.status);
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: 'Không thể tải thông tin khách hàng!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '.toggle-status', function() {
+            let customerId = $(this).data('id');
+            let newStatus = $(this).data('status');
+            let actionText = newStatus == 1 ? 'mở khóa' : 'khóa';
+            let confirmTitle = newStatus == 1 ? 'Mở khóa tài khoản?' : 'Khóa tài khoản?';
+            let confirmText = `Bạn có chắc chắn muốn ${actionText} tài khoản này?`;
+
+            Swal.fire({
+                title: confirmTitle,
+                text: confirmText,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: newStatus == 1 ? '#28a745' : '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: newStatus == 1 ? 'Mở khóa' : 'Khóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/admin/customers/toggle-status',
+                        type: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            id: customerId,
+                            status: newStatus
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                table.ajax.reload();
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: response.message,
+                                    icon: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: 'Có lỗi xảy ra khi thay đổi trạng thái tài khoản!',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        $(document).on('click', '.delete-customer', function() {
+            let customerId = $(this).data('id');
+            $('#del_customer_id').val(customerId);
+        });
+
+    });
+</script>
+
+<!-- Initialize AJAX Form Handler -->
+<script>
+    $(document).ready(function() {
+        // Initialize AJAX Form Handler for this page
+        if (typeof AjaxFormHandler !== 'undefined') {
+            AjaxFormHandler.init({
+                table: 'table',
+                forms: ['#addCustomerModal form', '#editCustomerModal form', '#deleteCustomerModal form']
+            });
+        }
     });
 </script>
 @endpush

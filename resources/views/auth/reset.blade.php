@@ -12,13 +12,29 @@
                         @csrf
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" value="{{ request('email', old('email')) }}" required>
+                            @error('email')
+                                <x-input-error :message="$message" />
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Mật khẩu mới</label>
                             <input type="password" class="form-control" name="password" required>
+                            @error('password')
+                                <x-input-error :message="$message" />
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Xác nhận mật khẩu</label>
                             <input type="password" class="form-control" name="password_confirmation" required>
+                            @error('password_confirmation')
+                                <x-input-error :message="$message" />
+                            @enderror
                         </div>
+                        @error('token')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <button class="btn btn-brand w-100">Cập nhật</button>
                     </form>
                 </div>

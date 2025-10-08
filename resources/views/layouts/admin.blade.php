@@ -47,7 +47,15 @@
 </style>
 @stack('styles')
 @endsection
+
+@section('content_top_nav_right')
+<ul class="navbar-nav ml-auto">
+    @include('partials.user-dropdown')
+</ul>
+@endsection
 @section('js')
+<!-- Include AJAX Form Handler for all admin pages -->
+<script src="{{ asset('js/admin/ajax-form-handler.js') }}"></script>
 @stack('scripts')
 @endsection
 

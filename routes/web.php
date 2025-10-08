@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/my-orders/{order}/cancel', [UserOrderController::class, 'cancel'])->name('user.orders.cancel');
 });
 
+// Test route without middleware
+Route::get('/dashboard-test', [AdminDashboardController::class, 'index'])->name('dashboard.test');
+
 // Admin routes
 Route::middleware(['auth', 'checkAdmin'])->group(function () {
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
@@ -86,14 +89,60 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('destroy');
     });
 
+    // Category management
+    Route::name('admin.categories.')->group(function () {
+        Route::get('/admin/categories/data', [AdminCategoryController::class, 'data'])->name('data');
+        Route::get('/admin/categories', [AdminCategoryController::class, 'index'])->name('index');
+        Route::post('/admin/categories', [AdminCategoryController::class, 'store'])->name('store');
+        Route::put('/admin/categories/update', [AdminCategoryController::class, 'update'])->name('update');
+        Route::delete('/admin/categories/delete', [AdminCategoryController::class, 'destroy'])->name('destroy');
+        Route::delete('/admin/categories/delete-multiple', [AdminCategoryController::class, 'destroyMultiple'])->name('destroy.multiple');
+    });
     // Product management
-    Route::name('products.')->group(function () {
-        Route::get('/data', [ProductController::class, 'data'])->name('data');
-        Route::get('/products', [ProductController::class, 'index'])->name('index');
-        Route::get('/products/create', [ProductController::class, 'create'])->name('create');
-        Route::post('/products', [ProductController::class, 'store'])->name('store');
-        Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
-        Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('destroy');
+    Route::name('admin.products.')->group(function () {
+        Route::get('/admin/products/data', [AdminProductController::class, 'data'])->name('data');
+        Route::get('/admin/products', [AdminProductController::class, 'index'])->name('index');
+        Route::get('/admin/products/create', [AdminProductController::class, 'create'])->name('create');
+        Route::post('/admin/products', [AdminProductController::class, 'store'])->name('store');
+        Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->name('show');
+        Route::get('/admin/products/{id}/edit', [AdminProductController::class, 'edit'])->name('edit');
+        Route::put('/admin/products/update', [AdminProductController::class, 'update'])->name('update');
+        Route::post('/admin/products/upload-image', [AdminProductController::class, 'uploadImage'])->name('upload-image');
+        Route::post('/admin/products/clear-temp-images', [AdminProductController::class, 'clearTempImages'])->name('clear-temp-images');
+        Route::delete('/admin/products/delete', [AdminProductController::class, 'destroy'])->name('destroy');
+        Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->name('destroy.multiple');
+    });
+
+    // Order management
+    Route::name('admin.orders.')->group(function () {
+        Route::get('/admin/orders/data', [AdminOrderController::class, 'data'])->name('data');
+        Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('index');
+        Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('show');
+        Route::get('/admin/orders/{id}/print', [AdminOrderController::class, 'print'])->name('print');
+        Route::post('/admin/orders/update-status', [AdminOrderController::class, 'updateStatus'])->name('update-status');
+        Route::delete('/admin/orders/delete', [AdminOrderController::class, 'destroy'])->name('destroy');
+    });
+
+    // Staff (users) management
+    Route::name('admin.users.')->group(function () {
+        Route::get('/admin/users/data', [AdminUserController::class, 'data'])->name('data');
+        Route::get('/admin/users', [AdminUserController::class, 'index'])->name('index');
+        Route::post('/admin/users', [AdminUserController::class, 'store'])->name('store');
+        Route::get('/admin/users/{id}', [AdminUserController::class, 'show'])->name('show');
+        Route::put('/admin/users/update', [AdminUserController::class, 'update'])->name('update');
+        Route::post('/admin/users/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('toggle-status');
+        Route::post('/admin/users/update-role', [AdminUserController::class, 'updateRole'])->name('update-role');
+        Route::delete('/admin/users/delete', [AdminUserController::class, 'destroy'])->name('destroy');
+    });
+
+    // Admin Profile management
+    Route::name('admin.profile.')->group(function () {
+        Route::get('/admin/profile', [AdminProfileController::class, 'index'])->name('index');
+        Route::put('/admin/profile', [AdminProfileController::class, 'update'])->name('update');
+        Route::get('/admin/profile/change-password', [AdminProfileController::class, 'changePasswordForm'])->name('change-password');
+        Route::put('/admin/profile/change-password', [AdminProfileController::class, 'changePassword'])->name('change-password.update');
+        Route::get('/admin/profile/settings', [AdminProfileController::class, 'settings'])->name('settings');
+        Route::put('/admin/profile/settings', [AdminProfileController::class, 'updateSettings'])->name('settings.update');
     });
 });
 require __DIR__ . '/auth.php';

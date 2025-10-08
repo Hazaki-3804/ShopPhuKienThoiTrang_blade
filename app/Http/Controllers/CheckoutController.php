@@ -195,7 +195,7 @@ class CheckoutController extends Controller
         // Validate stock
         foreach ($items as $row) {
             if ($row['qty'] < 1 || $row['qty'] > $row['product']->stock) {
-                return back()->withErrors(['qty'=>'Số lượng không hợp lệ']);
+                return back()->withErrors(['qty' => 'Số lượng không hợp lệ']);
             }
         }
 
@@ -312,5 +312,3 @@ class CheckoutController extends Controller
         return response()->json(['message' => 'Invalid signature'], 400);
     }
 }
-
-

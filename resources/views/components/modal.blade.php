@@ -16,7 +16,6 @@
             @endisset
         </div>
     </div>
-    <!-- Comment: Modal component tái sử dụng, Bootstrap 5 -->
 </div>
 
 
