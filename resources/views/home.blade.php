@@ -77,19 +77,19 @@
     }
 
     #heroCarousel .carousel-item[data-bg="sline1"]::before {
-        background-image: url("{{ asset('img/sline1.jpg') }}");
+        background-image: url("{{ asset('img/sline1.png') }}");
     }
 
     #heroCarousel .carousel-item[data-bg="sline2"]::before {
-        background-image: url("{{ asset('img/sline2.png') }}");
+        background-image: url("{{ asset('img/sline2.jpg') }}");
     }
 
     #heroCarousel .carousel-item[data-bg="sline3"]::before {
-        background-image: url("{{ asset('img/sline3.png') }}");
+        background-image: url("{{ asset('img/sline3.jpg') }}");
     }
 
     #heroCarousel .carousel-item[data-bg="sline4"]::before {
-        background-image: url("{{ asset('img/sline4.png') }}");
+        background-image: url("{{ asset('img/sline4.jpeg') }}");
     }
 
     .custom-caption {

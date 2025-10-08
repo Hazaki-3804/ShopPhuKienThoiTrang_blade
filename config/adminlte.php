@@ -126,6 +126,7 @@ return [
             ],
         ],
         ['text' => 'Quản lý khách hàng', 'route' => 'customers.index', 'icon' => 'far fa-user'],
+        ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true],
         ['text' => 'Thống kê', 'route' => 'analytics', 'icon' => 'fas fa-chart-line'],
         ['text' => 'Cài đặt', 'route' => 'settings', 'icon' => 'fas fa-cog'],
     ],

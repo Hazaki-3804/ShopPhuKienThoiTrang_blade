@@ -2,151 +2,498 @@
 @section('title', $product->name)
 
 @section('content')
-<div class="container mt-4">
+<div class="container">
     <div class="row g-4">
+        <!-- Cột ảnh + slider + đánh giá -->
         <div class="col-12 col-md-6">
-            <x-breadcrumbs :items="[
-                ['label' => 'Trang chủ', 'url' => route('home')],
-                ['label' => 'Sản phẩm', 'url' => route('shop.index')],
-                ['label' => $product->category->name ?? 'Danh mục', 'url' => route('shop.index', ['category' => $product->category->slug ?? ''])],
-                ['label' => $product->name]
-            ]" />
-            <div class="ratio ratio-1x1 border rounded-3 overflow-hidden product-main-box">
-                <img src="{{ $product->product_images[0]->image_url ?? 'https://picsum.photos/800/800?random=' . $product->id }}" class="w-100 h-100 object-fit-cover" alt="{{ $product->name }}">
+            <!-- Ảnh chính (không click) -->
+            <div class="ratio ratio-1x1 border rounded-3 overflow-hidden product-main-box mb-3">
+                <img id="mainImage"
+                     src="{{ $product->product_images[0]->image_url ?? 'https://picsum.photos/800/800?random=' . $product->id }}"
+                     class="w-100 h-100 object-fit-cover"
+                     alt="{{ $product->name }}">
             </div>
-            <!-- Mô tả sản phẩm bằng hình ảnh từ trường description (các URL cách nhau bởi dấu ,) -->
-            @php
-            $desc = trim($product->description ?? '');
-            $descItems = collect($desc ? explode(',', $desc) : [])->map(fn($s)=>trim($s))->filter();
-            $isImages = $descItems->count() && $descItems->every(function($it){
-            return str_contains($it, 'http') || preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $it);
-            });
-            @endphp
-            @if($isImages)
-            <div class="mt-3 product-desc-box">
-                <div class="desc-title">Mô tả sản phẩm</div>
-                <div class="d-flex flex-column gap-3">
-                    @foreach($descItems as $img)
-                    @php($url = (\Illuminate\Support\Str::startsWith($img, ['http://','https://','/'])) ? $img : asset($img))
-                    <img src="{{ $url }}" class="w-100 rounded border" alt="Mô tả sản phẩm" loading="lazy" onerror="this.style.display='none'">
-                    @endforeach
+
+            <!-- Gallery ảnh nhỏ đơn giản -->
+            <div class="d-flex gap-2 mt-2">
+                @foreach($product->product_images as $image)
+                    <img src="{{ $image->image_url }}" class="img-thumbnail" style="width:80px;cursor:pointer;" onclick="document.getElementById('mainImage').src='{{ $image->image_url }}'">
+                @endforeach
+            </div>
+
+
+
+            <!-- Đánh giá -->
+            <div class="mt-4" id="review">
+                <h6 class="fw-semibold mb-2">Đánh giá</h6>
+                <div class="mb-3">
+                    @php
+                        $visibleReviews = $product->reviews->where('is_hidden', false);
+                    @endphp
+                    @forelse($visibleReviews as $rv)
+                    <div class="border rounded p-2 mb-2">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>{{ $rv->user->name ?? $rv->user_name ?? 'Người dùng' }}</strong>
+                                <div class="small text-muted">{{ $rv->created_at->format('d/m/Y H:i') }}</div>
+                            </div>
+                            <span class="text-warning">
+                                @for($i=0;$i<$rv->rating;$i++)★@endfor
+                            </span>
+                        </div>
+                        <div class="mt-1">{{ trim((string)$rv->comment) !== '' ? $rv->comment : '(Không có nhận xét)' }}</div>
+                    </div>
+                    @empty
+                    <div class="text-muted small">Chưa có đánh giá</div>
+                    @endforelse
                 </div>
+                @isset($canReview)
+                @if($canReview)
+                    @php $hasMyReview = isset($myReview) && $myReview; @endphp
+                    @if(!$hasMyReview)
+                    <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="row g-2">
+                        @csrf
+                        <div class="col-12 col-md-6">
+                            <input class="form-control hidden" name="user_id" value="{{ auth()->user()->id }}" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <input class="form-control" name="user_name" value="{{ auth()->user()->name }}" placeholder="Tên" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <input class="form-control" type="email" name="user_email" value="{{ auth()->user()->email }}" placeholder="Email" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <select class="form-select" name="rating" required>
+                                <option value="">Rating</option>
+                                @foreach(range(1,5) as $r)
+                                <option value="{{ $r }}">{{ $r }} ★</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <input class="form-control" name="comment" placeholder="Nhận xét (tuỳ chọn)">
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-outline-secondary">Gửi đánh giá</button>
+                        </div>
+                    </form>
+                    @else
+                    <div class="mb-2">
+                        <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#editReviewForm">
+                            Chỉnh sửa đánh giá
+                        </button>
+                    </div>
+                    <div id="editReviewForm" class="collapse">
+                        <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="row g-2">
+                            @csrf
+                            <div class="col-12 col-md-6">
+                                <input class="form-control hidden" name="user_id" value="{{ auth()->user()->id }}" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input class="form-control" value="{{ auth()->user()->name }}" disabled>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input class="form-control" type="email" value="{{ auth()->user()->email }}" disabled>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <select class="form-select" name="rating" required>
+                                    <option value="">Rating</option>
+                                    @foreach(range(1,5) as $r)
+                                    <option value="{{ $r }}" {{ (int)($myReview->rating ?? 0) === $r ? 'selected' : '' }}>{{ $r }} ★</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <input class="form-control" name="comment" value="{{ $myReview->comment }}" placeholder="Nhận xét (tuỳ chọn)">
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-outline-secondary">Cập nhật đánh giá</button>
+                            </div>
+                        </form>
+                    </div>
+                    @endif
+                @endif
+                @endisset
             </div>
-            @endif
         </div>
-        <div class="col-12 col-md-6 mt-5">
-            <h4 class="fw-semibold">Sản phẩm: {{ $product->name }}</h4>
+
+        <!-- Cột thông tin sản phẩm -->
+        <div class="col-12 col-md-6">
             <div class="text-muted small">Danh mục: {{ $product->category->name ?? 'N/A' }}</div>
+            <h4 class="fw-semibold">{{ $product->name }}</h4>
+            <div class="fs-5 fw-semibold mb-2">{{ number_format($product->price,0,',','.') }}₫</div>
 
-            <div class="fs-5 fw-semibold mb-2">Giá: {{ number_format($product->price,0,',','.') }}₫</div>
-            @if(!$isImages)
-            <p class="text-muted">{{ $product->description }}</p>
+            <!-- Khuyến mãi nổi bật -->
+            <div class="promo-box mb-2">
+                <span class="promo-label">Áp dụng mã khuyến mãi giảm 15k khi mua đơn hàng 150k</span>
+                <span class="promo-label">Mua để nhận quà</span>
+            </div>
+            @if($product->stock == 1)
+                <div class="alert alert-warning py-2 px-3 mt-2 mb-0" style="font-size:1rem;">Sản phẩm này chỉ còn 1 cái!</div>
+            @elseif($product->stock == 0)
+                <div class="alert alert-danger py-2 px-3 mt-2 mb-0" style="font-size:1rem;">Mặt hàng đã hết!</div>
             @endif
-            <div class="d-flex flex-column gap-2 align-items-start">
-                <!-- qty chung -->
-                <div class="d-flex gap-2 align-items-center mb-2">
-                    <label for="qtyInput">Số lượng:</label>
-                    @include('components.quantity-selector', [
-                    'id' => 'qtyInput',
-                    'name' => 'qty',
-                    'max' => $product->stock,
-                    'value' => 1
-                    ])
+            <div class="product-desc-title mb-2">
+                <span class="desc-icon"><i class="bi bi-file-earmark-text"></i></span>
+                <span class="desc-text">Mô Tả Sản Phẩm</span>
+            </div>
+            <p class="text-muted">{!! nl2br(e($product->description)) !!}</p>
+            <div class="d-flex gap-2 align-items-center mb-3">
+                @php
+                    $totalPrice = $product->price * 1; // Số lượng mặc định là 1, có thể thay bằng biến qty nếu có
+                @endphp
+                <div class="mb-3 w-100">
+                        <!-- Quantity and buttons section on new line -->
+                        <div class="d-flex align-items-center gap-3">
+                            <label for="qtyInput" style="margin-bottom:0;font-weight:500;">Số lượng:</label>
+                            @include('components.quantity-selector', [
+                                'id' => 'qtyInput',
+                                'name' => 'qty',
+                                'max' => $product->stock,
+                                'value' => 1
+                            ])
+                            <form method="POST" action="{{ route('cart.add', $product->id) }}"
+                                style="margin-bottom:0;"
+                                id="addToCartForm"
+                            >
+                                @csrf
+                                <input type="hidden" name="qty" value="1" id="addToCartQty">
+                                <button class="btn btn-shopee  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
+                                    <i class="bi bi-bag-plus me-1"></i> Thêm vào giỏ
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ route('cart.buynow', $product->id) }}"
+                                style="margin-bottom:0;"
+                                id="buyNowForm"
+                            >
+                                @csrf
+                                <input type="hidden" name="qty" value="1" id="buyNowQty">
+                                <button class="btn btn-shopee  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
+                                    <i class="bi bi-lightning-charge"></i> Mua ngay
+                                </button>
+                            </form>
+                        </div>
+                        <!-- Bỏ hiển thị tổng tiền -->
                 </div>
+                
+            </div>
 
-                <!-- nút hành động -->
-                <div class="d-flex gap-2">
-                    <form method="POST" action="{{ route('cart.add', $product->id) }}"
-                        onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
-                        @csrf
-                        <input type="hidden" name="qty" value="1">
-                        <button class="btn btn-shopee btn-shopee-lg text-nowrap">
-                            <i class="bi bi-bag-plus me-1"></i> Thêm vào giỏ
-                        </button>
-                    </form>
-
-                    <form method="POST" action="{{ route('cart.buynow', $product->id) }}"
-                        onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value;">
-                        @csrf
-                        <input type="hidden" name="qty" value="1">
-                        <button class="btn btn-shopee btn-shopee-lg text-nowrap">
-                            <i class="bi bi-lightning-charge"></i> Mua ngay
-                        </button>
-                    </form>
+            <!-- Khối dịch vụ giao hàng, đổi trả -->
+            <div class="service-info-box mt-2 p-3 rounded text-center">
+                <div class="row g-2 justify-content-center align-items-center">
+                    <div class="col-auto"><i class="bi bi-truck"></i></div>
+                    <div class="col">Giao hàng toàn quốc đơn hàng từ 99k</div>
+                    <div class="col-auto"><i class="bi bi-cash-coin"></i></div>
+                    <div class="col">COD nội thành Vĩnh Long</div>
+                    <div class="col-auto"><i class="bi bi-arrow-repeat"></i></div>
+                    <div class="col">Đổi trả trong 24h</div>
+                </div>
+                <hr>
+                <div class="row g-2 justify-content-center align-items-center">
+                    <div class="col-auto"><i class="bi bi-truck"></i></div>
+                    <div class="col">Hỗ trợ ship 20k cho đơn hàng từ 300k nội thành Vĩnh Long</div>
+                </div>
+                <div class="row g-2 justify-content-center align-items-center">
+                    <div class="col-auto"><i class="bi bi-truck"></i></div>
+                    <div class="col">Hỗ trợ ship 30k cho đơn hàng từ 500k các khu vực khác</div>
                 </div>
             </div>
-
         </div>
-
-    </div>
-
-    <div class="mt-5">
-        <h6 class="fw-semibold mb-2">Đánh giá</h6>
-        <div class="mb-3">
-            @forelse($product->reviews as $rv)
-            <div class="border rounded p-2 mb-2">
-                <div class="d-flex justify-content-between"><strong>{{ $rv->user_name }}</strong><span class="text-warning">@for($i=0;$i<$rv->rating;$i++)★@endfor</span></div>
-                <div class="small text-muted">{{ $rv->created_at->format('d/m/Y H:i') }}</div>
-                <div>{{ $rv->comment }}</div>
-            </div>
-            @empty
-            <div class="text-muted small">Chưa có đánh giá</div>
-            @endforelse
-        </div>
-        @isset($canReview)
-        @if($canReview)
-        <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="row g-2">
-            @csrf
-            <div class="col-12 col-md-6"><input class="form-control hidden" name="user_id" value="{{ auth()->user()->id }}" required></div>
-            <div class="col-12 col-md-6"><input class="form-control" name="user_name" value="{{ auth()->user()->name }}" placeholder="Tên" required></div>
-            <div class="col-12 col-md-6"><input class="form-control" type="email" name="user_email" value="{{ auth()->user()->email }}" placeholder="Email" required></div>
-            <div class="col-12 col-md-4">
-                <select class="form-select" name="rating" required>
-                    <option value="">Rating</option>
-                    @foreach(range(1,5) as $r)
-                    <option value="{{ $r }}">{{ $r }} ★</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-12 col-md-8"><input class="form-control" name="comment" placeholder="Nhận xét (tuỳ chọn)"></div>
-            <div class="col-12"><button class="btn btn-outline-secondary">Gửi đánh giá</button></div>
-            @endif
-            @endisset
     </div>
 </div>
-@endsection
+
+<!-- Modal phóng to ảnh (nhiều ảnh, có next/prev) -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-body p-0 text-center position-relative">
+        <img id="modalImage" src="" class="img-fluid rounded">
+        <!-- Nút đóng -->
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2 bg-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Nút prev/next -->
+        <button type="button" class="btn position-absolute top-50 start-0 translate-middle-y text-white fs-2" onclick="prevImage()">‹</button>
+        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y text-white fs-2" onclick="nextImage()">›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @push('styles')
 <style>
-    .product-desc-box {
-        border: 1px solid #e8e1dd;
-        border-radius: 8px;
-        padding: 10px;
-        background: #fff;
+.product-desc-image {
+    display: flex;
+    justify-content: center;  /* căn giữa ngang */
+    align-items: center;      /* căn giữa dọc */
+    flex-direction: column;
+    width: 100%;              /* giữ trong khung cha */
+    text-align: center;
+    margin-left: 50%;
+}
+
+.product-desc-image img {
+    max-width: 1200px;   /* tăng kích thước tối đa */
+    max-height: 800px;
+    width: 1000px;         /* tự co theo tỉ lệ */
+    height: 800px;
+    object-fit: contain; /* giữ ảnh không méo */
+    display: block;
+    margin: 0 auto;      /* căn giữa chính xác */
+}
+
+/* Căn chỉnh hàng voucher, số lượng, nút giỏ, mua ngay */
+.product-action-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+}
+.product-action-row > * {
+    margin-bottom: 0 !important;
+}
+.product-action-row label {
+    margin-bottom: 4px;
+    font-size: 1rem;
+}
+/* Số lượng kiểu liền khối, giống hình */
+
+.quantity-selector {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid #d9d9d9;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    height: 40px;
+}
+.quantity-selector button {
+    border: none;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+}
+.quantity-selector button:active {
+    background: #f5f5f5;
+}
+.quantity-selector button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+.quantity-selector input[type="number"] {
+    border: none;
+    width: 46px;
+    height: 40px;
+    text-align: center;
+    font-size: 1.1rem;
+    box-shadow: none;
+    outline: none;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+}
+.btn-outline-shopee {
+    border-radius: 8px;
+    border: 1.5px solid #ff7f50;
+    color: #ff7f50;
+    background: #fff;
+    transition: background 0.2s, color 0.2s;
+    height: 40px;
+    min-width: 120px;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-outline-shopee:hover {
+    background: #ff7f50;
+    color: #fff;
+}
+.btn-shopee {
+    border-radius: 8px;
+    background: #ff4500;
+    color: #fff;
+    border: none;
+    transition: background 0.2s;
+    height: 40px;
+    min-width: 100px;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-shopee:hover {
+    background: #ff7f50;
+    color: #fff;
+}
+
+/* Dropdown số lượng */
+#qtyInput {
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    box-shadow: none;
+    padding: 3px 6px;
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+#qtyInput:focus {
+    border-color: #86b7fe;
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+    .promo-box {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
     }
-
-    .product-desc-box .desc-title {
-        font-weight: 700;
-        font-size: 1.05rem;
-        color: #2c2c2c;
-        margin-bottom: .4rem;
+    .promo-label {
+        background: #ffe4e1;
+        color: #ee4d2d;
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 4px 12px;
+        font-size: 1rem;
+        box-shadow: 0 1px 4px rgba(238,77,45,0.08);
+        border: 1px solid #f8bbd0;
+        letter-spacing: 0.2px;
+        transition: background 0.2s;
     }
-
-    .product-desc-box img {
-        border-color: #f0e9e6 !important;
-    }
-
-    .product-main-box {
-        width: 100%;
-        margin: 0;
-    }
-
-
-    .product-title-logo {
-        height: 24px;
-        width: auto;
-        object-fit: contain;
-        display: inline-block;
-        vertical-align: middle;
+    .promo-label:hover {
+        background: #ffd6d6;
     }
 </style>
+<style>
+    .product-desc-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ee4d2d;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.5px;
+    }
+    .product-desc-title .desc-icon {
+        font-size: 1.3em;
+        color: #ee4d2d;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .product-desc-title .desc-text {
+        text-transform: uppercase;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+        .service-info-box {
+            background: #fff0f5;
+            border: 1px solid #f8bbd0;
+            box-shadow: 0 2px 8px rgba(248,187,208,0.08);
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+        .service-info-box i {
+            color: #ee4d2d;
+            font-size: 1.3em;
+            vertical-align: middle;
+        }
+        .service-info-box hr {
+            margin: 0.5rem 0;
+            border-color: #f8bbd0;
+        }
+    .swiper { width: 100%; height: 100px; }
+    .swiper-slide img { border: 2px solid transparent; }
+    .swiper-slide img:hover { border: 2px solid #ee4d2d; }
+    .modal-body img { max-height: 80vh; }
+</style>
 @endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 5,
+    spaceBetween: 10,
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+  });
+
+  // Mảng ảnh
+  var images = @json($product->product_images->pluck('image_url'));
+  var currentIndex = 0;
+
+  function showImage(index) {
+    currentIndex = index;
+    document.getElementById('modalImage').src = images[currentIndex];
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    document.getElementById('modalImage').src = images[currentIndex];
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    document.getElementById('modalImage').src = images[currentIndex];
+  }
+
+  // Cập nhật tổng tiền khi thay đổi số lượng
+  document.addEventListener('DOMContentLoaded', function() {
+    const productPrice = {{ $product->price }};
+    const qtyInput = document.getElementById('qtyInput');
+    const totalPriceEl = document.getElementById('totalPrice');
+
+    function updateTotalPrice(qty) {
+      if (!qty) {
+        qty = parseInt(qtyInput.value) || 1;
+      }
+      const total = productPrice * qty;
+      if (totalPriceEl) {
+        totalPriceEl.textContent = new Intl.NumberFormat('vi-VN').format(total) + '₫';
+      }
+      
+      // Cập nhật giá trị cho các form
+      const addToCartQty = document.getElementById('addToCartQty');
+      const buyNowQty = document.getElementById('buyNowQty');
+      if (addToCartQty) addToCartQty.value = qty;
+      if (buyNowQty) buyNowQty.value = qty;
+    }
+
+    // Đăng ký callback cho quantity selector
+    if (!window.qtyChangeCallbacks) {
+      window.qtyChangeCallbacks = {};
+    }
+    window.qtyChangeCallbacks['qtyInput'] = updateTotalPrice;
+
+    // Lắng nghe sự kiện thay đổi số lượng trực tiếp từ input
+    if (qtyInput) {
+      qtyInput.addEventListener('change', function() {
+        updateTotalPrice();
+      });
+      qtyInput.addEventListener('input', function() {
+        updateTotalPrice();
+      });
+    }
+
+    // Cập nhật tổng tiền ban đầu
+    updateTotalPrice();
+  });
+</script>
+@endpush
+@endsection
+

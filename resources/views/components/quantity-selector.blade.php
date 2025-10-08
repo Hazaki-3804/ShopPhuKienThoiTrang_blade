@@ -7,14 +7,14 @@
 'size' => 'sm', {{-- sm, md, lg --}}
 ])
 
-<div class="input-group input-group-{{ $size }}" style="width: 100px;">
-    <button class="btn btn-outline-secondary" type="button" onclick="changeQty('{{ $id }}', -1)">
+<div class="input-group input-group-{{ $size }} qty-ig" style="width: 92px;">
+    <button class="btn btn-outline-dark" type="button" onclick="changeQty('{{ $id }}', -1)">
         <i class="bi bi-dash"></i>
     </button>
     <input type="text"
         id="{{ $id }}"
         name="{{ $name }}"
-        class="form-control text-center w-4"
+        class="form-control text-center"
         value="{{ $value }}"
         min="{{ $min }}"
         max="{{ $max }}"
@@ -22,17 +22,30 @@
         inputmode="numeric"
         pattern="[0-9]*"
         aria-describedby="{{ $id }}-msg">
-    <button class="btn btn-outline-secondary" type="button" onclick="changeQty('{{ $id }}', 1)">
+    <button class="btn btn-outline-dark" type="button" onclick="changeQty('{{ $id }}', 1)">
         <i class="bi bi-plus"></i>
     </button>
 </div>
 <div id="{{ $id }}-msg" class="form-text text-danger d-none">Số lượng tối đa là {{ $max }}.</div>
+@push('styles')
+<style>
+    /* Compact sizing to match screenshot */
+    .qty-ig .btn,
+    .qty-ig .form-control {
+        height: 28px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .qty-ig .form-control { font-size: 0.95rem; }
+    .qty-ig .btn { line-height: 1; }
+    .qty-ig .btn i { font-size: 0.9rem; }
+</style>
+@endpush
 @push('scripts')
 <script>
     (function() {
-        // Guard: only define helpers once
-        if (!window.__qtyHelpersDefined) {
-            window.__qtyHelpersDefined = true;
+        // Always define helpers to ensure all instances work
+        window.__qtyHelpersDefined = true;
             window.validateQty = function(id, min, max, showMsg = true) {
                 const input = document.getElementById(id);
                 if (!input) return;
@@ -79,6 +92,18 @@
                 if (next > max) next = max;
                 input.value = next;
                 validateQty(id, min, max, false);
+                // Notify listeners (e.g., cart auto-submit) that value changed
+                try {
+                    const evt = new Event('change', { bubbles: true });
+                    input.dispatchEvent(evt);
+                } catch (e) {
+                    // Fallback for older browsers
+                    if (document.createEvent) {
+                        const ev = document.createEvent('HTMLEvents');
+                        ev.initEvent('change', true, false);
+                        input.dispatchEvent(ev);
+                    }
+                }
             };
             window.initQtyControl = function(id) {
                 const input = document.getElementById(id);
@@ -102,14 +127,20 @@
                 // Initialize state
                 validateQty(id, min, max, false);
             };
-        }
         // Initialize this instance
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
+        function initThisControl() {
+            if (window.initQtyControl) {
                 window.initQtyControl('{{ $id }}');
-            });
+            } else {
+                // Retry after a short delay if functions not ready
+                setTimeout(initThisControl, 50);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThisControl);
         } else {
-            window.initQtyControl('{{ $id }}');
+            initThisControl();
         }
     })();
 </script>

@@ -24,7 +24,8 @@
     <!-- Pastel theme + custom cursor + transitions -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <!-- Cache-bust navbar.css to reflect latest font-family changes -->
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v=20251003">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
     @stack('styles')

@@ -9,8 +9,12 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Admin\AdminOrdersController;
+use App\Http\Controllers\Admin\AdminReviewsController;
 use App\Http\Controllers\Chatbot\ChatbotController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\UserOrderController;
 
 Route::get('/', fn() => redirect()->route('home'));
 
@@ -28,7 +32,14 @@ Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/buy-now/{id}', [CartController::class, 'buyNow'])->name('cart.buynow');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/save-address', [CheckoutController::class, 'saveAddress'])->name('checkout.saveAddress');
+Route::get('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
 Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
+Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo.return');
+Route::post('/checkout/momo/notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momo.notify');
+
+// Invoice routes
+Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
 
 // Product reviews routes
 Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
@@ -45,14 +56,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    // User Orders overview
+    Route::get('/my-orders', [UserOrderController::class, 'index'])->name('user.orders.index');
+    Route::get('/my-orders/{order}', [UserOrderController::class, 'show'])->name('user.orders.show');
+    Route::patch('/my-orders/{order}/cancel', [UserOrderController::class, 'cancel'])->name('user.orders.cancel');
 });
 
 // Admin routes
 Route::middleware(['auth', 'checkAdmin'])->group(function () {
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
-    Route::get('/orders', fn() => view('admin.orders.index'))->name('orders.index');
+    Route::get('/orders', [AdminOrdersController::class, 'index'])->name('orders.index');
+    Route::patch('/orders/{order}', [AdminOrdersController::class, 'update'])->name('orders.update');
     Route::get('/analytics', fn() => view('admin.analytics'))->name('analytics');
     Route::get('/settings', fn() => view('admin.settings'))->name('settings');
+
+    // Reviews management
+    Route::get('/admin/reviews', [AdminReviewsController::class, 'index'])->name('admin.reviews.index');
+    Route::patch('/admin/reviews/{review}/toggle', [AdminReviewsController::class, 'toggleVisibility'])->name('admin.reviews.toggle');
+    Route::delete('/admin/reviews/{review}', [AdminReviewsController::class, 'destroy'])->name('admin.reviews.destroy');
 
     // Customer management (add more routes later)
     Route::name('customers.')->group(function () {

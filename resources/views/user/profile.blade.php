@@ -1,13 +1,61 @@
 @extends('layouts.app')
 @section('title', 'Thông tin tài khoản')
+@push('styles')
+<style>
+  /* Wrapper */
+  .profile-page { background: linear-gradient(180deg, #fff 0%, #fff4f1 100%); }
+  .profile-card { border: none; border-radius: 16px; }
+  .profile-sidebar { border-right: 1px solid #f1f1f1; }
+  /* Avatar */
+  .profile-avatar { box-shadow: 0 8px 20px rgba(238,77,45,.2); }
+  /* Tabs */
+  .profile-tabs.nav-tabs { border-bottom: 1px solid #ffe0d9; }
+  .profile-tabs .nav-link { color: #6c757d; font-weight: 600; border: none; padding: .6rem 1rem; }
+  .profile-tabs .nav-link:hover { color: #EE4D2D; background: #fff3ef; border-radius: 10px; }
+  .profile-tabs .nav-link.active { color: #EE4D2D; background: #ffede7; border-radius: 10px; }
+  /* Cards */
+  .profile-section { border-radius: 12px; border: 1px solid #f3f3f3; }
+  .profile-section h6 { color: #333; }
+  /* Order list */
+  .order-item { border: 1px solid #f4f4f4; border-radius: 12px; }
+  .order-item:hover { box-shadow: 0 6px 16px rgba(0,0,0,.06); }
+  .order-status.badge { background: #ffede7; color: #EE4D2D; font-weight: 600; }
+  /* Buttons (brand) */
+  .btn-brand { background: #EE4D2D; color: #fff; border-color: #EE4D2D; }
+  .btn-brand:hover { background: #d94527; border-color: #d94527; color: #fff; }
+  .btn-outline-brand { color: #EE4D2D; border-color: #EE4D2D; }
+  .btn-outline-brand:hover { background: #ffede7; color: #EE4D2D; }
+  /* Active/clicked state turns orange */
+  .btn-outline-brand.active,
+  .btn-outline-brand:active,
+  .btn-outline-brand:focus {
+    background: #EE4D2D !important;
+    color: #fff !important;
+    border-color: #EE4D2D !important;
+    box-shadow: none !important;
+  }
+  /* Subtle press effect */
+  .profile-action-btn { transition: transform .08s ease, box-shadow .2s ease; }
+  .profile-action-btn:active { transform: translateY(1px) scale(0.99); }
+  /* Ensure equal height and centered content */
+  .profile-actions .btn { min-height: 38px; display: inline-flex; align-items: center; }
+
+  /* Highlight pulse on settings panel */
+  @keyframes brandPulse {
+    0% { box-shadow: 0 0 0 0 rgba(238,77,45, .45); }
+    100% { box-shadow: 0 0 0 12px rgba(238,77,45, 0); }
+  }
+  .highlight-pulse { animation: brandPulse .8s ease-out 1; border-color: #EE4D2D !important; }
+</style>
+@endpush
 @section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-10">
-            <div class="card shadow rounded-4 p-4">
+        <div class="col-12 col-lg-10 profile-page">
+            <div class="card shadow profile-card rounded-4 p-4">
                 <div class="row">
                     <!-- Left: Avatar + Name + Stats -->
-                    <div class="col-md-4 text-center border-end">
+                    <div class="col-md-4 text-center profile-sidebar">
                         <style>
                             .avatar-wrap {
                                 position: relative;
@@ -38,7 +86,7 @@
                         </style>
                         <div class="avatar-wrap mb-1">
                             <img src="{{ $user->avatar }}"
-                                class="rounded-circle shadow"
+                                class="rounded-circle profile-avatar"
                                 width="130" height="130" alt="Avatar">
                             <button type="button" class="avatar-edit" id="btnEditAvatar" title="Đổi avatar">
                                 <i class="bi bi-pencil"></i>
@@ -53,12 +101,14 @@
                             <input type="file" name="avatar" id="avatarInput" accept="image/*">
                         </form>
                         <h4 class="fw-bold">{{ $user->name }}</h4>
-                        <button type="button" class="btn btn-warning btn-sm me-2 mb-2" data-bs-toggle="tab" data-bs-target="#settings">
-                            <i class="bi bi-pencil-square"></i> Cập nhật info
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm mb-2" data-bs-toggle="tab" data-bs-target="#password">
-                            <i class="bi bi-key"></i> Đổi mật khẩu
-                        </button>
+                        <div class="profile-actions d-flex justify-content-center align-items-center gap-2 mb-2">
+                            <button type="button" class="btn btn-outline-brand btn-sm px-3 py-2 profile-action-btn" data-bs-toggle="tab" data-bs-target="#settings">
+                                <i class="bi bi-pencil-square me-1"></i> Cập nhật info
+                            </button>
+                            <button type="button" class="btn btn-outline-brand btn-sm px-3 py-2 profile-action-btn" data-bs-toggle="tab" data-bs-target="#password">
+                                <i class="bi bi-key me-1"></i> Đổi mật khẩu
+                            </button>
+                        </div>
 
                         <!-- Stats đơn hàng -->
                         <div class="row text-center mt-4">
@@ -79,14 +129,10 @@
 
                     <!-- Right: Tabs -->
                     <div class="col-md-8 mt-4 mt-md-0">
-                        <ul class="nav nav-tabs mb-3" id="profileTab" role="tablist">
+                        <ul class="nav nav-tabs profile-tabs mb-3" id="profileTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="info-tab" data-bs-toggle="tab"
                                     data-bs-target="#info" type="button" role="tab">Thông tin</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="orders-tab" data-bs-toggle="tab"
-                                    data-bs-target="#orders" type="button" role="tab">Lịch sử mua hàng</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="settings-tab" data-bs-toggle="tab"
@@ -122,44 +168,6 @@
                                 </table>
                             </div>
 
-                            <!-- Tab Đơn hàng -->
-                            <div class="tab-pane fade" id="orders" role="tabpanel">
-                                @if($user->orders->count())
-                                <div class="list-group">
-                                    @foreach($user->orders as $order)
-                                    <div class="list-group-item mb-2 shadow-sm rounded">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <strong>Đơn #{{ $order->id }}</strong> -
-                                                <span class="text-muted">{{ $order->created_at->format('d/m/Y') }}</span>
-                                            </div>
-                                            <span class="badge bg-{{ $order->status_class }}">
-                                                {{ $order->status_text }}
-                                            </span>
-                                        </div>
-                                        <div class="mt-2">
-                                            @foreach($order->items as $item)
-                                            <div class="d-flex align-items-center mb-1">
-                                                <img src="{{ $item->product->image }}" width="40" height="40" class="rounded me-2" alt="">
-                                                <div>
-                                                    {{ $item->product->name }} x {{ $item->quantity }}
-                                                    - {{ number_format($item->price,0,'','.') }}₫
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        @if (Route::has('orders.show'))
-                                        <a href="{{ route('orders.show', $order->id) }}" class="btn btn-sm btn-primary mt-2">
-                                            Xem chi tiết
-                                        </a>
-                                        @endif
-                                    </div>
-                                    @endforeach
-                                </div>
-                                @else
-                                <p class="text-muted">Chưa có đơn hàng nào.</p>
-                                @endif
-                            </div>
 
                             <!-- Tab Cài đặt -->
                             <div class="tab-pane fade" id="settings" role="tabpanel">
@@ -205,7 +213,7 @@
                                                     <input type="file" name="avatar" class="form-control" accept="image/*">
                                                 </div>
                                                 <div class="col-12">
-                                                    <button class="btn btn-success"><i class="bi bi-save me-1"></i> Lưu thay đổi</button>
+                                                    <button class="btn btn-primary"><i class="bi bi-save me-1"></i> Lưu thay đổi</button>
                                                     <a href="{{ route('profile.index') }}" class="btn btn-outline-secondary">Hủy</a>
                                                 </div>
                                             </form>
@@ -283,6 +291,18 @@
                                         }
                                     });
                                 });
+
+                                // Toggle orange active background for action buttons
+                                const actionBtns = document.querySelectorAll('.profile-action-btn');
+                                function setActiveButton(target){
+                                    actionBtns.forEach(b => b.classList.remove('active'));
+                                    if (target) target.classList.add('active');
+                                }
+                                actionBtns.forEach(btn => {
+                                    btn.addEventListener('click', function(){ setActiveButton(this); });
+                                });
+                                // Default active on first button
+                                if (actionBtns.length) setActiveButton(actionBtns[0]);
 
                                 // Auto-open Settings tab after validation errors or flash
                                 const hasAnyErrors = @json($errors->any());

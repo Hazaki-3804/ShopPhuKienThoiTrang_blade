@@ -79,15 +79,20 @@ class ShopController extends Controller
             $q->latest();
         }])->where('status', 1)->findOrFail($id);
         $canReview = false;
+        $myReview = null;
         if (auth()->check()) {
             $userId = auth()->id();
             $canReview = \App\Models\Order::where('user_id', $userId)
-                ->whereIn('status', ['paid', 'shipped'])
+                ->where('status', 'delivered')
                 ->whereHas('order_items', function ($q) use ($product) {
                     $q->where('product_id', $product->id);
                 })
                 ->exists();
+            // fetch existing review if any
+            $myReview = \App\Models\Review::where('user_id', $userId)
+                ->where('product_id', $product->id)
+                ->first();
         }
-        return view('shop.show', compact('product', 'canReview'));
+        return view('shop.show', compact('product', 'canReview', 'myReview'));
     }
 }
