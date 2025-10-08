@@ -7,16 +7,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
-use App\Http\Controllers\Admin\StatisticsController as AdminStatisticsController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\Admin\OrderController as AdminOrderController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Admin\AdminOrdersController;
+use App\Http\Controllers\Admin\AdminReviewsController;
 use App\Http\Controllers\Chatbot\ChatbotController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\UserOrderController;
 
 Route::get('/', fn() => redirect()->route('home'));
 
@@ -34,7 +32,14 @@ Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/buy-now/{id}', [CartController::class, 'buyNow'])->name('cart.buynow');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/save-address', [CheckoutController::class, 'saveAddress'])->name('checkout.saveAddress');
+Route::get('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
 Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
+Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo.return');
+Route::post('/checkout/momo/notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momo.notify');
+
+// Invoice routes
+Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
 
 // Product reviews routes
 Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
@@ -51,6 +56,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    // User Orders overview
+    Route::get('/my-orders', [UserOrderController::class, 'index'])->name('user.orders.index');
+    Route::get('/my-orders/{order}', [UserOrderController::class, 'show'])->name('user.orders.show');
+    Route::patch('/my-orders/{order}/cancel', [UserOrderController::class, 'cancel'])->name('user.orders.cancel');
 });
 
 // Test route without middleware
@@ -58,42 +67,26 @@ Route::get('/dashboard-test', [AdminDashboardController::class, 'index'])->name(
 
 // Admin routes
 Route::middleware(['auth', 'checkAdmin'])->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
-    Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');
+    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+    Route::get('/orders', [AdminOrdersController::class, 'index'])->name('orders.index');
+    Route::patch('/orders/{order}', [AdminOrdersController::class, 'update'])->name('orders.update');
     Route::get('/analytics', fn() => view('admin.analytics'))->name('analytics');
     Route::get('/settings', fn() => view('admin.settings'))->name('settings');
 
-    // Customer management
-    Route::name('admin.customers.')->group(function () {
-        Route::get('/admin/customers/data', [AdminCustomerController::class, 'data'])->name('data');
-        Route::get('/admin/customers', [AdminCustomerController::class, 'index'])->name('index');
-        Route::get('/admin/customers/{id}', [AdminCustomerController::class, 'show'])->name('show');
-        Route::post('/admin/customers', [AdminCustomerController::class, 'store'])->name('store');
-        Route::put('/admin/customers/update', [AdminCustomerController::class, 'update'])->name('update');
-        Route::post('/admin/customers/toggle-status', [AdminCustomerController::class, 'toggleStatus'])->name('toggle-status');
-        Route::delete('/admin/customers/delete', [AdminCustomerController::class, 'destroy'])->name('destroy');
-    });
+    // Reviews management
+    Route::get('/admin/reviews', [AdminReviewsController::class, 'index'])->name('admin.reviews.index');
+    Route::patch('/admin/reviews/{review}/toggle', [AdminReviewsController::class, 'toggleVisibility'])->name('admin.reviews.toggle');
+    Route::delete('/admin/reviews/{review}', [AdminReviewsController::class, 'destroy'])->name('admin.reviews.destroy');
 
-    // Statistics module
-    Route::name('admin.statistics.')->group(function () {
-        Route::get('/admin/statistics', [AdminStatisticsController::class, 'index'])->name('index');
-        
-        // Customer analytics
-        Route::get('/admin/statistics/customers', [AdminStatisticsController::class, 'customerAnalytics'])->name('customers');
-        Route::get('/admin/statistics/customers/data', [AdminStatisticsController::class, 'customerAnalyticsData'])->name('customers.data');
-        Route::get('/admin/statistics/customers/export/excel', [AdminStatisticsController::class, 'exportCustomersExcel'])->name('customers.export.excel');
-        Route::get('/admin/statistics/customers/export/pdf', [AdminStatisticsController::class, 'exportCustomersPdf'])->name('customers.export.pdf');
-        
-        // Product analytics
-        Route::get('/admin/statistics/products', [AdminStatisticsController::class, 'productAnalytics'])->name('products');
-        Route::get('/admin/statistics/products/data', [AdminStatisticsController::class, 'productAnalyticsData'])->name('products.data');
-        Route::get('/admin/statistics/products/chart-data', [AdminStatisticsController::class, 'productChartData'])->name('products.chart');
-        Route::get('/admin/statistics/products/export/excel', [AdminStatisticsController::class, 'exportProductsExcel'])->name('products.export.excel');
-        
-        // Time analytics
-        Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->name('time');
-        Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->name('time.data');
+    // Customer management (add more routes later)
+    Route::name('customers.')->group(function () {
+        Route::get('/customers/data', [CustomerController::class, 'data'])->name('data');
+        Route::get('/customers', [CustomerController::class, 'index'])->name('index');
+        Route::get('/customers/create', [CustomerController::class, 'create'])->name('create');
+        Route::post('/customers', [CustomerController::class, 'store'])->name('store');
+        Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('update');
+        Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('edit');
+        Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('destroy');
     });
 
     // Category management

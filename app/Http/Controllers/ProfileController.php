@@ -57,7 +57,15 @@ class ProfileController extends Controller
             $validated['avatar'] = $this->saveAvatar($request->file('avatar'));
         }
 
+        // Điền dữ liệu mới vào model nhưng chưa lưu
         $user->fill($validated);
+
+        // Nếu không có bất kỳ trường nào thay đổi, cảnh báo và không lưu
+        if (!$user->isDirty()) {
+            return back()->with('warning', 'Chưa có thông tin thay đổi');
+        }
+
+        // Có thay đổi -> lưu
         $user->save();
 
         return redirect()->route('profile.index')->with('success', 'Cập nhật thông tin thành công');

@@ -32,14 +32,16 @@ class Review extends Model
 	protected $casts = [
 		'product_id' => 'int',
 		'user_id' => 'int',
-		'rating' => 'int'
+		'rating' => 'int',
+		'is_hidden' => 'boolean'
 	];
 
 	protected $fillable = [
 		'product_id',
 		'user_id',
 		'rating',
-		'comment'
+		'comment',
+		'is_hidden'
 	];
 
 	public function product()

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -61,6 +64,8 @@ class AuthController extends Controller
                 return back()->withErrors(['login_error' => 'Tài khoản này không hoạt động. Vui lòng liên hệ quản trị viên.'])->withInput();
             }
             $request->session()->regenerate();
+            $redirect = $this->consumePendingAddToCart($request);
+            if ($redirect) return $redirect;
             return $this->redirectByRole();
         }
 
@@ -158,6 +163,29 @@ class AuthController extends Controller
             return redirect()->intended(route('dashboard'));
         }
         return redirect()->intended(route('home'));
+    }
+
+    private function consumePendingAddToCart(Request $request)
+    {
+        $pending = $request->session()->pull('pending_add_to_cart');
+        if (!$pending || !Auth::check()) return null;
+        $productId = (int)($pending['product_id'] ?? 0);
+        $qty = max(1, (int)($pending['qty'] ?? 1));
+        $intended = $pending['intended'] ?? null;
+
+        $product = Product::where('status', 1)->find($productId);
+        if (!$product) return $intended ? redirect()->to($intended) : null;
+        if ($product->stock < $qty) $qty = $product->stock;
+        if ($qty < 1) return $intended ? redirect()->to($intended) : null;
+
+        $cart = Cart::firstOrCreate(['user_id' => Auth::id()], ['user_id' => Auth::id()]);
+        $item = CartItem::firstOrNew(['cart_id' => $cart->id, 'product_id' => $product->id]);
+        $item->quantity = (int)$item->quantity + $qty;
+        // Do not exceed stock
+        if ($item->quantity > $product->stock) $item->quantity = (int)$product->stock;
+        $item->save();
+
+        return $intended ? redirect()->to($intended) : null;
     }
 
     // Forgot password (custom token)

@@ -17,7 +17,7 @@
                     <textarea class="form-control" rows="5" placeholder="Nội dung"></textarea>
                 </div>
                 <div class="col-12 d-flex items-center justify-content-center">
-                    <button class="btn btn-primary w-50 ">Gửi</button>
+                    <button class="btn btn-shopee w-50">Gửi</button>
                 </div>
             </form>
         </div>

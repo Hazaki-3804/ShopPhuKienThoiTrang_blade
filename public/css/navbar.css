@@ -1,3 +1,4 @@
+/* Custom font disabled: use fallback to avoid 404s */
 .navbar-nav .nav-link {
     font-size     : 0.95rem;
     letter-spacing: 1px;
@@ -7,7 +8,7 @@
 
 .navbar-brand {
     font-family   : 'Playfair Display', serif;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
 }
 
 .form-control:focus {
@@ -38,11 +39,10 @@
 /* Chữ Shop Nàng Thơ */
 .brand-text {
     font-family   : 'Playfair Display', serif;
-    font-size     : 1.4rem;
-    font-weight   : bold;
-    letter-spacing: 2px;
+    font-size     : 1.6rem;
+    font-weight   : 600;
+    letter-spacing: 1.2px;
     color         : var(--accent);
-    /* Shopee orange */
 }
 
 /* Cart icon accent color (peach) */
@@ -91,4 +91,69 @@
     box-shadow      : 0 4px 8px rgba(var(--accent-rgb), 0.3);
 }
 
-    
+/* Cart dropdown (hidden by default, open on click) */
+.cart-dropdown {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 320px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    display: none;
+    z-index: 1050;
+    overflow: hidden;
+}
+
+.cart-dropdown.open { display: block; }
+
+.cart-dropdown-body {
+    max-height: 340px;
+    overflow: auto;
+}
+
+.cart-dropdown-footer {
+    padding: 8px 12px;
+}
+
+.cart-item-thumb { width: 56px; height: 56px; object-fit: cover; }
+.cart-item-name { font-weight: 600; font-size: .95rem; }
+.btn-cart-delete { background: transparent; border: none; color: #999; }
+.btn-cart-delete:hover { color: #d11; }
+
+/* --- Dropdown hover/click orange override (strong specificity) --- */
+.navbar .dropdown-menu {
+  --bs-dropdown-link-hover-bg: #ffede7;
+  --bs-dropdown-link-hover-color: #EE4D2D;
+  --bs-dropdown-link-active-bg: #ffede7;
+  --bs-dropdown-link-active-color: #EE4D2D;
+}
+.navbar .dropdown-menu .dropdown-item { transition: background-color .15s ease, color .15s ease; }
+.navbar .dropdown-menu .dropdown-item i { transition: color .15s ease; color: #6c757d; }
+.navbar .dropdown-menu .dropdown-item.active,
+.navbar .dropdown-menu .dropdown-item.active:focus,
+.navbar .dropdown-menu .dropdown-item.active:hover {
+  background-color: #ffede7 !important;
+  color: #EE4D2D !important;
+  font-weight: 600;
+}
+.navbar .dropdown-menu .dropdown-item.active i { color: #EE4D2D !important; }
+.navbar .dropdown-menu .dropdown-item:not(.active):hover,
+.navbar .dropdown-menu .dropdown-item:not(.active):focus,
+.navbar .dropdown-menu .dropdown-item:not(.active):active {
+  background-color: #ffede7 !important;
+  color: #EE4D2D !important;
+}
+.navbar .dropdown-menu .dropdown-item:not(.active):hover i,
+.navbar .dropdown-menu .dropdown-item:not(.active):focus i,
+.navbar .dropdown-menu .dropdown-item:not(.active):active i { color: #EE4D2D !important; }
+
+/* Remove blue focus outline/box-shadow around navbar controls */
+.navbar .nav-link:focus,
+.navbar .nav-link:focus-visible,
+.navbar .dropdown-toggle:focus,
+.navbar .btn:focus,
+.navbar [data-bs-toggle="dropdown"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}

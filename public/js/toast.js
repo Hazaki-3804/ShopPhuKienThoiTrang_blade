@@ -28,3 +28,51 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Function to show dynamic toast notifications
+function showToast(message, type = 'warning') {
+    const toastContainer = document.querySelector('.toast-container');
+    if (!toastContainer) return;
+
+    const bgClass = {
+        'success': 'toast-success-light',
+        'error': 'toast-error-light',
+        'info': 'toast-info-light',
+        'warning': 'toast-warning-light'
+    }[type] || 'toast-warning-light';
+
+    const icon = {
+        'success': '✅',
+        'error': '❌',
+        'info': 'ℹ️',
+        'warning': '⚠️'
+    }[type] || '⚠️';
+
+    const delay = {
+        'success': 2500,
+        'info': 3000,
+        'warning': 3500,
+        'error': 4000
+    }[type] || 3500;
+
+    const toastHtml = `
+        <div class="toast align-items-center ${bgClass} p-2 border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="${delay}">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <span class="me-2">${icon}</span> ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    `;
+
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    
+    const newToast = toastContainer.lastElementChild;
+    const bsToast = new bootstrap.Toast(newToast, { delay: delay });
+    bsToast.show();
+
+    // Remove toast element after it's hidden
+    newToast.addEventListener('hidden.bs.toast', function () {
+        newToast.remove();
+    });
+}
