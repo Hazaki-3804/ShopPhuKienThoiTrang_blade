@@ -30,7 +30,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label"><i class="bi bi-person-fill-lock"></i> Mật khẩu</label>
-                            <x-input-password name="password" placeholder="Nhập mật khẩu" autocomplete="current-password" />
+                            <x-input-password name="password" autocomplete="current-password" />
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="form-check">

@@ -14,7 +14,7 @@
     <input type="text"
         id="{{ $id }}"
         name="{{ $name }}"
-        class="form-control text-center w-4"
+        class="form-control text-center w-4 border border-dark rounded-0"
         value="{{ $value }}"
         min="{{ $min }}"
         max="{{ $max }}"

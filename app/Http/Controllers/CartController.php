@@ -19,15 +19,20 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->getCart();
-        // dd($cart);
         $items = collect($cart)->map(function ($line) {
             $product = Product::find($line['product_id']);
             if (!$product || (int)($product->status ?? 0) !== 1) return null;
+            $voucher = $line['voucher'] ?? null;
+            $subtotal = $product->price * $line['qty'];
+            if ($voucher == 'Giam15k' && $subtotal >= 150000) {
+                $subtotal -= 15000;
+            }
             return [
                 'product' => $product,
                 'qty' => $line['qty'],
                 'price' => $product->price,
-                'subtotal' => $product->price * $line['qty']
+                'voucher' => $voucher,
+                'subtotal' => $subtotal
             ];
         })->filter();
         $total = (int)$items->sum('subtotal');
@@ -56,7 +61,7 @@ class CartController extends Controller
         $qty = max(1, (int)$request->integer('qty'));
         $product = Product::where('status', 1)->findOrFail($productId);
         // Require login: if guest, store pending action then redirect to login
-        if (!auth()->check()) {
+        if (!\Auth::check()) {
             session(['pending_add_to_cart' => [
                 'product_id' => (string)$productId,
                 'qty' => $qty,
@@ -69,9 +74,14 @@ class CartController extends Controller
 
         $cart = $this->getCart();
         $current = $cart[$productId]['qty'] ?? 0;
+        $voucher = $request->input('voucher');
         $newQty = $current + $qty;
         if ($newQty > $product->stock) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
-        $cart[$productId] = ['product_id' => $product->id, 'qty' => $newQty];
+        $cart[$productId] = [
+            'product_id' => $product->id,
+            'qty' => $newQty,
+            'voucher' => $voucher
+        ];
         $this->putCart($cart);
         return redirect()->back()->with('status', 'Đã thêm vào giỏ');
     }

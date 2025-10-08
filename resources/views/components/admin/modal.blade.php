@@ -2,7 +2,8 @@
 'title' => '',
 'modal_id' => '',
 'url' => '',
-'button_type' => 'Lưu'
+'button_type' => 'Lưu',
+'method' => 'POST'
 ])
 
 <div {{ $attributes->merge(['class'=>'modal fade']) }}
@@ -26,11 +27,20 @@
             <!-- Form -->
             <form action="{{ $url }}" method="POST">
                 @csrf
+                @if(strtoupper($method) !== 'POST')
+                @method($method)
+                @endif
                 <div class="modal-body">
                     {{ $slot }}
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">{{ $button_type }}</button>
+                    @if($button_type === 'delete')
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                    @elseif($button_type === 'update')
+                    <button type="submit" class="btn btn-warning">Cập nhật</button>
+                    @else
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    @endif
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                 </div>
             </form>

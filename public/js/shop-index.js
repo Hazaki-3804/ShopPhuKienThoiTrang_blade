@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
         noUiSlider.create(priceSlider, {
             start: [
                 parseInt(document.getElementById('price_min').value) || 0,
-                parseInt(document.getElementById('price_max').value) || 1000000
+                parseInt(document.getElementById('price_max').value) || 500000
             ],
             connect: true,
             step: 10000,

@@ -60,17 +60,25 @@ class ChatbotController extends Controller
             }
 
             // Xử lý yêu cầu đặc biệt
-            // if (str_contains($userMessage, 'danh mục') || str_contains($userMessage, 'sản phẩm')) {
-            //     $categories = Category::pluck('name')->toArray();
-            //     $products = Product::take(5)->get(['name', 'price'])->toArray();
-            //     $categoryList = count($categories) > 0 ? implode(', ', $categories) : 'Chưa có danh mục nào.';
-            //     $productList = count($products) > 0 ? collect($products)->map(function ($product) {
-            //         return "{$product['name']} - Giá: " . number_format($product['price'], 0, ',', '.') . " VNĐ";
-            //     })->implode('\n') : 'Chưa có sản phẩm nào.';
+            if (str_contains($userMessage, 'danh mục') || str_contains($userMessage, 'sản phẩm')) {
+                $categories = Category::pluck('name')->toArray();
+                $products = Product::take(5)->get(['name', 'price'])->toArray();
+                $categoryList = count($categories) > 0 ? $categories : [];
+                $productList = count($products) > 0 ? collect($products)->map(function ($product) {
+                    return "{$product['name']} - Giá: " . number_format($product['price'], 0, ',', '.') . " VNĐ";
+                })->implode('\n') : 'Chưa có sản phẩm nào.';
+                $responseMessage = "Các danh mục sản phẩm mà shop đang bán:<ul>";
+                if (count($categoryList) > 0) {
+                    foreach ($categoryList as $g) {
+                        $responseMessage .= "<li>{$g}</li>";
+                    }
+                } else {
+                    $responseMessage .= "<li>Chưa có danh mục nào.</li>";
+                }
+                $responseMessage .= "</ul>Bạn muốn xem chi tiết sản phẩm nào không?";
 
-            //     $responseMessage = "Danh mục sản phẩm: $categoryList\nSản phẩm nổi bật:\n$productList\nBạn muốn xem chi tiết sản phẩm nào không?";
-            //     return response()->json(['message' => $responseMessage, 'links' => []]);
-            // }
+                return response()->json(['message' => $responseMessage, 'links' => []]);
+            }
 
             if (str_contains($userMessage, 'đăng ký') || str_contains($userMessage, 'tài khoản')) {
                 $responseMessage = "Để đăng ký tài khoản, vui lòng nhấn vào liên kết và điền thông tin. Nếu cần hỗ trợ, bạn cứ hỏi mình nhé!";
@@ -127,10 +135,14 @@ class ChatbotController extends Controller
                         ],
                     ],
                 ],
+                'systemInstruction' => [
+                    'parts' => [
+                        ['text' => $systemInstruction],
+                    ],
+                ],
                 'generationConfig' => [
                     'maxOutputTokens' => 150,
                     'temperature' => 0.7,
-                    'systemInstruction' => $systemInstruction,
                 ],
             ]);
 

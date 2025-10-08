@@ -1,5 +1,35 @@
 @extends('layouts.app')
 @section('title', 'Thông tin tài khoản')
+@push('styles')
+<style>
+    .avatar-wrap {
+        position: relative;
+        display: inline-block;
+    }
+
+    .avatar-edit {
+        position: absolute;
+        right: 0;
+        bottom: 8px;
+        background: rgba(0, 0, 0, .6);
+        color: #fff;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity .2s;
+    }
+
+    .avatar-wrap:hover .avatar-edit {
+        opacity: 1;
+    }
+</style>
+@endpush
 @section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -8,34 +38,6 @@
                 <div class="row">
                     <!-- Left: Avatar + Name + Stats -->
                     <div class="col-md-4 text-center border-end">
-                        <style>
-                            .avatar-wrap {
-                                position: relative;
-                                display: inline-block;
-                            }
-
-                            .avatar-edit {
-                                position: absolute;
-                                right: 0;
-                                bottom: 8px;
-                                background: rgba(0, 0, 0, .6);
-                                color: #fff;
-                                border: none;
-                                width: 36px;
-                                height: 36px;
-                                border-radius: 50%;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                cursor: pointer;
-                                opacity: 0;
-                                transition: opacity .2s;
-                            }
-
-                            .avatar-wrap:hover .avatar-edit {
-                                opacity: 1;
-                            }
-                        </style>
                         <div class="avatar-wrap mb-1">
                             <img src="{{ $user->avatar }}"
                                 class="rounded-circle shadow"

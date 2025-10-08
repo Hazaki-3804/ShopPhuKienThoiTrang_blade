@@ -2,7 +2,7 @@
 @section('title', 'Thanh toán')
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <h5 class="fw-semibold mb-3">Thanh toán</h5>
     <div class="row g-4">
         <div class="col-12 col-lg-8">
@@ -29,8 +29,8 @@
                         <div class="col-12 col-md-6">
                             <label class="form-label">Phương thức thanh toán</label>
                             <select class="form-select" name="payment_method" required>
-                                <option value="COD" @selected(old('payment_method')==='COD')>COD</option>
-                                <option value="MOMO" @selected(old('payment_method')==='MOMO')>MOMO</option>
+                                <option value="COD" @selected(old('payment_method')==='COD' )>COD</option>
+                                <option value="MOMO" @selected(old('payment_method')==='MOMO' )>MOMO</option>
                             </select>
                         </div>
                         <div class="col-12 col-md-6 d-flex align-items-end">
@@ -45,10 +45,10 @@
                 <div class="card-body">
                     <h6 class="fw-semibold">Tóm tắt đơn</h6>
                     @foreach(($items ?? []) as $line)
-                        <div class="d-flex justify-content-between small mb-1">
-                            <span>{{ $line['product']->name }} x {{ $line['qty'] }}</span>
-                            <span>{{ number_format($line['subtotal'],0,',','.') }}₫</span>
-                        </div>
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span>{{ $line['product']->name }} x {{ $line['qty'] }}</span>
+                        <span>{{ number_format($line['subtotal'],0,',','.') }}₫</span>
+                    </div>
                     @endforeach
                     <div class="d-flex justify-content-between mt-2"><strong>Tổng</strong><strong>{{ number_format($total ?? 0,0,',','.') }}₫</strong></div>
                 </div>
@@ -57,5 +57,3 @@
     </div>
 </div>
 @endsection
-
-
