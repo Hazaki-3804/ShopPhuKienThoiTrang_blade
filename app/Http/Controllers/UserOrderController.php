@@ -73,7 +73,7 @@ class UserOrderController extends Controller
             return back()->with('status', 'Đơn không thể hủy ở trạng thái hiện tại');
         }
         $order->update(['status' => 'cancelled']);
-        return redirect()->route('user.orders.show', $order)->with('success', 'Đã hủy đơn hàng #' . $order->id);
+        return redirect()->route('user.orders.show', $order)->with('success', 'Đã hủy đơn hàng thành công.');
     }
 
     private function authorizeOrder(Order $order): void

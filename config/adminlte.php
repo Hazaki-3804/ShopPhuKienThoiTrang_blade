@@ -11,22 +11,38 @@ return [
     'title_postfix' => '',
 
     'logo' => 'Admin Shop',
-    // 'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'img/logo_shop.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_alt' => 'Admin Shop',
 
     /*
     |--------------------------------------------------------------------------
+    | Preloader
+    |--------------------------------------------------------------------------
+    */
+    'preloader' => [
+        'enabled' => false,
+        'img' => [
+            'path' => 'img/logo_shop.png', // đường dẫn ảnh loading
+            'alt'  => 'Loading...',
+            'effect' => 'animation__shake', // hiệu ứng xoay, rung, v.v.
+            'width' => 60,
+            'height' => 60,
+            'text' => "Shop Nàng Thơ"
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Layout
     |--------------------------------------------------------------------------
     */
-    'usermenu_enabled' => false,
+    'usermenu_enabled' => true,
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
-    'usermenu_logout' => false,
 
     'layout_topnav' => null, // null = sidebar, 'topnav' = chỉ navbar
     'layout_boxed' => false,
@@ -49,7 +65,7 @@ return [
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
-    'classes_sidebar' => 'sidebar-dark-info elevation-4',
+    'classes_sidebar' => 'sidebar-dark-info elevation-4 sidebar-no-expand',
     'classes_sidebar_nav' => '',
     'classes_footer' => 'text-center',
 
@@ -134,12 +150,37 @@ return [
                 ],
             ],
         ],
+        [
+            'text' => 'Quản lý khuyến mãi',
+            'icon' => 'fas fa-gift',
+            'breadcrumb' => true,
+            'submenu' => [
+                [
+                    'text' => 'Danh sách khuyến mãi',
+                    'route' => 'admin.promotions.index',
+                    'breadcrumb' => true,
+                ],
+                [
+                    'text' => 'Thêm khuyến mãi',
+                    'route' => 'admin.promotions.create',
+                    'breadcrumb' => true,
+                ],
+            ],
+        ],
+        [
+            'text' => 'QL phí vận chuyển',
+            'route' => 'admin.shipping-fees.index',
+            'icon' => 'fas fa-shipping-fast',
+            'breadcrumb' => true,
+        ],
         ['header' => 'KHÁCH HÀNG'],
         [
             'text' => 'Quản lý khách hàng',
             'route' => 'admin.customers.index',
             'icon' => 'far fa-user'
         ],
+        ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true],
+        ['header' => 'THỐNG KÊ'],
         [
             'text' => 'Thống kê & Báo cáo',
             'icon' => 'fas fa-chart-line',
@@ -171,10 +212,18 @@ return [
                 ],
             ],
         ],
-        ['text' => 'Quản lý khách hàng', 'route' => 'customers.index', 'icon' => 'far fa-user'],
-        ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true],
-        ['text' => 'Thống kê', 'route' => 'analytics', 'icon' => 'fas fa-chart-line'],
-        ['text' => 'Cài đặt', 'route' => 'settings', 'icon' => 'fas fa-cog'],
+        ['header' => 'NHÂN VIÊN'],
+        [
+            'text' => 'Quản lý nhân viên',
+            'route' => 'admin.users.index',
+            'icon' => 'fas fa-user'
+        ],
+        ['header' => 'HỆ THỐNG'],
+        [
+            'text' => 'Cài đặt',
+            'route' => 'settings',
+            'icon' => 'fas fa-cog'
+        ],
     ],
 
     'plugins' => [

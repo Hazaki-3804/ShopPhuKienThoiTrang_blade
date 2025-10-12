@@ -218,4 +218,27 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra!');
         }
     }
+
+    // API endpoint để lấy thống kê mới
+    public function getStats()
+    {
+        try {
+            $stats = [
+                'total_categories' => Category::count(),
+                'categories_with_products' => Category::has('products')->count(),
+                'categories_without_products' => Category::doesntHave('products')->count(),
+                'recent_categories' => Category::where('created_at', '>=', now()->subDays(7))->count()
+            ];
+
+            return response()->json([
+                'success' => true,
+                'stats' => $stats
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi lấy thống kê!'
+            ], 500);
+        }
+    }
 }

@@ -24,14 +24,14 @@ class AdminReviewsController extends Controller
         // Search
         if ($request->filled('q')) {
             $search = $request->q;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('comment', 'like', "%{$search}%")
-                  ->orWhereHas('user', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('product', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  });
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('product', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -50,30 +50,31 @@ class AdminReviewsController extends Controller
     public function toggleVisibility(Review $review)
     {
         $review->update(['is_hidden' => !$review->is_hidden]);
-        
+
         $status = $review->is_hidden ? 'ẩn' : 'hiển thị';
-        
+
         if (request()->wantsJson()) {
             return response()->json([
                 'success' => true,
                 'message' => "Đã {$status} bình luận thành công"
             ]);
         }
-        
+
         return back()->with('success', "Đã {$status} bình luận thành công");
     }
 
     public function destroy(Review $review)
     {
         $review->delete();
-        
-        if (request()->wantsJson()) {
+
+        // Always return JSON for AJAX requests (check X-Requested-With header)
+        if (request()->ajax() || request()->wantsJson() || request()->header('X-Requested-With') === 'XMLHttpRequest') {
             return response()->json([
                 'success' => true,
                 'message' => 'Đã xóa bình luận thành công'
             ]);
         }
-        
+
         return back()->with('success', 'Đã xóa bình luận thành công');
     }
 }

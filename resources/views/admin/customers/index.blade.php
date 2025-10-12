@@ -80,45 +80,45 @@
         <div class="col-12 col-md-6">
             <label for="add_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="add_name" name="name" required>
-            <x-input-error name="name" />
+            <div class="text-danger mt-1" id="add_name_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_username" class="form-label">Tên người dùng</label>
             <input type="text" class="form-control" id="add_username" name="username" maxlength="50">
-            <x-input-error name="username" />
+            <div class="text-danger mt-1" id="add_username_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_email" class="form-label">Email <span class="text-danger">*</span></label>
             <input type="email" class="form-control" id="add_email" name="email" required>
-            <x-input-error name="email" />
+            <div class="text-danger mt-1" id="add_email_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="add_phone" name="phone" required maxlength="15">
-            <x-input-error name="phone" />
+            <div class="text-danger mt-1" id="add_phone_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
             <input type="password" class="form-control" id="add_password" name="password" required>
-            <x-input-error name="password" />
+            <div class="text-danger mt-1" id="add_password_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_password_confirmation" class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
             <input type="password" class="form-control" id="add_password_confirmation" name="password_confirmation" required>
-            <x-input-error name="password_confirmation" />
+            <div class="text-danger mt-1" id="add_password_confirmation_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12">
             <label for="add_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="add_address" name="address" rows="2" required maxlength="255"></textarea>
-            <x-input-error name="address" />
+            <textarea class="form-control" id="add_address" name="address" rows="2" maxlength="255"></textarea>
+            <div class="text-danger mt-1" id="add_address_error" style="font-size: 12px; display: none;"></div>
         </div>
-        <div class="col-12 col-md-6">
+        <!-- <div class="col-12 col-md-6">
             <label for="add_ward_id" class="form-label">Xã/Phường <span class="text-danger">*</span></label>
             <select class="form-control" id="add_ward_id" name="ward_id" required>
                 <option value="">-- Chọn xã/phường --</option>
             </select>
-            <x-input-error name="ward_id" />
-        </div>
+            <div class="text-danger mt-1" id="add_ward_id_error" style="font-size: 12px; display: none;"></div>
+        </div> -->
         <div class="col-12 col-md-6">
             <label for="add_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
             <select class="form-control" id="add_status" name="status" required>
@@ -126,6 +126,7 @@
                 <option value="0">🚫 Bị chặn</option>
             </select>
             <x-input-error name="status" />
+            <div class="text-danger mt-1" id="add_status_error" style="font-size: 12px; display: none;"></div>
         </div>
     </div>
 </x-admin.modal>
@@ -143,33 +144,38 @@
             <label for="edit_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="edit_name" name="name" required>
             <x-input-error name="name" />
+            <div class="text-danger mt-1" id="edit_name_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="edit_username" class="form-label">Tên người dùng</label>
             <input type="text" class="form-control" id="edit_username" name="username" maxlength="50">
             <x-input-error name="username" />
+            <div class="text-danger mt-1" id="edit_username_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="edit_email" class="form-label">Email <span class="text-danger">*</span></label>
             <input type="email" class="form-control" id="edit_email" name="email" required>
             <x-input-error name="email" />
+            <div class="text-danger mt-1" id="edit_email_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="edit_phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="edit_phone" name="phone" required maxlength="15">
             <x-input-error name="phone" />
+            <div class="text-danger mt-1" id="edit_phone_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12">
             <label for="edit_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
             <textarea class="form-control" id="edit_address" name="address" rows="2" required maxlength="255"></textarea>
             <x-input-error name="address" />
+            <div class="text-danger mt-1" id="edit_address_error" style="font-size: 12px; display: none;"></div>
         </div>
         <!-- <div class="col-12 col-md-6">
             <label for="edit_ward_id" class="form-label">Xã/Phường <span class="text-danger">*</span></label>
             <select class="form-control" id="edit_ward_id" name="ward_id" required>
                 <option value="">-- Chọn xã/phường --</option>
             </select>
-            <x-input-error name="ward_id" />
+            <div class="text-danger mt-1" id="edit_ward_id_error" style="font-size: 12px; display: none;"></div>
         </div> -->
         <div class="col-12 col-md-6">
             <label for="edit_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
@@ -178,6 +184,7 @@
                 <option value="0">🚫 Bị chặn</option>
             </select>
             <x-input-error name="status" />
+            <div class="text-danger mt-1" id="edit_status_error" style="font-size: 12px; display: none;"></div>
         </div>
     </div>
 </x-admin.modal>
@@ -189,12 +196,37 @@
     method="DELETE">
     <div class="mb-3 rounded-2">
         <input type="hidden" name="id" id="del_customer_id">
-        <label for="delete_customer" class="form-label fw-bold">Bạn có chắc chắn muốn xóa khách hàng này? <br>Dữ liệu sẽ không thể khôi phục.</label>
+        <label for="delete_customer" class="form-label fw-bold">
+            Bạn có chắc chắn muốn xóa khách hàng này? 
+            <br>Dữ liệu sẽ không thể khôi phục.
+        </label>
+        <div class="text-danger mt-1"><strong>Lưu ý:</strong> Khách hàng có đơn hàng sẽ không thể xóa!</div>
     </div>
 </x-admin.modal>
 @endsection
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<style>
+/* Validation error styles */
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Error message styling */
+[id$="_error"] {
+    font-weight: 500;
+}
+
+[id$="_error"] i {
+    margin-right: 4px;
+}
+</style>
 @endpush
 @push('scripts')
 <script>
@@ -417,6 +449,20 @@
             let customerId = $(this).data('id');
             $('#del_customer_id').val(customerId);
         });
+
+        // Clear validation errors when modals are opened
+        $('#addCustomerModal').on('show.bs.modal', function() {
+            if (typeof AjaxFormHandler !== 'undefined') {
+                AjaxFormHandler.clearFieldErrors('addCustomerModal');
+            }
+        });
+
+        $('#editCustomerModal').on('show.bs.modal', function() {
+            if (typeof AjaxFormHandler !== 'undefined') {
+                AjaxFormHandler.clearFieldErrors('editCustomerModal');
+            }
+        });
+
 
     });
 </script>

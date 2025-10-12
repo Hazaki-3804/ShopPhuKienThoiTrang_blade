@@ -19,13 +19,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
+                    @if ($errors->has('email') && session('lockUntil'))
+                    <div class="alert alert-warning alert-dismissible fade show fs-6" role="alert" id="lockAlert">
+                        <i class="bi bi-clock-fill"></i> 
+                        <span id="lockMessage">{{ $errors->first('email') }}</span>
+                        <div class="mt-2">
+                            <div class="countdown-timer">
+                                <span class="countdown-text">Thời gian còn lại: </span>
+                                <span class="countdown-display" id="countdownDisplay">--:--</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                     <form method="POST" action="{{ route('login') }}" novalidate>
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label label-input-important"><i class="bi bi-envelope-fill"></i> Email</label>
                             <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control" required autocomplete="email" autofocus>
                             @error('email')
-                            <x-input-error :message="$message" />
+                                @if(!session('lockUntil'))
+                                    <x-input-error :message="$message" />
+                                @endif
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -61,3 +76,68 @@
     </div>
 </div>
 @endsection
+
+@if(session('lockUntil'))
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const lockUntil = {!! json_encode(session('lockUntil')) !!};
+    const countdownDisplay = document.getElementById('countdownDisplay');
+    const lockAlert = document.getElementById('lockAlert');
+    const lockMessage = document.getElementById('lockMessage');
+    
+    if (!countdownDisplay || !lockAlert) return;
+    
+    function updateCountdown() {
+        const now = Math.floor(Date.now() / 1000);
+        const remaining = lockUntil - now;
+        
+        if (remaining <= 0) {
+            // Thời gian đã hết, ẩn alert và reload trang
+            lockAlert.style.display = 'none';
+            location.reload();
+            return;
+        }
+        
+        // Tính toán phút và giây
+        const minutes = Math.floor(remaining / 60);
+        const seconds = remaining % 60;
+        
+        // Format hiển thị
+        const displayTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        countdownDisplay.textContent = displayTime;
+        
+        // Cập nhật message với thời gian còn lại
+        if (remaining > 60) {
+            const minutesLeft = Math.ceil(remaining / 60);
+            lockMessage.textContent = `Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau ${minutesLeft} phút.`;
+        } else {
+            lockMessage.textContent = `Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau ${remaining} giây.`;
+        }
+        
+        // Thay đổi style khi sắp hết thời gian
+        countdownDisplay.className = 'countdown-display';
+        if (remaining <= 10) {
+            countdownDisplay.classList.add('danger');
+        } else if (remaining <= 30) {
+            countdownDisplay.classList.add('warning');
+        }
+    }
+    
+    // Cập nhật ngay lập tức
+    updateCountdown();
+    
+    // Cập nhật mỗi giây
+    const interval = setInterval(updateCountdown, 1000);
+    
+    // Dọn dẹp khi alert bị đóng
+    const closeButton = lockAlert.querySelector('.btn-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            clearInterval(interval);
+        });
+    }
+});
+</script>
+@endpush
+@endif

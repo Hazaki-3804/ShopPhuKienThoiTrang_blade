@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -76,18 +77,27 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required'],
-            'password' => ['required', 'confirmed', 'min:8'],
-        ]);
+            'current_password' => ['required','current_password'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ],
+        [
+            'current_password.current_password' => 'Mật khẩu hiện tại không đúng',
+            'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại',
+            'password.required' => 'Vui lòng nhập mật khẩu mới',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+            'password.regex' => 'Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt',
+        ]
+        );
 
         $user = Auth::user();
         if (!Hash::check($request->input('current_password'), $user->password)) {
-            return back()->with('error', 'Mật khẩu hiện tại không đúng');
+            return back()->with('current_password', 'Mật khẩu hiện tại không đúng');
         }
 
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
-        return redirect()->route('profile.index')->with('success', 'Đổi mật khẩu thành công');
+        return redirect()->route('profile.index')->with('success', 'Đổi mật khẩu thành công!');
     }
 }

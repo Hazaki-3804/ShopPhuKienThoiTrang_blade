@@ -22,12 +22,12 @@
                 Vui lòng thử lại sau hoặc liên hệ với quản trị viên hệ thống.
             </p>
             
-            @if(config('app.debug') && isset($exception) && auth()->user->role_id=1)
-            <div class="alert alert-danger text-left mt-3">
+            @if(config('app.debug') && isset($exception) && auth()->check() && auth()->user()->role_id == 1)
+            <div class="alert alert-danger text-left text-break mt-2">
                 <h5><i class="fas fa-info-circle"></i> Chi tiết lỗi (Debug mode):</h5>
-                <p class="mb-1"><strong>Message:</strong> {{ $exception->getMessage() }}</p>
-                <p class="mb-1"><strong>File:</strong> {{ $exception->getFile() }}</p>
-                <p class="mb-0"><strong>Line:</strong> {{ $exception->getLine() }}</p>
+                <p class="mb-1 text-white"><strong>Message:</strong> {{ $exception->getMessage() }}</p>
+                <p class="mb-1 text-white"><strong>File:</strong> {{ $exception->getFile() }}</p>
+                <p class="mb-0 text-white"><strong>Line:</strong> {{ $exception->getLine() }}</p>
             </div>
             @endif
             

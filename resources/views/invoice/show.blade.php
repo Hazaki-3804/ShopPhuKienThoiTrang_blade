@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,71 +11,72 @@
             .no-print {
                 display: none !important;
             }
+
             body {
                 margin: 0;
                 padding: 20px;
             }
         }
-        
+
         body {
             font-family: 'Arial', sans-serif;
             background: #f5f5f5;
         }
-        
+
         .invoice-container {
             max-width: 800px;
             margin: 30px auto;
             background: white;
             padding: 40px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .invoice-header {
             border-bottom: 3px solid #ee4d2d;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
-        
+
         .company-name {
             color: #ee4d2d;
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
         .invoice-title {
             font-size: 24px;
             font-weight: bold;
             color: #333;
             margin-bottom: 10px;
         }
-        
+
         .invoice-info {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
-        
+
         .table th {
             background: #ee4d2d;
             color: white;
             font-weight: 600;
         }
-        
+
         .total-section {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 5px;
             margin-top: 20px;
         }
-        
+
         .grand-total {
             font-size: 20px;
             font-weight: bold;
             color: #ee4d2d;
         }
-        
+
         .footer-note {
             margin-top: 30px;
             padding-top: 20px;
@@ -84,6 +86,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="invoice-container">
         <!-- Header -->
@@ -102,7 +105,7 @@
                     <div class="invoice-title">HÓA ĐƠN</div>
                     <div><strong>Mã đơn hàng:</strong> #{{ $order->id }}</div>
                     <div><strong>Ngày:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</div>
-                    <div><strong>Trạng thái:</strong> 
+                    <div><strong>Trạng thái:</strong>
                         <span class="badge bg-{{ $order->status_class }}">{{ $order->status_text }}</span>
                     </div>
                 </div>
@@ -155,9 +158,9 @@
                 <div class="col-8 text-end"><strong>Tạm tính:</strong></div>
                 <div class="col-4 text-end">
                     @php
-                        $subtotal = $order->order_items->sum(function($item) {
-                            return $item->price * $item->quantity;
-                        });
+                    $subtotal = $order->order_items->sum(function($item) {
+                    return $item->price * $item->quantity;
+                    });
                     @endphp
                     {{ number_format($subtotal, 0, ',', '.') }}₫
                 </div>
@@ -170,7 +173,7 @@
                 <div class="col-8 text-end"><strong>Giảm giá:</strong></div>
                 <div class="col-4 text-end text-danger">
                     @php
-                        $discount = ($subtotal + 30000) - $order->total_price;
+                    $discount = ($subtotal + 30000) - $order->total_price;
                     @endphp
                     -{{ number_format($discount, 0, ',', '.') }}₫
                 </div>
@@ -182,7 +185,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12 text-end">
-                    <small class="text-muted">Phương thức thanh toán: 
+                    <small class="text-muted">Phương thức thanh toán:
                         <strong>{{ $order->payment_method === 'momo' ? 'MoMo' : 'COD' }}</strong>
                     </small>
                 </div>
@@ -200,12 +203,13 @@
             <button onclick="window.print()" class="btn btn-danger btn-lg me-2">
                 <i class="bi bi-printer"></i> In hóa đơn
             </button>
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">
-                Về trang chủ
+            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-lg">
+                Quay lại
             </a>
         </div>
     </div>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </body>
+
 </html>

@@ -36,7 +36,9 @@ class Discount extends Model
 		'discount_value' => 'float',
 		'start_date' => 'datetime',
 		'end_date' => 'datetime',
-		'status' => 'int'
+		'status' => 'int',
+		'quantity' => 'int',
+		'used_quantity' => 'int'
 	];
 
 	protected $fillable = [
@@ -46,12 +48,14 @@ class Discount extends Model
 		'discount_value',
 		'start_date',
 		'end_date',
-		'status'
+		'status',
+		'quantity',
+		'used_quantity'
 	];
 
 	public function products()
 	{
 		return $this->belongsToMany(Product::class, 'product_discounts')
-					->withPivot('id');
+			->withPivot('id');
 	}
 }

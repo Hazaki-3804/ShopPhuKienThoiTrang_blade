@@ -6,328 +6,372 @@
 @stop
 
 @section('content')
-<!-- Stats Cards -->
-<div class="row mb-3">
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted mb-1">Tổng bình luận</h6>
-                        <h3 class="mb-0">{{ $stats['total'] }}</h3>
-                    </div>
-                    <div class="text-primary" style="font-size: 2rem;">
-                        <i class="bi bi-chat-dots"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="shadow-sm rounded bg-white py-2">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center px-3 mb-3">
+        <h4 class="fw-semibold m-0">Quản lý bình luận</h4>
     </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted mb-1">Đang hiển thị</h6>
-                        <h3 class="mb-0 text-success">{{ $stats['visible'] }}</h3>
-                    </div>
-                    <div class="text-success" style="font-size: 2rem;">
-                        <i class="bi bi-eye"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted mb-1">Đã ẩn</h6>
-                        <h3 class="mb-0 text-warning">{{ $stats['hidden'] }}</h3>
-                    </div>
-                    <div class="text-warning" style="font-size: 2rem;">
-                        <i class="bi bi-eye-slash"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Filters -->
-<div class="card mb-3">
-    <div class="card-body">
-        <form method="GET" class="row g-3 align-items-end">
-            <div class="col-md-4">
-                <label class="form-label">Tìm kiếm</label>
-                <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung, khách hàng, sản phẩm...">
+    <!-- Stats Cards -->
+    <div class="row mx-3 my-3">
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card bg-primary text-white border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ $stats['total'] }}</h3>
+                            <p class="mb-0">Tổng bình luận</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="bi bi-chat-dots" style="font-size: 2.5rem; opacity: 0.75;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <label class="form-label">Trạng thái</label>
-                <select name="visibility" class="form-select">
-                    <option value="">Tất cả</option>
-                    <option value="visible" {{ request('visibility') === 'visible' ? 'selected' : '' }}>Đang hiển thị</option>
-                    <option value="hidden" {{ request('visibility') === 'hidden' ? 'selected' : '' }}>Đã ẩn</option>
-                </select>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ $stats['visible'] }}</h3>
+                            <p class="mb-0">Đang hiển thị</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="bi bi-eye" style="font-size: 2.5rem; opacity: 0.75;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-search me-1"></i> Tìm kiếm
-                </button>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card bg-warning text-white border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0 fw-bold">{{ $stats['hidden'] }}</h3>
+                            <p class="mb-0">Đã ẩn</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="bi bi-eye-slash" style="font-size: 2.5rem; opacity: 0.75;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary w-100">
-                    <i class="bi bi-arrow-clockwise me-1"></i> Làm mới
-                </a>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<!-- Reviews List -->
-<div class="card">
-    <div class="card-header">
-        <h5 class="mb-0">Danh sách bình luận ({{ $reviews->total() }})</h5>
+    <!-- Filters -->
+    <div class="card mx-3 mb-3">
+        <div class="card-body">
+            <form method="GET" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Tìm kiếm</label>
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung, khách hàng, sản phẩm...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Trạng thái</label>
+                    <select name="visibility" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="visible" {{ request('visibility') === 'visible' ? 'selected' : '' }}>Đang hiển thị</option>
+                        <option value="hidden" {{ request('visibility') === 'hidden' ? 'selected' : '' }}>Đã ẩn</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search me-1"></i> Tìm kiếm
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-arrow-clockwise me-1"></i> Làm mới
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width: 60px;">ID</th>
-                        <th>Khách hàng</th>
-                        <th>Sản phẩm</th>
-                        <th style="width: 100px;">Đánh giá</th>
-                        <th>Nội dung</th>
-                        <th style="width: 120px;">Ngày tạo</th>
-                        <th style="width: 100px;">Trạng thái</th>
-                        <th style="width: 200px;">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($reviews as $review)
-                    <tr class="{{ $review->is_hidden ? 'table-warning' : '' }}">
-                        <td>{{ $review->id }}</td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <img src="{{ $review->user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($review->user->name) }}" 
-                                     class="rounded-circle" width="40" height="40" alt="">
+
+    <!-- Reviews List -->
+    <div class="card mx-3 mb-3">
+        <div class="card-header bg-white">
+            <h5 class="mb-0 fw-semibold">Danh sách bình luận ({{ $reviews->total() }})</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle w-100">
+                    <thead class="table-info">
+                        <tr>
+                            <th style="width: 60px;">ID</th>
+                            <th>Khách hàng</th>
+                            <th>Sản phẩm</th>
+                            <th style="width: 100px;">Đánh giá</th>
+                            <th>Nội dung</th>
+                            <th style="width: 120px;">Ngày tạo</th>
+                            <th style="width: 100px;">Trạng thái</th>
+                            <th style="width: 200px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($reviews as $review)
+                        <tr class="{{ $review->is_hidden ? 'table-warning' : '' }}">
+                            <td>{{ $review->id }}</td>
+                            <td>
                                 <div>
                                     <div class="fw-semibold">{{ $review->user->name }}</div>
                                     <div class="small text-muted">{{ $review->user->email }}</div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                @php
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    @php
                                     $img = optional($review->product->product_images->first())->image_url ?? null;
                                     if ($img && !\Illuminate\Support\Str::startsWith($img, ['http://','https://','/'])) {
-                                        $img = asset($img);
+                                    $img = asset($img);
                                     }
                                     $img = $img ?: 'https://via.placeholder.com/50';
-                                @endphp
-                                <img src="{{ $img }}" class="rounded border" width="50" height="50" style="object-fit: cover;" alt="">
-                                <div class="text-truncate" style="max-width: 200px;">
-                                    {{ $review->product->name }}
+                                    @endphp
+                                    <img src="{{ $img }}" class="rounded border" width="50" height="50" style="object-fit: cover;" alt="">
+                                    <div class="text-truncate" style="max-width: 200px;">
+                                        {{ $review->product->name }}
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-1">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <i class="bi bi-star{{ $i <= $review->rating ? '-fill text-warning' : '' }}"></i>
-                                @endfor
-                            </div>
-                            <small class="text-muted">{{ $review->rating }}/5</small>
-                        </td>
-                        <td>
-                            <div class="text-truncate" style="max-width: 300px;" title="{{ $review->comment }}">
-                                {{ $review->comment ?: '(Không có nội dung)' }}
-                            </div>
-                        </td>
-                        <td>
-                            <small>{{ $review->created_at->format('d/m/Y H:i') }}</small>
-                        </td>
-                        <td>
-                            @if($review->is_hidden)
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-1">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <i class="bi bi-star{{ $i <= $review->rating ? '-fill text-warning' : '' }}"></i>
+                                        @endfor
+                                </div>
+                                <small class="text-muted">{{ $review->rating }}/5</small>
+                            </td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 300px;" title="{{ $review->comment }}">
+                                    {{ $review->comment ?: '(Không có nội dung)' }}
+                                </div>
+                            </td>
+                            <td>
+                                <small>{{ $review->created_at->format('d/m/Y H:i') }}</small>
+                            </td>
+                            <td>
+                                @if($review->is_hidden)
                                 <span class="badge bg-warning text-dark">
                                     <i class="bi bi-eye-slash me-1"></i> Đã ẩn
                                 </span>
-                            @else
+                                @else
                                 <span class="badge bg-success">
                                     <i class="bi bi-eye me-1"></i> Hiển thị
                                 </span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="d-flex gap-1">
-                                <!-- Toggle visibility -->
-                                <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="d-inline toggle-form">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-sm {{ $review->is_hidden ? 'btn-success' : 'btn-warning' }}" 
+                                @endif
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <!-- Toggle visibility -->
+                                    <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="d-inline toggle-form me-2">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-sm {{ $review->is_hidden ? 'btn-success' : 'btn-warning' }}"
                                             title="{{ $review->is_hidden ? 'Hiển thị' : 'Ẩn' }}"
                                             data-action="{{ $review->is_hidden ? 'hiển thị' : 'ẩn' }}">
-                                        <i class="bi bi-eye{{ $review->is_hidden ? '' : '-slash' }}"></i>
-                                    </button>
-                                </form>
+                                            <i class="bi bi-eye{{ $review->is_hidden ? '' : '-slash' }}"></i>
+                                        </button>
+                                    </form>
 
-                                <!-- Delete -->
-                                <button type="button" class="btn btn-sm btn-danger" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#deleteModal{{ $review->id }}"
-                                        title="Xóa">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
-                            <i class="bi bi-chat-dots" style="font-size: 3rem;"></i>
-                            <p class="mt-2 mb-0">Chưa có bình luận nào</p>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-    @if($reviews->hasPages())
-    <div class="card-footer">
-        {{ $reviews->withQueryString()->links() }}
-    </div>
-    @endif
-</div>
-
-<!-- Delete Modals -->
-@foreach($reviews as $review)
-<div class="modal fade" id="deleteModal{{ $review->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Xác nhận xóa bình luận</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-2">Bạn có chắc muốn xóa bình luận này?</p>
-                <div class="alert alert-warning mb-0">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <strong>Lưu ý:</strong> Hành động này không thể hoàn tác!
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="d-inline delete-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-trash me-1"></i> Xóa bình luận
-                    </button>
-                </form>
+                                    <!-- Delete -->
+                                    <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="d-inline delete-form ms-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" title="Xóa">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                <i class="bi bi-chat-dots" style="font-size: 3rem;"></i>
+                                <p class="mt-2 mb-0">Chưa có bình luận nào</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
+        @if($reviews->hasPages())
+        <div class="card-footer bg-white">
+            {{ $reviews->withQueryString()->links() }}
+        </div>
+        @endif
     </div>
 </div>
-@endforeach
 
 @endsection
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <style>
-.table-warning {
-    background-color: #fff3cd !important;
-}
+    /* Stats Cards Styling - Giống trang quản lý khuyến mãi */
+    .card.bg-primary,
+    .card.bg-success,
+    .card.bg-warning,
+    .card.bg-danger {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-/* Action buttons styling */
-.btn-sm {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+    .card.bg-primary:hover,
+    .card.bg-success:hover,
+    .card.bg-warning:hover,
+    .card.bg-danger:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
 
-.btn-sm i {
-    font-size: 1rem;
-}
+    /* Table styling */
+    .table-warning {
+        background-color: #fff3cd !important;
+    }
+
+    .table thead th {
+        background-color: #e7f3ff;
+        color: #333;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    /* Action buttons styling */
+    .btn-sm {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .btn-sm:hover {
+        transform: scale(1.1);
+    }
+
+    .btn-sm i {
+        font-size: 1rem;
+    }
+
+    /* Card enhancements */
+    .card {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    /* Form controls */
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    /* Badge styling */
+    .badge {
+        padding: 0.5em 0.75em;
+        font-weight: 500;
+    }
 </style>
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/toast.js') }}"></script>
+<script src="{{ asset('js/admin/ajax-form-handler.js') }}"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle toggle visibility forms
-    const toggleForms = document.querySelectorAll('.toggle-form');
-    toggleForms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const action = this.querySelector('button').dataset.action;
-            
-            fetch(this.action, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _method: 'PATCH'
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                showToast(`Đã ${action} bình luận thành công`, 'success');
-                setTimeout(() => window.location.reload(), 1000);
-            })
-            .catch(error => {
-                showToast('Có lỗi xảy ra, vui lòng thử lại', 'error');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle toggle visibility forms
+        const toggleForms = document.querySelectorAll('.toggle-form');
+        toggleForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const action = this.querySelector('button').dataset.action;
+
+                fetch(this.action, {
+                        method: 'PATCH',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(async response => {
+                        // Consider redirect/HTML as success too
+                        if (response.ok || response.redirected || response.status === 0) {
+                            if (typeof AjaxFormHandler !== 'undefined') {
+                                AjaxFormHandler.showToast(`Đã ${action} bình luận thành công`, 'success');
+                            }
+                            setTimeout(() => window.location.reload(), 1200);
+                            return;
+                        }
+                        const text = await response.text();
+                        throw new Error(text || `HTTP ${response.status}`);
+                    })
+                    .catch(error => {
+                        if (typeof AjaxFormHandler !== 'undefined') {
+                            AjaxFormHandler.showToast('Có lỗi xảy ra, vui lòng thử lại', 'danger');
+                        }
+                    });
             });
         });
-    });
 
-    // Handle delete forms
-    const deleteForms = document.querySelectorAll('.delete-form');
-    deleteForms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            fetch(this.action, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _method: 'DELETE'
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Close modal
-                const modal = bootstrap.Modal.getInstance(this.closest('.modal'));
-                if (modal) modal.hide();
-                
-                showToast('Đã xóa bình luận thành công', 'success');
-                setTimeout(() => window.location.reload(), 1000);
-            })
-            .catch(error => {
-                showToast('Có lỗi xảy ra, vui lòng thử lại', 'error');
+        // Handle delete forms via AJAX - delete immediately without modal
+        const deleteForms = document.querySelectorAll('.delete-form');
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalHtml = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                fetch(this.action, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(async response => {
+                        // Treat redirect/HTML as success too
+                        if (response.ok || response.redirected || response.status === 0) {
+                            if (typeof AjaxFormHandler !== 'undefined') {
+                                AjaxFormHandler.showToast('Đã xóa bình luận thành công', 'success');
+                            }
+                            setTimeout(() => window.location.reload(), 1200);
+                            return;
+                        }
+                        const text = await response.text();
+                        throw new Error(text || `HTTP ${response.status}`);
+                    })
+                    .catch(() => {
+                        if (typeof AjaxFormHandler !== 'undefined') {
+                            AjaxFormHandler.showToast('Có lỗi xảy ra, vui lòng thử lại', 'danger');
+                        }
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalHtml;
+                    });
             });
         });
-    });
 
-    // Show toast on page load if there's a session message
-    @if(session('success'))
-        showToast('{{ session('success') }}', 'success');
-    @endif
-});
+        // Show toast on page load if there's a session message
+        @if(session('success'))
+        if (typeof AjaxFormHandler !== 'undefined') {
+            AjaxFormHandler.showToast('{{ session('
+                success ') }}', 'success');
+        }
+        @endif
+    });
 </script>
 @endpush

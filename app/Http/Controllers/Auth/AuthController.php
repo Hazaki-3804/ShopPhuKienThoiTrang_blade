@@ -49,6 +49,7 @@ class AuthController extends Controller
             $seconds = $lockUntil - time();
             return back()
                 ->withErrors(['email' => "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau {$seconds} giây."])
+                ->with('lockUntil', $lockUntil)
                 ->withInput();
         }
 
@@ -85,7 +86,10 @@ class AuthController extends Controller
                 Cache::forget($a0Key);
                 // chuyển sang stage 1 sau khi hết 1 phút đầu
                 Cache::put($stageKey, 1, now()->addDays(1));
-                return back()->withErrors(['email' => "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau {$duration} giây."])->withInput();
+                return back()
+                    ->withErrors(['email' => "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau {$duration} giây."])
+                    ->with('lockUntil', $until)
+                    ->withInput();
             }
         } else {
             // Giai đoạn >= 1: cứ 3 lần sai liên tiếp -> khoá (stage * 5 phút), rồi tăng stage
@@ -101,7 +105,10 @@ class AuthController extends Controller
                 Cache::put($lockKey, $until, now()->addSeconds($duration));
                 Cache::forget($aNKey);
                 Cache::put($stageKey, $nextStage, now()->addDays(1));
-                return back()->withErrors(['email' => "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau {$minutes} phút."])->withInput();
+                return back()
+                    ->withErrors(['email' => "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau {$minutes} phút."])
+                    ->with('lockUntil', $until)
+                    ->withInput();
             }
         }
 

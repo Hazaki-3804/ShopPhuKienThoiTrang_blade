@@ -87,10 +87,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <i class="fas fa-times me-1"></i>Đóng
-                </button>
-                <button type="button" class="btn btn-warning" id="editFromView">
-                    <i class="fas fa-edit me-1"></i>Chỉnh sửa
+                    <i class="fas fa-times me-1"></i> Đóng
                 </button>
             </div>
         </div>

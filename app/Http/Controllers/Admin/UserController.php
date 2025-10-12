@@ -8,12 +8,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.users.index');
+        // Thống kê cho dashboard
+        $stats = [
+            'total_users' => User::where('role_id', 2)->count(),
+            'active_users' => User::where('status', 1)->where('role_id', 2)->count(),
+            'blocked_users' => User::where('status', 0)->where('role_id', 2)->count(),
+            'new_staff_users' => User::where('role_id', 2)
+                ->where('created_at', '>=', Carbon::now()->subMonth())
+                ->count(),            
+            ];
+
+        return view('admin.users.index', compact('stats'));
     }
 
     public function data(Request $request)
@@ -29,6 +41,23 @@ class UserController extends Controller
         }
 
         return DataTables::of($query)
+            ->addIndexColumn()
+            ->addColumn('user_info', function ($user) {
+                $image = $user->avatar 
+                ? '<img src="' . asset($user->avatar) . '" width="50" height="50" style="object-fit: cover; margin-right:10px; border-radius:10px">'
+                : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
+                
+                return '
+                <div class="d-flex align-items-center">
+                    ' . $image . '
+                    <div class="mr-2" style="text-align:left;">
+                        <div class="fw-bold">
+                            <span style="display:inline-block; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($user->name) . '</span>
+                        </div>
+                        <small class="text-muted">ID: ' . $user->id . '</small>
+                    </div>
+                </div>';
+            })
             ->addColumn('status_badge', function ($user) {
                 return $user->status == '1'
                     ? '<span class="badge bg-success text-white p-1"><i class="fas fa-check"></i> Active</span>'
@@ -45,7 +74,7 @@ class UserController extends Controller
             })
             ->addColumn('actions', function ($user) {
                 $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-user" style="margin-right:6px" data-toggle="modal" data-target="#editUserModal" data-id="' . $user->id . '">
-                    <i class="fas fa-pen"></i>
+                    <i class="fas fa-edit"></i>
                 </button>';
 
                 $toggleButton = $user->status == 1
@@ -62,7 +91,7 @@ class UserController extends Controller
                 
                 return $editButton . ' ' . $toggleButton . ' ' . $deleteButton;
             })
-            ->rawColumns(['status_badge', 'role_badge', 'actions'])
+            ->rawColumns(['user_info','status_badge', 'role_badge', 'actions'])
             ->make(true);
     }
 
@@ -90,6 +119,7 @@ class UserController extends Controller
             ]);
 
             $user = User::create([
+                'username' => Str::slug($validated['name']),
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
@@ -109,12 +139,23 @@ class UserController extends Controller
             }
 
             return redirect()->route('admin.users.index')->with('success', 'Thêm nhân viên thành công!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ!',
+                    'errors' => $e->errors(),
+                    'type' => 'danger'
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
+            Log::error('Error adding user: ' . $e->getMessage());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Có lỗi xảy ra khi thêm nhân viên!',
-                    'errors' => $e->getMessage(),
+                    'errors' => ['general' => [$e->getMessage()]],
                     'type' => 'danger'
                 ], 422);
             }
@@ -169,12 +210,22 @@ class UserController extends Controller
             }
 
             return redirect()->route('admin.users.index')->with('success', 'Cập nhật nhân viên thành công!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ!',
+                    'errors' => $e->errors(),
+                    'type' => 'danger'
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Có lỗi xảy ra khi cập nhật nhân viên!',
-                    'errors' => $e->getMessage(),
+                    'errors' => ['general' => [$e->getMessage()]],
                     'type' => 'danger'
                 ], 422);
             }
@@ -270,6 +321,31 @@ class UserController extends Controller
                 ], 500);
             }
             return redirect()->back()->with('error', 'Có lỗi xảy ra!');
+        }
+    }
+
+    // API endpoint để lấy thống kê mới
+    public function getStats()
+    {
+        try {
+            $stats = [
+                'total_users' => User::where('role_id', 2)->count(),
+                'active_users' => User::where('status', 1)->where('role_id', 2)->count(),
+                'blocked_users' => User::where('status', 0)->where('role_id', 2)->count(),
+                'new_staff_users' => User::where('role_id', 2)
+                    ->where('created_at', '>=', Carbon::now()->subMonth())
+                    ->count(),            
+            ];
+
+            return response()->json([
+                'success' => true,
+                'stats' => $stats
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi lấy thống kê!'
+            ], 500);
         }
     }
 }

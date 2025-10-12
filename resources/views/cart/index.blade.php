@@ -93,7 +93,7 @@
 </div>
 
 @if(isset($related) && $related->count())
-<div class="container mt-5">
+<div class="container pb-4">
     <h6 class="fw-semibold mb-3">Sản phẩm tương tự</h6>
     <div class="row g-3">
         @foreach($related as $rel)

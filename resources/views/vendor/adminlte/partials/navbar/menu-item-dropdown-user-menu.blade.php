@@ -18,9 +18,11 @@
             <h6 class="mb-0 fw-bold text-white">{{ Auth::user()->name ?? 'User' }}</h6>
             <small class="text-white-50">{{ Auth::user()->email ?? 'user@example.com' }}</small>
             <div class="mt-1">
+                @if(Auth::check() && Auth::user())
                 <span class="badge bg-{{ Auth::user()->role_id == 1 ? 'danger' : (Auth::user()->role_id == 2 ? 'warning' : 'info') }}">
                     {{ Auth::user()->role_id == 1 ? 'Admin' : (Auth::user()->role_id == 2 ? 'Nhân viên' : 'Khách hàng') }}
                 </span>
+                @endif
             </div>
         </div>
 

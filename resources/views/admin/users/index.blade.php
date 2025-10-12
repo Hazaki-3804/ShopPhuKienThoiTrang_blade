@@ -7,8 +7,75 @@
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header giống card-header -->
     <div class="d-flex justify-content-between align-items-center px-3">
-        <h4 class="fw-semibold m-0">Danh sách nhân viên</h4>
-        <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý nhân viên']]" />
+        <h4 class="fw-semibold m-0">Quản lý nhân viên</h4>
+        <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý người dùng']]" />
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mx-3 my-3">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0">{{ $stats['total_users'] }}</h3>
+                            <p class="mb-0 small">Tổng nhân viên</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="fas fa-users fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0">{{ $stats['active_users'] }}</h3>
+                            <p class="mb-0 small">Đang hoạt động</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="fas fa-user-check fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0">{{ $stats['blocked_users'] }}</h3>
+                            <p class="mb-0 small">Bị khóa</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="fas fa-user-slash fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0">{{ $stats['new_staff_users'] }}</h3>
+                            <p class="mb-0 small">Nhân viên mới</p>
+                        </div>
+                        <div class="text-right">
+                            <i class="fas fa-user-tie fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Card con chứa table -->
@@ -58,7 +125,7 @@
                 <table class="table table-bordered table-striped align-middle w-100" id="usersTable">
                     <thead class="table-info">
                         <tr>
-                            <th>ID</th>
+                            <th>STT</th>
                             <th>Họ tên</th>
                             <th>Email</th>
                             <th>Số điện thoại</th>
@@ -85,27 +152,27 @@
         <div class="col-12 col-md-6">
             <label for="add_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="add_name" name="name" required>
-            <x-input-error name="name" />
+            <div class="text-danger mt-1" id="add_name_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_email" class="form-label">Email <span class="text-danger">*</span></label>
             <input type="email" class="form-control" id="add_email" name="email" required>
-            <x-input-error name="email" />
+            <div class="text-danger mt-1" id="add_email_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="add_phone" name="phone" required maxlength="15">
-            <x-input-error name="phone" />
+            <div class="text-danger mt-1" id="add_phone_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
             <input type="password" class="form-control" id="add_password" name="password" required>
-            <x-input-error name="password" />
+            <div class="text-danger mt-1" id="add_password_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_password_confirmation" class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
             <input type="password" class="form-control" id="add_password_confirmation" name="password_confirmation" required>
-            <x-input-error name="password_confirmation" />
+            <div class="text-danger mt-1" id="add_password_confirmation_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="add_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
@@ -113,12 +180,12 @@
                 <option value="1">✅ Hoạt động</option>
                 <option value="0">🚫 Bị chặn</option>
             </select>
-            <x-input-error name="status" />
+            <div class="text-danger mt-1" id="add_status_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12">
             <label for="add_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
             <textarea class="form-control" id="add_address" name="address" rows="2" required maxlength="255"></textarea>
-            <x-input-error name="address" />
+            <div class="text-danger mt-1" id="add_address_error" style="font-size: 12px; display: none;"></div>
         </div>
     </div>
 </x-admin.modal>
@@ -135,17 +202,17 @@
         <div class="col-12 col-md-6">
             <label for="edit_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="edit_name" name="name" required>
-            <x-input-error name="name" />
+            <div class="text-danger mt-1" id="edit_name_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="edit_email" class="form-label">Email <span class="text-danger">*</span></label>
             <input type="email" class="form-control" id="edit_email" name="email" required>
-            <x-input-error name="email" />
+            <div class="text-danger mt-1" id="edit_email_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="edit_phone" class="form-label">Số điện thoại <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="edit_phone" name="phone" required maxlength="15">
-            <x-input-error name="phone" />
+            <div class="text-danger mt-1" id="edit_phone_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
             <label for="edit_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
@@ -153,12 +220,12 @@
                 <option value="1">✅ Hoạt động</option>
                 <option value="0">🚫 Bị chặn</option>
             </select>
-            <x-input-error name="status" />
+            <div class="text-danger mt-1" id="edit_status_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12">
             <label for="edit_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="edit_address" name="address" rows="2" required maxlength="255"></textarea>
-            <x-input-error name="address" />
+            <textarea class="form-control" id="edit_address" name="address" rows="2" maxlength="255"></textarea>
+            <div class="text-danger mt-1" id="edit_address_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12">
             <label for="edit_role_id" class="form-label">Quyền <span class="text-danger">*</span></label>
@@ -167,7 +234,7 @@
                 <option value="2">👨‍💼 Nhân viên</option>
                 <option value="3">👤 Khách hàng</option>
             </select>
-            <x-input-error name="role_id" />
+            <div class="text-danger mt-1" id="edit_role_id_error" style="font-size: 12px; display: none;"></div>
         </div>
     </div>
 </x-admin.modal>
@@ -212,7 +279,7 @@
                     charset: 'utf-8',
                     className: 'buttons-excel',
                     exportOptions: {
-                        columns: ':visible:not(:last-child)'
+                        columns: ':visible:not(:first-child):not(:last-child)'
                     }
                 },
                 {
@@ -221,24 +288,27 @@
                     bom: true,
                     charset: 'utf-8',
                     exportOptions: {
-                        columns: ':visible:not(:last-child)'
+                        columns: ':visible:not(:first-child):not(:last-child)'  
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     className: 'buttons-pdf',
                     exportOptions: {
-                        columns: ':visible:not(:last-child)'
+                        columns: ':visible:not(:first-child):not(:last-child)'                      
                     }
                 },
             ],
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'user_info',
+                    name: 'name',
+                    width: '20%'
                 },
                 {
                     data: 'email',
@@ -339,13 +409,50 @@
             table.button('.buttons-print').trigger();
         });
         
+        // Function to update statistics (make it global)
+        window.updateUserStats = function() {
+            $.ajax({
+                url: '{{ route("admin.users.stats") }}',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.stats;
+                        
+                        // Update each statistic card with animation
+                        $('.card.bg-primary .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.total_users).fadeIn(200);
+                        });
+                        $('.card.bg-success .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.active_users).fadeIn(200);
+                        });
+                        $('.card.bg-danger .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.blocked_users).fadeIn(200);
+                        });
+                        // $('.card.bg-warning .card-body h3').fadeOut(200, function() {
+                        //     $(this).text(stats.admin_users).fadeIn(200);
+                        // });
+                        $('.card.bg-info .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.new_staff_users).fadeIn(200);
+                        });
+                        // $('.card.bg-secondary .card-body h3').fadeOut(200, function() {
+                        //     $(this).text(stats.customer_users).fadeIn(200);
+                        // });
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error updating user stats:', xhr);
+                }
+            });
+        }
+        updateUserStats(); // gọi khi vừa load trang
+
         $(document).on('click', '.edit-user', function() {
             let userId = $(this).data('id');
             $('#edit_user_id').val(userId);
 
             // Load user data
             $.ajax({
-                url: '/users/' + userId,
+                url: '/admin/users/' + userId,
                 type: 'GET',
                 success: function(response) {
                     if (response.success) {
@@ -425,6 +532,19 @@
             $('#del_user_id').val(userId);
         });
 
+        // Clear validation errors when modals are opened
+        $('#addUserModal').on('show.bs.modal', function() {
+            if (typeof AjaxFormHandler !== 'undefined') {
+                AjaxFormHandler.clearFieldErrors('addUserModal');
+            }
+        });
+
+        $('#editUserModal').on('show.bs.modal', function() {
+            if (typeof AjaxFormHandler !== 'undefined') {
+                AjaxFormHandler.clearFieldErrors('editUserModal');
+            }
+        });
+
     });
 </script>
 
@@ -435,7 +555,11 @@
         if (typeof AjaxFormHandler !== 'undefined') {
             AjaxFormHandler.init({
                 table: 'table',
-                forms: ['#addUserModal form', '#editUserModal form', '#deleteUserModal form']
+                forms: ['#addUserModal form', '#editUserModal form', '#deleteUserModal form'],
+                onSuccess: function(response) {
+                    // Update statistics after successful operations
+                    updateUserStats();
+                }
             });
         }
     });

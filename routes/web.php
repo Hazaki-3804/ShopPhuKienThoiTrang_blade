@@ -7,9 +7,16 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\Admin\AdminOrdersController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Http\Controllers\Admin\StatisticsController as AdminStatisticsController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\PromotionController as AdminPromotionController;
+use App\Http\Controllers\Admin\ShippingFeeController as AdminShippingFeeController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\AdminReviewsController;
 use App\Http\Controllers\Chatbot\ChatbotController;
 use App\Http\Controllers\ProfileController;
@@ -62,15 +69,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/my-orders/{order}/cancel', [UserOrderController::class, 'cancel'])->name('user.orders.cancel');
 });
 
-// Test route without middleware
-Route::get('/dashboard-test', [AdminDashboardController::class, 'index'])->name('dashboard.test');
 
 // Admin routes
 Route::middleware(['auth', 'checkAdmin'])->group(function () {
-    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
-    Route::get('/orders', [AdminOrdersController::class, 'index'])->name('orders.index');
-    Route::patch('/orders/{order}', [AdminOrdersController::class, 'update'])->name('orders.update');
-    Route::get('/analytics', fn() => view('admin.analytics'))->name('analytics');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
+    Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');   
+
     Route::get('/settings', fn() => view('admin.settings'))->name('settings');
 
     // Reviews management
@@ -79,19 +84,40 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
     Route::delete('/admin/reviews/{review}', [AdminReviewsController::class, 'destroy'])->name('admin.reviews.destroy');
 
     // Customer management (add more routes later)
-    Route::name('customers.')->group(function () {
-        Route::get('/customers/data', [CustomerController::class, 'data'])->name('data');
-        Route::get('/customers', [CustomerController::class, 'index'])->name('index');
-        Route::get('/customers/create', [CustomerController::class, 'create'])->name('create');
-        Route::post('/customers', [CustomerController::class, 'store'])->name('store');
-        Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('update');
-        Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('edit');
-        Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('destroy');
+    Route::name('admin.customers.')->group(function () {
+        Route::get('/admin/customers/data', [AdminCustomerController::class, 'data'])->name('data');
+        Route::get('/admin/customers', [AdminCustomerController::class, 'index'])->name('index');
+        Route::get('/admin/customers/{id}', [AdminCustomerController::class, 'show'])->name('show');
+        Route::post('/admin/customers', [AdminCustomerController::class, 'store'])->name('store');
+        Route::put('/admin/customers/update', [AdminCustomerController::class, 'update'])->name('update');
+        Route::post('/admin/customers/toggle-status', [AdminCustomerController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/admin/customers/delete', [AdminCustomerController::class, 'destroy'])->name('destroy');
+    });
+    // Statistics module
+    Route::name('admin.statistics.')->group(function () {
+        Route::get('/admin/statistics', [AdminStatisticsController::class, 'index'])->name('index');
+        
+        // Customer analytics
+        Route::get('/admin/statistics/customers', [AdminStatisticsController::class, 'customerAnalytics'])->name('customers');
+        Route::get('/admin/statistics/customers/data', [AdminStatisticsController::class, 'customerAnalyticsData'])->name('customers.data');
+        Route::get('/admin/statistics/customers/export/excel', [AdminStatisticsController::class, 'exportCustomersExcel'])->name('customers.export.excel');
+        Route::get('/admin/statistics/customers/export/pdf', [AdminStatisticsController::class, 'exportCustomersPdf'])->name('customers.export.pdf');
+        
+        // Product analytics
+        Route::get('/admin/statistics/products', [AdminStatisticsController::class, 'productAnalytics'])->name('products');
+        Route::get('/admin/statistics/products/data', [AdminStatisticsController::class, 'productAnalyticsData'])->name('products.data');
+        Route::get('/admin/statistics/products/chart-data', [AdminStatisticsController::class, 'productChartData'])->name('products.chart');
+        Route::get('/admin/statistics/products/export/excel', [AdminStatisticsController::class, 'exportProductsExcel'])->name('products.export.excel');
+        
+        // Time analytics
+        Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->name('time');
+        Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->name('time.data');
     });
 
     // Category management
     Route::name('admin.categories.')->group(function () {
         Route::get('/admin/categories/data', [AdminCategoryController::class, 'data'])->name('data');
+        Route::get('/admin/categories/stats', [AdminCategoryController::class, 'getStats'])->name('stats');
         Route::get('/admin/categories', [AdminCategoryController::class, 'index'])->name('index');
         Route::post('/admin/categories', [AdminCategoryController::class, 'store'])->name('store');
         Route::put('/admin/categories/update', [AdminCategoryController::class, 'update'])->name('update');
@@ -101,6 +127,7 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
     // Product management
     Route::name('admin.products.')->group(function () {
         Route::get('/admin/products/data', [AdminProductController::class, 'data'])->name('data');
+        Route::get('/admin/products/stats', [AdminProductController::class, 'getStats'])->name('stats');
         Route::get('/admin/products', [AdminProductController::class, 'index'])->name('index');
         Route::get('/admin/products/create', [AdminProductController::class, 'create'])->name('create');
         Route::post('/admin/products', [AdminProductController::class, 'store'])->name('store');
@@ -113,19 +140,22 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->name('destroy.multiple');
     });
 
-    // Order management
+    // Order management - Unified using OrderController
     Route::name('admin.orders.')->group(function () {
-        Route::get('/admin/orders/data', [AdminOrderController::class, 'data'])->name('data');
-        Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('index');
-        Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('show');
-        Route::get('/admin/orders/{id}/print', [AdminOrderController::class, 'print'])->name('print');
-        Route::post('/admin/orders/update-status', [AdminOrderController::class, 'updateStatus'])->name('update-status');
-        Route::delete('/admin/orders/delete', [AdminOrderController::class, 'destroy'])->name('destroy');
+        Route::patch('admin/orders/{order}', [OrderController::class, 'update'])->name('update');
+        Route::get('/admin/orders/data', [OrderController::class, 'data'])->name('data');
+        Route::get('/admin/orders/stats', [OrderController::class, 'getStats'])->name('stats');
+        Route::get('/admin/orders', [OrderController::class, 'index'])->name('index');
+        Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('show');
+        Route::get('/admin/orders/{id}/print', [OrderController::class, 'print'])->name('print');
+        Route::post('/admin/orders/update-status', [OrderController::class, 'updateStatus'])->name('update-status');
+        Route::delete('/admin/orders/delete', [OrderController::class, 'destroy'])->name('destroy');
     });
 
     // Staff (users) management
     Route::name('admin.users.')->group(function () {
         Route::get('/admin/users/data', [AdminUserController::class, 'data'])->name('data');
+        Route::get('/admin/users/stats', [AdminUserController::class, 'getStats'])->name('stats');
         Route::get('/admin/users', [AdminUserController::class, 'index'])->name('index');
         Route::post('/admin/users', [AdminUserController::class, 'store'])->name('store');
         Route::get('/admin/users/{id}', [AdminUserController::class, 'show'])->name('show');
@@ -143,6 +173,29 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::put('/admin/profile/change-password', [AdminProfileController::class, 'changePassword'])->name('change-password.update');
         Route::get('/admin/profile/settings', [AdminProfileController::class, 'settings'])->name('settings');
         Route::put('/admin/profile/settings', [AdminProfileController::class, 'updateSettings'])->name('settings.update');
+    });
+        // Promotion management
+    Route::name('admin.promotions.')->group(function () {
+        Route::get('/admin/promotions/data', [AdminPromotionController::class, 'data'])->name('data');
+        Route::get('/admin/promotions', [AdminPromotionController::class, 'index'])->name('index');
+        Route::get('/admin/promotions/create', [AdminPromotionController::class, 'create'])->name('create');
+        Route::post('/admin/promotions', [AdminPromotionController::class, 'store'])->name('store');
+        Route::get('/admin/promotions/{id}/edit', [AdminPromotionController::class, 'edit'])->name('edit');
+        Route::put('/admin/promotions/update', [AdminPromotionController::class, 'update'])->name('update');
+        Route::delete('/admin/promotions/delete', [AdminPromotionController::class, 'destroy'])->name('destroy');
+        Route::delete('/admin/promotions/delete-multiple', [AdminPromotionController::class, 'destroyMultiple'])->name('destroy.multiple');
+        Route::get('/admin/promotions/export/excel', [AdminPromotionController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/admin/promotions/export/pdf', [AdminPromotionController::class, 'exportPdf'])->name('export.pdf');
+    });
+
+    // Shipping Fee management
+    Route::name('admin.shipping-fees.')->group(function () {
+        Route::get('/admin/shipping-fees/data', [AdminShippingFeeController::class, 'data'])->name('data');
+        Route::get('/admin/shipping-fees', [AdminShippingFeeController::class, 'index'])->name('index');
+        Route::post('/admin/shipping-fees', [AdminShippingFeeController::class, 'store'])->name('store');
+        Route::put('/admin/shipping-fees/update', [AdminShippingFeeController::class, 'update'])->name('update');
+        Route::delete('/admin/shipping-fees/delete', [AdminShippingFeeController::class, 'destroy'])->name('destroy');
+        Route::delete('/admin/shipping-fees/delete-multiple', [AdminShippingFeeController::class, 'destroyMultiple'])->name('destroy.multiple');
     });
 });
 require __DIR__ . '/auth.php';

@@ -176,7 +176,7 @@
                             <th width="50px">STT</th>
                             <th>Sản phẩm</th>
                             <th>Danh mục</th>
-                            <th>Giá</th>
+                            <th>Giá (VNĐ)</th>
                             <th>Tồn kho</th>
                             <th>Trạng thái</th>
                             <th width="120px">Hành động</th>
@@ -575,10 +575,7 @@
             $('#del_product_name').text(productName);
         });
 
-        // Reset form when add modal is opened
-        $('#addProductModal').on('show.bs.modal', function() {
-            $(this).find('form')[0].reset();
-        });
+
 
         // Checkbox functionality
         let selectedProducts = [];
@@ -635,6 +632,43 @@
             $('#selectedProductsList').html(productsList);
         });
 
+        // Function to update statistics (make it global)
+        window.updateProductStats = function() {
+            $.ajax({
+                url: '{{ route("admin.products.stats") }}',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.stats;
+                        
+                        // Update each statistic card with animation
+                        $('.card.bg-primary .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.total_products).fadeIn(200);
+                        });
+                        $('.card.bg-success .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.active_products).fadeIn(200);
+                        });
+                        $('.card.bg-secondary .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.inactive_products).fadeIn(200);
+                        });
+                        $('.card.bg-warning .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.low_stock_products).fadeIn(200);
+                        });
+                        $('.card.bg-danger .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.out_of_stock).fadeIn(200);
+                        });
+                        $('.card.bg-info .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.recent_products).fadeIn(200);
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error updating product stats:', xhr);
+                }
+            });
+        }
+        updateProductStats(); // gọi khi vừa load trang
+
         // Handle bulk delete form submission
         $('#bulkDeleteModal form').on('submit', function(e) {
             e.preventDefault();
@@ -659,6 +693,9 @@
                 success: function(response) {
                     $('#bulkDeleteModal .close[data-dismiss="modal"]').trigger('click');
                     productsTable.ajax.reload(null, false);
+                    
+                    // Update statistics
+                    updateProductStats();
                     
                     // Reset selections
                     selectedProducts = [];
@@ -691,7 +728,11 @@ $(document).ready(function() {
     if (typeof AjaxFormHandler !== 'undefined') {
         AjaxFormHandler.init({
             table: 'productsTable',
-            forms: ['#addProductModal form', '#editProductModal form', '#deleteProductModal form']
+            forms: ['#addProductModal form', '#editProductModal form', '#deleteProductModal form'],
+            onSuccess: function(response) {
+                // Update statistics after successful operations
+                updateProductStats();
+            }
         });
     }
 });

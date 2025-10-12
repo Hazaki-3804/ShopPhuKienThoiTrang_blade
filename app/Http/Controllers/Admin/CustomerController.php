@@ -36,7 +36,7 @@ class CustomerController extends Controller
             })
             ->addColumn('actions', function ($customer) {
                 $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-customer" data-toggle="modal" data-target="#editCustomerModal" data-id="' . $customer->id . '">
-                    <i class="fas fa-pen"></i>
+                    <i class="fas fa-edit"></i>
                 </button>';
 
                 $toggleButton = $customer->status == 1
@@ -81,6 +81,7 @@ class CustomerController extends Controller
                 'email.unique' => 'Email đã được sử dụng.',
                 'username.unique' => 'Tên người dùng đã được sử dụng.',
                 // 'ward_id.exists' => 'Xã/phường không hợp lệ.'
+                'name.regex'=>"Tên người dùng chỉ được chứa chữ cái và khoảng trắng.",
             ]);
 
             if (empty($validated['username'])) {
@@ -109,12 +110,23 @@ class CustomerController extends Controller
             }
 
             return redirect()->route('admin.customers.index')->with('success', 'Thêm khách hàng thành công!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ!',
+                    'errors' => $e->errors(),
+                    'type' => 'danger'
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
+            \Log::info('Lỗi: '.$e->getMessage());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Có lỗi xảy ra khi thêm khách hàng!',
-                    'errors' => $e->getMessage(),
+                    'errors' => ['general' => [$e->getMessage()]],
                     'type' => 'danger'
                 ], 422);
             }
@@ -125,7 +137,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         try {
-            $customer = Customer::with('ward.district.province')->findOrFail($id);
+            $customer = Customer::findOrFail($id);
 
             if (request()->ajax()) {
                 return response()->json([
@@ -177,12 +189,22 @@ class CustomerController extends Controller
             }
 
             return redirect()->route('admin.customers.index')->with('success', 'Cập nhật khách hàng thành công!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ!',
+                    'errors' => $e->errors(),
+                    'type' => 'danger'
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Có lỗi xảy ra khi cập nhật khách hàng!',
-                    'errors' => $e->getMessage(),
+                    'errors' => ['general' => [$e->getMessage()]],
                     'type' => 'danger'
                 ], 422);
             }
@@ -226,6 +248,13 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::findOrFail($request->id);
+            if($customer->orders()->count() > 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Khách hàng có đơn hàng nên không thể xóa!',
+                    'type' => 'danger'
+                ], 422);
+            }
             $customer->delete();
 
             if ($request->ajax()) {

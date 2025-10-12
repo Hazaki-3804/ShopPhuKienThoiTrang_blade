@@ -19,7 +19,7 @@
     <div class="card m-3">
         <div class="card-header">
             <h5 class="mb-0">
-                <i class="fas fa-plus-circle text-success"></i> Thông tin sản phẩm
+                Thông tin sản phẩm
             </h5>
         </div>
         <div class="card-body">
@@ -85,7 +85,7 @@
                                         Số lượng <span class="text-danger">*</span>
                                     </label>
                                     <input type="number" class="form-control @error('stock') is-invalid @enderror" 
-                                           id="stock" name="stock" value="{{ old('stock') }}" min="0" required>
+                                           id="stock" name="stock" value="{{ old('stock') }}" min="10" required>
                                     @error('stock')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

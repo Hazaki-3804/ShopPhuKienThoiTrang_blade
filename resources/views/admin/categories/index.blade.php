@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-3 col-md-6">
             <div class="card bg-success text-white">
                 <div class="card-body">
@@ -85,7 +85,7 @@
             <div class="flex-grow-1">
                 <input type="search" id="categorySearch"
                     class="form-control form-control-sm"
-                    placeholder="Tìm kiếm danh mục..."
+                    placeholder="Tìm kiếm đơn hàng..."
                     style="max-width: 220px;">
             </div>
 
@@ -231,11 +231,14 @@
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             buttons: [{
                     extend: 'excelHtml5',
+                    name: 'excel-custom',
                     bom: true,
                     charset: 'utf-8',
+                    fileName: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
                     className: 'buttons-excel',
                     exportOptions: {
-                        columns: ':visible:not(:last-child)'
+                        columns: ':visible:not(:first-child):not(:last-child)'
+
                     }
                 },
                 {
@@ -243,15 +246,17 @@
                     className: 'buttons-csv',
                     bom: true,
                     charset: 'utf-8',
+                    fileName: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
                     exportOptions: {
-                        columns: ':visible:not(:last-child)'
+                        columns: ':visible:not(:first-child):not(:last-child)'
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     className: 'buttons-pdf',
+                    fileName: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
                     exportOptions: {
-                        columns: ':visible:not(:last-child)'
+                        columns: ':visible:not(:first-child):not(:last-child)'
                     }
                 },
             ],
@@ -307,8 +312,7 @@
             order: [
                 [2, 'asc']
             ],
-            columnDefs: [
-                {
+            columnDefs: [{
                     targets: 0, // Cột checkbox
                     orderable: false,
                     searchable: false,
@@ -379,7 +383,7 @@
             let categoryId = $(this).data('id');
             let categoryName = $(this).data('name');
             let categoryDescription = $(this).data('description');
-            
+
             $('#edit_category_id').val(categoryId);
             $('#edit_name').val(categoryName);
             $('#edit_description').val(categoryDescription || '');
@@ -388,7 +392,7 @@
         $(document).on('click', '.delete-category', function() {
             let categoryId = $(this).data('id');
             let categoryName = $(this).data('name');
-            
+
             $('#del_category_id').val(categoryId);
             $('#del_category_name').text(categoryName);
         });
@@ -397,6 +401,43 @@
         $('#addCategoryModal').on('show.bs.modal', function() {
             $(this).find('form')[0].reset();
         });
+
+        // Function to update statistics (make it global)
+        window.updateStats = function() {
+            $.ajax({
+                url: '{{ route("admin.categories.stats") }}',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.stats;
+
+                        // Update each statistic card with animation
+                        $('.card.bg-primary .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.total_categories).fadeIn(200);
+                        });
+                        $('.card.bg-success .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.categories_with_products).fadeIn(200);
+                        });
+                        $('.card.bg-warning .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.categories_without_products).fadeIn(200);
+                        });
+                        $('.card.bg-info .card-body h3').fadeOut(200, function() {
+                            $(this).text(stats.recent_categories).fadeIn(200);
+                        });
+
+                        // Add a subtle pulse animation to show the update
+                        $('.card').addClass('animate__animated animate__pulse');
+                        setTimeout(function() {
+                            $('.card').removeClass('animate__animated animate__pulse');
+                        }, 600);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error updating stats:', xhr);
+                }
+            });
+        }
+        updateStats(); // gọi khi vừa load trang
 
         // Checkbox functionality
         let selectedCategories = [];
@@ -411,11 +452,11 @@
         // Individual checkbox
         $(document).on('change', '.category-checkbox', function() {
             updateSelectedCategories();
-            
+
             // Update select all checkbox
             const totalCheckboxes = $('.category-checkbox').length;
             const checkedCheckboxes = $('.category-checkbox:checked').length;
-            
+
             $('#selectAll').prop('indeterminate', checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes);
             $('#selectAll').prop('checked', checkedCheckboxes === totalCheckboxes);
         });
@@ -426,10 +467,10 @@
             $('.category-checkbox:checked').each(function() {
                 selectedCategories.push($(this).val());
             });
-            
+
             const count = selectedCategories.length;
             $('#selectedCount').text(count);
-            
+
             if (count > 0) {
                 $('#bulkDeleteBtn').show();
             } else {
@@ -441,7 +482,7 @@
         $('#bulkDeleteBtn').on('click', function() {
             const count = selectedCategories.length;
             $('#bulkDeleteCount').text(count);
-            
+
             // Show selected categories list
             let categoriesList = '<strong>Danh mục được chọn:</strong><ul class="mt-2">';
             $('.category-checkbox:checked').each(function() {
@@ -456,15 +497,15 @@
         // Handle bulk delete form submission
         $('#bulkDeleteModal form').on('submit', function(e) {
             e.preventDefault();
-            
+
             // Add selected IDs to form data
             const formData = new FormData(this);
             selectedCategories.forEach(function(id) {
                 formData.append('ids[]', id);
             });
-            
+
             const url = $(this).attr('action');
-            
+
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -477,12 +518,15 @@
                 success: function(response) {
                     $('#bulkDeleteModal .close[data-dismiss="modal"]').trigger('click');
                     categoriesTable.ajax.reload(null, false);
-                    
+
+                    // Update statistics
+                    updateStats();
+
                     // Reset selections
                     selectedCategories = [];
                     $('#selectAll').prop('checked', false).prop('indeterminate', false);
                     $('#bulkDeleteBtn').hide();
-                    
+
                     // Show toast
                     const toastType = response.type || 'success';
                     if (typeof AjaxFormHandler !== 'undefined') {
@@ -505,13 +549,17 @@
 
 <!-- Initialize AJAX Form Handler -->
 <script>
-$(document).ready(function() {
-    if (typeof AjaxFormHandler !== 'undefined') {
-        AjaxFormHandler.init({
-            table: 'categoriesTable',
-            forms: ['#addCategoryModal form', '#editCategoryModal form', '#deleteCategoryModal form']
-        });
-    }
-});
+    $(document).ready(function() {
+        if (typeof AjaxFormHandler !== 'undefined') {
+            AjaxFormHandler.init({
+                table: 'categoriesTable',
+                forms: ['#addCategoryModal form', '#editCategoryModal form', '#deleteCategoryModal form'],
+                onSuccess: function(response) {
+                    // Update statistics after successful operations
+                    updateStats();
+                }
+            });
+        }
+    });
 </script>
 @endpush

@@ -85,7 +85,7 @@
                             }
                         </style>
                         <div class="avatar-wrap mb-1">
-                            <img src="{{ $user->avatar }}"
+                            <img src="{{ asset($user->avatar??'storage/avatars/default-avatar.png') }}"
                                 class="rounded-circle profile-avatar"
                                 width="130" height="130" alt="Avatar">
                             <button type="button" class="avatar-edit" id="btnEditAvatar" title="Đổi avatar">
@@ -93,7 +93,8 @@
                             </button>
                         </div>
                         @if ($errors->has('avatar'))
-                        <div class="text-danger small mb-2">{{ $errors->first('avatar') }}</div>
+                        <div class="text-danger small mb-2">{{ $errors->first('avatar') }}
+                        </div>
                         @endif
                         <form id="avatarForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="d-none">
                             @csrf
@@ -232,16 +233,18 @@
                                         @method('PUT')
                                         <div class="col-12">
                                             <label class="form-label">Mật khẩu hiện tại</label>
-                                            <input type="password" name="current_password" class="form-control" required>
+                                            <input type="password" name="current_password" class="form-control">
+                                            @error('current_password')
+                                                <x-input-error :message="$message" class="mt-2" />
+                                            @enderror
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Mật khẩu mới</label>
-                                            <input type="password" name="password" class="form-control" minlength="8" required>
-                                            <small class="text-muted">Tối thiểu 8 ký tự</small>
+                                            <input type="password" name="password" class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Xác nhận mật khẩu mới</label>
-                                            <input type="password" name="password_confirmation" class="form-control" minlength="8" required>
+                                            <input type="password" name="password_confirmation" class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-primary"><i class="bi bi-shield-lock me-1"></i> Cập nhật mật khẩu</button>
@@ -327,4 +330,5 @@
             </div>
         </div>
     </div>
-    @endsection
+</div>
+@endsection

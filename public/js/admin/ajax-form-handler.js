@@ -9,6 +9,7 @@ $(document).ready(function() {
         init: function(options = {}) {
             this.table = options.table || null;
             this.forms = options.forms || [];
+            this.onSuccess = options.onSuccess || null;
             this.bindEvents();
         },
 
@@ -21,6 +22,50 @@ $(document).ready(function() {
                     e.preventDefault();
                     self.handleFormSubmission($(this));
                 });
+            });
+
+            // Bind cancel button events for all modals
+            this.bindCancelEvents();
+        },
+
+        // Bind cancel button events
+        bindCancelEvents: function() {
+            const self = this;
+            
+            // Handle cancel buttons and modal close events
+            $(document).on('click', '.modal [data-dismiss="modal"]', function() {
+                const modal = $(this).closest('.modal');
+                const modalId = modal.attr('id');
+                const form = modal.find('form');
+                
+                if (form.length > 0) {
+                    // Reset form
+                    form[0].reset();
+                    // Reset select elements to their first option
+                    form.find('select').each(function() {
+                        $(this).prop('selectedIndex', 0);
+                    });
+                    // Clear validation errors
+                    self.clearFieldErrors(modalId);
+                }
+            });
+
+            // Also handle when modal is hidden (ESC key, backdrop click, etc.)
+            $(document).on('hidden.bs.modal', '.modal', function() {
+                const modal = $(this);
+                const modalId = modal.attr('id');
+                const form = modal.find('form');
+                
+                if (form.length > 0) {
+                    // Reset form
+                    form[0].reset();
+                    // Reset select elements to their first option
+                    form.find('select').each(function() {
+                        $(this).prop('selectedIndex', 0);
+                    });
+                    // Clear validation errors
+                    self.clearFieldErrors(modalId);
+                }
             });
         },
 
@@ -46,6 +91,9 @@ $(document).ready(function() {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
+                    // Clear any previous validation errors
+                    self.clearFieldErrors(modalId);
+                    
                     // Close modal
                     if (modalId) {
                         $(`#${modalId} .close[data-dismiss="modal"]`).trigger('click');
@@ -54,6 +102,11 @@ $(document).ready(function() {
                     // Reload table if specified
                     if (self.table && window[self.table]) {
                         window[self.table].ajax.reload(null, false);
+                    }
+                    
+                    // Call onSuccess callback if provided
+                    if (self.onSuccess && typeof self.onSuccess === 'function') {
+                        self.onSuccess(response);
                     }
                     
                     // Show toast with type from response or default to success
@@ -67,18 +120,57 @@ $(document).ready(function() {
                     let message = 'Có lỗi xảy ra!';
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         message = xhr.responseJSON.message;
-                    } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                        // Handle validation errors
-                        const errors = Object.values(xhr.responseJSON.errors).flat();
-                        message = errors.join('<br>');
                     }
-                    self.showToast(message, 'danger');
+                    
+                    // Handle validation errors - show them below input fields
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        self.showFieldErrors(xhr.responseJSON.errors, modalId);
+                        // Still show general toast message
+                        self.showToast(message, 'danger');
+                    } else {
+                        self.showToast(message, 'danger');
+                    }
                 },
                 complete: function() {
                     // Reset button state
                     $submitBtn.prop('disabled', false).text(originalText);
                 }
             });
+        },
+
+        // Show field-specific validation errors
+        showFieldErrors: function(errors, modalId) {
+            // Clear previous errors first
+            this.clearFieldErrors(modalId);
+            
+            // Determine form type based on modal ID
+            let formType = 'add';
+            if (modalId && modalId.includes('edit')) {
+                formType = 'edit';
+            }
+            
+            // Show errors for each field
+            Object.keys(errors).forEach(fieldName => {
+                const errorDiv = $(`#${formType}_${fieldName}_error`);
+                const inputField = $(`#${formType}_${fieldName}`);
+                
+                if (errorDiv.length && errors[fieldName].length > 0) {
+                    errorDiv.html('<i class="fas fa-exclamation-triangle"></i> ' + errors[fieldName][0]).show();
+                    inputField.addClass('is-invalid');
+                }
+            });
+        },
+
+        // Clear field validation errors
+        clearFieldErrors: function(modalId) {
+            let formType = 'add';
+            if (modalId && modalId.includes('edit')) {
+                formType = 'edit';
+            }
+            
+            // Hide all error divs and remove invalid class
+            $(`[id^="${formType}_"][id$="_error"]`).hide();
+            $(`#${modalId} .form-control`).removeClass('is-invalid');
         },
 
         // Toast notification function with 4 types: success, info, warning, danger

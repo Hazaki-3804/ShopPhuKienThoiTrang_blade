@@ -90,19 +90,70 @@ class ProductController extends Controller
             if ($request->filled('uploaded_images')) {
                 $uploadedFiles = json_decode($request->uploaded_images, true);
                 if (is_array($uploadedFiles) && !empty($uploadedFiles)) {
+                    // Tạo thư mục products nếu chưa có
+                    $productPath = public_path('storage/products/');
+                    $this->ensureDirectoryExists($productPath);
+                    
                     foreach ($uploadedFiles as $filename) {
-                        $product->product_images()->create([
-                            'image_url' => asset('storage/products/' . $filename),
-                            'type' => 'product'
-                        ]);
+                        // Di chuyển ảnh từ temp sang thư mục chính
+                        $tempPath = public_path('storage/products/temp/' . $filename);
+                        $finalPath = public_path('storage/products/' . $filename);
+                        
+                        if (file_exists($tempPath)) {
+                            // Di chuyển file từ temp sang thư mục chính
+                            if (rename($tempPath, $finalPath)) {
+                                // Lưu thông tin ảnh vào database
+                                $product->product_images()->create([
+                                    'product_id' => $product->id,
+                                    'image_url' => 'storage/products/' . $filename,
+                                    'type' => 'detail'
+                                ]);
+                            } else {
+                                Log::warning('Không thể di chuyển file: ' . $tempPath . ' -> ' . $finalPath);
+                            }
+                        } else {
+                            Log::warning('File temp không tồn tại: ' . $tempPath);
+                        }
                     }
+                    
+                    // Xóa danh sách ảnh temp khỏi session
+                    session()->forget('temp_product_images');
                 }
+            }
+
+            // Kiểm tra nếu là AJAX request
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Sản phẩm đã được cập nhật thành công!',
+                    'type' => 'success'
+                ]);
             }
 
             return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được cập nhật thành công!');
 
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ!',
+                    'errors' => $e->errors(),
+                    'type' => 'danger'
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error('ProductController update error: ' . $e->getMessage());
+            
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra khi cập nhật sản phẩm!',
+                    'errors' => ['general' => [$e->getMessage()]],
+                    'type' => 'danger'
+                ], 422);
+            }
+            
             return redirect()->back()->withInput()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
         }
     }
@@ -130,14 +181,14 @@ class ProductController extends Controller
                 ->addColumn('product_info', function ($product) {
                     $image = $product->product_images->first() 
                     ? '<img src="' . asset($product->product_images->first()->image_url) . '" width="72" height="72" style="object-fit: cover; margin-right:10px; border-radius:10px">'
-                    : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;"><i class="fas fa-image text-muted"></i></div>';
+                    : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
                     
                     return '
                     <div class="d-flex align-items-center">
                         ' . $image . '
-                        <div class="ms-2" style="text-align:left;">
+                        <div class="mr-2" style="text-align:left;">
                             <div class="fw-bold">
-                                <span style="display:inline-block; width:450px; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($product->name) . '</span>
+                                <span style="display:inline-block; width:400px; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($product->name) . '</span>
                             </div>
                             <small class="text-muted">ID: ' . $product->id . '</small>
                         </div>
@@ -148,7 +199,7 @@ class ProductController extends Controller
                     return $product->category ? $product->category->name : '<em class="text-muted">Chưa phân loại</em>';
                 })
                 ->addColumn('price_formatted', function ($product) {
-                    return '<span class="fw-bold text-success">' . number_format($product->price, 0, ',', '.') . ' VNĐ</span>';
+                    return '<span class="fw-bold text-success">' . number_format($product->price, 0, ',', '.') . '</span>';
                 })
                 ->addColumn('stock_badge', function ($product) {
                     if ($product->stock == 0) {
@@ -222,19 +273,70 @@ class ProductController extends Controller
             if ($request->filled('uploaded_images')) {
                 $uploadedFiles = json_decode($request->uploaded_images, true);
                 if (is_array($uploadedFiles) && !empty($uploadedFiles)) {
+                    // Tạo thư mục products nếu chưa có
+                    $productPath = public_path('storage/products/');
+                    $this->ensureDirectoryExists($productPath);
+                    
                     foreach ($uploadedFiles as $filename) {
-                        $product->product_images()->create([
-                            'image_url' => asset('storage/products/' . $filename),
-                            'type' => 'product'
-                        ]);
+                        // Di chuyển ảnh từ temp sang thư mục chính
+                        $tempPath = public_path('storage/products/temp/' . $filename);
+                        $finalPath = public_path('storage/products/' . $filename);
+                        
+                        if (file_exists($tempPath)) {
+                            // Di chuyển file từ temp sang thư mục chính
+                            if (rename($tempPath, $finalPath)) {
+                                // Lưu thông tin ảnh vào database
+                                $product->product_images()->create([
+                                    'product_id' => $product->id,
+                                    'image_url' => 'storage/products/' . $filename,
+                                    'type' => 'detail'
+                                ]);
+                            } else {
+                                Log::warning('Cannot move file: ' . $tempPath . ' -> ' . $finalPath);
+                            }
+                        } else {
+                            Log::warning('File temp không tồn tại: ' . $tempPath);
+                        }
                     }
+                    
+                    // Xóa danh sách ảnh temp khỏi session
+                    session()->forget('temp_product_images');
                 }
+            }
+
+            // Kiểm tra nếu là AJAX request
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Sản phẩm đã được tạo thành công!',
+                    'type' => 'success'
+                ]);
             }
 
             return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được tạo thành công!');
 
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ!',
+                    'errors' => $e->errors(),
+                    'type' => 'danger'
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error('ProductController store error: ' . $e->getMessage());
+            
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra khi tạo sản phẩm!',
+                    'errors' => ['general' => [$e->getMessage()]],
+                    'type' => 'danger'
+                ], 422);
+            }
+            
             return redirect()->back()->withInput()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
         }
     }
@@ -255,6 +357,17 @@ class ProductController extends Controller
                     ], 400);
                 }
                 return redirect()->back()->with('warning', 'Cannot delete product with orders');
+            }
+
+            // Xóa tất cả ảnh của sản phẩm trước khi xóa sản phẩm
+            foreach ($product->product_images as $image) {
+                // Xóa file ảnh từ storage
+                $imagePath = public_path($image->image_url);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                // Xóa record trong database
+                $image->delete();
             }
 
             $product->delete();
@@ -310,6 +423,21 @@ class ProductController extends Controller
             }
 
             // Xóa các sản phẩm an toàn
+            $products = Product::with('product_images')->whereIn('id', $productIds)->get();
+            
+            // Xóa ảnh của từng sản phẩm trước
+            foreach ($products as $product) {
+                foreach ($product->product_images as $image) {
+                    // Xóa file ảnh từ storage
+                    $imagePath = public_path($image->image_url);
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                    // Xóa record trong database
+                    $image->delete();
+                }
+            }
+            
             $deletedCount = Product::whereIn('id', $productIds)->delete();
 
             if ($request->ajax()) {
@@ -374,6 +502,22 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Đảm bảo thư mục tồn tại và có quyền ghi
+     */
+    private function ensureDirectoryExists($path)
+    {
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+        
+        if (!is_writable($path)) {
+            chmod($path, 0755);
+        }
+        
+        return is_dir($path) && is_writable($path);
+    }
+
     public function clearTempImages(Request $request)
     {
         try {
@@ -422,6 +566,31 @@ class ProductController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi xảy ra khi xóa ảnh tạm!'
+            ], 500);
+        }
+    }
+
+    // API endpoint để lấy thống kê mới
+    public function getStats()
+    {
+        try {
+            $stats = [
+                'total_products' => Product::count(),
+                'active_products' => Product::where('status', 1)->count(),
+                'inactive_products' => Product::where('status', 0)->count(),
+                'low_stock_products' => Product::where('stock', '<=', 10)->count(),
+                'recent_products' => Product::where('created_at', '>=', now()->subDays(7))->count(),
+                'out_of_stock' => Product::where('stock', 0)->count()
+            ];
+
+            return response()->json([
+                'success' => true,
+                'stats' => $stats
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi lấy thống kê!'
             ], 500);
         }
     }

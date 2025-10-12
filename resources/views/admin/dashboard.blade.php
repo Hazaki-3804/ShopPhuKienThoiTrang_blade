@@ -174,8 +174,8 @@
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center">
-    <h1 class="m-0"><i class="fas fa-tachometer-alt text-primary"></i> Dashboard</h1>
-    <small class="text-muted">Tổng quan hệ thống bán hàng</small>
+    <h1 class="m-0"><i class="fas fa-tachometer-alt text-primary"></i> Tổng quan hệ thống bán hàng</h1>
+    <!-- <small class="text-muted">Tổng quan hệ thống bán hàng</small> -->
 </div>
 @stop
 
@@ -369,6 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function renderSalesChart() {
     const ctx = document.getElementById('salesChart').getContext('2d');
     const salesData = @json($salesData);
+    console.log(salesData)
     
     new Chart(ctx, {
         type: 'line',
