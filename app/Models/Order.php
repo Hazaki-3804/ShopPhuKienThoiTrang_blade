@@ -45,7 +45,11 @@ class Order extends Model
 		'total_price',
 		'status',
 		'shipping_address',
-		'payment_method'
+		'payment_method',
+		'discount_id',
+		'discount_code',
+		'discount_amount',
+		'insurance_fee'
 	];
 
 	public function user()
@@ -61,6 +65,11 @@ class Order extends Model
 	public function payments()
 	{
 		return $this->hasMany(Payment::class);
+	}
+
+	public function discount()
+	{
+		return $this->belongsTo(Discount::class);
 	}
 
 	// Convenience accessor so "$order->items" works in views

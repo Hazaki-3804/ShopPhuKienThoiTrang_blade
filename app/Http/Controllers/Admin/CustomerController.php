@@ -29,6 +29,40 @@ class CustomerController extends Controller
         }
 
         return DataTables::of($query)
+            ->addColumn('customer_info', function ($customer) {
+                $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($customer->name) . '&background=random&color=fff&size=40';
+                if($customer->avatar) {
+                    // Nếu avatar bắt đầu bằng 'avatars/' thì là file trong storage
+                    if (str_starts_with($customer->avatar, 'avatars/')) {
+                        $avatarUrl = asset('storage/' . $customer->avatar);
+                    } 
+                    // Nếu bắt đầu bằng 'storage/' thì đã có đường dẫn đầy đủ
+                    elseif (str_starts_with($customer->avatar, 'storage/')) {
+                        $avatarUrl = asset($customer->avatar);
+                    }
+                    // Nếu là URL đầy đủ thì giữ nguyên
+                    elseif (str_starts_with($customer->avatar, 'http')) {
+                        $avatarUrl = $customer->avatar;
+                    }
+                    // Trường hợp khác, thêm asset()
+                    else {
+                        $avatarUrl = asset('storage/avatars/' . basename($customer->avatar));
+                    }
+                }
+                return '<div class="d-flex align-items-center gap-2">
+                    <img src="' . $avatarUrl . '" 
+                         class="rounded-circle border" 
+                         width="40" 
+                         height="40" 
+                         style="object-fit: cover; min-width: 40px; min-height: 40px;"
+                         alt="' . $customer->name . '"
+                         onerror="this.src=\'https://ui-avatars.com/api/?name=' . urlencode($customer->name) . '&background=6c757d&color=fff&size=40\'">
+                    <div>
+                        <div class="fw-semibold">' . $customer->name . '</div>
+                        <div class="small text-muted">' . $customer->email . '</div>
+                    </div>
+                </div>';
+            })
             ->addColumn('status_badge', function ($customer) {
                 return $customer->status == '1'
                     ? '<span class="badge bg-success text-white p-1"><i class="fas fa-check"></i> Active</span>'
@@ -52,7 +86,7 @@ class CustomerController extends Controller
                 </button>';
                 return $editButton . ' ' . $toggleButton . ' ' . $deleteButton;
             })
-            ->rawColumns(['status_badge', 'actions']) // cho phép render HTML
+            ->rawColumns(['customer_info', 'status_badge', 'actions']) // cho phép render HTML
             ->make(true);
     }
 
@@ -86,7 +120,6 @@ class CustomerController extends Controller
             if (empty($validated['username'])) {
                 $validated['username'] = Str::slug($validated['name'], '');
             }
-
             $customer = Customer::create([
                 'username' => $validated['username'],
                 'name' => $validated['name'],
@@ -110,6 +143,7 @@ class CustomerController extends Controller
 
             return redirect()->route('admin.customers.index')->with('success', 'Thêm khách hàng thành công!');
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,

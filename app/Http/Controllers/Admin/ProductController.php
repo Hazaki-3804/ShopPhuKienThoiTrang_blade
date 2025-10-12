@@ -137,7 +137,7 @@ class ProductController extends Controller
                         ' . $image . '
                         <div class="ms-2" style="text-align:left;">
                             <div class="fw-bold">
-                                <span style="display:inline-block; width:450px; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($product->name) . '</span>
+                                <span style="display:inline-block; width:400px; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($product->name) . '</span>
                             </div>
                             <small class="text-muted">ID: ' . $product->id . '</small>
                         </div>

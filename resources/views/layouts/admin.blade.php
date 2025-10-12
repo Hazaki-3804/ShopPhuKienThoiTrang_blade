@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- Google Fonts Space Grotesk -->
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Bootstrap Icons for admin UI icons -->

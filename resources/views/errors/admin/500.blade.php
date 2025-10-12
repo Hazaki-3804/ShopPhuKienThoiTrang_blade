@@ -22,7 +22,7 @@
                 Vui lòng thử lại sau hoặc liên hệ với quản trị viên hệ thống.
             </p>
             
-            @if(config('app.debug') && isset($exception) && auth()->user->role_id=1)
+            @if(config('app.debug') && isset($exception) && auth()->check() && auth()->user()->role_id == 1)
             <div class="alert alert-danger text-left mt-3">
                 <h5><i class="fas fa-info-circle"></i> Chi tiết lỗi (Debug mode):</h5>
                 <p class="mb-1"><strong>Message:</strong> {{ $exception->getMessage() }}</p>

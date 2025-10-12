@@ -33,12 +33,9 @@
                     @forelse($visibleReviews as $rv)
                     <div class="border rounded p-2 mb-2">
                         <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <strong>{{ $rv->user->name ?? $rv->user_name ?? 'Người dùng' }}</strong>
-                                <div class="small text-muted">{{ $rv->created_at->format('d/m/Y H:i') }}</div>
-                            </div>
-                            <span class="text-warning">
-                                @for($i=0;$i<$rv->rating;$i++)★@endfor
+                            <strong>{{ $rv->user->name ?? $rv->user_name ?? 'Người dùng' }}</strong>
+                            <span class="text-warning" aria-label="{{ $rv->rating }} sao" title="{{ $rv->rating }} sao">
+                                @for($i = 0; $i < (int) $rv->rating; $i++)★@endfor
                             </span>
                         </div>
                         <div class="mt-1">{{ trim((string)$rv->comment) !== '' ? $rv->comment : '(Không có nhận xét)' }}</div>
@@ -51,30 +48,29 @@
                 @if($canReview)
                     @php $hasMyReview = isset($myReview) && $myReview; @endphp
                     @if(!$hasMyReview)
-                    <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="row g-2">
+                    <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="review-form">
                         @csrf
-                        <div class="col-12 col-md-6">
-                            <input class="form-control hidden" name="user_id" value="{{ auth()->user()->id }}" required>
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                        <input type="hidden" name="rating" id="rating-input" value="" required>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Chất lượng sản phẩm</label>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" data-rating="1"></i>
+                                <i class="bi bi-star-fill" data-rating="2"></i>
+                                <i class="bi bi-star-fill" data-rating="3"></i>
+                                <i class="bi bi-star-fill" data-rating="4"></i>
+                                <i class="bi bi-star-fill" data-rating="5"></i>
+                                <span class="rating-text ms-2">Tuyệt vời</span>
+                            </div>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <input class="form-control" name="user_name" value="{{ auth()->user()->name }}" placeholder="Tên" required>
+                        
+                        <div class="mb-3">
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Hãy chia sẻ nhận xét cho sản phẩm này bạn nhé!"></textarea>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <input class="form-control" type="email" name="user_email" value="{{ auth()->user()->email }}" placeholder="Email" required>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <select class="form-select" name="rating" required>
-                                <option value="">Rating</option>
-                                @foreach(range(1,5) as $r)
-                                <option value="{{ $r }}">{{ $r }} ★</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <input class="form-control" name="comment" placeholder="Nhận xét (tuỳ chọn)">
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-outline-secondary">Gửi đánh giá</button>
+                        
+                        <div>
+                            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                         </div>
                     </form>
                     @else
@@ -84,30 +80,29 @@
                         </button>
                     </div>
                     <div id="editReviewForm" class="collapse">
-                        <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="row g-2">
+                        <form method="POST" action="{{ route('reviews.store', $product->id) }}" class="review-form">
                             @csrf
-                            <div class="col-12 col-md-6">
-                                <input class="form-control hidden" name="user_id" value="{{ auth()->user()->id }}" required>
+                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                            <input type="hidden" name="rating" id="edit-rating-input" value="{{ $myReview->rating ?? 5 }}" required>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Chất lượng sản phẩm</label>
+                                <div class="star-rating" data-current-rating="{{ $myReview->rating ?? 5 }}">
+                                    <i class="bi bi-star-fill" data-rating="1"></i>
+                                    <i class="bi bi-star-fill" data-rating="2"></i>
+                                    <i class="bi bi-star-fill" data-rating="3"></i>
+                                    <i class="bi bi-star-fill" data-rating="4"></i>
+                                    <i class="bi bi-star-fill" data-rating="5"></i>
+                                    <span class="rating-text ms-2">Tuyệt vời</span>
+                                </div>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <input class="form-control" value="{{ auth()->user()->name }}" disabled>
+                            
+                            <div class="mb-3">
+                                <textarea class="form-control" name="comment" rows="3" placeholder="Hãy chia sẻ nhận xét cho sản phẩm này bạn nhé!">{{ $myReview->comment }}</textarea>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <input class="form-control" type="email" value="{{ auth()->user()->email }}" disabled>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <select class="form-select" name="rating" required>
-                                    <option value="">Rating</option>
-                                    @foreach(range(1,5) as $r)
-                                    <option value="{{ $r }}" {{ (int)($myReview->rating ?? 0) === $r ? 'selected' : '' }}>{{ $r }} ★</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-8">
-                                <input class="form-control" name="comment" value="{{ $myReview->comment }}" placeholder="Nhận xét (tuỳ chọn)">
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-outline-secondary">Cập nhật đánh giá</button>
+                            
+                            <div>
+                                <button type="submit" class="btn btn-primary">Cập nhật đánh giá</button>
                             </div>
                         </form>
                     </div>
@@ -125,7 +120,7 @@
 
             <!-- Khuyến mãi nổi bật -->
             <div class="promo-box mb-2">
-                <span class="promo-label">Áp dụng mã khuyến mãi giảm 15k khi mua đơn hàng 150k</span>
+                <span class="promo-label">Áp dụng mã khuyến mãi giảm 15k khi mua đơn hàng 250k</span>
                 <span class="promo-label">Mua để nhận quà</span>
             </div>
             @if($product->stock == 1)
@@ -191,13 +186,12 @@
                 <hr>
                 <div class="row g-2 justify-content-center align-items-center">
                     <div class="col-auto"><i class="bi bi-truck"></i></div>
-                    <div class="col">Hỗ trợ ship 20k cho đơn hàng từ 300k nội thành Vĩnh Long</div>
+                    <div class="col">Hỗ trợ ship tối đa 20k cho đơn hàng từ 300k nội thành Vĩnh Long</div>
                 </div>
                 <div class="row g-2 justify-content-center align-items-center">
                     <div class="col-auto"><i class="bi bi-truck"></i></div>
-                    <div class="col">Hỗ trợ ship 30k cho đơn hàng từ 500k các khu vực khác</div>
+                    <div class="col">Hỗ trợ ship tối đa 30k cho đơn hàng từ 500k các khu vực khác</div>
                 </div>
-                @endif
             </div>
         </div>
     </div>
@@ -493,8 +487,131 @@
 
     // Cập nhật tổng tiền ban đầu
     updateTotalPrice();
+    
+    // Star Rating System
+    const starRatings = document.querySelectorAll('.star-rating');
+    
+    starRatings.forEach(starRating => {
+        const stars = starRating.querySelectorAll('i[data-rating]');
+        const ratingText = starRating.querySelector('.rating-text');
+        const form = starRating.closest('form');
+        const ratingInput = form ? form.querySelector('input[name="rating"]') : null;
+        
+        // Get current rating if editing
+        const currentRating = parseInt(starRating.dataset.currentRating) || 0;
+        let selectedRating = currentRating;
+        
+        // Initialize stars based on current rating
+        if (currentRating > 0) {
+            updateStars(currentRating);
+            updateText(currentRating);
+            if (ratingInput) ratingInput.value = currentRating;
+        }
+        
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.style.color = '#ffc107';
+                } else {
+                    star.style.color = '#e0e0e0';
+                }
+            });
+        }
+        
+        function updateText(rating) {
+            const texts = ['', 'Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời'];
+            if (ratingText) {
+                ratingText.textContent = texts[rating] || '';
+            }
+        }
+        
+        stars.forEach(star => {
+            // Hover effect
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.dataset.rating);
+                updateStars(rating);
+                updateText(rating);
+            });
+            
+            // Click to select
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                if (ratingInput) {
+                    ratingInput.value = selectedRating;
+                }
+                updateStars(selectedRating);
+                updateText(selectedRating);
+            });
+        });
+        
+        // Reset to selected rating when mouse leaves
+        starRating.addEventListener('mouseleave', function() {
+            updateStars(selectedRating);
+            updateText(selectedRating);
+        });
+    });
   });
 </script>
+
+<style>
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.star-rating i {
+    font-size: 2rem;
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star-rating i:hover {
+    transform: scale(1.1);
+}
+
+.rating-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffc107;
+    min-width: 100px;
+}
+
+.review-form {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.review-form .form-label {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.review-form textarea {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    resize: none;
+}
+
+.review-form textarea:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.review-form .btn-primary {
+    background-color: #ee4d2d;
+    border-color: #ee4d2d;
+    padding: 0.5rem 2rem;
+}
+
+.review-form .btn-primary:hover {
+    background-color: #d73211;
+    border-color: #d73211;
+}
+</style>
 @endpush
 @endsection
 

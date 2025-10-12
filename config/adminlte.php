@@ -15,6 +15,9 @@ return [
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_alt' => 'Admin Shop',
+    'preloader'=>[
+        'enabled'=>false,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -134,6 +137,29 @@ return [
                 ],
             ],
         ],
+        [
+            'text' => 'Quản lý khuyến mãi',
+            'icon' => 'fas fa-gift',
+            'breadcrumb' => true,
+            'submenu' => [
+                [
+                    'text' => 'Danh sách khuyến mãi',
+                    'route' => 'admin.promotions.index',
+                    'breadcrumb' => true,
+                ],
+                [
+                    'text' => 'Thêm khuyến mãi',
+                    'route' => 'admin.promotions.create',
+                    'breadcrumb' => true,
+                ],
+            ],
+        ],
+        [
+            'text' => 'Quản lý phí vận chuyển',
+            'route' => 'admin.shipping-fees.index',
+            'icon' => 'fas fa-shipping-fast',
+            'breadcrumb' => true,
+        ],
         ['header' => 'KHÁCH HÀNG'],
         [
             'text' => 'Quản lý khách hàng',
@@ -171,9 +197,15 @@ return [
                 ],
             ],
         ],
-        ['text' => 'Quản lý khách hàng', 'route' => 'customers.index', 'icon' => 'far fa-user'],
+        
         ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true],
-        ['text' => 'Thống kê', 'route' => 'analytics', 'icon' => 'fas fa-chart-line'],
+        ['header' => 'NHÂN VIÊN'],
+        [
+            'text' => 'Quản lý nhân viên',
+            'route' => 'admin.users.index',
+            'icon' => 'fas fa-uesrs'
+        ],
+        // ['text' => 'Thống kê', 'route' => 'analytics', 'icon' => 'fas fa-chart-line'],
         ['text' => 'Cài đặt', 'route' => 'settings', 'icon' => 'fas fa-cog'],
     ],
 

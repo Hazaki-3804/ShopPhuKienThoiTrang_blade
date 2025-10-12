@@ -67,7 +67,8 @@ class AdminReviewsController extends Controller
     {
         $review->delete();
         
-        if (request()->wantsJson()) {
+        // Always return JSON for AJAX requests (check X-Requested-With header)
+        if (request()->ajax() || request()->wantsJson() || request()->header('X-Requested-With') === 'XMLHttpRequest') {
             return response()->json([
                 'success' => true,
                 'message' => 'Đã xóa bình luận thành công'

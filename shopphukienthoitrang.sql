@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2025 at 06:41 PM
+-- Generation Time: Oct 11, 2025 at 03:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -85,7 +85,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 2, '2025-09-24 01:37:45', '2025-09-24 01:37:45');
+(1, 2, '2025-09-24 01:37:45', '2025-09-24 01:37:45'),
+(2, 9, '2025-10-09 07:02:37', '2025-10-09 07:02:37');
 
 -- --------------------------------------------------------
 
@@ -98,17 +99,10 @@ CREATE TABLE `cart_items` (
   `cart_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1,
+  `voucher` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cart_items`
---
-
-INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 13, 1, '2025-09-24 01:37:45', '2025-09-24 01:37:45'),
-(2, 1, 16, 3, '2025-09-24 01:50:57', '2025-09-24 01:56:42');
 
 -- --------------------------------------------------------
 
@@ -121,8 +115,8 @@ CREATE TABLE `categories` (
   `name` varchar(100) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -130,7 +124,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', '2025-09-24 07:01:58', '2025-09-24 07:02:28'),
+(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', NULL, NULL),
 (2, 'Móng tay giả', 'Các loại móng giả', 'mong-tay', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (5, 'Túi xách', 'Túi xách, balo, ví nam nữ', 'tui_xach', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (10, 'Kẹp tóc', 'Kẹp tóc', 'kep-toc', '2025-09-20 00:33:39', '2025-09-20 01:18:54'),
@@ -152,9 +146,18 @@ CREATE TABLE `discounts` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1,
+  `quantity` int(11) DEFAULT NULL COMMENT 'Số lượng voucher có thể sử dụng',
+  `used_quantity` int(11) NOT NULL DEFAULT 0 COMMENT 'Số lượng voucher đã sử dụng',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `discounts`
+--
+
+INSERT INTO `discounts` (`id`, `code`, `description`, `discount_type`, `discount_value`, `start_date`, `end_date`, `status`, `quantity`, `used_quantity`, `created_at`, `updated_at`) VALUES
+(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-13', 1, 1, 1, '2025-10-09 06:14:51', '2025-10-10 19:30:01');
 
 -- --------------------------------------------------------
 
@@ -240,7 +243,15 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2025_09_18_180549_create_orders_table', 1),
 (15, '2025_09_18_180554_create_order_items_table', 1),
 (16, '2025_09_18_180612_create_payments_table', 1),
-(17, '2025_09_18_180620_create_reviews_table', 1);
+(17, '2025_09_18_180620_create_reviews_table', 1),
+(18, '2025_10_05_092710_add_voucher_to_cart_items_table', 2),
+(19, '2025_10_07_070000_add_customer_info_to_orders_table', 3),
+(20, '2025_10_08_071200_update_orders_status_enum', 4),
+(21, '2025_10_08_073600_add_is_hidden_to_reviews_table', 4),
+(22, '2025_10_09_132800_add_discount_info_to_orders_table', 4),
+(23, '2025_10_09_140900_create_shipping_fees_table', 5),
+(24, '2025_10_10_070026_add_insurance_fee_to_orders_table', 6),
+(26, '2025_10_11_021739_add_quantity_to_discounts_table', 7);
 
 -- --------------------------------------------------------
 
@@ -251,10 +262,17 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `customer_name` varchar(120) NOT NULL,
+  `customer_email` varchar(120) NOT NULL,
+  `customer_phone` varchar(30) NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
-  `status` enum('pending','confirmed','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','processing','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
   `shipping_address` varchar(255) NOT NULL,
   `payment_method` enum('cod','bank','momo','paypal') NOT NULL DEFAULT 'cod',
+  `discount_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `discount_code` varchar(50) DEFAULT NULL,
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `insurance_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -263,9 +281,18 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `shipping_address`, `payment_method`, `created_at`, `updated_at`) VALUES
-(1, 9, 130000.00, 'pending', 'ấp Định Thới B, xã An Phước, tỉnh Vĩnh Long', 'cod', '2025-10-04 16:24:06', '2025-10-04 16:24:06'),
-(2, 14, 140000.00, 'confirmed', 'Cần Thơ', 'momo', '2025-10-04 16:27:07', '2025-10-04 16:27:07');
+INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 309000.00, 'pending', '259/28', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
+(2, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 274000.00, 'pending', 'Phường 9', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
+(3, 2, 'Trương Minh Thư', 'minhthu@gmail.com', '03219313131', 340000.00, 'pending', 'Nhà Trọ Ngọc hân', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
+(4, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 649000.00, 'pending', '259/12, Phường Long Châu, Vĩnh Long', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(5, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 200050.00, 'pending', 'aaa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'SALE30K', 8950.00, 0.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
+(6, 9, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 205000.00, 'delivered', 'aaa, Phường Nùng Trí Cao, Cao Bằng', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-09 07:02:46', '2025-10-09 07:03:22'),
+(7, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 793750.00, 'pending', '259/29, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 41250.00, 0.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
+(8, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 770000.00, 'pending', '255, Xã Hiếu Phụng, Vĩnh Long', 'cod', 1, 'GIAM5%', 40000.00, 0.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
+(9, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 523950.00, 'processing', '259/28, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 26850.00, 1300.00, '2025-10-10 19:14:20', '2025-10-10 19:15:19'),
+(10, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 185800.00, 'pending', 'a, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 8200.00, 0.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
+(11, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 280800.00, 'delivered', 'aa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 13200.00, 0.00, '2025-10-10 19:30:01', '2025-10-10 19:31:03');
 
 -- --------------------------------------------------------
 
@@ -288,8 +315,23 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(2, 1, 13, 1, 130000.00, '2025-10-04 16:28:59', '2025-10-04 16:28:59'),
-(3, 2, 14, 1, 140000.00, '2025-10-04 16:30:25', '2025-10-04 16:30:25');
+(1, 1, 143, 1, 164000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
+(2, 1, 19, 1, 160000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
+(3, 2, 25, 1, 159000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
+(4, 2, 26, 1, 130000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
+(5, 3, 17, 1, 165000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
+(6, 3, 16, 1, 175000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
+(7, 4, 32, 1, 175000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(8, 4, 19, 1, 160000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(9, 4, 143, 1, 164000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(10, 4, 21, 1, 150000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(11, 5, 22, 1, 179000.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
+(12, 6, 32, 1, 175000.00, '2025-10-09 07:02:47', '2025-10-09 07:02:47'),
+(13, 7, 17, 5, 165000.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
+(14, 8, 19, 5, 160000.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
+(15, 9, 22, 3, 179000.00, '2025-10-10 19:14:20', '2025-10-10 19:14:20'),
+(16, 10, 143, 1, 164000.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
+(17, 11, 30, 4, 66000.00, '2025-10-10 19:30:01', '2025-10-10 19:30:01');
 
 -- --------------------------------------------------------
 
@@ -347,23 +389,23 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 40, 1, '2025-09-23 12:45:45', '2025-09-23 12:45:58'),
 (14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 10, 1, '2025-09-23 12:45:54', '2025-09-23 12:46:04'),
 (15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 5, 1, '2025-09-23 12:46:08', '2025-09-23 12:46:12'),
-(16, 5, 'B.202 Túi đeo vải Basic Gentle Woman text dập nổi một màu 19x28', '✨ Túi đeo vải Basic với thiết kế tối giản, tinh tế.\r\n🖋️ Điểm nhấn độc đáo với dòng chữ Gentle Woman dập nổi trên nền một màu sang trọng.\r\n📏 Kích thước: 19 x 28 cm, vừa vặn để đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, phù hợp cho nhiều phong cách thời trang.\r\n🌸 Chất liệu vải cao cấp, bền đẹp, dễ phối đồ, mang lại sự thanh lịch cho người dùng.', 175000.00, 10, 1, '2025-09-23 12:46:17', '2025-09-23 12:46:21'),
-(17, 5, 'B.202 Túi đeo vải Gentle Woman text nổi quai lớn phối nơ hai bên 21x28', '✨ Túi đeo vải Gentle Woman với thiết kế hiện đại, tinh tế.\r\n🖋️ Điểm nhấn nổi bật với dòng chữ Gentle Woman dập nổi cùng quai bản lớn phối nơ hai bên duyên dáng.\r\n📏 Kích thước: 21 x 28 cm, thoải mái đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, dễ dàng kết hợp với nhiều phong cách thời trang.\r\n🌸 Chất liệu vải bền đẹp, mềm mại, mang lại sự thanh lịch và trẻ trung cho người dùng.', 165000.00, 30, 1, '2025-09-23 12:46:53', '2025-09-23 12:46:56'),
+(16, 5, 'B.202 Túi đeo vải Basic Gentle Woman text dập nổi một màu 19x28', '✨ Túi đeo vải Basic với thiết kế tối giản, tinh tế.\r\n🖋️ Điểm nhấn độc đáo với dòng chữ Gentle Woman dập nổi trên nền một màu sang trọng.\r\n📏 Kích thước: 19 x 28 cm, vừa vặn để đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, phù hợp cho nhiều phong cách thời trang.\r\n🌸 Chất liệu vải cao cấp, bền đẹp, dễ phối đồ, mang lại sự thanh lịch cho người dùng.', 175000.00, 9, 1, '2025-09-23 12:46:17', '2025-10-07 04:00:40'),
+(17, 5, 'B.202 Túi đeo vải Gentle Woman text nổi quai lớn phối nơ hai bên 21x28', '✨ Túi đeo vải Gentle Woman với thiết kế hiện đại, tinh tế.\r\n🖋️ Điểm nhấn nổi bật với dòng chữ Gentle Woman dập nổi cùng quai bản lớn phối nơ hai bên duyên dáng.\r\n📏 Kích thước: 21 x 28 cm, thoải mái đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, dễ dàng kết hợp với nhiều phong cách thời trang.\r\n🌸 Chất liệu vải bền đẹp, mềm mại, mang lại sự thanh lịch và trẻ trung cho người dùng.', 165000.00, 24, 1, '2025-09-23 12:46:53', '2025-10-09 08:49:58'),
 (18, 5, 'B.202 Túi đeo vải Sanrio family Hello Kitty face phối quai màu 6x30x38', '✨ Túi đeo vải Sanrio Family với thiết kế đáng yêu, nổi bật hình Hello Kitty face xinh xắn.\r\n🖋️ Quai túi phối màu tinh tế, tạo điểm nhấn trẻ trung và dễ thương.\r\n📏 Kích thước: 6 x 30 x 38 cm, rộng rãi, có thể đựng sách vở, tài liệu, laptop mỏng, mỹ phẩm hoặc các vật dụng cá nhân.\r\n👜 Kiểu dáng đeo vai/đeo chéo tiện lợi, phù hợp cho đi học, đi làm hoặc dạo phố.\r\n🌸 Chất liệu vải bền đẹp, nhẹ nhàng, dễ phối đồ, đặc biệt phù hợp cho các bạn trẻ yêu thích phong cách cute – năng động.', 99000.00, 6, 1, '2025-09-23 12:47:00', '2025-09-23 12:47:04'),
-(19, 5, 'B.23 Túi xách tay Butterfly dây rút phối dây xích ngọc trai 8x17x25', '✨ Túi xách tay Butterfly với thiết kế dây rút độc đáo, mang lại nét nữ tính và thời thượng.\r\n🖋️ Điểm nhấn ấn tượng với dây xích ngọc trai phối tinh tế, vừa sang trọng vừa trẻ trung.\r\n📏 Kích thước: 8 x 17 x 25 cm, gọn gàng nhưng đủ chỗ cho điện thoại, ví, son phấn và các vật dụng cần thiết.\r\n👜 Có thể sử dụng như túi xách tay hoặc đeo vai tùy phong cách.\r\n🌸 Chất liệu vải bền đẹp, dễ phối đồ, phù hợp cho đi chơi, dự tiệc hay hẹn hò.', 160000.00, 7, 1, '2025-09-23 12:47:07', '2025-09-23 12:47:10'),
+(19, 5, 'B.23 Túi xách tay Butterfly dây rút phối dây xích ngọc trai 8x17x25', '✨ Túi xách tay Butterfly với thiết kế dây rút độc đáo, mang lại nét nữ tính và thời thượng.\r\n🖋️ Điểm nhấn ấn tượng với dây xích ngọc trai phối tinh tế, vừa sang trọng vừa trẻ trung.\r\n📏 Kích thước: 8 x 17 x 25 cm, gọn gàng nhưng đủ chỗ cho điện thoại, ví, son phấn và các vật dụng cần thiết.\r\n👜 Có thể sử dụng như túi xách tay hoặc đeo vai tùy phong cách.\r\n🌸 Chất liệu vải bền đẹp, dễ phối đồ, phù hợp cho đi chơi, dự tiệc hay hẹn hò.', 160000.00, 0, 1, '2025-09-23 12:47:07', '2025-10-09 09:37:10'),
 (20, 5, 'B.23 Túi xách tay Bow nơ nền màu viền dày 5x13x22', '✨ Túi xách tay Bow nơ với thiết kế nền màu tinh tế, điểm nhấn viền dày tạo sự chắc chắn và sang trọng.\r\n🎀 Phối nơ xinh xắn ở mặt trước, mang lại vẻ nữ tính, ngọt ngào cho người dùng.\r\n📏 Kích thước: 5 x 13 x 22 cm, nhỏ gọn, thích hợp để đựng điện thoại, ví mini, son phấn và một vài vật dụng cần thiết.\r\n👜 Kiểu dáng xách tay/đeo vai, dễ dàng phối hợp với nhiều phong cách thời trang khác nhau.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, phù hợp cho đi chơi, hẹn hò hoặc dạo phố.', 160000.00, 14, 1, '2025-09-23 12:47:15', '2025-09-23 12:47:18'),
-(21, 5, 'B.202 Túi xách tay Little bow nơ nền ô vuông 14x29x38', '✨ Túi xách tay Little bow với thiết kế nền ô vuông độc đáo, mang lại sự trẻ trung và hiện đại.\r\n🎀 Điểm nhấn là chi tiết nơ nhỏ xinh phía trước, tạo vẻ nữ tính và tinh tế cho người dùng.\r\n📏 Kích thước: 14 x 29 x 38 cm, không gian rộng rãi, đựng được nhiều vật dụng như điện thoại, ví, sổ tay, mỹ phẩm…\r\n👜 Kiểu dáng xách tay/đeo vai, dễ phối hợp với nhiều phong cách, từ thanh lịch đến năng động.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, thích hợp sử dụng hàng ngày, đi học, đi làm hay dạo phố.', 150000.00, 25, 1, '2025-09-23 12:47:21', '2025-09-23 12:47:26'),
-(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 20, 1, '2025-09-23 12:47:29', '2025-09-23 12:47:32'),
+(21, 5, 'B.202 Túi xách tay Little bow nơ nền ô vuông 14x29x38', '✨ Túi xách tay Little bow với thiết kế nền ô vuông độc đáo, mang lại sự trẻ trung và hiện đại.\r\n🎀 Điểm nhấn là chi tiết nơ nhỏ xinh phía trước, tạo vẻ nữ tính và tinh tế cho người dùng.\r\n📏 Kích thước: 14 x 29 x 38 cm, không gian rộng rãi, đựng được nhiều vật dụng như điện thoại, ví, sổ tay, mỹ phẩm…\r\n👜 Kiểu dáng xách tay/đeo vai, dễ phối hợp với nhiều phong cách, từ thanh lịch đến năng động.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, thích hợp sử dụng hàng ngày, đi học, đi làm hay dạo phố.', 150000.00, 24, 1, '2025-09-23 12:47:21', '2025-10-09 05:54:49'),
+(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 16, 1, '2025-09-23 12:47:29', '2025-10-10 19:14:20'),
 (23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 35, 1, '2025-09-23 12:47:35', '2025-09-23 12:47:38'),
 (24, 5, 'B.202 Túi đeo vai Little things denim style 11x24x36', '👖 Túi đeo vai denim style cá tính với thiết kế Little Things trẻ trung, năng động.\r\n👜 Form túi chữ nhật mềm mại, mang hơi hướng retro, dễ phối với nhiều outfit thường ngày.\r\n📏 Kích thước: 11 x 24 x 36 cm, đủ rộng để đựng điện thoại, ví, sổ tay, mỹ phẩm và các vật dụng cần thiết.\r\n🌟 Quai vai bản vừa, chắc chắn, tạo cảm giác thoải mái khi sử dụng cả ngày.\r\n✨ Chất liệu vải denim bền đẹp, giữ form tốt, mang lại phong cách vừa giản dị vừa hiện đại.\r\n💙 Phù hợp cho đi học, đi chơi, dạo phố hay du lịch nhẹ nhàng.', 180000.00, 10, 1, '2025-09-23 12:47:44', '2025-09-23 12:47:47'),
-(25, 5, 'B.23 Túi xách tay da lộn Basic color dây bện 9x18x23', '✨ Túi xách tay Basic Color được làm từ chất liệu da lộn mềm mại, mang lại cảm giác sang trọng và thời thượng.\r\n👜 Thiết kế nhỏ gọn với kích thước 9 x 18 x 23 cm, vừa vặn để đựng điện thoại, ví, son và các vật dụng cần thiết.\r\n🌸 Điểm nhấn tinh tế với dây bện độc đáo, tạo sự khác biệt cho phong cách tối giản.\r\n🎀 Form túi cứng cáp, giữ dáng tốt, dễ phối với nhiều outfit từ thanh lịch đến casual.\r\n💼 Phù hợp cho đi làm, đi chơi, hẹn hò hay những buổi gặp gỡ nhẹ nhàng.', 159000.00, 2, 1, '2025-09-23 12:47:51', '2025-09-23 12:47:53'),
-(26, 5, 'B.202 Túi xách tay vải nhung tăm Bow nơ ô vuông 8x14x22', '✨ Túi xách tay vải nhung tăm với chất liệu mềm mại, mang lại cảm giác ấm áp và sang trọng.\r\n🎀 Thiết kế nổi bật với nơ ô vuông tinh tế, tạo điểm nhấn nữ tính và dễ thương.\r\n📏 Kích thước 8 x 14 x 22 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví tiền, son và những vật dụng cần thiết hàng ngày.\r\n👜 Kiểu dáng thanh lịch, phù hợp mang đi chơi, dạo phố hay dự tiệc nhẹ.\r\n🌸 Dễ dàng kết hợp với nhiều phong cách thời trang, từ trẻ trung đến dịu dàng.', 130000.00, 3, 1, '2025-09-23 12:47:56', '2025-09-23 12:47:59'),
+(25, 5, 'B.23 Túi xách tay da lộn Basic color dây bện 9x18x23', '✨ Túi xách tay Basic Color được làm từ chất liệu da lộn mềm mại, mang lại cảm giác sang trọng và thời thượng.\r\n👜 Thiết kế nhỏ gọn với kích thước 9 x 18 x 23 cm, vừa vặn để đựng điện thoại, ví, son và các vật dụng cần thiết.\r\n🌸 Điểm nhấn tinh tế với dây bện độc đáo, tạo sự khác biệt cho phong cách tối giản.\r\n🎀 Form túi cứng cáp, giữ dáng tốt, dễ phối với nhiều outfit từ thanh lịch đến casual.\r\n💼 Phù hợp cho đi làm, đi chơi, hẹn hò hay những buổi gặp gỡ nhẹ nhàng.', 159000.00, 1, 1, '2025-09-23 12:47:51', '2025-10-07 00:53:40'),
+(26, 5, 'B.202 Túi xách tay vải nhung tăm Bow nơ ô vuông 8x14x22', '✨ Túi xách tay vải nhung tăm với chất liệu mềm mại, mang lại cảm giác ấm áp và sang trọng.\r\n🎀 Thiết kế nổi bật với nơ ô vuông tinh tế, tạo điểm nhấn nữ tính và dễ thương.\r\n📏 Kích thước 8 x 14 x 22 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví tiền, son và những vật dụng cần thiết hàng ngày.\r\n👜 Kiểu dáng thanh lịch, phù hợp mang đi chơi, dạo phố hay dự tiệc nhẹ.\r\n🌸 Dễ dàng kết hợp với nhiều phong cách thời trang, từ trẻ trung đến dịu dàng.', 130000.00, 2, 1, '2025-09-23 12:47:56', '2025-10-07 00:53:40'),
 (27, 5, 'B.202 Túi đeo vai gấp gọn Cute dog vacation 37x56', '✨ Túi đeo vai gấp gọn với thiết kế hình chú chó dễ thương \"Cute Dog Vacation\", mang lại sự trẻ trung và năng động.\r\n🎒 Kích thước rộng rãi 37 x 56 cm, thoải mái đựng sách vở, quần áo, đồ đi chơi hay đi du lịch.\r\n👜 Thiết kế có thể gấp gọn tiện lợi, dễ dàng mang theo trong balo hoặc vali, tiết kiệm không gian.\r\n🌸 Chất liệu vải bền, nhẹ, dễ vệ sinh, phù hợp cho nhiều hoạt động hằng ngày.\r\n💖 Lựa chọn hoàn hảo cho những ai yêu thích phong cách dễ thương nhưng vẫn đề cao sự tiện ích.', 66000.00, 14, 1, '2025-09-23 12:48:02', '2025-09-23 12:48:06'),
 (28, 5, 'B.202 Túi đeo vai gấp gọn Cute dog weekend 37x50', '✨ Túi đeo vai gấp gọn với hình ảnh chú chó dễ thương \"Cute Dog Weekend\", mang lại cảm giác vui nhộn và năng động.\r\n🎒 Kích thước 37 x 50 cm, thoải mái đựng quần áo, sách vở, đồ tập gym hay đi chơi cuối tuần.\r\n👜 Thiết kế gấp gọn thông minh, dễ dàng bỏ vào balo hoặc vali khi không sử dụng.\r\n🌸 Chất liệu vải bền, nhẹ, dễ giặt, phù hợp cho nhiều hoạt động ngoài trời và du lịch ngắn ngày.\r\n💖 Lựa chọn tuyệt vời cho những ai yêu thích sự tiện lợi và phong cách dễ thương.', 50000.00, 19, 1, '2025-09-23 12:48:08', '2025-09-23 12:48:11'),
 (29, 5, 'B.202 Túi đeo vai gấp gọn Black cat have a good day 40x61', '✨ Túi đeo vai gấp gọn với hình ảnh mèo đen Black Cat kèm dòng chữ \"Have a Good Day\", mang lại cảm giác đáng yêu nhưng vẫn cá tính.\r\n🎒 Kích thước 40 x 61 cm, siêu rộng rãi, đựng được quần áo, sách vở, đồ tập gym hoặc dùng đi du lịch, đi chợ, đi chơi cuối tuần.\r\n👜 Thiết kế có thể gấp gọn lại khi không sử dụng, cực kỳ tiện lợi để bỏ balo hoặc mang theo bên mình.\r\n🌸 Chất liệu vải bền, nhẹ, dễ giặt, phù hợp cho nhiều nhu cầu hằng ngày.\r\n💖 Sản phẩm vừa thời trang, vừa tiện ích, dành cho những ai yêu thích phong cách trẻ trung, linh hoạt.', 66000.00, 10, 1, '2025-09-23 12:48:21', '2025-09-23 12:48:24'),
-(30, 5, 'B.202 Túi đeo vai gấp gọn Hi puppy dog fruit 37x56', '✨ Túi đeo vai gấp gọn với họa tiết chú chó con Hi Puppy Dog kết hợp hoa quả đầy màu sắc, mang lại cảm giác tươi vui và năng động.\r\n🎒 Kích thước 37 x 56 cm, rộng rãi để đựng quần áo, sách vở, đồ tập gym, đi chơi hay đi siêu thị.\r\n👜 Thiết kế gấp gọn tiện lợi, dễ dàng bỏ vào balo, túi xách nhỏ hoặc vali khi không sử dụng.\r\n🌸 Chất liệu vải bền đẹp, nhẹ, dễ giặt, phù hợp cho nhiều hoạt động thường ngày và du lịch ngắn ngày.\r\n💖 Lựa chọn hoàn hảo cho những ai yêu thích phong cách trẻ trung, dễ thương và tiện dụng.', 66000.00, 25, 1, '2025-09-23 12:48:32', '2025-09-23 12:48:35'),
+(30, 5, 'B.202 Túi đeo vai gấp gọn Hi puppy dog fruit 37x56', '✨ Túi đeo vai gấp gọn với họa tiết chú chó con Hi Puppy Dog kết hợp hoa quả đầy màu sắc, mang lại cảm giác tươi vui và năng động.\r\n🎒 Kích thước 37 x 56 cm, rộng rãi để đựng quần áo, sách vở, đồ tập gym, đi chơi hay đi siêu thị.\r\n👜 Thiết kế gấp gọn tiện lợi, dễ dàng bỏ vào balo, túi xách nhỏ hoặc vali khi không sử dụng.\r\n🌸 Chất liệu vải bền đẹp, nhẹ, dễ giặt, phù hợp cho nhiều hoạt động thường ngày và du lịch ngắn ngày.\r\n💖 Lựa chọn hoàn hảo cho những ai yêu thích phong cách trẻ trung, dễ thương và tiện dụng.', 66000.00, 21, 1, '2025-09-23 12:48:32', '2025-10-10 19:30:01'),
 (31, 5, 'Túi đeo da Bow nơ 1 màu 14x20', '✨ Túi đeo da với thiết kế tối giản, 1 màu sang trọng, dễ dàng phối cùng nhiều trang phục.\r\n🎀 Điểm nhấn nổi bật là chi tiết nơ xinh xắn phía trước, mang lại nét nữ tính và thanh lịch.\r\n📏 Kích thước 14 x 20 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví, son và các vật dụng cần thiết hằng ngày.\r\n👜 Quai đeo chắc chắn, có thể sử dụng đeo vai hoặc đeo chéo, tiện lợi trong nhiều hoàn cảnh.\r\n🌸 Chất liệu da mềm mịn, bền đẹp, tôn lên sự tinh tế cho phong cách thời trang của bạn.', 185000.00, 30, 1, '2025-09-23 12:48:43', '2025-09-23 12:48:46'),
-(32, 5, 'Túi đeo da Sanrio family Hello Kitty face cắt hình kèm móc 11x15', '✨ Túi đeo da với thiết kế Sanrio Family – Hello Kitty dễ thương, được cắt hình mặt mèo nổi bật.\r\n🎀 Đi kèm móc trang trí tiện lợi, có thể treo chìa khóa, charm hoặc phụ kiện nhỏ xinh.\r\n📏 Kích thước 11 x 15 cm, nhỏ gọn, thích hợp để đựng điện thoại mini, thẻ, tiền mặt hoặc son môi.\r\n👜 Thiết kế quai đeo chắc chắn, phù hợp mang theo khi đi chơi, dạo phố hoặc hẹn hò.\r\n🌸 Chất liệu da mềm, bền đẹp, kết hợp với phong cách cute – trẻ trung, cực kỳ thích hợp cho các fan Hello Kitty.', 175000.00, 12, 1, '2025-09-23 12:48:54', '2025-09-23 12:48:59'),
+(32, 5, 'Túi đeo da Sanrio family Hello Kitty face cắt hình kèm móc 11x15', '✨ Túi đeo da với thiết kế Sanrio Family – Hello Kitty dễ thương, được cắt hình mặt mèo nổi bật.\r\n🎀 Đi kèm móc trang trí tiện lợi, có thể treo chìa khóa, charm hoặc phụ kiện nhỏ xinh.\r\n📏 Kích thước 11 x 15 cm, nhỏ gọn, thích hợp để đựng điện thoại mini, thẻ, tiền mặt hoặc son môi.\r\n👜 Thiết kế quai đeo chắc chắn, phù hợp mang theo khi đi chơi, dạo phố hoặc hẹn hò.\r\n🌸 Chất liệu da mềm, bền đẹp, kết hợp với phong cách cute – trẻ trung, cực kỳ thích hợp cho các fan Hello Kitty.', 175000.00, 10, 1, '2025-09-23 12:48:54', '2025-10-09 07:02:47'),
 (33, 2, 'A.806 Bộ móng tay giả đính chi tiết nổi Bow nơ star nền kẻ ô kèm keo S251 set10', '💅 Bộ móng tay giả thời trang với thiết kế nền kẻ ô độc đáo, điểm xuyết chi tiết nổi Bow nơ và Star đầy tinh tế.\r\n✨ Phối màu Mix trẻ trung – hiện đại, phù hợp cho nhiều phong cách từ ngọt ngào dễ thương đến cá tính sành điệu.\r\n📦 Set gồm 10 móng + keo dán tiện lợi, giúp bạn dễ dàng gắn và tháo tại nhà mà không làm hại móng thật.\r\n🌸 Chất liệu móng cao cấp, bề mặt bóng mịn, ôm khít ngón tay và tạo cảm giác tự nhiên khi đeo.\r\n🌟 Thích hợp dùng khi đi tiệc, hẹn hò, chụp ảnh hoặc thay đổi diện mạo hằng ngày mà không cần ra tiệm nail.', 55000.00, 9, 1, '2025-09-23 12:49:11', '2025-09-23 12:49:17'),
 (34, 2, 'A.806 Bộ móng tay giả đính chi tiết nổi Bow nơ star nền màu sắc kèm keo S252 set10', '💅 Bộ móng tay giả với thiết kế Bow nơ và Star nổi bật trên nền màu sắc trẻ trung, tạo điểm nhấn độc đáo và cuốn hút.\r\n✨ Phối màu Mix đa dạng, dễ dàng kết hợp với nhiều phong cách thời trang khác nhau từ ngọt ngào, nữ tính đến cá tính, hiện đại.\r\n📦 Set gồm 10 móng + keo dán tiện lợi, dễ sử dụng, giúp bạn thay đổi diện mạo nhanh chóng ngay tại nhà.\r\n🌸 Chất liệu móng cao cấp, bền đẹp, bề mặt bóng mịn và ôm khít, mang lại cảm giác tự nhiên khi đeo.\r\n🌟 Phù hợp dùng khi đi tiệc, dạo phố, hẹn hò hay chụp ảnh, giúp bạn luôn nổi bật và tự tin.', 55000.00, 40, 1, '2025-09-23 12:49:20', '2025-09-23 12:49:23'),
 (35, 2, 'A.806 Bộ móng tay giả đính chi tiết nổi Sanrio family Hello Kitty face bow star kèm keo S184 set10', '💅 Bộ móng tay giả cao cấp lấy cảm hứng từ Sanrio Family – Hello Kitty dễ thương, kết hợp chi tiết Bow nơ và Star nổi bật.\r\n✨ Thiết kế Mix độc đáo, mang lại sự trẻ trung, đáng yêu nhưng vẫn thời trang và nổi bật.\r\n📦 Set gồm 10 móng + keo dán tiện lợi, dễ dàng sử dụng tại nhà, giúp bạn nhanh chóng sở hữu đôi tay xinh xắn mà không cần ra tiệm.\r\n🌸 Chất liệu móng cao cấp, bền đẹp, ôm khít tự nhiên, không gây khó chịu khi đeo.\r\n🌟 Phù hợp cho nhiều dịp: đi chơi, chụp ảnh, dự tiệc hay hẹn hò, giúp bạn thêm phần tự tin và cuốn hút.', 55000.00, 45, 1, '2025-09-23 12:49:36', '2025-09-23 12:49:39'),
@@ -437,7 +479,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (140, 1, 'Mắt kính unisex hot trend thời trang 💖FREESHIP💖 gọng kính mát nam nữ nhiều màu phong cách', '🕶️ Mắt kính unisex hot trend thời trang, gọng kính mát dành cho nam và nữ, có nhiều màu sắc phong cách 💖FREESHIP💖.\r\n✨ Bảo vệ mắt khỏi ánh sáng mặt trời, giảm chói và mỏi mắt khi di chuyển ngoài trời.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Thiết kế hiện đại, trẻ trung, dễ dàng phối hợp với nhiều phong cách trang phục.\r\n💖 Lý tưởng làm quà tặng thời trang cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 15000.00, 22, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
 (141, 1, 'Kính mắt cận (0-4 độ cận) Hàn Quốc gọng vuông bằng nhựa và hợp kim, khung to, phong cách Hàn Quốc', '🕶️ Kính mắt cận (0–4 độ) phong cách Hàn Quốc, gọng vuông làm từ nhựa và hợp kim, khung to thời thượng.\r\n✨ Thiết kế hiện đại, thanh lịch, phù hợp cho cả nam và nữ, dễ dàng phối hợp với nhiều trang phục.\r\n💎 Khung kính bền, nhẹ, mang cảm giác thoải mái khi đeo cả ngày.\r\n👓 Phù hợp sử dụng hàng ngày, đi học, đi làm hoặc làm phụ kiện thời trang.\r\n💖 Lý tưởng làm quà tặng cho bạn bè, người thân hoặc đồng nghiệp yêu thích phong cách Hàn Quốc.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 47400.00, 31, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
 (142, 1, 'Kính Chống Bức Xạ Và Ánh Sáng Xanh Cho Nam Và Nữ, Khung Thời Trang vintage', '🕶️ Kính chống bức xạ và ánh sáng xanh với khung thời trang vintage, thiết kế unisex cho nam và nữ.\r\n✨ Bảo vệ mắt hiệu quả khỏi ánh sáng xanh từ màn hình, giảm mỏi mắt khi làm việc, học tập hoặc chơi game.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Phong cách vintage thanh lịch, dễ dàng phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang và thiết thực cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 37800.00, 42, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
-(143, 1, 'Kính mát nam nữ, kính râm chất liệu nhựa cứng cáp, cao cấp chống UV400 bảo vệ mắt KC850', '🕶️ Kính mát unisex KC850 với chất liệu nhựa cứng cáp, cao cấp, dành cho nam và nữ.\r\n✨ Chống tia UV400 hiệu quả, bảo vệ mắt khỏi ánh sáng mặt trời và giảm mỏi mắt khi đi ngoài trời.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Thiết kế thời trang, hiện đại, dễ phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi', 164000.00, 11, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
+(143, 1, 'Kính mát nam nữ, kính râm chất liệu nhựa cứng cáp, cao cấp chống UV400 bảo vệ mắt KC850', '🕶️ Kính mát unisex KC850 với chất liệu nhựa cứng cáp, cao cấp, dành cho nam và nữ.\r\n✨ Chống tia UV400 hiệu quả, bảo vệ mắt khỏi ánh sáng mặt trời và giảm mỏi mắt khi đi ngoài trời.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Thiết kế thời trang, hiện đại, dễ phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi', 164000.00, 8, 1, '2025-09-24 07:10:37', '2025-10-10 19:16:23'),
 (144, 1, 'Kính râm mắt mèo phong cách Y2K Mỹ dành cho nữ, kính râm hợp thời trang, thời trang và đa năng dành cho nam, kính râm chống tia cực tím', '🕶️ Kính râm mắt mèo phong cách Y2K Mỹ, thiết kế thời trang dành cho nữ, đồng thời đa năng phù hợp cả nam.\r\n✨ Chống tia cực tím hiệu quả, bảo vệ mắt khỏi ánh sáng mặt trời và giảm mỏi mắt khi đi ngoài trời.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Thiết kế mắt mèo trẻ trung, phong cách Y2K hiện đại, dễ phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 14500.00, 19, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
 (145, 1, 'Kính chắn bụi đi đường VIEVA chất liệu nhựa cao cấp kiểu dáng màu sắc thời trang, an toàn C6014', '🕶️ Kính chắn bụi đi đường VIEVA C6014, làm từ nhựa cao cấp, thiết kế thời trang, an toàn và tiện lợi.\r\n✨ Bảo vệ mắt hiệu quả khỏi bụi, gió và ánh sáng mặt trời khi di chuyển ngoài trời.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Kiểu dáng hiện đại, màu sắc thời trang, dễ dàng phối hợp với nhiều trang phục.\r\n💖 Lý tưởng làm quà tặng thiết thực cho bạn bè, người thân hoặc đồng nghiệp thường di chuyển ngoài trời.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo khi đi xe máy, đi chơi hoặc đi làm.', 32000.00, 12, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
 (146, 1, 'Kính Mát Y2K Vintage Trong Suốt Dành Cho Nữ Bé Gái Thời Trang Ngoài Trời', '🕶️ Kính mát Y2K vintage trong suốt, thiết kế thời trang dành cho nữ bé gái, phù hợp đi ngoài trời.\r\n✨ Bảo vệ mắt khỏi ánh sáng mặt trời, giảm chói và mỏi mắt khi di chuyển ngoài trời.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Phong cách Y2K vintage trẻ trung, dễ thương, dễ phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang cho bạn bè, người thân hoặc bé gái yêu thích phong cách vintage.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 14040.00, 28, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
@@ -478,6 +520,133 @@ CREATE TABLE `product_discounts` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `discount_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_discounts`
+--
+
+INSERT INTO `product_discounts` (`id`, `product_id`, `discount_id`) VALUES
+(1, 13, 1),
+(2, 14, 1),
+(3, 15, 1),
+(4, 16, 1),
+(5, 17, 1),
+(6, 18, 1),
+(7, 19, 1),
+(8, 20, 1),
+(9, 21, 1),
+(10, 22, 1),
+(11, 23, 1),
+(12, 24, 1),
+(13, 25, 1),
+(14, 26, 1),
+(15, 27, 1),
+(16, 28, 1),
+(17, 29, 1),
+(18, 30, 1),
+(19, 31, 1),
+(20, 32, 1),
+(21, 33, 1),
+(22, 34, 1),
+(23, 35, 1),
+(24, 36, 1),
+(25, 37, 1),
+(26, 38, 1),
+(27, 39, 1),
+(28, 40, 1),
+(29, 41, 1),
+(30, 42, 1),
+(31, 43, 1),
+(32, 44, 1),
+(33, 45, 1),
+(34, 46, 1),
+(35, 47, 1),
+(36, 48, 1),
+(37, 49, 1),
+(38, 50, 1),
+(39, 51, 1),
+(40, 52, 1),
+(41, 53, 1),
+(42, 54, 1),
+(43, 57, 1),
+(44, 58, 1),
+(45, 59, 1),
+(46, 60, 1),
+(47, 61, 1),
+(48, 62, 1),
+(49, 63, 1),
+(50, 64, 1),
+(51, 65, 1),
+(52, 66, 1),
+(53, 67, 1),
+(54, 68, 1),
+(55, 69, 1),
+(56, 70, 1),
+(57, 71, 1),
+(58, 72, 1),
+(59, 73, 1),
+(60, 94, 1),
+(61, 95, 1),
+(62, 96, 1),
+(63, 97, 1),
+(64, 98, 1),
+(65, 99, 1),
+(66, 100, 1),
+(67, 101, 1),
+(68, 102, 1),
+(69, 103, 1),
+(70, 104, 1),
+(71, 105, 1),
+(72, 106, 1),
+(73, 107, 1),
+(74, 108, 1),
+(75, 109, 1),
+(76, 110, 1),
+(77, 111, 1),
+(78, 112, 1),
+(79, 113, 1),
+(80, 114, 1),
+(81, 115, 1),
+(82, 132, 1),
+(83, 133, 1),
+(84, 134, 1),
+(85, 135, 1),
+(86, 136, 1),
+(87, 137, 1),
+(88, 138, 1),
+(89, 139, 1),
+(90, 140, 1),
+(91, 141, 1),
+(92, 142, 1),
+(93, 143, 1),
+(94, 144, 1),
+(95, 145, 1),
+(96, 146, 1),
+(97, 147, 1),
+(98, 148, 1),
+(99, 149, 1),
+(100, 150, 1),
+(101, 151, 1),
+(102, 152, 1),
+(103, 153, 1),
+(104, 154, 1),
+(105, 155, 1),
+(106, 156, 1),
+(107, 157, 1),
+(108, 158, 1),
+(109, 159, 1),
+(110, 160, 1),
+(111, 161, 1),
+(112, 162, 1),
+(113, 163, 1),
+(114, 164, 1),
+(115, 165, 1),
+(116, 166, 1),
+(117, 167, 1),
+(118, 168, 1),
+(119, 169, 1),
+(120, 170, 1),
+(121, 171, 1);
 
 -- --------------------------------------------------------
 
@@ -755,9 +924,17 @@ CREATE TABLE `reviews` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `rating` tinyint(4) NOT NULL,
   `comment` text DEFAULT NULL,
+  `is_hidden` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_hidden`, `created_at`, `updated_at`) VALUES
+(1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-09 07:03:55');
 
 -- --------------------------------------------------------
 
@@ -802,8 +979,39 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('hpMzu6DFTCNyrhADLY6SwJ9zrlr6jxNVaI4hw4Dk', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieFdFVDg5WVhKQnBsRUNsUVJIdTh5OW9aZHd5NkdIbU10ZGxtQUU0NCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9vcmRlcnMiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1759596084),
-('XncZTC043Et85BQ5w9m6yUZwysivUKXtmrJQP4ET', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiblJRTDRPZXd6OUFxb2hNOXpqZDJjNkdod1lWOFk4Z2lWMXl6OVpNMyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcGkvbG9naW4vZ29vZ2xlL3JlZGlyZWN0Ijt9czoxOToicGVuZGluZ19hZGRfdG9fY2FydCI7YTozOntzOjEwOiJwcm9kdWN0X2lkIjtzOjI6IjE0IjtzOjM6InF0eSI7aToxO3M6ODoiaW50ZW5kZWQiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wLzE0Ijt9fQ==', 1759590409);
+('XLnIU2R3m7y3NHhRpHM9BRgKZqAFrP0DIHyt7Hs9', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZ3JQYVpjVDduclE3cGlvd2ZLYlRGa2tuMHBBZXZKMDBrVXJ6WDR3OSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wcm9tb3Rpb25zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjIwOiJjaGVja291dF9kaXN0YW5jZV9rbSI7ZDo1O30=', 1760124676);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shipping_fees`
+--
+
+CREATE TABLE `shipping_fees` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `area_type` varchar(255) NOT NULL,
+  `min_distance` decimal(8,2) NOT NULL DEFAULT 0.00,
+  `max_distance` decimal(8,2) DEFAULT NULL,
+  `min_order_value` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `base_fee` decimal(10,2) NOT NULL,
+  `per_km_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `max_fee` decimal(10,2) DEFAULT NULL,
+  `is_free_shipping` tinyint(1) NOT NULL DEFAULT 0,
+  `priority` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `shipping_fees`
+--
+
+INSERT INTO `shipping_fees` (`id`, `name`, `area_type`, `min_distance`, `max_distance`, `min_order_value`, `base_fee`, `per_km_fee`, `max_fee`, `is_free_shipping`, `priority`, `status`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Hỗ trợ ship 10k đa 20k cho đơn hàng từ 100k nội thành Vĩnh Long', 'local', 1.00, 19.00, 100000.00, 10000.00, 500.00, 20000.00, 0, 100, 1, 'Quy tắc cho nội thành Vĩnh Long', '2025-10-10 18:46:43', '2025-10-10 19:03:19'),
+(2, 'Hỗ trợ ship 15k đa 30k cho đơn hàng từ 200k các khu vực khác', 'nearby', 20.00, NULL, 200000.00, 15000.00, 2000.00, 30000.00, 0, 80, 1, 'Quy tắc cho các khu vực lân cận và xa', '2025-10-10 18:46:43', '2025-10-10 18:46:43');
 
 -- --------------------------------------------------------
 
@@ -818,7 +1026,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `ward_id` int(11) NOT NULL,
+  `ward_id` int(11) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `role_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -826,8 +1034,8 @@ CREATE TABLE `users` (
   `social_id` tinyint(1) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -835,10 +1043,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `phone`, `ward_id`, `address`, `email_verified_at`, `role_id`, `status`, `social_id`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Hazaki', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/d7e6d222-3172-42a3-b197-0628119e1e9b.png', 'Dj9cNM6W0ZqolE7eYGAv3o49leQ3bjJuKHj7oly494lYVuRWWTo76L2VSnA9', '2025-09-18 11:28:33', '2025-10-02 20:16:14'),
+(2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/d7e6d222-3172-42a3-b197-0628119e1e9b.png', 'pMokMfUSwbJppERdaH3chzXTeGbqALUMeYbVRPsFAeoXbH5lILjNuK1JSPfW', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
 (5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', NULL, 1, 1, 0, NULL, NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
-(9, '118088475042632170064', 'Trịnh Khắc Nhựt', '22004294@st.vlute.edu.vn', '$2y$12$WxWeJpNCDiIFO9T7qo2Ub.GDqnVdWEi3QSPKNK/e2OaTURb.EJ2bG', NULL, 0, NULL, NULL, 3, 1, 1, 'storage/avatars/b5047829-cd5d-4526-9a46-678d4830c781.jpg', NULL, '2025-10-01 17:05:13', '2025-10-01 17:06:02'),
-(14, 'a', 'a', 'a', 'aa', NULL, 29641, 'a', NULL, 3, 1, NULL, NULL, NULL, NULL, '2025-10-04 09:21:09');
+(9, 'dat1', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$7RuGwSvf7MombGz1aUTc1O.eB/ekeR7c/EtyILMp.WvFIoPg1QLrW', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/default-avatar.png', 'ba3AEh0vqrx0oivdDilAgUOhQNww8QPasUkYp0dgPoIlyiXPDcOdxliV6RK2', '2025-10-09 07:00:12', '2025-10-09 07:00:12'),
+(10, 'dat1', 'Lê Nguyễn Gia Đạt', 'bachhoangdat9900@gmail.com', '$2y$12$i2VC69mVm4GhKKJugu5SneowV7PehVQWC3SkrcfEd7hIbdqVEoKwK', '0932861734', 28789, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/default-avatar.png', NULL, '2025-10-09 07:00:58', '2025-10-09 07:00:58'),
+(11, 'hn1', 'Lê Hạnh Nguyên', 'hanhnguyen22@gmail.com', '$2y$12$Ncvrv5nkTIJ743k0lm3S8eCT5LBGXrZzNAnD3rLHExGla7O9HXU.u', '09321322131', 28789, '259/28 An Phương', NULL, 3, 1, NULL, 'storage/default-avatar.png', NULL, '2025-10-09 07:01:47', '2025-10-09 07:01:47');
 
 -- --------------------------------------------------------
 
@@ -4265,7 +4474,8 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `orders_user_id_foreign` (`user_id`);
+  ADD KEY `orders_user_id_foreign` (`user_id`),
+  ADD KEY `orders_discount_id_foreign` (`discount_id`);
 
 --
 -- Indexes for table `order_items`
@@ -4342,6 +4552,12 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `shipping_fees`
+--
+ALTER TABLE `shipping_fees`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -4372,13 +4588,13 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -4390,7 +4606,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `discounts`
 --
 ALTER TABLE `discounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -4408,19 +4624,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -4438,7 +4654,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_discounts`
 --
 ALTER TABLE `product_discounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `product_images`
@@ -4450,7 +4666,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -4459,10 +4675,16 @@ ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `shipping_fees`
+--
+ALTER TABLE `shipping_fees`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -4485,6 +4707,7 @@ ALTER TABLE `cart_items`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_discount_id_foreign` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -4531,7 +4754,7 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_roles_users` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_wards_users` FOREIGN KEY (`ward_id`) REFERENCES `wards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_wards_users` FOREIGN KEY (`ward_id`) REFERENCES `wards` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `wards`

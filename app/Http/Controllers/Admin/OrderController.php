@@ -12,9 +12,32 @@ use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Thống kê cho dashboard
+        $statusMap = [
+            'pending' => 'Chờ xác nhận',
+            'processing' => 'Chờ lấy hàng',
+            'shipped' => 'Chờ giao hàng',
+            'delivered' => 'Đã giao',
+            'cancelled' => 'Đã hủy',
+        ];
+        $currentStatus = $request->query('status');
+
+        // Counts
+        $counts = [];
+        foreach (array_keys($statusMap) as $st) {
+            $counts[$st] = Order::where('status', $st)->count();
+        }
+        $counts['all'] = Order::count();
+
+        // Query orders - sort ascending by ID
+        $ordersQuery = Order::query()->orderBy('id', 'asc');
+        if ($currentStatus && array_key_exists($currentStatus, $statusMap)) {
+            $ordersQuery->where('status', $currentStatus);
+        }
+        $orders = $ordersQuery->with(['user', 'order_items.product'])->paginate(15);
+
+        // Thống kê cho dashboard (giữ lại cho tương thích)
         $stats = [
             'total_orders' => Order::count(),
             'pending_orders' => Order::where('status', 'pending')->count(),
@@ -27,7 +50,16 @@ class OrderController extends Controller
             'pending_revenue' => Order::whereIn('status', ['pending', 'processing', 'shipped'])->sum('total_price')
         ];
 
-        return view('admin.orders.index', compact('stats'));
+        return view('admin.orders.index', compact('orders', 'counts', 'statusMap', 'currentStatus', 'stats'));
+    }
+
+    public function update(Request $request, Order $order)
+    {
+        $validated = $request->validate([
+            'status' => ['required','in:pending,processing,shipped,delivered,cancelled'],
+        ]);
+        $order->update(['status' => $validated['status']]);
+        return back()->with('success', 'Cập nhật trạng thái đơn #' . $order->id . ' thành công');
     }
 
     public function data(Request $request)

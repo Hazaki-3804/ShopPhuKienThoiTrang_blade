@@ -8,56 +8,67 @@
 @section('content')
 @php $map = $statusMap ?? []; @endphp
 
-<div class="card mb-3">
-    <div class="card-body">
-        <div class="row text-center g-3 g-md-4">
-            <div class="col-6 col-md">
-                <div class="tile tile-pending d-flex align-items-center justify-content-between gap-2">
-                    <div>
-                        <div class="tile-title">Chờ xác nhận</div>
-                        <div class="tile-value">{{ $counts['pending'] ?? 0 }}</div>
-                    </div>
-                    <div class="icon-circle ic-pending"><i class="bi bi-clipboard-check"></i></div>
-                </div>
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-12 col-sm-6 col-lg">
+        <div class="stats-card stats-pending">
+            <div class="stats-content">
+                <div class="stats-number">{{ $counts['pending'] ?? 0 }}</div>
+                <div class="stats-label">Chờ xác nhận</div>
             </div>
-            <div class="col-6 col-md">
-                <div class="tile tile-processing d-flex align-items-center justify-content-between gap-2">
-                    <div>
-                        <div class="tile-title">Chờ lấy hàng</div>
-                        <div class="tile-value">{{ $counts['processing'] ?? 0 }}</div>
-                    </div>
-                    <div class="icon-circle ic-processing"><i class="bi bi-box-seam"></i></div>
-                </div>
-            </div>
-            <div class="col-6 col-md">
-                <div class="tile tile-shipped d-flex align-items-center justify-content-between gap-2">
-                    <div>
-                        <div class="tile-title">Chờ giao hàng</div>
-                        <div class="tile-value">{{ $counts['shipped'] ?? 0 }}</div>
-                    </div>
-                    <div class="icon-circle ic-shipped"><i class="bi bi-truck"></i></div>
-                </div>
-            </div>
-            <div class="col-6 col-md">
-                <div class="tile tile-delivered d-flex align-items-center justify-content-between gap-2">
-                    <div>
-                        <div class="tile-title">Đã giao</div>
-                        <div class="tile-value">{{ $counts['delivered'] ?? 0 }}</div>
-                    </div>
-                    <div class="icon-circle ic-delivered"><i class="bi bi-check2-circle"></i></div>
-                </div>
-            </div>
-            <div class="col-6 col-md">
-                <div class="tile tile-cancelled d-flex align-items-center justify-content-between gap-2">
-                    <div>
-                        <div class="tile-title">Đã hủy</div>
-                        <div class="tile-value">{{ $counts['cancelled'] ?? 0 }}</div>
-                    </div>
-                    <div class="icon-circle ic-cancelled"><i class="bi bi-x-circle"></i></div>
-                </div>
+            <div class="stats-icon">
+                <i class="bi bi-clipboard-check"></i>
             </div>
         </div>
     </div>
+    <div class="col-12 col-sm-6 col-lg">
+        <div class="stats-card stats-processing">
+            <div class="stats-content">
+                <div class="stats-number">{{ $counts['processing'] ?? 0 }}</div>
+                <div class="stats-label">Chờ lấy hàng</div>
+            </div>
+            <div class="stats-icon">
+                <i class="bi bi-box-seam"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg">
+        <div class="stats-card stats-shipped">
+            <div class="stats-content">
+                <div class="stats-number">{{ $counts['shipped'] ?? 0 }}</div>
+                <div class="stats-label">Chờ giao hàng</div>
+            </div>
+            <div class="stats-icon">
+                <i class="bi bi-truck"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg">
+        <div class="stats-card stats-delivered">
+            <div class="stats-content">
+                <div class="stats-number">{{ $counts['delivered'] ?? 0 }}</div>
+                <div class="stats-label">Đã giao</div>
+            </div>
+            <div class="stats-icon">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg">
+        <div class="stats-card stats-cancelled">
+            <div class="stats-content">
+                <div class="stats-number">{{ $counts['cancelled'] ?? 0 }}</div>
+                <div class="stats-label">Đã hủy</div>
+            </div>
+            <div class="stats-icon">
+                <i class="bi bi-x-circle"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body p-0">
     <div class="card-footer">
         <ul class="nav nav-pills gap-2 flex-wrap">
             <li class="nav-item"><a class="nav-link {{ empty($currentStatus) ? 'active' : '' }}" href="{{ route('orders.index') }}">Tất cả ({{ $counts['all'] ?? 0 }})</a></li>
@@ -80,8 +91,8 @@
         </form>
     </div>
     <div class="card-body table-responsive">
-        <table class="table align-middle" id="ordersTable">
-            <thead>
+        <table class="table table-bordered table-striped align-middle w-100" id="ordersTable">
+            <thead class="table-info">
                 <tr>
                     <th>STT</th>
                     <th>Khách hàng</th>
@@ -97,8 +108,10 @@
                 <tr>
                     <td>{{ $order->id }}</td>
                     <td>
-                        <div class="fw-semibold">{{ $order->customer_name }}</div>
-                        <div class="small text-muted">{{ $order->customer_phone }} • {{ $order->customer_email }}</div>
+                        <div class="d-flex flex-column">
+                            <div class="fw-semibold">{{ $order->customer_name }}</div>
+                            <div class="small text-muted">{{ $order->customer_phone }} • {{ $order->customer_email }}</div>
+                        </div>
                     </td>
                     <td>
                         @foreach($order->order_items as $index => $item)
@@ -155,109 +168,79 @@
 
 @push('styles')
 <style>
-/* Enhanced tile styling with better shadows and borders */
-.tile{ 
-    padding: 18px 20px; 
-    border-radius: 16px; 
-    border: 1px solid rgba(0,0,0,0.06); 
-    background: #fff; 
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+/* Modern Stats Cards */
+.stats-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100px;
 }
 
-.tile:hover {
+.stats-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-.tile-title{ 
-    color: #64748b; 
-    font-weight: 600; 
-    font-size: 0.875rem;
-    letter-spacing: 0.3px;
+.stats-content {
+    flex: 1;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
     margin-bottom: 4px;
+    color: #fff;
 }
 
-.tile-value{ 
-    font-size: 1.75rem; 
-    font-weight: 800; 
-    color: #1e293b;
-    line-height: 1.2;
+.stats-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.icon-circle{ 
-    width: 48px; 
-    height: 48px; 
-    border-radius: 12px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 1.3rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+.stats-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
 }
 
-.tile:hover .icon-circle {
-    transform: scale(1.1) rotate(5deg);
+/* Color variants */
+.stats-pending {
+    background: linear-gradient(135deg, #FFA726 0%, #FF9800 100%);
 }
 
-/* Modern gradient backgrounds per status */
-.tile-pending{ 
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    border-color: #fde68a;
+.stats-processing {
+    background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
 }
 
-.tile-processing{ 
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border-color: #bfdbfe;
+.stats-shipped {
+    background: linear-gradient(135deg, #26C6DA 0%, #00BCD4 100%);
 }
 
-.tile-shipped{ 
-    background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
-    border-color: #a5f3fc;
+.stats-delivered {
+    background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
 }
 
-.tile-delivered{ 
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    border-color: #bbf7d0;
-}
-
-.tile-cancelled{ 
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border-color: #fecaca;
-}
-
-/* Enhanced icon styling with better colors and shadows */
-.ic-pending{ 
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
-}
-
-.ic-processing{ 
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
-
-.ic-shipped{ 
-    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
-}
-
-.ic-delivered{ 
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-}
-
-.ic-cancelled{ 
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+.stats-cancelled {
+    background: linear-gradient(135deg, #EF5350 0%, #F44336 100%);
 }
 
 /* Enhanced nav pills */
@@ -282,36 +265,37 @@
     box-shadow: 0 4px 12px rgba(238, 77, 45, 0.3);
 }
 
-/* Colored pills per status with gradients */
+/* Colored pills per status matching stats cards */
 .nav-pills .pill-pending.active{ 
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    background: linear-gradient(135deg, #FFA726 0%, #FF9800 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 167, 38, 0.3);
 }
 
 .nav-pills .pill-processing.active{ 
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
 }
 
 .nav-pills .pill-shipped.active{ 
-    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    background: linear-gradient(135deg, #26C6DA 0%, #00BCD4 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    box-shadow: 0 4px 12px rgba(38, 198, 218, 0.3);
 }
 
 .nav-pills .pill-delivered.active{ 
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
 }
 
 .nav-pills .pill-cancelled.active{ 
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    background: linear-gradient(135deg, #EF5350 0%, #F44336 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3);
 }
 </style>
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 @endsection

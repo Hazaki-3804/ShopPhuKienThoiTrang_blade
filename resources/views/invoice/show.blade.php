@@ -200,8 +200,8 @@
             <button onclick="window.print()" class="btn btn-danger btn-lg me-2">
                 <i class="bi bi-printer"></i> In hóa đơn
             </button>
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">
-                Về trang chủ
+            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-lg">
+                Quay lại
             </a>
         </div>
     </div>

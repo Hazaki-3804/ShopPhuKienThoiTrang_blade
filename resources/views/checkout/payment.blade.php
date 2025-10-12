@@ -25,9 +25,9 @@
                                     <strong>{{ $addressData['customer_name'] }}</strong>
                                     <span class="text-muted ms-2">{{ $addressData['customer_phone'] }}</span>
                                 </div>
-                                <a href="{{ route('checkout.index') }}" class="text-decoration-none">
-                                    <i class="bi bi-chevron-right text-muted"></i>
-                                </a>
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                                    <i class="bi bi-pencil-square me-1"></i>Chỉnh sửa
+                                </button>
                             </div>
                             <div class="text-muted small">
                                 {{ $addressData['customer_address'] }}
@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
                         <span class="badge bg-danger me-2">Mall</span>
-                        <strong>Cô Mèm Official Store</strong>
+                        <strong> Nàng Thơ Shop</strong>
                     </div>
                     
                     @foreach($items as $item)
@@ -70,16 +70,16 @@
                     <!-- Bảo hiểm (optional) -->
                     <div class="insurance-section py-3 border-top">
                         <div class="d-flex align-items-start">
-                            <input type="checkbox" class="form-check-input me-3 mt-1" id="insurance" disabled>
+                            <input type="checkbox" class="form-check-input me-3 mt-1" id="insurance">
                             <div class="flex-grow-1">
-                                <label for="insurance" class="mb-1">Bảo hiểm bảo vệ người tiêu dùng</label>
+                                <label for="insurance" class="mb-1" style="cursor: pointer;">Bảo hiểm bảo vệ người tiêu dùng</label>
                                 <div class="text-muted small">
                                     Giúp bảo vệ bạn khỏi các rủi ro, thiệt hại gây ra bởi sản phẩm được bảo hiểm trong quá trình sử dụng. 
                                     <a href="#" class="text-decoration-none">Tìm hiểu thêm</a>
                                 </div>
                             </div>
                             <div class="text-end">
-                                <span class="text-muted">1.300₫</span>
+                                <span class="text-muted" id="insurance-price">1.300₫</span>
                                 <span class="text-muted small">x1</span>
                             </div>
                         </div>
@@ -166,10 +166,10 @@
                                 </div>
                                 <div class="text-muted small">
                                     <i class="bi bi-truck me-1"></i>
-                                    Nhận từ 10 Th10 - 11 Th10
+                                    Nhận từ 10 Th10 - 13 Th10
                                 </div>
                                 <div class="text-success small mt-1">
-                                    Nhận Voucher trị giá 15.000₫ nếu đơn hàng được giao đến bạn sau ngày 11 Tháng 10 2025.
+                                    Giao hàng nhanh an toàn được giao đến bạn từ ngày 10 Tháng 10 2025 - ngày 13 Tháng 10 2025.
                                 </div>
                             </div>
                         </div>
@@ -206,6 +206,10 @@
                             <span class="text-muted">Tổng cộng Voucher giảm giá</span>
                             <span class="text-danger" id="discount-amount">-{{ number_format(0, 0, ',', '.') }}₫</span>
                         </div>
+                        <div class="d-flex justify-content-between mb-2" id="insurance-row" style="display: none !important;">
+                            <span class="text-muted">Bảo hiểm bảo vệ người tiêu dùng</span>
+                            <span id="insurance-amount">+1.300₫</span>
+                        </div>
                         <div class="d-flex justify-content-between pt-2 border-top">
                             <strong>Tổng thanh toán</strong>
                             <strong class="text-danger fs-5" id="final-total">{{ number_format($total, 0, ',', '.') }}₫</strong>
@@ -217,7 +221,7 @@
 
                     <div class="agreement-text mt-3 small text-muted">
                         Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo 
-                        <a href="#" class="text-decoration-none">Điều khoản Shopee</a>
+                        <a href="#" class="text-decoration-none">Điều khoản Nàng Thơ</a>
                     </div>
                 </div>
             </div>
@@ -232,13 +236,14 @@
                 <input type="hidden" name="payment_method" id="payment-method-input" value="cod">
                 <input type="hidden" name="voucher_code" id="voucher-code-input" value="">
                 <input type="hidden" name="request_invoice" id="request-invoice-input" value="0">
+                <input type="hidden" name="insurance" id="insurance-input" value="0">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="text-muted">Tổng số tiền ({{ count($items) }} sản phẩm):</span>
                     <strong class="text-danger fs-5" id="footer-total">{{ number_format($total, 0, ',', '.') }}₫</strong>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-3 small text-muted">
-                    <span>Tiết kiệm</span>
-                    <span>{{ number_format(0, 0, ',', '.') }}₫</span>
+                <div class="d-flex justify-content-between align-items-center mb-3 small">
+                    <span class="text-muted">Tiết kiệm</span>
+                    <span class="text-success" id="footer-savings">0₫</span>
                 </div>
                 <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">
                     Đặt hàng
@@ -327,6 +332,43 @@
 </div>
 
 @push('styles')
+<!-- Select2 CSS for address editing -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+/* Select2 styling for modal */
+.select2-container--default .select2-selection--single { 
+    height: 38px; 
+    border-radius: .375rem; 
+    border: 1px solid #ced4da; 
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered { 
+    line-height: 38px; 
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow { 
+    height: 36px; 
+}
+.select2-container { 
+    width: 100% !important; 
+}
+
+/* Input group styling for modal */
+.input-group-text {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+    color: #6c757d;
+    min-width: 45px;
+    justify-content: center;
+}
+.input-group-text i {
+    font-size: 1.1em;
+}
+.input-group .form-control:not(:first-child) {
+    border-left: 0;
+}
+.input-group .input-group-text:not(:last-child) {
+    border-right: 0;
+}
+
 <style>
 .payment-page {
     min-height: 100vh;
@@ -442,10 +484,31 @@
     border-color: #ee4d2d !important;
     background-color: #fff5f5;
 }
+
+/* Edit address button styling */
+.btn-outline-primary {
+    border-color: #0d6efd;
+    color: #0d6efd;
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.25);
+}
 </style>
 @endpush
 
 @push('scripts')
+<!-- jQuery and Select2 for address editing -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 function submitCheckoutForm() {
     const requestInvoiceCheckbox = document.getElementById('requestInvoice');
@@ -463,7 +526,21 @@ function submitCheckoutForm() {
 document.addEventListener('DOMContentLoaded', function() {
     const subtotal = {{ $subtotal }};
     const shippingFee = {{ $shippingFee }};
+    const insuranceFee = 1300;
     let currentDiscount = 0;
+    let insuranceEnabled = false;
+    
+    // Handle form submission to show loading state
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang xử lý...';
+            }
+        });
+    }
     
     // Voucher handling
     const voucherOptions = document.querySelectorAll('.voucher-option');
@@ -482,10 +559,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateTotal() {
-        const total = subtotal + shippingFee - currentDiscount;
+        const insuranceAmount = insuranceEnabled ? insuranceFee : 0;
+        const total = subtotal + shippingFee - currentDiscount + insuranceAmount;
         if (finalTotal) finalTotal.textContent = formatCurrency(total);
         if (footerTotal) footerTotal.textContent = formatCurrency(total);
         if (discountAmount) discountAmount.textContent = '-' + formatCurrency(currentDiscount);
+        
+        // Update insurance row visibility
+        const insuranceRow = document.getElementById('insurance-row');
+        if (insuranceRow) {
+            if (insuranceEnabled) {
+                insuranceRow.style.removeProperty('display');
+            } else {
+                insuranceRow.style.display = 'none';
+            }
+        }
+        
+        // Update savings (tiết kiệm)
+        const footerSavings = document.getElementById('footer-savings');
+        if (footerSavings) {
+            footerSavings.textContent = formatCurrency(currentDiscount);
+        }
+    }
+    
+    // Insurance checkbox handling
+    const insuranceCheckbox = document.getElementById('insurance');
+    const insuranceInput = document.getElementById('insurance-input');
+    
+    if (insuranceCheckbox) {
+        insuranceCheckbox.addEventListener('change', function() {
+            insuranceEnabled = this.checked;
+            insuranceInput.value = insuranceEnabled ? '1' : '0';
+            updateTotal();
+        });
     }
     
     // Click vào voucher option
@@ -575,7 +681,157 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.hide();
         });
     }
+    
+    // Edit Address Modal functionality
+    const editAddressModal = document.getElementById('editAddressModal');
+    if (editAddressModal) {
+        editAddressModal.addEventListener('shown.bs.modal', function () {
+            initEditAddressSelectors();
+        });
+    }
+    
+    function initEditAddressSelectors() {
+        const $editProv = $('#edit_province');
+        const $editWard = $('#edit_ward');
+        
+        // Initialize Select2 if available, otherwise use regular selects
+        if (typeof $.fn.select2 !== 'undefined') {
+            $editProv.select2({ 
+                placeholder: '-- Chọn tỉnh thành --', 
+                allowClear: true, 
+                width: '100%',
+                dropdownParent: $('#editAddressModal')
+            });
+            $editWard.select2({ 
+                placeholder: '-- Chọn xã/phường --', 
+                allowClear: true, 
+                width: '100%',
+                dropdownParent: $('#editAddressModal')
+            });
+        }
+
+        // Load provinces
+        fetch('https://provinces.open-api.vn/api/v2/?depth=2')
+            .then(r => r.json())
+            .then(data => {
+                $editProv.empty().append('<option value="">-- Chọn tỉnh --</option>');
+                data.forEach(p => { 
+                    $editProv.append(`<option value="${p.code}">${p.name}</option>`); 
+                });
+                if (typeof $.fn.select2 !== 'undefined') {
+                    $editProv.trigger('change.select2');
+                }
+                window.__VN_PROVINCES_EDIT__ = data;
+            }).catch(err => console.error('Load provinces failed', err));
+
+        $editProv.on('change', function(){
+            const code = $(this).val();
+            $editWard.empty().append('<option value="">-- Chọn xã/phường --</option>');
+            if (typeof $.fn.select2 !== 'undefined') {
+                $editWard.trigger('change.select2');
+            }
+            
+            const data = (window.__VN_PROVINCES_EDIT__ || []).find(p => String(p.code) === String(code));
+            if (data) {
+                data.wards.forEach(w => { 
+                    $editWard.append(`<option value="${w.code}">${w.name}</option>`); 
+                });
+                if (typeof $.fn.select2 !== 'undefined') {
+                    $editWard.trigger('change.select2');
+                }
+            }
+            
+            const provText = $editProv.find('option:selected').text();
+            document.getElementById('edit_province_name').value = provText && provText.indexOf('Chọn') === -1 ? provText.trim() : '';
+        });
+
+        $editWard.on('change', function(){
+            const wardText = $editWard.find('option:selected').text();
+            document.getElementById('edit_ward_name').value = wardText && wardText.indexOf('Chọn') === -1 ? wardText.trim() : '';
+        });
+
+        // Handle form submission
+        const editForm = document.getElementById('editAddressForm');
+        if (editForm) {
+            editForm.addEventListener('submit', function(){
+                const addrEl = editForm.querySelector('textarea[name="customer_address"]');
+                const provText = document.getElementById('edit_province_name').value || $editProv.find('option:selected').text();
+                const wardText = document.getElementById('edit_ward_name').value || $editWard.find('option:selected').text();
+                const parts = [];
+                if (addrEl && addrEl.value) parts.push(addrEl.value.trim());
+                if (wardText && wardText.indexOf('Chọn') === -1) parts.push(wardText.trim());
+                if (provText && provText.indexOf('Chọn') === -1) parts.push(provText.trim());
+                if (addrEl) addrEl.value = parts.join(', ');
+            });
+        }
+    }
 });
 </script>
 @endpush
+<!-- Modal chỉnh sửa địa chỉ -->
+<div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAddressModalLabel">Chỉnh sửa địa chỉ giao hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ route('checkout.saveAddress') }}" id="editAddressForm">
+                @csrf
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Họ và tên</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" name="customer_name" value="{{ $addressData['customer_name'] }}" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" name="customer_email" value="{{ $addressData['customer_email'] }}" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Số điện thoại</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                <input type="text" name="customer_phone" value="{{ $addressData['customer_phone'] }}" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Địa chỉ</label>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <select id="edit_province" class="form-select" data-placeholder="-- Chọn tỉnh thành --">
+                                        <option value="" disabled selected>-- Chọn tỉnh --</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6 mt-2 mt-md-0">
+                                    <select id="edit_ward" class="form-select" data-placeholder="-- Chọn xã/phường --">
+                                        <option value="" disabled selected>-- Chọn xã/phường --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Hidden fields to persist selected names to server-side -->
+                            <input type="hidden" name="province_name" id="edit_province_name">
+                            <input type="hidden" name="ward_name" id="edit_ward_name">
+                            <div class="input-group mt-2">
+                                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                <textarea name="customer_address" class="form-control" rows="2" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>{{ $addressData['customer_address'] }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection

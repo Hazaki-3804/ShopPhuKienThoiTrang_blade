@@ -110,6 +110,7 @@ class UserController extends Controller
 
             return redirect()->route('admin.users.index')->with('success', 'Thêm nhân viên thành công!');
         } catch (\Exception $e) {
+            \Log::info("Lỗi: " . $e->getMessage());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,

@@ -17,21 +17,21 @@
                             <label class="form-label">Họ và tên</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                <input type="text" name="customer_name" value="{{ old('customer_name') }}" class="form-control" required>
+                                <input type="text" name="customer_name" value="{{ old('customer_name', auth()->user()->name ?? '') }}" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Email</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                <input type="email" name="customer_email" value="{{ old('customer_email') }}" class="form-control" required>
+                                <input type="email" name="customer_email" value="{{ old('customer_email', auth()->user()->email ?? '') }}" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Số điện thoại</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                                <input type="text" name="customer_phone" value="{{ old('customer_phone') }}" class="form-control" required>
+                                <input type="text" name="customer_phone" value="{{ old('customer_phone', auth()->user()->phone ?? '') }}" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-12">
@@ -96,6 +96,23 @@
   .checkout-thumb{ width: 40px; height: 40px; object-fit: cover; }
   .checkout-name{ max-width: 210px; }
   @media (min-width: 992px){ .checkout-name{ max-width: 240px; } }
+  
+  /* Brand button styling */
+  .btn-brand {
+    background: linear-gradient(135deg, #ff6b35 0%, #EE4D2D 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  .btn-brand:hover {
+    background: linear-gradient(135deg, #ff7f50 0%, #ff6b35 100%);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(238, 77, 45, 0.3);
+  }
 </style>
 @endpush
 @push('styles')
@@ -134,6 +151,8 @@
 </style>
 @endpush
 @push('scripts')
+<!-- jQuery (required for Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
@@ -167,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('province_name').value = provText && provText.indexOf('Chọn') === -1 ? provText.trim() : '';
   });
 
+  $ward.on('change', function(){
     const wardText = $ward.find('option:selected').text();
     document.getElementById('ward_name').value = wardText && wardText.indexOf('Chọn') === -1 ? wardText.trim() : '';
   });
