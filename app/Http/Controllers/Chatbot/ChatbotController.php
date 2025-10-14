@@ -49,7 +49,6 @@ class ChatbotController extends Controller
                 'trả hàng',
                 'liên hệ',
             ];
-
             // Kiểm tra câu hỏi có liên quan không
             $isRelevant = false;
             foreach ($relevantKeywords as $keyword) {
@@ -58,15 +57,14 @@ class ChatbotController extends Controller
                     break;
                 }
             }
-
+            $categories = Category::pluck('name')->toArray();
+            $products = Product::take(5)->get(['name', 'price'])->toArray();
+            $categoryList = count($categories) > 0 ? $categories : [];
+            $productList = count($products) > 0 ? collect($products)->map(function ($product) {
+                return "{$product['name']} - Giá: " . number_format($product['price'], 0, ',', '.') . " VNĐ";
+            })->implode('\n') : 'Chưa có sản phẩm nào.';
             // Xử lý yêu cầu đặc biệt
             if (str_contains($userMessage, 'danh mục') || str_contains($userMessage, 'sản phẩm')) {
-                $categories = Category::pluck('name')->toArray();
-                $products = Product::take(5)->get(['name', 'price'])->toArray();
-                $categoryList = count($categories) > 0 ? $categories : [];
-                $productList = count($products) > 0 ? collect($products)->map(function ($product) {
-                    return "{$product['name']} - Giá: " . number_format($product['price'], 0, ',', '.') . " VNĐ";
-                })->implode('\n') : 'Chưa có sản phẩm nào.';
                 $responseMessage = "Các danh mục sản phẩm mà shop đang bán:<ul>";
                 if (count($categoryList) > 0) {
                     foreach ($categoryList as $g) {
@@ -77,6 +75,10 @@ class ChatbotController extends Controller
                 }
                 $responseMessage .= "</ul>Bạn muốn xem chi tiết sản phẩm nào không?";
 
+                return response()->json(['message' => $responseMessage, 'links' => []]);
+            }
+            if(str_contains($userMessage, 'giá')) {
+                $responseMessage = "Giá của sản phẩm là: " . $productList;
                 return response()->json(['message' => $responseMessage, 'links' => []]);
             }
 
@@ -109,7 +111,6 @@ class ChatbotController extends Controller
                     'links' => []
                 ]);
             }
-
             // Prompt cho Gemini API
             $prompt = "Bạn là một trợ lý AI cho một website bán phụ kiện thời trang. Hãy trả lời câu hỏi sau bằng tiếng Việt, tự nhiên, thân thiện, ngắn gọn và chỉ dựa trên thông tin liên quan đến phụ kiện thời trang, sản phẩm, hoặc dịch vụ của website: $userMessage";
             $systemInstruction = "
@@ -120,7 +121,7 @@ class ChatbotController extends Controller
             3. Không trả lời các câu hỏi ngoài lề (toán học, tin tức, lịch sử,...). Nếu bị hỏi, hãy lịch sự từ chối và mời khách hàng hỏi về sản phẩm.
             4. Thông tin về cửa hàng:
             - Tên cửa hàng: **Nàng Thơ**.
-            - Sản phẩm chính: **Túi xách da, ví, kính mát, trang sức tối giản (Minimalist Jewelry)**.
+            - Sản phẩm chính: **".$categoryList."**.
             - Chính sách giao hàng: **Miễn phí vận chuyển cho đơn hàng trên 500.000 VNĐ**.
             - Chính sách đổi/trả: **Đổi trả trong 7 ngày** nếu sản phẩm lỗi.
             ";
