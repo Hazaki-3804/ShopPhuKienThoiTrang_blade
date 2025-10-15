@@ -14,7 +14,10 @@ input:focus {
 }
 
 .btn-register:hover {
+    background: #D83B27;
+    color     : #fff;
     transform: translateY(-2px);
+    box-shadow:  0 10px 20px rgba(0, 0, 0, .08);
 }
 
 .label-input-important::after {

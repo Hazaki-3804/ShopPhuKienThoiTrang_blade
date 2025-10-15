@@ -6,10 +6,10 @@
         💬
     </button>
 
-    <div id="chat-box" class="card shadow-lg mt-3" style="width: 320px; height: 60vh; max-height: 60vh; display: none; flex-direction: column;">
+    <div id="chat-box" class="card shadow-lg mt-3" style="width: 50vh; height: 80vh; max-height: 60vh; display: none; flex-direction: column;">
         <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color:#ff6f3c;">
             <span>Nàng Thơ Assitant</span>
-            <button id="close-chat" class="btn btn-md">&times;</button>
+            <button id="close-chat" class="btn btn-lg">&times;</button>
         </div>
 
         <div id="chat-container" class="card-body overflow-auto" style="flex: 1; padding: 12px;"></div>

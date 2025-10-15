@@ -1,0 +1,81 @@
+/* Ẩn icon mặc định trong submenu thôi */
+.nav-sidebar .nav-treeview .nav-icon {
+    display: none !important;
+}
+
+/* Thu gọn text về bên trái cho gọn gàng */
+.nav-sidebar .nav-treeview .nav-link {
+    padding-left: 3rem !important;
+}
+
+/* Chỉ link đang active mới có màu */
+.nav-sidebar .nav-treeview .nav-link.active {
+    background   : #fff !important;
+    /* màu nền khi active */
+    color        : #000 !important;
+    /* chữ trắng */
+    border-radius: 0.3rem;
+}
+
+/*Thêm padding cho item con trong sidebar khi thu nhỏ*/
+.os-host-overflow-x .nav-sidebar .nav-treeview .nav-link.active {
+    padding-left: 2rem !important;
+}
+
+/* Sidebar mở/đóng mượt mà */
+.main-sidebar {
+    transition: width 0.3s ease-in-out !important;
+}
+
+/* Text menu bình thường */
+.nav-sidebar .nav-link span {
+    display    : inline-block !important;
+    white-space: nowrap !important;
+    opacity    : 1 !important;
+    transform  : translateX(0) !important;
+    transition : opacity 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+}
+
+/* Khi sidebar đóng */
+body.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link span {
+    opacity   : 0 !important;
+    transform : translateX(-15px) !important;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out !important;
+}
+
+/* Khi sidebar mở (không có sidebar-collapse) */
+body.sidebar-mini:not(.sidebar-collapse) .nav-sidebar .nav-link span {
+    opacity   : 1 !important;
+    transform : translateX(0) !important;
+    transition: opacity 0.35s ease-in-out 0.05s, transform 0.35s ease-in-out 0.05s !important;
+}
+
+/* Áp dụng cho text trong sidebar */
+.sidebar .nav-link p,
+.sidebar .brand-text {
+  opacity: 1;
+  transform: translateX(0);
+  width: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    opacity 0.45s cubic-bezier(0.25, 0.1, 0.25, 1),
+    transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1),
+    width 0s ease 0.45s;
+  transition-delay: 0.25s; /* đợi sidebar mở ra một chút mới hiện chữ */
+}
+
+/* Khi sidebar collapse */
+.sidebar-mini.sidebar-collapse .nav-link p,
+.sidebar-mini.sidebar-collapse .brand-text {
+  opacity: 0;
+  transform: translateX(-16px);
+  width: 0;
+  overflow: hidden;
+  transition:
+    opacity 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19),
+    transform 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19),
+    width 0s ease;
+  transition-delay: 0s;
+}
+

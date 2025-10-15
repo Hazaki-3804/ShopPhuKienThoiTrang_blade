@@ -5,7 +5,7 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-5">
-            <div class="card card-hover">
+            <div class="card border-0 shadow-lg rounded-4 fade-up">
                 <div class="card-body p-4">
                     @if (session('status'))
                     <x-alert type="success">{{ session('status') }}</x-alert>

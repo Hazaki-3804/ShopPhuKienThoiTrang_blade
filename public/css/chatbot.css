@@ -1,3 +1,4 @@
+
 .chat-row {
     display      : flex;
     margin-bottom: 6px;
@@ -17,6 +18,7 @@
     border-radius: 12px;
     max-width    : 75%;
     word-break   : break-word;
+    white-space  : pre-wrap;
 }
 
 .chat-bubble.user {

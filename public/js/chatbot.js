@@ -26,7 +26,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const msgEl = document.createElement('div');
             msgEl.className = msg.role === 'user' ? 'chat-bubble user' : 'chat-bubble bot';
 
-            let contentHtml = msg.content;
+            // Strip most emojis from bot messages
+            const stripEmojis = (text) => {
+                if (!text) return text;
+                try {
+                    return text.replace(/[\u{1F300}-\u{1FAFF}\u{1F900}-\u{1F9FF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '');
+                } catch (e) {
+                    // Fallback without unicode flag if unsupported
+                    return text.replace(/[\u2600-\u27BF]/g, '').replace(/[\uFE0F]/g, '');
+                }
+            };
+
+            let contentHtml = msg.role === 'bot' ? stripEmojis(msg.content) : msg.content;
             if (msg.image) contentHtml += `<br><img src="${msg.image}" class="chat-img">`;
             if (msg.links) contentHtml += Object.entries(msg.links).map(([key, url]) => `
                 <a href="${url}" target="_blank" class="badge text-white mt-1 me-1" style="background-color:#ff6f3c;">

@@ -9,13 +9,20 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-5">
-            <div class="card shadow-sm card-hover fade-up">
+            <div class="card border-0 shadow-lg rounded-4 fade-down">
                 <div class="card-body p-4">
                     <h3 class="fw-semibold mb-3 text-center">Đăng nhập</h3>
                     <p class="fs-6 text-center">Đăng nhập để sử dụng các tính năng của Shop</p>
                     @if ($errors->has('login_error'))
                     <div class="alert alert-danger alert-dismissible fade show fs-6" role="alert">
                         <i class="bi bi-exclamation-triangle-fill"></i> {{ $errors->first('login_error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    @if ($errors->has('email_verified_error'))
+                    <div class="alert alert-danger alert-dismissible fade show fs-6" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i> {{ $errors->first('email_verified_error') }}
+                        <a href="{{ $errors->first('email_verified_url') }}">Xác nhận email</a>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
@@ -54,9 +61,10 @@
                             </div>
                             <a href="{{ route('password.request') }}" class="small">Quên mật khẩu?</a>
                         </div>
+                        <x-cloudflare-captcha />
                         <button type="submit" class="btn btn-login w-100">Đăng nhập</button>
                     </form>
-                    <div class="text-center text-muted my-3">Hoặc</div>
+                    <div class="text-center text-muted my-2">Hoặc</div>
                     <div class="d-grid gap-2">
                         <a href="{{ route('oauth.redirect', 'google') }}" class="btn btn-social d-flex align-items-center justify-content-center gap-2"><svg width="24px" data-e2e="" height="24px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M43 24.4313C43 23.084 42.8767 21.7885 42.6475 20.5449H24.3877V27.8945H34.8219C34.3724 30.2695 33.0065 32.2818 30.9532 33.6291V38.3964H37.2189C40.885 35.0886 43 30.2177 43 24.4313Z" fill="#4285F4"></path>

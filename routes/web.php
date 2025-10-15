@@ -58,6 +58,11 @@ Route::get('/contact', fn() => view('pages.contact'))->name('contact');
 // Chatbot
 Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
 
+// Email verification after registration
+Route::get('/verify-email', [AuthController::class, 'verifyEmailForm'])->name('verify.email.form');
+Route::post('/verify-email', [AuthController::class, 'verifyEmailSubmit'])->name('verify.email.submit');
+Route::post('/verify-email/resend', [AuthController::class, 'resendVerifyEmail'])->name('verify.email.resend');
+
 // Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
