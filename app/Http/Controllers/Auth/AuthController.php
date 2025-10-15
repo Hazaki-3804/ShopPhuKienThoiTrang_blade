@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -36,6 +39,9 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'string']
         ]);
+        if (!$this->verifyCloudflareCaptcha($request->input('cf-turnstile-response'))) {
+            return back()->withErrors(['captcha' => 'Xác minh không hợp lệ. Vui lòng thử lại.'])->withInput();;
+        }
         // Keys theo email + IP
         $baseKey = 'login:'.strtolower($request->input('email')).'|'.$request->ip();
         $stageKey = $baseKey.':stage';          // 0 = giai đoạn đầu (5 lần/1 phút)
@@ -60,9 +66,13 @@ class AuthController extends Controller
             Cache::forget($aNKey);
             Cache::forget($stageKey);
             Cache::forget($lockKey);
-            if (Auth::user()->status !== 1) {
+            if(Auth::user()->status !== 1) {
                 Auth::logout();
                 return back()->withErrors(['login_error' => 'Tài khoản này không hoạt động. Vui lòng liên hệ quản trị viên.'])->withInput();
+            }
+            if(Auth::user()->email_verified_at === null) {
+                Auth::logout();
+                return back()->withErrors(['email_verified_error' => 'Tài khoản này chưa được xác nhận. Vui lòng xác nhận email.', 'email_verified_url' => route('verify.email.form', ['email' => $request->input('email')])])->withInput();
             }
             $request->session()->regenerate();
             $redirect = $this->consumePendingAddToCart($request);
@@ -130,7 +140,7 @@ class AuthController extends Controller
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/'
             ],
             'password_confirmation' => ['required'],
-            'phone' => ['required', 'string', 'max:15'],
+            'phone' => ['required', 'string', 'max:15', 'regex:/^0\d{9,10}$/', 'unique:users,phone'],
             'address' => ['required', 'string', 'max:255'],
             'province' => ['required', 'integer'],
             'ward' => ['required', 'integer'],
@@ -139,6 +149,10 @@ class AuthController extends Controller
             'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
             'password.regex' => 'Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt.'
         ]);
+        if (!$this->verifyCloudflareCaptcha($request->input('cf-turnstile-response'))) {
+            Log::error('Cloudflare Captcha verification failed', $this->verifyCloudflareCaptcha($request->input('cf-turnstile-response'))?['success' => true]:['success' => false]);
+            return back()->withErrors(['captcha' => 'Xác minh không hợp lệ. Vui lòng thử lại.'])->withInput();
+        }
         if (empty($data['username'])) {
             $data['username'] = Str::slug($data['name'], '');
         }
@@ -152,10 +166,112 @@ class AuthController extends Controller
             'ward_id' => $data['ward'],
             'role_id' => 3,
             'status' => 1,
-            'avatar' => 'storage/default-avatar.png',
+            'avatar' => 'storage/avatars/default-avatar.png',
         ]);
-        //redirect to login
-        return redirect()->route('login')->with('status', 'Đăng ký thành công. Vui lòng đăng nhập.');
+        // Generate 6-digit email verification code, store for 60s and send via email
+        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $cacheKey = 'email_verify_code:'.strtolower($user->email);
+        Cache::put($cacheKey, $code, now()->addSeconds(60));
+        // also store an absolute expiry and reset resend counter
+        $expiresKey = 'email_verify_expires:'.strtolower($user->email);
+        $expiresAt = time() + 60;
+        Cache::put($expiresKey, $expiresAt, now()->addSeconds(60));
+        Cache::put('email_verify_resend_count:'.strtolower($user->email), 0, now()->addMinutes(10));
+
+        try {
+            Mail::raw("Mã xác nhận email của bạn là: {$code}. Mã có hiệu lực trong 60 giây.", function ($message) use ($user) {
+                $message->to($user->email)
+                        ->subject('Xác nhận email - Nàng Thơ Shop');
+            });
+        } catch (\Throwable $e) {
+            // If email fails, still allow user to retry by going to verify page
+        }
+
+        return redirect()->route('verify.email.form', ['email' => $user->email])
+            ->with('verify_expires_at', $expiresAt);
+    }
+
+    public function verifyEmailForm(Request $request)
+    {
+        $email = $request->query('email');
+        if (!$email) {
+            return redirect()->route('register')->withErrors(['email' => 'Thiếu email để xác nhận.']);
+        }
+        $expiresKey = 'email_verify_expires:'.strtolower($email);
+        $cachedExpires = Cache::get($expiresKey);
+        // If not found, default to past time so UI shows expired
+        $expiresAt = is_numeric($cachedExpires) ? (int)$cachedExpires : (time() - 1);
+        return view('auth.verify-email', compact('email', 'expiresAt'));
+    }
+
+    public function verifyEmailSubmit(Request $request)
+    {
+        $data = $request->validate([
+            'email' => ['required', 'email'],
+            'code' => ['required', 'digits:6'],
+        ],[
+            'code.digits'=>'Mã xác nhận phải có 6 chữ số.'
+        ]);
+
+        $cacheKey = 'email_verify_code:'.strtolower($data['email']);
+        $stored = Cache::get($cacheKey);
+        if (!$stored) {
+            return redirect()->route('verify.email.form', ['email' => $data['email']])
+                ->withErrors(['code' => 'Mã đã hết hạn. Vui lòng đăng ký lại hoặc yêu cầu gửi lại mã.'])
+                ->withInput();
+        }
+        if ($stored !== $data['code']) {
+            return redirect()->route('verify.email.form', ['email' => $data['email']])
+                ->withErrors(['code' => 'Mã xác nhận không đúng.'])
+                ->withInput();
+        }
+        $user = User::where('email', $data['email'])->first();
+        $user->email_verified_at = now();
+        $user->save();
+
+        // Valid code -> delete caches and redirect to login
+        Cache::forget($cacheKey);
+        Cache::forget('email_verify_expires:'.strtolower($data['email']));
+        Cache::forget('email_verify_resend_count:'.strtolower($data['email']));
+        return redirect()->route('login')->with('status', 'Xác nhận email thành công. Vui lòng đăng nhập.');
+    }
+
+    public function resendVerifyEmail(Request $request)
+    {
+        $data = $request->validate([
+            'email' => ['required', 'email']
+        ]);
+        $email = strtolower($data['email']);
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Không tìm thấy người dùng.'], 404);
+        }
+        // Check resend count
+        $countKey = 'email_verify_resend_count:'.$email;
+        $current = (int) (Cache::get($countKey) ?? 0);
+        if ($current >= 3) {
+            // cancel registration: delete user and clear caches
+            Cache::forget('email_verify_code:'.$email);
+            Cache::forget('email_verify_expires:'.$email);
+            Cache::forget($countKey);
+            try { $user->delete(); } catch (\Throwable $e) {}
+            return response()->json(['success' => false, 'message' => 'Bạn đã vượt quá số lần gửi lại mã (3 lần). Đăng ký đã bị hủy.', 'canceled' => true], 400);
+        }
+        Cache::put($countKey, $current + 1, now()->addMinutes(10));
+        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $cacheKey = 'email_verify_code:'.$email;
+        Cache::put($cacheKey, $code, now()->addSeconds(60));
+        $expiresKey = 'email_verify_expires:'.$email;
+        $expiresAt = time() + 60;
+        Cache::put($expiresKey, $expiresAt, now()->addSeconds(60));
+        try {
+            Mail::raw("Mã xác nhận email của bạn là: {$code}. Mã có hiệu lực trong 60 giây.", function ($message) use ($user) {
+                $message->to($user->email)->subject('Xác nhận email - Nàng Thơ Shop');
+            });
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => 'Gửi email thất bại.'], 500);
+        }
+        return response()->json(['success' => true, 'expires_at' => $expiresAt, 'resend_count' => $current + 1]);
     }
     public function logout(Request $request)
     {
@@ -205,6 +321,9 @@ class AuthController extends Controller
     {
         $data = $request->validate(['email' => ['required', 'email']]);
         $user = User::where('email', $data['email'])->first();
+        if (!$this->verifyCloudflareCaptcha($request->input('cf-turnstile-response'))) {
+            return back()->withErrors(['captcha' => 'Xác minh không hợp lệ. Vui lòng thử lại.']);
+        }
         if ($user) {
             // Xóa token cũ nếu có
             DB::table('password_reset_tokens')->where('email', $user->email)->delete();
@@ -223,7 +342,7 @@ class AuthController extends Controller
             
             // In production, do not expose reset link via session
         }
-        return back()->with('status', 'Nếu email tồn tại, liên kết đặt lại đã được gửi.');
+        return back()->with('status', 'Hệ thống đã gửi liên kết khôi phục mật khẩu đến email đã đăng ký.');
     }
 
     public function resetForm(string $token)
@@ -307,5 +426,18 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
         return back()->with('status', 'Đã đổi mật khẩu');
+    }
+     private function verifyCloudflareCaptcha($token)
+    {
+        $secret_key=config('services.cloudflare-turnslite.secret_key');
+        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret' => $secret_key,
+            'response' => $token,
+        ]);
+        if (!$response->json('success')) {
+            Log::error('Cloudflare Captcha verification failed', ['response'=>$response->json()]);
+            return false;
+        }
+        return true;
     }
 }

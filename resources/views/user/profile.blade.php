@@ -101,7 +101,7 @@
                             @method('PUT')
                             <input type="file" name="avatar" id="avatarInput" accept="image/*">
                         </form>
-                        <h4 class="fw-bold">{{ $user->name }}</h4>
+                        <h4 class="fw-bold py-2">{{ $user->name }}</h4>
                         <div class="profile-actions d-flex justify-content-center align-items-center gap-2 mb-2">
                             <button type="button" class="btn btn-outline-brand btn-sm px-3 py-2 profile-action-btn" data-bs-toggle="tab" data-bs-target="#settings">
                                 <i class="bi bi-pencil-square me-1"></i> Cập nhật info
