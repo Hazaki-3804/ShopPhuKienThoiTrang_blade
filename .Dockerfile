@@ -18,7 +18,7 @@ RUN apt-get update \
 # Xác nhận GD đã được enable (fail sớm nếu thiếu)
 RUN php -m | grep -i gd
 
-# Cài composer
+# Cài composer từ image chính thức
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Biến môi trường cho composer
@@ -39,5 +39,6 @@ RUN composer install \
 # Phân quyền cho Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+# Mở port 8000 và chạy Laravel
 EXPOSE 8000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
