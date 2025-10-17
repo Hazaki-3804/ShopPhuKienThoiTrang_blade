@@ -1,7 +1,7 @@
 # Sử dụng PHP 8.2 chính thức
 FROM php:8.2-fpm
 
-# Cài các thư viện cần thiết và build extensions (gd, pdo_mysql, zip)
+# Cài đặt thư viện hệ thống & PHP extensions
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     libfreetype6-dev \
@@ -12,34 +12,32 @@ RUN apt-get update \
     unzip \
     ca-certificates \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql zip \
+ && docker-php-ext-install -j$(nproc) gd pdo_mysql zip \
  && docker-php-ext-enable gd \
  && rm -rf /var/lib/apt/lists/*
 
-# Kiểm tra lại GD có hoạt động chưa
+# Kiểm tra extension gd có được cài chưa
 RUN php -m | grep -i gd
 
-# Cài composer từ image chính thức
+# Copy Composer từ image chính thức
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Biến môi trường cho composer
+# Thiết lập môi trường Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Tạo thư mục làm việc
 WORKDIR /var/www/html
 
-# Copy file composer trước để cache layer dependencies
-COPY composer.json composer.lock ./
-
-# Cài package PHP (production)
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Copy toàn bộ mã nguồn còn lại
+# Copy toàn bộ source trước (chứ không chỉ composer.json)
+# để đảm bảo các package có thể đọc cấu trúc project khi build
 COPY . .
+
+# Cài đặt dependencies PHP
+RUN composer install --optimize-autoloader --no-interaction --no-scripts
 
 # Phân quyền cho Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Mở port 8000 và chạy Laravel
 EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT:-8000}"]
