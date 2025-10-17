@@ -2,15 +2,21 @@
 @section('title', $product->name)
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <div class="row g-4">
         <!-- Cột ảnh + slider + đánh giá -->
         <div class="col-12 col-md-6">
+            <x-breadcrumbs :items="[
+                ['label' => 'Trang chủ', 'url' => route('home')],
+                ['label' => 'Sản phẩm', 'url' => route('shop.index')],
+                ['label' => $product->category->name ?? 'Danh mục', 'url' => route('shop.index', ['category' => $product->category->slug ?? ''])],
+                ['label' => $product->name]
+            ]" />
             <!-- Ảnh chính (không click) -->
             <div class="ratio ratio-1x1 border rounded-3 overflow-hidden product-main-box mb-3">
                 <img id="mainImage"
                      src="{{ asset($product->product_images[0]->image_url ?? 'https://picsum.photos/800/800?random=' . $product->id) }}"
-                     class="w-100 h-100 object-fit-cover"
+                     class="w-80 h-80 object-fit-cover"
                      alt="{{ $product->name }}">
             </div>
 
@@ -303,7 +309,6 @@
     background: #fff;
     transition: background 0.2s, color 0.2s;
     height: 40px;
-    min-width: 120px;
     margin-bottom: 0;
     display: flex;
     align-items: center;
@@ -320,7 +325,6 @@
     border: none;
     transition: background 0.2s;
     height: 40px;
-    min-width: 100px;
     margin-bottom: 0;
     display: flex;
     align-items: center;
