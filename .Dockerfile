@@ -29,12 +29,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Cài package PHP (production)
-RUN composer install \
-    --no-dev \
-    --prefer-dist \
-    --optimize-autoloader \
-    --no-interaction \
-    --no-progress
+composer install --optimize-autoloader --no-scripts --no-interaction --ignore-platform-req=ext-gd
 
 # Phân quyền cho Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
