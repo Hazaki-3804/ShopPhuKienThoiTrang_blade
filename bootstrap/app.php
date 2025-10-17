@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['checkAdmin' => AdminMiddleware::class]);
+        // Trust all proxies (Railway) so X-Forwarded-* headers are honored for HTTPS detection
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Custom error pages for admin routes
