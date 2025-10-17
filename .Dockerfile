@@ -12,10 +12,11 @@ RUN apt-get update \
     unzip \
     ca-certificates \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install -j"$(nproc)" gd pdo pdo_mysql zip \
+ && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql zip \
+ && docker-php-ext-enable gd \
  && rm -rf /var/lib/apt/lists/*
 
-# Xác nhận GD đã được enable (fail sớm nếu thiếu)
+# Kiểm tra lại GD có hoạt động chưa
 RUN php -m | grep -i gd
 
 # Cài composer từ image chính thức
@@ -24,12 +25,17 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Biến môi trường cho composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Copy code vào container
+# Tạo thư mục làm việc
 WORKDIR /var/www/html
-COPY . .
+
+# Copy file composer trước để cache layer dependencies
+COPY composer.json composer.lock ./
 
 # Cài package PHP (production)
-composer install --optimize-autoloader --no-scripts --no-interaction --ignore-platform-req=ext-gd
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Copy toàn bộ mã nguồn còn lại
+COPY . .
 
 # Phân quyền cho Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
