@@ -57,6 +57,7 @@ Route::get('/contact', fn() => view('pages.contact'))->name('contact');
 
 // Chatbot
 Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
+Route::post('/api/chatbot/greet', [ChatbotController::class, 'greet'])->name('chatbot.greet');
 
 // Email verification after registration
 Route::get('/verify-email', [AuthController::class, 'verifyEmailForm'])->name('verify.email.form');

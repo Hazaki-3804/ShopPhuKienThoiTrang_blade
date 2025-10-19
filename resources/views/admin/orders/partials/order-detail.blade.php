@@ -5,7 +5,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="fas fa-info-circle me-2 text-primary"></i>Thông tin đơn hàng
+                    <i class="fas fa-info-circle me-2 text-primary"></i> Thông tin đơn hàng
                 </h6>
             </div>
             <div class="card-body">
@@ -53,16 +53,16 @@
                                 <td>
                                     @switch($order->payment_method)
                                         @case('cod')
-                                            <span class="badge bg-warning"><i class="fas fa-money-bill me-1"></i>COD</span>
+                                            <span class="badge bg-warning"><i class="fas fa-money-bill"></i> COD</span>
                                             @break
-                                        @case('bank_transfer')
-                                            <span class="badge bg-info"><i class="fas fa-university me-1"></i>Chuyển khoản</span>
+                                        @case('bank')
+                                            <span class="badge bg-info"><i class="fas fa-university"></i> Chuyển khoản</span>
                                             @break
-                                        @case('credit_card')
-                                            <span class="badge bg-primary"><i class="fas fa-credit-card me-1"></i>Thẻ tín dụng</span>
+                                        @case('momo')
+                                            <span class="badge bg-primary"><i class="fas fa-credit-card"></i> Ví điện tử Momo</span>
                                             @break
-                                        @case('e_wallet')
-                                            <span class="badge bg-success"><i class="fas fa-wallet me-1"></i>Ví điện tử</span>
+                                        @case('paypal')
+                                            <span class="badge bg-success"><i class="fas fa-wallet"></i> PayPal</span>
                                             @break
                                         @default
                                             <span class="badge bg-secondary">{{ ucfirst($order->payment_method) }}</span>
@@ -91,7 +91,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="fas fa-shopping-bag me-2 text-warning"></i>Sản phẩm đã đặt
+                    <i class="fas fa-shopping-bag text-warning"></i> Sản phẩm đã đặt
                 </h6>
             </div>
             <div class="card-body">
