@@ -108,24 +108,6 @@
             max-width: 240px;
         }
     }
-
-    /* Brand button styling */
-    .btn-brand {
-        background: linear-gradient(135deg, #ff6b35 0%, #EE4D2D 100%);
-        border: none;
-        color: white;
-        font-weight: 600;
-        padding: 12px 24px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-brand:hover {
-        background: linear-gradient(135deg, #ff7f50 0%, #ff6b35 100%);
-        color: white;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(238, 77, 45, 0.3);
-    }
 </style>
 @endpush
 @push('styles')
@@ -191,8 +173,6 @@
 </style>
 @endpush
 @push('scripts')
-<!-- jQuery (required for Select2) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>

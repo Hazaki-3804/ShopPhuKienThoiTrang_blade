@@ -8,13 +8,13 @@
 <div class="container py-4">
     <div class="row g-4">
         <div class="col-12 col-lg-3">
-            <h5 class="fw-semibold">Danh mục sản phẩm</h5>
+            <h5 class="fw-semibold"><i class="bi bi-card-list"></i> Danh mục sản phẩm</h5>
             <div class="card">
                 <div class="card-body">
                     @include('components.category-menu', ['categories' => $categories ?? $sharedCategories])
                 </div>
             </div>
-            <h5 class="mt-2 fw-semibold">Giá</h5>
+            <h5 class="mt-2 fw-semibold"><i class="bi bi-cash-stack"></i> Giá</h5>
             <div class="card">
                 <div class="card-body">
                     <form method="GET" id="filterForm">
@@ -56,7 +56,7 @@
         <div class="col-12 col-lg-9">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <div>
-                    <h5 class="fw-semibold m-0">Sản phẩm</h5>
+                    <h5 class="fw-semibold m-0"><i class="bi bi-boxes"></i> Sản phẩm</h5>
                     @if(request('q'))
                     <div class="small text-muted mt-1">Kết quả cho: <span class="badge bg-dark">"{{ request('q') }}"</span> <a href="{{ route('shop.index') }}" class="text-decoration-none ms-2">Xoá từ khoá</a></div>
                     @endif

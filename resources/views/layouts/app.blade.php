@@ -7,6 +7,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', ' Shop Nàng Thơ')</title>
 
+    <meta name="description" content="@yield('description', 'Shop Nàng Thơ chuyên cung cấp phụ kiện thời trang, túi xách, kẹp tóc, dây chuyền, và nhiều sản phẩm nữ tính giúp bạn tỏa sáng mỗi ngày.')">
+    <meta name="keywords" content="shop nàng thơ, phụ kiện thời trang, phụ kiện nữ, dây chuyền, hoa tai, túi xách, vòng tay, thời trang nữ tính">
+    <meta name="author" content="Shop Nàng Thơ">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph (Facebook, Zalo, Messenger...) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'Shop Nàng Thơ - Phụ kiện thời trang nữ tính')">
+    <meta property="og:description" content="@yield('description', 'Shop Nàng Thơ chuyên cung cấp phụ kiện thời trang, túi xách, kẹp tóc, dây chuyền, và nhiều sản phẩm nữ tính giúp bạn tỏa sáng mỗi ngày.')">
+    <meta property="og:image" content="{{ asset('img/logo_shop.png') }}">
+    <meta property="og:site_name" content="Shop Nàng Thơ">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Shop Nàng Thơ - Phụ kiện thời trang nữ tính')">
+    <meta name="twitter:description" content="@yield('description', 'Phụ kiện thời trang dành cho phái đẹp – sang trọng và tinh tế.')">
+    <meta name="twitter:image" content="{{ asset('img/logo_shop.png') }}">
     <!-- Favicon: ensure consistent logo on browser tab -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=3">
     <link rel="icon" type="image/png" href="{{ asset('img/logo_shop.png') }}">

@@ -4,39 +4,40 @@
     --bg-soft: #faf7f5;
     /* nhẹ nhàng hơn trắng tinh */
     --text   : #2c2c2c;
+    --text-white: #fff;
     --muted  : #6b6b6b;
 
     /* Accent (Shopee Orange) */
     --accent    : #EE4D2D;
     /* Shopee primary */
-    --accent-600: #D73211;
-    /* darker hover/active */
-    --accent-100: #FFE5DE;
+    --accent-hover: #D73211;
     /* light tint for backgrounds */
     --accent-rgb: 238, 77, 45;
-    /* for rgba() usages */
-
     /* Borders/shadows */
     --card-border: #efe9e6;
     --shadow     : 0 10px 20px rgba(0, 0, 0, .08);
 }
 
-.brand-gradient {
-    background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-blue), var(--pastel-lavender));
+
+.btn-brand {
+    background: #EE4D2D;
+    color     : #fff;
+    border    : none;
 }
 
 .btn-brand:hover {
-    filter: brightness(0.95);
+    background: #d43f1f;
+    /* đậm hơn #EE4D2D */
+    color     : #fff;
+    transform : translateY(-2px);
+}
+.btn-brand:disabled {
+    opacity: 1 !important;
+    cursor: not-allowed;
+    background: #d43f1f;
+    color: #fff !important;
 }
 
-.card-hover {
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.card-hover:hover {
-    transform : translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
-}
 
 html,
 body {
@@ -62,12 +63,8 @@ a {
 }
 
 a:hover {
-    color          : var(--accent-600);
+    color          : var(--accent-hover);
     text-decoration: none;
-}
-
-.brand-gradient {
-    background: linear-gradient(135deg, #ffd1dc, #cfe8ff, #e6d6ff);
 }
 
 .btn-brand {
@@ -77,7 +74,7 @@ a:hover {
 }
 
 .btn-brand:hover {
-    background: var(--accent-600);
+    background: var(--accent-hover);
 }
 
 .card-hover {
@@ -88,7 +85,14 @@ a:hover {
     transform : translateY(-4px);
     box-shadow: var(--shadow);
 }
-
+.form-control:focus{
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 .2rem rgba(var(--accent-rgb), .25) !important;
+}
+.form-select:focus{
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 .2rem rgba(var(--accent-rgb), .25) !important;
+}
 /* Fade/slide utility */
 .fade-up {
     opacity   : 0;
@@ -99,4 +103,274 @@ a:hover {
 .fade-up.in-view {
     opacity  : 1;
     transform: translateY(0);
+}
+.shop-theme {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.shop-header {
+    display: flex;
+    align-items: center;
+}
+
+.shop-logo {
+    height: 50px;
+    border-radius: 8px;
+}
+
+.shop-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Carousel cải thiện để hiển thị hình ảnh rõ nét */
+#heroCarousel .carousel-item {
+    position: relative;
+    height: 520px;
+    overflow: hidden;
+    border-radius: 15px;
+
+}
+
+#heroCarousel .carousel-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px) brightness(0.8);
+    z-index: 1;
+    transform: scale(1.1);
+}
+
+#heroCarousel .carousel-item img {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive cho slideshow */
+@media (max-width: 992px) {
+    #heroCarousel .carousel-item {
+        height: 420px;
+    }
+}
+
+@media (max-width: 768px) {
+    #heroCarousel .carousel-item {
+        height: 360px;
+    }
+
+    #heroCarousel .carousel-item img {
+        object-fit: contain;
+        height: 340px;
+        width: auto;
+        max-width: 100%;
+        margin: 10px auto;
+        display: block;
+    }
+}
+
+#heroCarousel .carousel-item[data-bg="sline1"]::before {
+    background-image: url("{{ asset('img/sline1.png') }}");
+}
+
+#heroCarousel .carousel-item[data-bg="sline2"]::before {
+    background-image: url("{{ asset('img/sline2.jpg') }}");
+}
+
+#heroCarousel .carousel-item[data-bg="sline3"]::before {
+    background-image: url("{{ asset('img/sline3.jpg') }}");
+}
+
+#heroCarousel .carousel-item[data-bg="sline4"]::before {
+    background-image: url("{{ asset('img/sline4.jpeg') }}");
+}
+
+.custom-caption {
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 12px;
+    padding: 20px;
+    bottom: 10%;
+    z-index: 3;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+.custom-caption h2 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #fff;
+    animation: fadeInDown 1s ease-in-out;
+}
+
+.custom-caption p {
+    color: #fff;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+/* Nút điều hướng slide */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 8%;
+    opacity: 1;
+    /* luôn thấy */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.65);
+    border-radius: 5px;
+    padding: 10px 12px;
+    display: inline-block;
+    /* tăng kích thước */
+    background-size: 60% 60%;
+    filter: invert(1);
+    /* icon sáng trên nền tối */
+}
+
+/* Nâng các nút điều hướng của hero lên trên ảnh và overlay */
+#heroCarousel .carousel-control-prev,
+#heroCarousel .carousel-control-next {
+    z-index: 10;
+}
+
+/* Tăng độ tương phản cho icon của hero */
+#heroCarousel .carousel-control-prev-icon,
+#heroCarousel .carousel-control-next-icon {
+    width: 70px;
+    height: 70px;
+    font-weight: bold;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none;
+    filter: none;
+    /* giữ icon trắng mặc định của Bootstrap */
+    padding: 0;
+    transition: transform .15s ease, filter .15s ease, opacity .15s ease;
+}
+
+/* Hover/active nhẹ cho hero controls */
+#heroCarousel .carousel-control-prev:hover .carousel-control-prev-icon,
+#heroCarousel .carousel-control-next:hover .carousel-control-next-icon {
+    transform: scale(1.08);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+#heroCarousel .carousel-control-prev:active .carousel-control-prev-icon,
+#heroCarousel .carousel-control-next:active .carousel-control-next-icon {
+    transform: scale(0.95);
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 12%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        padding: 14px;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.shop-card {
+    background: #fff;
+    border: 1px solid #f5f5f5;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.shop-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Banner with solid color background */
+.banner-card {
+    position: relative;
+    min-height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.banner-card .banner-overlay {
+    position: absolute;
+    inset: 0;
+    /* background: rgba(0, 0, 0, 0.0); */
+    /* no darkening for solid color */
+}
+
+.banner-card .banner-content {
+    position: relative;
+    z-index: 1;
+    padding: 24px;
+    color: #fff;
+    /* dark text for light background */
+}
+
+.banner-new {
+    background-color: #ffe6e0;
+}
+
+.banner-best {
+    background-color: #fff0d5;
+}
+
+.btn-shop {
+    background-color: var(--accent);
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-shop:hover {
+    background-color: var(--accent-600);
+    color: #fff;
+}
+
+.btn-outline-shop {
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background-color: transparent;
+    transition: 0.2s;
+}
+
+.btn-outline-shop:hover {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.carousel-item {
+    background-color: #fff !important;
 }

@@ -26,6 +26,45 @@
 .navbar-nav .nav-link:active {
     color: var(--accent) !important;
 }
+/* Cơ bản cho link */
+.underline-custom {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 2px; /* tạo khoảng trống cho line */
+    transition: color 0.3s ease;
+}
+
+/* Pseudo-element tạo line */
+.underline-custom::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 3px; /* độ dày line */
+    background: linear-gradient(90deg, #ee4d2d, #ff7a59); /* gradient đẹp */
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Khi hover */
+.underline-custom:hover::after,
+.underline-custom.active::after {
+    width: 80%; /* line mở ra full */
+}
+
+/* Optional: màu chữ khi hover */
+.underline-custom:hover {
+    color: #ee4d2d;
+}
+
+/* Trường hợp mobile */
+@media (max-width: 1000px) {
+    .underline-custom:hover::after {
+        width: 0;
+    }
+}
 
 /* Logo */
 .logo-shop {
@@ -34,6 +73,7 @@
     width     : auto;
     object-fit: contain;
     display   : inline-block;
+    border-radius: 50%;
 }
 
 /* Chữ Shop Nàng Thơ */
@@ -52,7 +92,7 @@
 }
 
 .icon-cart-shopee:hover {
-    color: var(--accent-600);
+    color: var(--accent-hover);
 }
 
 .bg-shopee {
@@ -69,8 +109,8 @@
 }
 
 .btn-shopee:hover {
-    background-color: var(--accent-600);
-    border-color    : var(--accent-600);
+    background-color: var(--accent-hover);
+    border-color    : var(--accent-hover);
     color           : white;
     transform       : translateY(-1px);
     box-shadow      : 0 4px 8px rgba(var(--accent-rgb), 0.3);

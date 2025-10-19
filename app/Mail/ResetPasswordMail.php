@@ -21,7 +21,6 @@ class ResetPasswordMail extends Mailable
     {
         $this->resetUrl = $resetUrl;
     }
-
     /**
      * Get the message envelope.
      */
@@ -37,10 +36,12 @@ class ResetPasswordMail extends Mailable
      */
     public function content(): Content
     {
+        $logo = 'https://nangthoshop.up.railway.app/img/logo_shop.png';
         return new Content(
             view: 'emails.reset-password',
             with: [
                 'resetUrl' => $this->resetUrl,
+                'logo' => $logo,
             ],
         );
     }

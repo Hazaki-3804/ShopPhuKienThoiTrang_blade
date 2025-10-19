@@ -85,7 +85,7 @@
             <div class="flex-grow-1">
                 <input type="search" id="categorySearch"
                     class="form-control form-control-sm"
-                    placeholder="Tìm kiếm đơn hàng..."
+                    placeholder="Tìm kiếm danh mục..."
                     style="max-width: 220px;">
             </div>
 
@@ -106,10 +106,10 @@
                         <i class="fas fa-file-export"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
-                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel"></i> Excel</a>
-                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv"></i> CSV</a>
-                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf"></i> PDF</a>
-                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print"></i> Print</a>
+                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success"></i> Excel</a>
+                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv text-info"></i> CSV</a>
+                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf text-danger"></i> PDF</a>
+                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print text-primary"></i> Print</a>
                     </div>
                 </div>
             </div>
@@ -234,19 +234,19 @@
                     name: 'excel-custom',
                     bom: true,
                     charset: 'utf-8',
-                    fileName: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
+                    title: 'Danh sách danh mục sản phẩm',
+                    filename: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
                     className: 'buttons-excel',
                     exportOptions: {
                         columns: ':visible:not(:first-child):not(:last-child)'
-
                     }
                 },
                 {
-                    extend: 'csvHtml5',
+                    extend: 'csvHtml5', 
                     className: 'buttons-csv',
                     bom: true,
                     charset: 'utf-8',
-                    fileName: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
+                    filename: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
                     exportOptions: {
                         columns: ':visible:not(:first-child):not(:last-child)'
                     }
@@ -254,11 +254,20 @@
                 {
                     extend: 'pdfHtml5',
                     className: 'buttons-pdf',
-                    fileName: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
+                    title: 'Danh sách danh mục sản phẩm',
+                    filename: 'Danh_muc_san_pham_' + moment().format('DD-MM-YYYY_HHmmss'),
                     exportOptions: {
                         columns: ':visible:not(:first-child):not(:last-child)'
                     }
                 },
+                {
+                    extend: 'print',
+                    className: 'buttons-print',
+                    title: 'Danh sách danh mục sản phẩm',
+                    exportOptions: {
+                        columns: ':visible:not(:first-child):not(:last-child)'
+                    }
+                }
             ],
             columns: [{
                     data: 'checkbox',

@@ -93,7 +93,7 @@ class DashboardController extends Controller
             ];
         }
     }
-    
+   
     private function getRecentOrders()
     {
         try {

@@ -120,8 +120,8 @@
 
         <!-- Cột thông tin sản phẩm -->
         <div class="col-12 col-md-6">
-            <div class="text-muted small">Danh mục: {{ $product->category->name ?? 'N/A' }}</div>
             <h4 class="fw-semibold">{{ $product->name }}</h4>
+            <div class="text-muted small"><strong>Danh mục:</strong> {{ $product->category->name ?? 'N/A' }}</div>
             <div class="fs-5 fw-semibold mb-2">{{ number_format($product->price,0,',','.') }}₫</div>
 
             <!-- Khuyến mãi nổi bật -->
@@ -220,137 +220,106 @@
 </div>
 
 @push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
-.product-desc-image {
-    display: flex;
-    justify-content: center;  /* căn giữa ngang */
-    align-items: center;      /* căn giữa dọc */
-    flex-direction: column;
-    width: 100%;              /* giữ trong khung cha */
-    text-align: center;
-    margin-left: 50%;
-}
+    .product-desc-image {
+        display: flex;
+        justify-content: center;  /* căn giữa ngang */
+        align-items: center;      /* căn giữa dọc */
+        flex-direction: column;
+        width: 100%;              /* giữ trong khung cha */
+        text-align: center;
+        margin-left: 50%;
+    }
 
-.product-desc-image img {
-    max-width: 1200px;   /* tăng kích thước tối đa */
-    max-height: 800px;
-    width: 1000px;         /* tự co theo tỉ lệ */
-    height: 800px;
-    object-fit: contain; /* giữ ảnh không méo */
-    display: block;
-    margin: 0 auto;      /* căn giữa chính xác */
-}
+    .product-desc-image img {
+        max-width: 1200px;   /* tăng kích thước tối đa */
+        max-height: 800px;
+        width: 1000px;         /* tự co theo tỉ lệ */
+        height: 800px;
+        object-fit: contain; /* giữ ảnh không méo */
+        display: block;
+        margin: 0 auto;      /* căn giữa chính xác */
+    }
 
-/* Căn chỉnh hàng voucher, số lượng, nút giỏ, mua ngay */
-.product-action-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 0;
-    flex-wrap: wrap;
-}
-.product-action-row > * {
-    margin-bottom: 0 !important;
-}
-.product-action-row label {
-    margin-bottom: 4px;
-    font-size: 1rem;
-}
-/* Số lượng kiểu liền khối, giống hình */
+    /* Căn chỉnh hàng voucher, số lượng, nút giỏ, mua ngay */
+    .product-action-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+    }
+    .product-action-row > * {
+        margin-bottom: 0 !important;
+    }
+    .product-action-row label {
+        margin-bottom: 4px;
+        font-size: 1rem;
+    }
+    /* Số lượng kiểu liền khối, giống hình */
 
-.quantity-selector {
-    display: inline-flex;
-    align-items: center;
-    border: 1.5px solid #d9d9d9;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    height: 40px;
-}
-.quantity-selector button {
-    border: none;
-    background: #fff;
-    width: 40px;
-    height: 40px;
-    font-size: 1.3rem;
-    color: #555;
-    cursor: pointer;
-    transition: background 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0;
-}
-.quantity-selector button:active {
-    background: #f5f5f5;
-}
-.quantity-selector button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
-}
-.quantity-selector input[type="number"] {
-    border: none;
-    width: 46px;
-    height: 40px;
-    text-align: center;
-    font-size: 1.1rem;
-    box-shadow: none;
-    outline: none;
-    background: #fff;
-    padding: 0;
-    margin: 0;
-    border-radius: 0;
-}
-.btn-outline-shopee {
-    border-radius: 8px;
-    border: 1.5px solid #ff7f50;
-    color: #ff7f50;
-    background: #fff;
-    transition: background 0.2s, color 0.2s;
-    height: 40px;
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.btn-outline-shopee:hover {
-    background: #ff7f50;
-    color: #fff;
-}
-.btn-shopee {
-    border-radius: 8px;
-    background: #ff4500;
-    color: #fff;
-    border: none;
-    transition: background 0.2s;
-    height: 40px;
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.btn-shopee:hover {
-    background: #ff7f50;
-    color: #fff;
-}
+    .quantity-selector {
+        display: inline-flex;
+        align-items: center;
+        border: 1.5px solid #d9d9d9;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+        height: 40px;
+    }
+    .quantity-selector button {
+        border: none;
+        background: #fff;
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+        color: #555;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+    }
+    .quantity-selector button:active {
+        background: #f5f5f5;
+    }
+    .quantity-selector button:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+    .quantity-selector input[type="number"] {
+        border: none;
+        width: 46px;
+        height: 40px;
+        text-align: center;
+        font-size: 1.1rem;
+        box-shadow: none;
+        outline: none;
+        background: #fff;
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+    }
 
-/* Dropdown số lượng */
-#qtyInput {
-    border-radius: 4px;
-    border: 1px solid #dee2e6;
-    box-shadow: none;
-    padding: 3px 6px;
-    font-size: 1rem;
-    width: 20px;
-    text-align: center;
-    transition: border-color 0.2s;
-}
-#qtyInput:focus {
-    border-color: #86b7fe;
-    outline: none;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
+    /* Dropdown số lượng */
+    #qtyInput {
+        border-radius: 4px;
+        border: 1px solid #dee2e6;
+        box-shadow: none;
+        padding: 3px 6px;
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+        transition: border-color 0.2s;
+    }
+    #qtyInput:focus {
+        border-color: #86b7fe;
+        outline: none;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
 
     .promo-box {
         display: flex;
@@ -397,29 +366,86 @@
         font-family: 'Segoe UI', Arial, sans-serif;
     }
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
-        .service-info-box {
-            background: #fff0f5;
-            border: 1px solid #f8bbd0;
-            box-shadow: 0 2px 8px rgba(248,187,208,0.08);
-            font-size: 1rem;
-            margin-top: 8px;
-        }
-        .service-info-box i {
-            color: #ee4d2d;
-            font-size: 1.3em;
-            vertical-align: middle;
-        }
-        .service-info-box hr {
-            margin: 0.5rem 0;
-            border-color: #f8bbd0;
-        }
+    .service-info-box {
+        background: #fff0f5;
+        border: 1px solid #f8bbd0;
+        box-shadow: 0 2px 8px rgba(248,187,208,0.08);
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+    .service-info-box i {
+        color: #ee4d2d;
+        font-size: 1.3em;
+        vertical-align: middle;
+    }
+    .service-info-box hr {
+        margin: 0.5rem 0;
+        border-color: #f8bbd0;
+    }
     .swiper { width: 100%; height: 100px; }
     .swiper-slide img { border: 2px solid transparent; }
     .swiper-slide img:hover { border: 2px solid #ee4d2d; }
     .modal-body img { max-height: 80vh; }
+</style>
+<style>
+    .star-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .star-rating i {
+        font-size: 2rem;
+        color: #e0e0e0;
+        cursor: pointer;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .star-rating i:hover {
+        transform: scale(1.1);
+    }
+
+    .rating-text {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #ffc107;
+        min-width: 100px;
+    }
+
+    .review-form {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .review-form .form-label {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .review-form textarea {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        resize: none;
+    }
+
+    .review-form textarea:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+
+    .review-form .btn-primary {
+        background-color: #ee4d2d;
+        border-color: #ee4d2d;
+        padding: 0.5rem 2rem;
+    }
+
+    .review-form .btn-primary:hover {
+        background-color: #d73211;
+        border-color: #d73211;
+    }
 </style>
 @endpush
 
@@ -556,65 +582,5 @@
     });
   });
 </script>
-
-<style>
-.star-rating {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.star-rating i {
-    font-size: 2rem;
-    color: #e0e0e0;
-    cursor: pointer;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.star-rating i:hover {
-    transform: scale(1.1);
-}
-
-.rating-text {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #ffc107;
-    min-width: 100px;
-}
-
-.review-form {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-}
-
-.review-form .form-label {
-    color: #333;
-    margin-bottom: 0.5rem;
-}
-
-.review-form textarea {
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    resize: none;
-}
-
-.review-form textarea:focus {
-    border-color: #ffc107;
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
-}
-
-.review-form .btn-primary {
-    background-color: #ee4d2d;
-    border-color: #ee4d2d;
-    padding: 0.5rem 2rem;
-}
-
-.review-form .btn-primary:hover {
-    background-color: #d73211;
-    border-color: #d73211;
-}
-</style>
 @endpush
 @endsection
