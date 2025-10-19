@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\StatisticsController as AdminStatisticsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -22,8 +23,12 @@ use App\Http\Controllers\Chatbot\ChatbotController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UserOrderController;
+use App\Http\Controllers\VnpayController;
 
 Route::get('/', fn() => redirect()->route('home'));
+
+// Sitemap (public, exclude admin by design)
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 //Home routes
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -31,25 +36,6 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{id}', [ShopController::class, 'show'])->name('shop.show');
-
-// Cart and Checkout routes
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/buy-now/{id}', [CartController::class, 'buyNow'])->name('cart.buynow');
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/save-address', [CheckoutController::class, 'saveAddress'])->name('checkout.saveAddress');
-Route::get('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
-Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
-Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo.return');
-Route::post('/checkout/momo/notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momo.notify');
-
-// Invoice routes
-Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
-
-// Product reviews routes
-Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
 
 // Static pages
 Route::get('/about', fn() => view('pages.about'))->name('about');
@@ -59,13 +45,31 @@ Route::get('/contact', fn() => view('pages.contact'))->name('contact');
 Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
 Route::post('/api/chatbot/greet', [ChatbotController::class, 'greet'])->name('chatbot.greet');
 
-// Email verification after registration
-Route::get('/verify-email', [AuthController::class, 'verifyEmailForm'])->name('verify.email.form');
-Route::post('/verify-email', [AuthController::class, 'verifyEmailSubmit'])->name('verify.email.submit');
-Route::post('/verify-email/resend', [AuthController::class, 'resendVerifyEmail'])->name('verify.email.resend');
 
 // Profile routes
 Route::middleware('auth')->group(function () {
+    // Cart and Checkout routes
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/buy-now/{id}', [CartController::class, 'buyNow'])->name('cart.buynow');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/save-address', [CheckoutController::class, 'saveAddress'])->name('checkout.saveAddress');
+    Route::get('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
+    Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
+    Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo.return');
+    Route::post('/checkout/momo/notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momo.notify');
+    // VNPAY
+    Route::get('/checkout/vnpay', [VnpayController::class, 'createPayment'])->name('vnpay.create');
+    Route::get('/checkout/vnpay-return', [VnpayController::class, 'returnPayment'])->name('vnpay.return');
+
+    // Invoice routes
+    Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
+
+    // Product reviews routes
+    Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
+
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
@@ -81,9 +85,7 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
     Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');   
-
     Route::get('/settings', fn() => view('admin.settings'))->name('settings');
-
     // Reviews management
     Route::get('/admin/reviews', [AdminReviewsController::class, 'index'])->name('admin.reviews.index');
     Route::patch('/admin/reviews/{review}/toggle', [AdminReviewsController::class, 'toggleVisibility'])->name('admin.reviews.toggle');

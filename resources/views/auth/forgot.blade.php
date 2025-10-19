@@ -7,7 +7,8 @@
         <div class="col-12 col-md-6 col-lg-5">
             <div class="card border-0 shadow-lg rounded-4 fade-up">
                 <div class="card-body p-4">
-                    <h5 class="fw-semibold mb-3 text-center">Quên mật khẩu</h5>
+                    <h3 class="fw-semibold mb-3 text-center">Quên mật khẩu</h3>
+                    <p class="fs-6 text-center">Vui lòng nhập email của bạn để nhận liên kết đặt lại mật khẩu</p>
                     @if (session('status'))
                     <x-alert type="success"><i class="bi bi-check-circle-fill"></i> {{ session('status') }} </x-alert>
                     @endif

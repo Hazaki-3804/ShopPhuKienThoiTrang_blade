@@ -134,10 +134,40 @@
         letter-spacing: 0.5px;
     }
     
-    .status-completed { background: #d4edda; color: #155724; }
-    .status-processing { background: #fff3cd; color: #856404; }
-    .status-shipped { background: #cce7ff; color: #004085; }
-    .status-pending { background: #f8d7da; color: #721c24; }
+    /* Pending - chờ xử lý */
+    .status-pending::before { content: '🟡'; }
+    .status-pending {
+        background: #fff3cd; /* vàng nhạt */
+        color: #856404;      /* chữ vàng đậm / nâu vàng */
+    }
+
+    /* Processing - đang xử lý */
+    .status-processing::before { content: '🔵'; }
+    .status-processing {
+        background: #cce5ff; /* xanh dương nhạt */
+        color: #004085;      /* xanh dương đậm */
+    }
+
+    /* Shipped - đang vận chuyển */
+    .status-shipped::before { content: '🟠'; }
+    .status-shipped {
+        background: #fff3e0; /* cam nhạt, nhẹ nhàng */
+        color: #e65100;      /* cam đậm */
+    }
+
+    /* Canceled - hủy */
+    .status-cancelled::before { content: '🔴'; }
+    .status-cancelled {
+        background: #f8d7da; /* đỏ nhạt */
+        color: #721c24;      /* đỏ đậm */
+    }
+
+    /* Delivered - đã giao */
+    .status-delivered::before { content: '🟢'; }
+    .status-delivered {
+        background: #d4edda; /* xanh lá nhạt */
+        color: #155724;      /* xanh lá đậm */
+    }
     
     .btn-sm-clean {
         padding: 4px 8px;
@@ -240,8 +270,8 @@
     <div class="row mb-4">
         <div class="col-lg-8 mb-3">
             <div class="card chart-card">
-                <div class="card-header">
-                    <h6><i class="fas fa-chart-line mr-2"></i>Doanh Thu 7 Ngày Qua</h6>
+                <div class="card-header bg-warning">
+                    <h6 ><i class="fas fa-chart-line mr-2"></i>Doanh Thu 7 Ngày Qua</h6>
                 </div>
                 <div class="card-body p-0">
                     <div class="chart-container">
@@ -253,8 +283,8 @@
         
         <div class="col-lg-4 mb-3">
             <div class="card chart-card">
-                <div class="card-header">
-                    <h6><i class="fas fa-chart-pie mr-2"></i>Top Sản Phẩm</h6>
+                <div class="card-header bg-danger">
+                    <h6 class="text-white"><i class="fas fa-chart-pie mr-2"></i>Top Sản Phẩm</h6>
                 </div>
                 <div class="card-body p-0">
                     <div class="chart-container">
@@ -269,8 +299,8 @@
     <div class="row">
         <div class="col-lg-8 mb-3">
             <div class="card data-table">
-                <div class="card-header">
-                    <h6><i class="fas fa-shopping-bag mr-2"></i>Đơn Hàng Gần Đây</h6>
+                <div class="card-header bg-primary">
+                    <h6 class="text-white"><i class="fas fa-shopping-bag mr-2"></i>Đơn Hàng Gần Đây</h6>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -285,6 +315,25 @@
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
+                            @php
+                             function getStatus($status)
+                                {
+                                    switch ($status) {
+                                        case 'pending':
+                                            return 'Chờ xác nhận';
+                                        case 'processing':
+                                            return 'Đang xử lý';
+                                        case 'shipped':
+                                            return 'Đang giao hàng';
+                                        case 'delivered':
+                                            return 'Đã giao hàng';
+                                        case 'cancelled':
+                                            return 'Đã hủy';
+                                        default:
+                                            return 'Không xác định';
+                                    }   
+                                }
+                            @endphp
                             <tbody>
                                 @forelse($recentOrders as $order)
                                 <tr>
@@ -293,7 +342,7 @@
                                     <td><strong>{{ number_format($order['total_amount'], 0, ',', '.') }}₫</strong></td>
                                     <td>
                                         <span class="status-badge status-{{ $order['status'] }}">
-                                            {{ ucfirst($order['status']) }}
+                                            {{ getStatus($order['status']) }}
                                         </span>
                                     </td>
                                     <td>{{ $order['created_at'] }}</td>
@@ -319,8 +368,8 @@
         
         <div class="col-lg-4 mb-3">
             <div class="card data-table">
-                <div class="card-header">
-                    <h6><i class="fas fa-user-plus mr-2"></i>Khách Hàng Mới</h6>
+                <div class="card-header bg-success">
+                    <h6 class="text-white"><i class="fas fa-user-plus mr-2"></i>Khách Hàng Mới</h6>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -329,7 +378,7 @@
                                 <tr>
                                     <th>Tên</th>
                                     <th>Email</th>
-                                    <th>Ngày</th>
+                                    <th>Ngày đăng ký</th>
                                 </tr>
                             </thead>
                             <tbody>

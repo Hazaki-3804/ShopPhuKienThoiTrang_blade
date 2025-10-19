@@ -39,7 +39,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                    <form method="POST" action="{{ route('login') }}" novalidate>
+                    <form method="POST" action="{{ route('login') }}" id="loginForm" novalidate>
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label label-input-important"><i class="bi bi-envelope-fill"></i> Email</label>
@@ -58,11 +58,13 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember">
                                 <label class="form-check-label" for="remember">Ghi nhớ</label>
-                            </div>
+                            </div>  
                             <a href="{{ route('password.request') }}" class="small">Quên mật khẩu?</a>
                         </div>
                         <x-cloudflare-captcha />
-                        <button type="submit" class="btn btn-login w-100">Đăng nhập</button>
+                        <button type="submit" class="btn btn-brand w-100" id="loginBtn">
+                            <span class="btn-text">Đăng nhập</span>
+                        </button>                   
                     </form>
                     <div class="text-center text-muted my-2">Hoặc</div>
                     <div class="d-grid gap-2">
@@ -84,9 +86,8 @@
     </div>
 </div>
 @endsection
-
-@if(session('lockUntil'))
 @push('scripts')
+@if(session('lockUntil'))
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const lockUntil = {!! json_encode(session('lockUntil')) !!};
@@ -147,5 +148,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endpush
 @endif
+<script>
+    function btn_loading(formId, btnId) {
+        const form = document.getElementById(formId);
+        const btn = document.getElementById(btnId);
+        if (form && btn) {
+            form.addEventListener('submit', function () {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đăng nhập';
+            });
+        }
+    }
+    btn_loading('loginForm', 'loginBtn');
+</script>
+@endpush

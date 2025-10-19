@@ -9,6 +9,10 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 // Register routes
 Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+// Email verification after registration
+Route::get('/verify-email', [AuthController::class, 'verifyEmailForm'])->name('verify.email.form');
+Route::post('/verify-email', [AuthController::class, 'verifyEmailSubmit'])->name('verify.email.submit');
+Route::post('/verify-email/resend', [AuthController::class, 'resendVerifyEmail'])->name('verify.email.resend');
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Password reset routes

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Đăng ký')
 @push('styles')
-<!-- CSS Select2 -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- CSS Choices.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
 
 <link href="{{ asset('css/register.css') }}" rel="stylesheet">
 @endpush
@@ -20,7 +20,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                    <form method="POST" action="{{ route('register.post') }}" novalidate>
+                    <form method="POST" action="{{ route('register.post') }}" id="registerForm" novalidate>
                         @csrf
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
@@ -55,7 +55,7 @@
                                 <label for="address" class="form-label label-input-important"><i class="bi bi-house-fill"></i> Địa chỉ</label>
                                 <div class="row">
                                     <div class="col-12 col-md-6" style="padding: 0 8px 0 12px;">
-                                        <select id="province" name="province" class="form-select">
+                                        <select id="province" name="province" class="form-select" data-placeholder="-- Chọn tỉnh thành --">
                                             <option value="" disabled selected>-- Chọn tỉnh --</option>
                                         </select>
                                         @error('province')
@@ -63,7 +63,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-12 col-md-6" style="padding: 0 12px 0 8px;">
-                                        <select id="ward" name="ward" class="form-select">
+                                        <select id="ward" name="ward" class="form-select" data-placeholder="-- Chọn xã/phường --">
                                             <option value="" disabled selected>-- Chọn xã/phường --</option>
                                         </select>
                                         @error('ward')
@@ -96,7 +96,16 @@
                             </div>
                         </div>
                         <x-cloudflare-captcha />
-                        <button type="submit" class="btn btn-register w-100 mt-3">Đăng ký</button>
+                        <div style="font-size: 14px;">
+                            <input type="checkbox" class="form-check-input" id="termsCheck" name="terms">
+                            <label class="form-check-label" for="termsCheck">
+                                Tôi đồng ý với các <a href="{{ route('shop.index') }}">Điều khoản & Chính sách</a>
+                            </label>
+                            <div class="invalid-feedback">
+                                Bạn phải đồng ý điều kiện trước khi tiếp tục.
+                            </div>
+                        </div>
+                        <button type="submit" id="registerBtn" class="btn btn-brand w-100 mt-3">Đăng ký</button>
                     </form>
                     <div class="text-center mt-3 small">Bạn đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a></div>
                 </div>
@@ -106,7 +115,7 @@
 </div>
 @endsection
 @push('scripts')
-<!-- JS Select2 -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- JS Choices.js -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="{{ asset('js/register.js') }}"></script>
 @endpush

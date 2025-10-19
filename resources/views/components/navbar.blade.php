@@ -71,16 +71,9 @@
                                 <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
                             </button>
                         </form>
-                    </li>
+                    </li>                        
                 </ul>
             </div>
-            @else
-            <a class="nav-link" href="{{ route('login') }}" title="Đăng nhập">
-                <i class="bi bi-box-arrow-in-right fs-4"></i>
-            </a>
-            <a class="nav-link" href="{{ route('register') }}" title="Đăng ký">
-                <i class="bi bi-person-plus-fill fs-4"></i>
-            </a>
             @endauth
         </div>
 
@@ -90,17 +83,23 @@
 
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Trang chủ</a>
+                <li class="nav-item underline-custom">
+                    <a class="nav-link fw-bold text-dark {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}"> <i class="bi bi-house me-2 d-lg-none"></i>Trang chủ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('shop.index') || request()->routeIs('shop.show') ? 'active' : '' }}" href="{{ route('shop.index') }}">Sản phẩm</a>
+                <li class="nav-item underline-custom">
+                    <a class="nav-link fw-bold text-dark {{ request()->routeIs('shop.index') || request()->routeIs('shop.show') ? 'active' : '' }}" href="{{ route('shop.index') }}"> <i class="bi bi-cart me-2 d-lg-none"></i>Sản phẩm</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Giới thiệu</a>
+                <li class="nav-item underline-custom">
+                    <a class="nav-link fw-bold text-dark {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}"> <i class="bi bi-info-circle me-2 d-lg-none"></i>Giới thiệu</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase fw-semibold {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Liên hệ</a>
+                <li class="nav-item underline-custom">
+                    <a class="nav-link fw-bold text-dark {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}"> <i class="bi bi-telephone me-2 d-lg-none"></i>Liên hệ</a>
+                </li>
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link fw-bold text-dark" href="{{ route('login') }}"> <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập</a>
+                </li>
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link fw-bold text-dark" href="{{ route('register') }}"> <i class="bi bi-box-arrow-in-right me-2"></i>Đăng ký</a>
                 </li>
             </ul>
 
@@ -109,7 +108,7 @@
                     <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
                         <div class="input-group input-group-sm shadow-sm rounded-start-3">
                             <input class="form-control border-end-0 p-2 rounded-start-3"
-                                type="search" style="width: 300px" name=" q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                                type="search" style="width: 300px" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
                             @if(request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
                             @endif
@@ -224,11 +223,15 @@
                     </ul>
                 </li>
                 @else
-                <li class="nav-item me-2">
-                    <a class="btn btn-outline-shopee rounded-pill px-3" href="{{ route('login') }}">Đăng nhập</a>
+                 <li class="nav-item me-2">
+                    <a class="text-decoration-none text-dark px-3 fw-semibold" href="{{ route('register') }}">
+                    Đăng ký
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-shopee rounded-pill px-3" href="{{ route('register') }}">Đăng ký</a>
+                    <a class="btn btn-shopee rounded-pill px-3 fw-semibold" href="{{ route('login') }}">
+                    Đăng nhập
+                    </a>
                 </li>
                 @endauth
             </ul>
@@ -239,7 +242,7 @@
         <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
             <div class="input-group input-group-sm shadow-sm rounded-start-3">
                 <input class="form-control border-end-0 p-2 rounded-start-3"
-                    type="search" style="width: 300px" name=" q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                    type="search" style="width: 300px" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
                 @if(request('category'))
                 @endif
                 <button class="btn btn-shopee" style='max-width: 30px;' type="submit" aria-label="Tìm kiếm">

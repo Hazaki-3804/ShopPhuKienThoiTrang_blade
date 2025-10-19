@@ -17,7 +17,7 @@
                     <!-- Header -->
                     <tr>
                         <td align="center" style="padding:10px;">
-                            <img src="{{ asset('img/logo_shop.png') }}" alt="Logo" style="width: 50px;">
+                            <img src="{{ $logo}}" alt="Logo" style="width: 50px; border-radius: 50%;">
                             <h1 style="margin:0;color:#000;font-size:20px;">{{ $appName }}</h1>
                         </td>
                     </tr>

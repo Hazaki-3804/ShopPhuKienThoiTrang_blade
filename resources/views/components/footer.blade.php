@@ -6,7 +6,7 @@
                 <a href="/" class="d-flex align-items-center mb-3 text-decoration-none">
                     <span class="h4 fw-bold brand-name">Nàng Thơ</span>
                 </a>
-                <p class="mb-2"><strong><i class="bi bi-geo-alt-fill"></i> Địa chỉ:</strong> Phường 8, TP Vĩnh Long</p>
+                <p class="mb-2"><strong><i class="bi bi-geo-alt-fill"></i> Địa chỉ:</strong> Phường Long Châu, TP Vĩnh Long</p>
                 <p class="mb-2"><strong><i class="bi bi-telephone-fill"></i> Phone:</strong> 0779089258</p>
                 <p><strong><i class="bi bi-envelope-fill"></i> Email:</strong> shopnangtho@gmail.com</p>
             </div>

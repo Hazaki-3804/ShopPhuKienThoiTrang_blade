@@ -874,6 +874,9 @@ class CheckoutController extends Controller
                 return back()->withErrors(['payment' => 'Không thể kết nối đến MoMo. Vui lòng thử lại.']);
             }
         }
+        if ($paymentMethod === 'vnpay') {
+            return redirect()->route('vnpay.create', ['order_id' => $order->id, 'total' => $total]);
+        }
 
         // Xóa session và cart items cho COD
         session()->forget(['checkout_address', 'checkout_selected']);

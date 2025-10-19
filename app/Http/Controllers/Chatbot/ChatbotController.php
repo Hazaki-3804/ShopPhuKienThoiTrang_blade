@@ -61,6 +61,69 @@ class ChatbotController extends Controller
                 );
             }
 
+    /**
+     * Paraphrase a base answer via Gemini to create variation while preserving facts.
+     */
+    private function variabilize(?string $base): ?string
+    {
+        if (!$base || !is_string($base)) return null;
+        try {
+            $apiKey = Config::get('services.gemini.api_key');
+            if (!$apiKey) return null;
+
+            $sanitize = function ($text) {
+                if ($text === null) return '';
+                if (!is_string($text)) $text = strval($text);
+                if (function_exists('mb_detect_encoding')) {
+                    $enc = mb_detect_encoding($text, 'UTF-8, ISO-8859-1, ISO-8859-15, Windows-1252, ASCII', true);
+                    if ($enc && $enc !== 'UTF-8') $text = mb_convert_encoding($text, 'UTF-8', $enc);
+                }
+                if (class_exists('Normalizer')) $text = \Normalizer::normalize($text, \Normalizer::FORM_C);
+                $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
+                return $text;
+            };
+
+            $instruction = "Hãy diễn đạt lại đoạn văn sau bằng tiếng Việt tự nhiên, giữ NGUYÊN Ý và SỐ LIỆU, KHÔNG thêm thông tin mới.\nYêu cầu: ngắn gọn, thân thiện, có thể thay đổi cách mở đầu; tối đa 1 emoji; chỉ trả về câu trả lời, không markdown.";
+            $content = "Đoạn văn cần diễn đạt lại:\n\n" . $sanitize($base);
+
+            $payload = [
+                'contents' => [[ 'parts' => [[ 'text' => $content ]]]],
+                'systemInstruction' => [ 'parts' => [[ 'text' => $instruction ]] ],
+                'generationConfig' => [
+                    'maxOutputTokens' => 180,
+                    'temperature' => 0.9,
+                    'topP' => 0.9,
+                    'topK' => 40,
+                    'candidateCount' => 3,
+                ],
+            ];
+
+            $jsonBody = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+            if ($jsonBody === false) return null;
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'Accept' => 'application/json; charset=UTF-8',
+            ])->withBody($jsonBody, 'application/json')
+              ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}");
+
+            if ($response->failed()) return null;
+
+            $data = $response->json();
+            if ($data === null) $data = json_decode($response->body(), true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
+            $cands = $data['candidates'] ?? [];
+            $valid = array_values(array_filter($cands, function ($c) {
+                return isset($c['content']['parts'][0]['text']) && is_string($c['content']['parts'][0]['text']);
+            }));
+            if (empty($valid)) return null;
+            $pick = $valid[array_rand($valid)];
+            $text = $pick['content']['parts'][0]['text'];
+            return $sanitize($text);
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
             // Từ khóa liên quan được mở rộng
             $relevantKeywords = [
                 'xin chào', 'hello', 'hi',
@@ -301,8 +364,9 @@ class ChatbotController extends Controller
         if ($productResponse) {
             // Lưu context sản phẩm vào session
             $this->saveProductContext($originalMessage);
+            $msg = $this->variabilize($productResponse) ?: $productResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($productResponse) : $productResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -312,8 +376,9 @@ class ChatbotController extends Controller
         // 2. Câu hỏi về giá & tồn kho
         $priceResponse = $this->chatbotService->handlePriceStockQuestions($originalMessage);
         if ($priceResponse) {
+            $msg = $this->variabilize($priceResponse) ?: $priceResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($priceResponse) : $priceResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -323,8 +388,9 @@ class ChatbotController extends Controller
         // 3. Câu hỏi về giao hàng
         $shippingResponse = $this->chatbotService->handleShippingQuestions($originalMessage);
         if ($shippingResponse) {
+            $msg = $this->variabilize($shippingResponse) ?: $shippingResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($shippingResponse) : $shippingResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -334,8 +400,9 @@ class ChatbotController extends Controller
         // 4. Câu hỏi về thanh toán
         $paymentResponse = $this->chatbotService->handlePaymentQuestions($originalMessage);
         if ($paymentResponse) {
+            $msg = $this->variabilize($paymentResponse) ?: $paymentResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($paymentResponse) : $paymentResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -345,8 +412,9 @@ class ChatbotController extends Controller
         // 5. Câu hỏi về đổi trả & bảo hành
         $returnResponse = $this->chatbotService->handleReturnWarrantyQuestions($originalMessage);
         if ($returnResponse) {
+            $msg = $this->variabilize($returnResponse) ?: $returnResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($returnResponse) : $returnResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -356,8 +424,9 @@ class ChatbotController extends Controller
         // 6. Câu hỏi về khuyến mãi
         $promotionResponse = $this->chatbotService->handlePromotionQuestions($originalMessage);
         if ($promotionResponse) {
+            $msg = $this->variabilize($promotionResponse) ?: $promotionResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($promotionResponse) : $promotionResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -367,8 +436,9 @@ class ChatbotController extends Controller
         // 7. Câu hỏi tương tác & tư vấn
         $consultationResponse = $this->chatbotService->handleConsultationQuestions($originalMessage);
         if ($consultationResponse) {
+            $msg = $this->variabilize($consultationResponse) ?: $consultationResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($consultationResponse) : $consultationResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -378,8 +448,9 @@ class ChatbotController extends Controller
         // 8. Câu hỏi về tài khoản & hỗ trợ
         $accountResponse = $this->chatbotService->handleAccountSupportQuestions($originalMessage);
         if ($accountResponse) {
+            $msg = $this->variabilize($accountResponse) ?: $accountResponse;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($accountResponse) : $accountResponse, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
@@ -389,9 +460,10 @@ class ChatbotController extends Controller
         // Xử lý đăng ký/đăng nhập (giữ nguyên logic cũ)
         if (str_contains($userMessage, 'đăng ký')) {
             $responseMessage = "Để đăng ký tài khoản, vui lòng nhấn vào liên kết và điền thông tin. Nếu cần hỗ trợ, bạn cứ hỏi mình nhé!";
+            $msg = $this->variabilize($responseMessage) ?: $responseMessage;
             return response()->json(
                 [
-                    'message' => isset($ensureUtf8) ? $ensureUtf8($responseMessage) : $responseMessage,
+                    'message' => $msg,
                     'links' => ['register' => route('register')]
                 ],
                 200,
@@ -412,8 +484,9 @@ class ChatbotController extends Controller
                 $responseMessage .= "<li>Chưa có danh mục nào.</li>";
             }
             $responseMessage .= "</ul>Bạn muốn xem chi tiết sản phẩm nào không?";
+            $msg = $this->variabilize($responseMessage) ?: $responseMessage;
             return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($responseMessage) : $responseMessage, 'links' => []],
+                ['message' => $msg, 'links' => []],
                 200,
                 [],
                 JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
