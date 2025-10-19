@@ -87,7 +87,8 @@ class CategoryController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Có lỗi xảy ra khi thêm danh mục!',
-                    'type' => 'danger'
+                    'type' => 'danger',
+                    'error' => $e->getMessage()
                 ], 500);
             }
             return redirect()->back()->with('error', 'Có lỗi xảy ra!');

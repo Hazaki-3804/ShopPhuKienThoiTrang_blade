@@ -52,5 +52,8 @@ return [
     'cloudflare-turnslite'=>[
         'site_key' => env('TURNSLITE_SITE_KEY'),
         'secret_key' => env('TURNSLITE_SECRET_KEY'),
-    ]
+    ],
+    'sendgrid' => [
+        'api_key' => env('SENDGRID_API_KEY'),
+    ],
 ];

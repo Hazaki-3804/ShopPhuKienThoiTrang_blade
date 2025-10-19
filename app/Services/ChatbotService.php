@@ -100,9 +100,9 @@ class ChatbotService
             if ($avgRating) {
                 $response .= "Đánh giá: " . number_format($avgRating, 1) . "/5\n";
             }
-            
-            $response .= "Để biết thêm thông tin về sản phẩm, bạn vui lòng nhấn vào nút sản phẩm hoặc thanh tìm kiếm để xem nhiều mẫu hơn.\n";
         }
+        $response .= "Để biết thêm thông tin về sản phẩm, bạn vui lòng nhấn vào nút sản phẩm hoặc thanh tìm kiếm để xem nhiều mẫu hơn.\n";
+
 
         // Xử lý câu hỏi cụ thể về hình ảnh
         if (str_contains($message, 'hình') || str_contains($message, 'ảnh') || str_contains($message, 'cận cảnh')) {
@@ -163,10 +163,10 @@ class ChatbotService
         }
 
         if (str_contains($message, 'còn hàng') || str_contains($message, 'tồn kho')) {
-            return "Để kiểm tra tồn kho chính xác, bạn vui lòng cho mình biết sản phẩm cụ thể nhé! 📦";
+            return "Để kiểm tra tồn kho chính xác, bạn vui lòng cho mình biết sản phẩm cụ thể nhé!";
         }
 
-        if (str_contains($message, 'ship') || str_contains($message, 'giao hàng') || str_contains($message, 'freeship')) {
+        if (str_contains($message, 'ship') || str_contains($message, 'giao hàng') || str_contains($message, 'freeship')|| str_contains($message, 'phí vận chuyển')) {
             return "Phí giao hàng:\n\n" .
                    "Nội thành Vĩnh Long: 15.000đ\n" .
                    "Lân cận (< 50km): 25.000đ\n" .

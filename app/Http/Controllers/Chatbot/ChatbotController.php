@@ -12,14 +12,26 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Category;
 use App\Services\ChatbotService;
+use App\Services\ChatNLPService;
+use App\Services\RetrievalService;
+use App\Services\PromptBuilder;
 
 class ChatbotController extends Controller
 {
     protected $chatbotService;
-
-    public function __construct(ChatbotService $chatbotService)
-    {
+    protected $nlp;
+    protected $retrieval;
+    protected $promptBuilder;
+    public function __construct(
+        ChatbotService $chatbotService,
+        ChatNLPService $nlp,
+        RetrievalService $retrieval,
+        PromptBuilder $promptBuilder
+    ) {
         $this->chatbotService = $chatbotService;
+        $this->nlp = $nlp;
+        $this->retrieval = $retrieval;
+        $this->promptBuilder = $promptBuilder;
     }
     public function chat(Request $request)
     {
@@ -37,11 +49,6 @@ class ChatbotController extends Controller
                 'message' => $userMessage,
             ]);
         try {
-            // Xử lý các câu hỏi chuyên biệt trước
-            $specialResponse = $this->handleSpecialQuestions($userMessage, $originalMessage);
-            if ($specialResponse) {
-                return $specialResponse;
-            }
             // Lấy API key từ config
             $apiKey = Config::get('services.gemini.api_key');
             if (!$apiKey) {
@@ -99,20 +106,60 @@ class ChatbotController extends Controller
                 );
             }
 
-            // Prompt cho Gemini API
-            $prompt = "Bạn là một trợ lý AI cho một website bán phụ kiện thời trang. Hãy trả lời câu hỏi sau bằng tiếng Việt, tự nhiên, thân thiện, ngắn gọn và chỉ dựa trên thông tin liên quan đến phụ kiện thời trang, sản phẩm, hoặc dịch vụ của website: $userMessage";
-            $systemInstruction = "
-            Bạn là một trợ lý AI tên là **Mia**, chuyên về tư vấn **phụ kiện thời trang** cho website.
-            Nguyên tắc trả lời:
-            1. Luôn nói bằng **tiếng Việt** với giọng điệu **thân thiện, chuyên nghiệp**.
-            2. Phản hồi **cực kỳ ngắn gọn** và đi thẳng vào vấn đề.
-            3. Không trả lời các câu hỏi ngoài lề (toán học, tin tức, lịch sử,...). Nếu bị hỏi, hãy lịch sự từ chối và mời khách hàng hỏi về sản phẩm.
-            4. Thông tin về cửa hàng:
-            - Tên cửa hàng: **Nàng Thơ**.
-            - Sản phẩm chính: **".$categoryNamesStr."**.
-            - Chính sách giao hàng: **Miễn phí vận chuyển cho đơn hàng trên 500.000 VNĐ**.
-            - Chính sách đổi/trả: **Đổi trả trong 7 ngày** nếu sản phẩm lỗi.
-            ";
+            // RAG: NLP parse intent/entities
+            $parsed = $this->nlp->parse($originalMessage);
+            $intent = $parsed['intent'] ?? 'general';
+            $entities = $parsed['entities'] ?? [];
+
+            // RAG: Retrieve data from DB based on intent/entities
+            $context = ['intent' => $intent, 'entities' => $entities];
+            // Follow-up handling: if user refers to previous topic and no explicit query, reuse last query or recent products
+            if (empty($entities['product_query']) && !empty($entities['follow_up'])) {
+                $lastQuery = session('last_product_query');
+                if ($lastQuery) {
+                    $entities['product_query'] = $lastQuery;
+                    $context['entities'] = $entities;
+                } else {
+                    $recentIds = session('recent_products', []);
+                    if (!empty($recentIds)) {
+                        $context['products'] = $this->retrieval->getProductsByIds($recentIds);
+                    }
+                }
+            }
+            if (!empty($entities['product_query'])) {
+                $context['products'] = $this->retrieval->findProducts($entities['product_query'], 5);
+                // Remember last product query for follow-up turns
+                session(['last_product_query' => $entities['product_query']]);
+            }
+            // If we have a category hint, try category-based retrieval (when no explicit products yet)
+            if (empty($context['products']) && !empty($entities['category_hint'])) {
+                $context['products'] = $this->retrieval->findProductsByCategoryHint($entities['category_hint'], 5);
+            }
+            // If still no products, add suggested products as fallback to help LLM suggest alternatives
+            if (empty($context['products']) || (is_countable($context['products']) && count($context['products']) === 0)) {
+                $context['suggested_products'] = $this->retrieval->getTopProducts(5);
+            }
+            if ($intent === 'order_tracking') {
+                $context['order'] = $this->retrieval->getOrder($entities['order_code'] ?? null);
+            }
+            if ($intent === 'shipping') {
+                $context['shipping_fees'] = $this->retrieval->getShippingFees();
+            }
+            if ($intent === 'categories') {
+                $context['categories'] = $this->retrieval->getCategories();
+                // thêm link để dẫn người dùng xem danh mục
+                $context['links'] = $this->retrieval->getShopLinks();
+            }
+            if (in_array($intent, ['auth', 'order_support'])) {
+                $context['auth'] = $this->retrieval->getAuthInfo();
+                $context['links'] = $this->retrieval->getShopLinks();
+            }
+
+            // Build prompt from context + history
+            $history = session('chat_messages', []);
+            $built = $this->promptBuilder->build($context, $history, $originalMessage);
+            $prompt = $built['content'];
+            $systemInstruction = $built['system'];
             // Ensure proper UTF-8 encoding for the request
             $ensureUtf8 = function ($text) {
                 if (!is_string($text)) {
@@ -146,8 +193,11 @@ class ChatbotController extends Controller
                     ]
                 ],
                 'generationConfig' => [
-                    'maxOutputTokens' => 150,
-                    'temperature' => 0.7,
+                    'maxOutputTokens' => 180,
+                    'temperature' => 0.9,
+                    'topP' => 0.9,
+                    'topK' => 40,
+                    'candidateCount' => 3,
                 ],
             ];
 
@@ -183,13 +233,29 @@ class ChatbotController extends Controller
                 );
             }
 
-            // Lấy phản hồi
+            // Lấy phản hồi (chọn ngẫu nhiên 1 candidate hợp lệ)
             $responseData = $response->json();
             if ($responseData === null) {
                 $raw = $response->body();
                 $responseData = json_decode($raw, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
             }
-            $botMessage = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Xin lỗi, có lỗi xảy ra khi xử lý yêu cầu của bạn. Vui lòng thử lại sau.';
+            $botMessage = null;
+            $candidates = $responseData['candidates'] ?? [];
+            if (is_array($candidates) && !empty($candidates)) {
+                $valid = array_values(array_filter($candidates, function ($c) {
+                    return isset($c['content']['parts'][0]['text']) && is_string($c['content']['parts'][0]['text']);
+                }));
+                if (!empty($valid)) {
+                    $pick = $valid[array_rand($valid)];
+                    $botMessage = $pick['content']['parts'][0]['text'];
+                }
+            }
+            if (!$botMessage) {
+                // Fallback qua ChatbotService khi không có phản hồi hợp lệ
+                $fallback = $this->handleSpecialQuestions($userMessage, $originalMessage);
+                if ($fallback) return $fallback;
+                $botMessage = 'Mình chưa chắc về câu trả lời. Bạn có thể nói rõ hơn để mình giúp tốt hơn không?';
+            }
             if (isset($ensureUtf8)) {
                 $botMessage = $ensureUtf8($botMessage);
             }
@@ -198,7 +264,12 @@ class ChatbotController extends Controller
             $messages = session('chat_messages', []);
             $messages[] = ['role' => 'user', 'content' => isset($ensureUtf8) ? $ensureUtf8($userMessage) : $userMessage];
             $messages[] = ['role' => 'bot', 'content' => $botMessage];
-            session(['chat_messages' => $messages]);
+            session([
+                'chat_messages' => $messages,
+                // Đánh dấu đã chào để tránh chào lại
+                'chatbot_greeted' => true,
+                'greet_last_at' => now()->toDateTimeString(),
+            ]);
 
             return response()->json(
                 ['message' => $botMessage, 'links' => []],
@@ -385,5 +456,72 @@ class ChatbotController extends Controller
                 }
             }
         }
+    }
+
+    /**
+     * Greet user once per session with personalized message and suggestions
+     */
+    public function greet(Request $request)
+    {
+        // Nếu đã có lịch sử chat thì không chào lại
+        if (!empty(session('chat_messages', []))) {
+            return response()->json([
+                'message' => '',
+                'links' => [],
+                'skip' => true
+            ]);
+        }
+        // Nếu đã chào trong session thì bỏ qua
+        if (session()->has('chatbot_greeted') && session('chatbot_greeted') === true) {
+            return response()->json([
+                'message' => '',
+                'links' => [],
+                'skip' => true
+            ]);
+        }
+        // Cooldown theo thời gian: nếu đã chào trong 6 giờ gần đây, bỏ qua
+        $last = session('greet_last_at');
+        if ($last) {
+            try {
+                $diffMinutes = now()->diffInMinutes(\Carbon\Carbon::parse($last));
+                if ($diffMinutes < 360) { // 6 giờ
+                    return response()->json([
+                        'message' => '',
+                        'links' => [],
+                        'skip' => true
+                    ]);
+                }
+            } catch (\Throwable $e) {
+                // ignore parse errors
+            }
+        }
+
+        session(['chatbot_greeted' => true, 'greet_last_at' => now()->toDateTimeString()]);
+
+        $name = Auth::check() ? (optional(Auth::user())->name ?? 'bạn') : 'bạn';
+
+        // Lời chào và gợi ý ngẫu nhiên
+        $greetings = [
+            "Chào {$name} 👋 Mình là Mia – trợ lý của Nàng Thơ. Mình có thể giúp gì cho bạn hôm nay?",
+            "Xin chào {$name} 🌟 Mình có thể hỗ trợ bạn tìm phụ kiện phù hợp không?",
+            "Hello {$name} 😊 Bạn đang tìm mẫu nào? Mình hỗ trợ ngay!",
+        ];
+        $allSuggestions = [
+            'Xem kính chống tia UV',
+            'Túi xách đang giảm giá',
+            'Kiểm tra đơn hàng',
+            'Tư vấn quà tặng theo ngân sách',
+            'Xem phụ kiện đang hot',
+            'Gợi ý sản phẩm theo sở thích'
+        ];
+        shuffle($greetings);
+        shuffle($allSuggestions);
+        $selected = array_slice($allSuggestions, 0, 3);
+        $greet = $greetings[0] . "\n\nGợi ý: • " . implode(' • ', $selected);
+
+        return response()->json([
+            'message' => $greet,
+            'links' => []
+        ], 200, [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
     }
 }

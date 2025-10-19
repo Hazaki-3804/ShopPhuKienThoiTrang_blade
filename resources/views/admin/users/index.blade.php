@@ -308,11 +308,12 @@
                 {
                     data: 'user_info',
                     name: 'name',
-                    width: '20%'
+                    width: '15%'
                 },
                 {
                     data: 'email',
-                    name: 'email'
+                    name: 'email',
+                    width: '15%'
                 },
                 {
                     data: 'phone',
@@ -343,6 +344,7 @@
                 {
                     data: 'actions',
                     name: 'actions',
+                    width: '13%',
                     orderable: false,
                     searchable: false
                 }

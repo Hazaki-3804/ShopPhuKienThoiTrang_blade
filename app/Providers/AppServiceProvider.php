@@ -9,6 +9,9 @@ use Illuminate\Pagination\Paginator;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\Blade; 
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendGridTransport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS on production so generated URLs (asset, route) use https
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         // Share categories for navbar/sidebar
         View::composer(['*'], function ($view) {
             try {
@@ -78,5 +86,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Use Bootstrap 5 pagination templates
         Paginator::useBootstrapFive();
+        Mail::extend('sendgrid', function (array $config = [], string $name = null) {
+            $apiKey = $config['api_key'] ?? config('services.sendgrid.api_key');
+            return new SendGridTransport($apiKey);
+        });
     }
 }
