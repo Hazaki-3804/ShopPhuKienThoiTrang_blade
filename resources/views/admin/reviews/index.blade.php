@@ -154,9 +154,9 @@
                             </td>
                             <td>
                                 @if($review->is_hidden)
-                                <span class="badge bg-warning text-dark">
+                                <p class="badge bg-warning text-dark">
                                     <i class="bi bi-eye-slash me-1"></i> Đã ẩn
-                                </span>
+                                </p>
                                 @else
                                 <span class="badge bg-success">
                                     <i class="bi bi-eye me-1"></i> Hiển thị
@@ -164,9 +164,9 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="d-flex justify-content-center align-items-center">
+                                <div class="d-flex justify-content-center align-items-center" style="gap: 10px;">
                                     <!-- Toggle visibility -->
-                                    <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="d-inline toggle-form me-2">
+                                    <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="d-inline toggle-form">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-sm {{ $review->is_hidden ? 'btn-success' : 'btn-warning' }}"
@@ -177,7 +177,7 @@
                                     </form>
 
                                     <!-- Delete -->
-                                    <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="d-inline delete-form ms-2">
+                                    <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" title="Xóa">

@@ -95,12 +95,14 @@
                 <li class="nav-item underline-custom">
                     <a class="nav-link fw-bold text-dark {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}"> <i class="bi bi-telephone me-2 d-lg-none"></i>Liên hệ</a>
                 </li>
+                @guest
                 <li class="nav-item d-lg-none">
                     <a class="nav-link fw-bold text-dark" href="{{ route('login') }}"> <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập</a>
                 </li>
                 <li class="nav-item d-lg-none">
                     <a class="nav-link fw-bold text-dark" href="{{ route('register') }}"> <i class="bi bi-box-arrow-in-right me-2"></i>Đăng ký</a>
                 </li>
+                @endguest
             </ul>
 
             <ul class="navbar-nav ms-auto align-items-center d-none d-lg-flex">

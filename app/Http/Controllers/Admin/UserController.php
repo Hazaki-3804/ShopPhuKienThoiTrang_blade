@@ -22,8 +22,8 @@ class UserController extends Controller
             'blocked_users' => User::where('status', 0)->where('role_id', 2)->count(),
             'new_staff_users' => User::where('role_id', 2)
                 ->where('created_at', '>=', Carbon::now()->subMonth())
-                ->count(),            
-            ];
+                ->count(),
+        ];
 
         return view('admin.users.index', compact('stats'));
     }
@@ -34,7 +34,7 @@ class UserController extends Controller
 
         // Lọc chỉ nhân viên (role_id = 2)
         $query->where('role_id', 2);
-        
+
         // Filter status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -43,10 +43,10 @@ class UserController extends Controller
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('user_info', function ($user) {
-                $image = $user->avatar 
-                ? '<img src="' . asset($user->avatar) . '" width="50" height="50" style="object-fit: cover; margin-right:10px; border-radius:10px">'
-                : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
-                
+                $image = $user->avatar
+                    ? '<img src="' . asset($user->avatar) . '" width="50" height="50" style="object-fit: cover; margin-right:10px; border-radius:10px">'
+                    : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
+
                 return '
                 <div class="d-flex align-items-center">
                     ' . $image . '
@@ -66,7 +66,7 @@ class UserController extends Controller
             ->addColumn('role_badge', function ($user) {
                 $roleMap = [
                     1 => ['Admin', 'primary'],
-                    2 => ['Staff', 'info'], 
+                    2 => ['Staff', 'info'],
                     3 => ['Customer', 'secondary']
                 ];
                 [$label, $color] = $roleMap[$user->role_id] ?? ['Unknown', 'dark'];
@@ -88,10 +88,10 @@ class UserController extends Controller
                 $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-user" data-toggle="modal" data-target="#deleteUserModal" data-id="' . $user->id . '">
                     <i class="fas fa-trash me-2"></i>
                 </button>';
-                
+
                 return $editButton . ' ' . $toggleButton . ' ' . $deleteButton;
             })
-            ->rawColumns(['user_info','status_badge', 'role_badge', 'actions'])
+            ->rawColumns(['user_info', 'status_badge', 'role_badge', 'actions'])
             ->make(true);
     }
 
@@ -127,6 +127,7 @@ class UserController extends Controller
                 'address' => $validated['address'],
                 'role_id' => 2, // Staff role
                 'status' => $validated['status'],
+                'email_verified_at' => now(),
                 'avatar' => 'storage/default-avatar.png',
             ]);
 
@@ -334,7 +335,7 @@ class UserController extends Controller
                 'blocked_users' => User::where('status', 0)->where('role_id', 2)->count(),
                 'new_staff_users' => User::where('role_id', 2)
                     ->where('created_at', '>=', Carbon::now()->subMonth())
-                    ->count(),            
+                    ->count(),
             ];
 
             return response()->json([

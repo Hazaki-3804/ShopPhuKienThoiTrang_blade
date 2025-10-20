@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\User as Customer;
@@ -81,7 +82,7 @@ class CustomerController extends Controller
                 'email.unique' => 'Email đã được sử dụng.',
                 'username.unique' => 'Tên người dùng đã được sử dụng.',
                 // 'ward_id.exists' => 'Xã/phường không hợp lệ.'
-                'name.regex'=>"Tên người dùng chỉ được chứa chữ cái và khoảng trắng.",
+                'name.regex' => "Tên người dùng chỉ được chứa chữ cái và khoảng trắng.",
             ]);
 
             if (empty($validated['username'])) {
@@ -95,6 +96,7 @@ class CustomerController extends Controller
                 'password' => Hash::make($validated['password']),
                 'phone' => $validated['phone'],
                 'address' => $validated['address'],
+                'email_verified_at' => now(),
                 // 'ward_id' => $validated['ward_id'],
                 'role_id' => 3, // Customer role
                 'status' => $validated['status'],
@@ -121,7 +123,7 @@ class CustomerController extends Controller
             }
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            \Log::info('Lỗi: '.$e->getMessage());
+            \Log::info('Lỗi: ' . $e->getMessage());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
@@ -248,7 +250,7 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::findOrFail($request->id);
-            if($customer->orders()->count() > 0) {
+            if ($customer->orders()->count() > 0) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Khách hàng có đơn hàng nên không thể xóa!',
