@@ -5,7 +5,7 @@
 <div class="contact-page py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-bold text-peach">Liên hệ với Shop Nàng Thơ</h2>
+            <h2 class="fw-bold text-peach">Liên hệ với Shop</h2>
             <p class="text-muted">Chúng tôi luôn sẵn sàng lắng nghe ý kiến, phản hồi và hỗ trợ bạn mọi lúc!</p>
         </div>
 
