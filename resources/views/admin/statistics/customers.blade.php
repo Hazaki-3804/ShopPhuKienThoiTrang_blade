@@ -49,33 +49,46 @@
     <div class="row m-3" id="summaryCards">
         <div class="col-lg-3 col-md-6">
             <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalCustomers">-</h4>
-                    <p class="mb-0">Tổng khách hàng</p>
+                <div class="card-body d-flex justify-content-between align-items-center summary-card">
+                    <div>
+                        <h4 class="mb-0" id="totalCustomers">-</h4>
+                        <p class="mb-0">Tổng khách hàng</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-users"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="activeCustomers">-</h4>
-                    <p class="mb-0">Khách hàng có mua hàng</p>
+                <div class="card-body d-flex justify-content-between align-items-center summary-card">
+                    <div>
+                        <h4 class="mb-0" id="activeCustomers">-</h4>
+                        <p class="mb-0">Khách hàng có mua hàng</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-user-check"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalRevenue">-</h4>
-                    <p class="mb-0">Tổng doanh thu</p>
+                <div class="card-body d-flex justify-content-between align-items-center summary-card">
+                    <div>
+                        <h4 class="mb-0" id="totalRevenue">-</h4>
+                        <p class="mb-0">Tổng doanh thu</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-coins"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="avgCustomerValue">-</h4>
-                    <p class="mb-0">Giá trị khách hàng TB</p>
+                <div class="card-body d-flex justify-content-between align-items-center summary-card">
+                    <div>
+                        <h6 class="mb-1" id="topSpenderName">-</h6>
+                        <h4 class="mb-0" id="topSpenderAmount">-</h4>
+                        <p class="mb-0 small">Khách hàng chi tiêu cao nhất</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-crown"></i></div>
                 </div>
             </div>
         </div>
@@ -95,6 +108,7 @@
                 <table class="table table-bordered table-striped align-middle" id="customersTable">
                     <thead class="table-info">
                         <tr>
+                            <th style="width:60px;" class="text-center">STT</th>
                             <th>Tên khách hàng</th>
                             <th>Email</th>
                             <th>Ngày đăng ký</th>
@@ -141,6 +155,13 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<style>
+  /* Đồng bộ kích thước 4 card tổng quan */
+  #summaryCards .card .summary-card { min-height: 96px; }
+  @media (min-width: 992px) { #summaryCards .card .summary-card { min-height: 104px; } }
+  /* Giới hạn vùng text để icon không rớt dòng */
+  #summaryCards .card .summary-card > div:first-child { max-width: calc(100% - 44px); }
+</style>
 @endpush
 
 @push('scripts')
@@ -182,7 +203,7 @@ function loadCustomerData() {
             end_date: endDate
         },
         beforeSend: function() {
-            $('#customersTableBody').html('<tr><td colspan="8" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>');
+            $('#customersTableBody').html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>');
         },
         success: function(response) {
             if (response.success) {
@@ -193,7 +214,7 @@ function loadCustomerData() {
             }
         },
         error: function() {
-            $('#customersTableBody').html('<tr><td colspan="8" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu</td></tr>');
+            $('#customersTableBody').html('<tr><td colspan="9" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu</td></tr>');
         }
     });
 }
@@ -202,15 +223,19 @@ function updateSummaryCards(summary) {
     $('#totalCustomers').text(summary.total_customers.toLocaleString());
     $('#activeCustomers').text(summary.active_customers.toLocaleString());
     $('#totalRevenue').text(formatCurrency(summary.total_revenue));
-    $('#avgCustomerValue').text(formatCurrency(summary.avg_customer_value));
+    $('#topSpenderName').text(summary.top_spender_name || '-');
+    $('#topSpenderAmount').text(formatCurrency(summary.top_spender_amount || 0));
 }
 
 function renderCustomersTable(data) {
     let html = '';
     
-    data.forEach(function(customer) {
+    data.forEach(function(customer, index) {
+        const rank = index + 1;
+        const medal = getMedal(rank);
         html += `
             <tr>
+                <td class="text-center">${rank} ${medal}</td>
                 <td>${customer.name}</td>
                 <td>${customer.email}</td>
                 <td>${moment(customer.created_at).format('DD/MM/YYYY')}</td>
@@ -224,6 +249,13 @@ function renderCustomersTable(data) {
     });
     
     $('#customersTableBody').html(html);
+}
+
+function getMedal(rank) {
+    if (rank === 1) return '<i class="fas fa-medal" style="color:#FFD700" title="Top 1"></i>';
+    if (rank === 2) return '<i class="fas fa-medal" style="color:#C0C0C0" title="Top 2"></i>';
+    if (rank === 3) return '<i class="fas fa-medal" style="color:#CD7F32" title="Top 3"></i>';
+    return '';
 }
 
 function filterTable() {

@@ -49,7 +49,8 @@ class Order extends Model
 		'discount_id',
 		'discount_code',
 		'discount_amount',
-		'insurance_fee'
+		'insurance_fee',
+		'shipping_fee'
 	];
 
 	public function user()

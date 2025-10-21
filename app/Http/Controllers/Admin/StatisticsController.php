@@ -70,6 +70,8 @@ class StatisticsController extends Controller
                 : 0;
         });
 
+        $topSpender = $customers->first();
+
         return response()->json([
             'success' => true,
             'data' => $customers,
@@ -77,7 +79,9 @@ class StatisticsController extends Controller
                 'total_customers' => $customers->count(),
                 'active_customers' => $customers->where('total_orders', '>', 0)->count(),
                 'total_revenue' => $customers->sum('total_spent'),
-                'avg_customer_value' => $customers->avg('total_spent')
+                'avg_customer_value' => $customers->avg('total_spent'),
+                'top_spender_name' => optional($topSpender)->name ?? '-',
+                'top_spender_amount' => optional($topSpender)->total_spent ?? 0,
             ]
         ]);
     }
