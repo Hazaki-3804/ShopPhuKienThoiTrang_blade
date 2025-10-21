@@ -165,19 +165,24 @@
                     {{ number_format($subtotal, 0, ',', '.') }}₫
                 </div>
             </div>
+            @if($order->shipping_fee)
             <div class="row mb-2">
                 <div class="col-8 text-end"><strong>Phí vận chuyển:</strong></div>
-                <div class="col-4 text-end">30.000₫</div>
+                <div class="col-4 text-end">{{ number_format($order->shipping_fee, 0, ',', '.') }}₫</div>
             </div>
+            @endif
+            @if($order->insurance_fee)
             <div class="row mb-2">
-                <div class="col-8 text-end"><strong>Giảm giá:</strong></div>
-                <div class="col-4 text-end text-danger">
-                    @php
-                    $discount = ($subtotal + 30000) - $order->total_price;
-                    @endphp
-                    -{{ number_format($discount, 0, ',', '.') }}₫
-                </div>
+                <div class="col-8 text-end"><strong>Phí bảo hiểm:</strong></div>
+                <div class="col-4 text-end">{{ number_format($order->insurance_fee, 0, ',', '.') }}₫</div>
             </div>
+            @endif
+            @if($order->discount_amount)
+            <div class="row mb-2">
+                <div class="col-8 text-end"><strong>Giảm giá{!! $order->discount_code ? ' <small class=\"text-muted\">(Mã: ' . e($order->discount_code) . ')</small>' : '' !!}:</strong></div>
+                <div class="col-4 text-end text-danger">-{{ number_format($order->discount_amount, 0, ',', '.') }}₫</div>
+            </div>
+            @endif
             <hr>
             <div class="row">
                 <div class="col-8 text-end"><strong class="grand-total">TỔNG CỘNG:</strong></div>

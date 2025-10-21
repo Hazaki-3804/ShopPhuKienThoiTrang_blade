@@ -82,15 +82,17 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span class="fw-semibold">Danh sách đơn hàng</span>
-            <form method="GET" class="d-flex gap-2">
-                <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" placeholder="Tìm theo mã, email, SĐT..." style="max-width: 260px;">
-                @if($currentStatus)
-                <input type="hidden" name="status" value="{{ $currentStatus }}">
-                @endif
-                <button class="btn btn-outline-secondary btn-sm">Tìm</button>
-            </form>
         </div>
         <div class="card-body table-responsive">
+            <div class="d-flex justify-content-end mb-2 pe-2">
+                <form method="GET" class="d-flex gap-2">
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" placeholder="Tìm theo mã, email, SĐT..." style="width: 260px;">
+                    @if($currentStatus)
+                    <input type="hidden" name="status" value="{{ $currentStatus }}">
+                    @endif
+                    <button class="btn btn-outline-secondary btn-sm">Tìm</button>
+                </form>
+            </div>
             <table class="table table-bordered table-striped align-middle w-100" id="ordersTable">
                 <thead class="table-info">
                     <tr>
@@ -100,7 +102,7 @@
                         <th>Trạng thái</th>
                         <th>Tổng tiền</th>
                         <th>Ngày tạo</th>
-                        <th>Hành động</th>
+                        <th class="text-end">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,23 +140,39 @@
                                 @endif
                         </td>
                         <td>
-                            <form method="POST" action="{{ route('admin.orders.update', $order) }}" class="d-flex gap-2 align-items-center">
-                                @csrf
-                                @method('PATCH')
-                                <select name="status" class="form-select form-select-sm" style="min-width:160px;">
-                                    @foreach($map as $key => $label)
-                                    <option value="{{ $key }}" {{ $order->status === $key ? 'selected' : '' }}>{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                                <button class="btn btn-sm btn-primary">Lưu</button>
-                            </form>
+                            @php
+                                $statusColors = [
+                                    'pending' => 'warning',
+                                    'processing' => 'info',
+                                    'shipped' => 'primary',
+                                    'delivered' => 'success',
+                                    'cancelled' => 'danger'
+                                ];
+                                $color = $statusColors[$order->status] ?? 'secondary';
+                            @endphp
+                            <span class="badge badge-{{ $color }}">{{ $map[$order->status] ?? $order->status }}</span>
                         </td>
                         <td>{{ number_format($order->total_price,0,',','.') }}₫</td>
                         <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-                        <td>
-                            @if (Route::has('invoice.show'))
-                            <a href="{{ route('invoice.show', $order->id) }}" class="btn btn-sm btn-outline-secondary">In hóa đơn</a>
-                            @endif
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end" style="gap: 10px;">
+                                @if(!in_array($order->status, ['delivered', 'cancelled']))
+                                <button type="button" class="btn btn-sm btn-outline-warning edit-status-btn" 
+                                        data-order-id="{{ $order->id }}" 
+                                        data-current-status="{{ $order->status }}"
+                                        title="Chỉnh sửa trạng thái">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                @endif
+                                <button type="button" class="btn btn-sm btn-outline-info view-order-detail" data-order-id="{{ $order->id }}" title="Xem chi tiết">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                @if (Route::has('invoice.show'))
+                                <a href="{{ route('invoice.show', $order->id) }}" class="btn btn-sm btn-outline-secondary" title="In hóa đơn" target="_blank">
+                                    <i class="bi bi-printer"></i>
+                                </a>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -165,6 +183,65 @@
                 </tbody>
             </table>
             <div class="mt-2">{{ $orders->withQueryString()->links() }}</div>
+        </div>
+    </div>
+
+    <!-- Modal Chỉnh sửa trạng thái -->
+    <div class="modal fade" id="editStatusModal" tabindex="-1" role="dialog" aria-labelledby="editStatusModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title font-weight-bold" id="editStatusModalLabel"><i class="fas fa-edit mr-2"></i>Chỉnh sửa trạng thái đơn hàng</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editStatusForm" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Trạng thái hiện tại:</label>
+                            <p id="currentStatusText" class="mb-3"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="newStatus" class="font-weight-bold">Chọn trạng thái mới: <span class="text-danger">*</span></label>
+                            <select name="status" id="newStatus" class="form-control" required>
+                                <option value="">-- Chọn trạng thái --</option>
+                            </select>
+                            <small class="form-text text-muted">Bạn chỉ có thể chuyển sang trạng thái tiếp theo trong quy trình.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times mr-1"></i>Hủy</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Chi tiết đơn hàng -->
+    <div class="modal fade" id="orderDetailModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title font-weight-bold" id="orderDetailModalLabel"><i class="fas fa-file-invoice mr-2"></i>Chi tiết đơn hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="orderDetailContent">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Đang tải...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times mr-1"></i>Đóng</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -299,5 +376,154 @@
         }
     </style>
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+    @endpush
+
+    @push('scripts')
+    <!-- Bootstrap 4 JS nếu chưa có -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Đảm bảo Bootstrap modal plugin có sẵn
+            if (typeof $.fn.modal === 'undefined') {
+                console.error('Bootstrap modal plugin not loaded!');
+                return;
+            }
+
+            // Định nghĩa mapping trạng thái
+            const statusMap = {
+                'pending': 'Chờ xác nhận',
+                'processing': 'Chờ lấy hàng',
+                'shipped': 'Chờ giao hàng',
+                'delivered': 'Đã giao',
+                'cancelled': 'Đã hủy'
+            };
+
+            // Định nghĩa quy tắc chuyển trạng thái
+            const statusFlow = {
+                'pending': ['processing', 'shipped', 'delivered', 'cancelled'],
+                'processing': ['shipped', 'delivered', 'cancelled'],
+                'shipped': ['delivered', 'cancelled']
+            };
+
+            // Xử lý click vào nút chỉnh sửa trạng thái
+            $(document).on('click', '.edit-status-btn', function() {
+                const orderId = $(this).data('order-id');
+                const currentStatus = $(this).data('current-status');
+                
+                // Hiển thị trạng thái hiện tại
+                $('#currentStatusText').html('<span class="badge badge-info">' + statusMap[currentStatus] + '</span>');
+                
+                // Lấy danh sách trạng thái có thể chuyển
+                const availableStatuses = statusFlow[currentStatus] || [];
+                
+                // Xóa các option cũ và thêm option mới
+                const selectElement = $('#newStatus');
+                selectElement.empty();
+                selectElement.append('<option value="">-- Chọn trạng thái --</option>');
+                
+                availableStatuses.forEach(function(status) {
+                    selectElement.append('<option value="' + status + '">' + statusMap[status] + '</option>');
+                });
+                
+                // Set action cho form - sử dụng route helper
+                $('#editStatusForm').attr('action', '{{ url("admin/orders") }}/' + orderId);
+                
+                // Hiển thị modal
+                $('#editStatusModal').modal('show');
+            });
+
+            // Xử lý submit form chỉnh sửa trạng thái
+            $('#editStatusForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const form = $(this);
+                const url = form.attr('action');
+                const formData = new FormData(this);
+                
+                // Disable submit button
+                const submitBtn = form.find('button[type="submit"]');
+                submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Đang cập nhật...');
+                
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Đóng modal
+                        $('#editStatusModal').modal('hide');
+                        
+                        // Hiển thị thông báo thành công
+                        if (typeof AjaxFormHandler !== 'undefined') {
+                            AjaxFormHandler.showToast('Cập nhật trạng thái đơn hàng thành công!', 'success');
+                        }
+                        
+                        // Reload trang
+                        window.location.reload();
+                    } else {
+                        if (typeof AjaxFormHandler !== 'undefined') {
+                            AjaxFormHandler.showToast(data.message || 'Có lỗi xảy ra, vui lòng thử lại', 'danger');
+                        }
+                        submitBtn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i>Cập nhật');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại');
+                    submitBtn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i>Cập nhật');
+                });
+            });
+            
+            // Xử lý click vào nút xem chi tiết
+            $(document).on('click', '.view-order-detail', function() {
+                const orderId = $(this).data('order-id');
+                const modalContent = document.getElementById('orderDetailContent');
+                
+                // Hiển thị loading
+                modalContent.innerHTML = `
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Đang tải...</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Hiển thị modal
+                try {
+                    $('#orderDetailModal').modal('show');
+                } catch(e) {
+                    console.error('Error showing modal:', e);
+                    alert('Không thể mở modal. Vui lòng tải lại trang.');
+                    return;
+                }
+                
+                // Gọi API để lấy chi tiết đơn hàng
+                fetch('/admin/orders/' + orderId + '/detail')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            modalContent.innerHTML = data.html;
+                        } else {
+                            modalContent.innerHTML = `
+                                <div class="alert alert-danger">
+                                    ${data.message || 'Không thể tải thông tin đơn hàng'}
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        modalContent.innerHTML = `
+                            <div class="alert alert-danger">
+                                Có lỗi xảy ra khi tải thông tin đơn hàng
+                            </div>
+                        `;
+                    });
+            });
+        });
+    </script>
     @endpush
     @endsection

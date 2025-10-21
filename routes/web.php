@@ -155,6 +155,7 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/admin/orders/stats', [OrderController::class, 'getStats'])->name('stats');
         Route::get('/admin/orders', [OrderController::class, 'index'])->name('index');
         Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('show');
+        Route::get('/admin/orders/{id}/detail', [OrderController::class, 'getDetail'])->name('detail');
         Route::get('/admin/orders/{id}/print', [OrderController::class, 'print'])->name('print');
         Route::post('/admin/orders/update-status', [OrderController::class, 'updateStatus'])->name('update-status');
         Route::delete('/admin/orders/delete', [OrderController::class, 'destroy'])->name('destroy');

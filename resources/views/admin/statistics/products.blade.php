@@ -57,33 +57,45 @@
     <div class="row m-3" id="summaryCards">
         <div class="col-lg-3 col-md-6">
             <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalProducts">-</h4>
-                    <p class="mb-0">Tổng sản phẩm</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="totalProducts">-</h4>
+                        <p class="mb-0">Tổng sản phẩm</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-boxes"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="productsSold">-</h4>
-                    <p class="mb-0">Sản phẩm đã bán</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="productsSold">-</h4>
+                        <p class="mb-0">Sản phẩm đã bán</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-shopping-bag"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalRevenue">-</h4>
-                    <p class="mb-0">Tổng doanh thu</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="totalRevenue">-</h4>
+                        <p class="mb-0">Tổng doanh thu</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-coins"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalQuantitySold">-</h4>
-                    <p class="mb-0">Tổng số lượng bán</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="totalQuantitySold">-</h4>
+                        <p class="mb-0">Tổng số lượng bán</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-layer-group"></i></div>
                 </div>
             </div>
         </div>
@@ -127,6 +139,7 @@
                 <table class="table table-bordered table-striped align-middle" id="productsTable">
                     <thead class="table-info">
                         <tr>
+                            <th style="width:60px;" class="text-center">STT</th>
                             <th>Tên sản phẩm</th>
                             <th>Danh mục</th>
                             <th>Giá gốc</th>
@@ -134,7 +147,6 @@
                             <th>Số lượng bán</th>
                             <th>Doanh thu</th>
                             <th>Lợi nhuận ước tính</th>
-                            <th>Tỷ lệ lợi nhuận</th>
                             <th>Tồn kho</th>
                         </tr>
                     </thead>
@@ -164,15 +176,19 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 @endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
 let productsData = [];
 let chartData = {};
+let productsDT = null;
 
 $(document).ready(function() {
     loadProductData();
@@ -249,13 +265,10 @@ function updateSummaryCards(summary) {
 
 function renderProductsTable(data) {
     let html = '';
-    
     data.forEach(function(product) {
-        const profitMarginClass = product.profit_margin > 20 ? 'text-success' : 
-                                 product.profit_margin > 10 ? 'text-warning' : 'text-danger';
-        
         html += `
             <tr>
+                <td></td>
                 <td>${product.name}</td>
                 <td>${product.category_name}</td>
                 <td class="text-end">${formatCurrency(product.price)}</td>
@@ -263,13 +276,39 @@ function renderProductsTable(data) {
                 <td class="text-center">${product.total_sold}</td>
                 <td class="text-end">${formatCurrency(product.total_revenue)}</td>
                 <td class="text-end">${formatCurrency(product.estimated_profit)}</td>
-                <td class="text-center ${profitMarginClass}">${product.profit_margin.toFixed(1)}%</td>
                 <td class="text-center">${product.stock}</td>
             </tr>
         `;
     });
-    
     $('#productsTableBody').html(html);
+
+    // (Re)init DataTable with page length selector
+    if (productsDT) {
+        productsDT.destroy();
+    }
+    productsDT = $('#productsTable').DataTable({
+        pageLength: 10,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Tất cả']],
+        order: [],
+        language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json' },
+        columnDefs: [
+            { targets: 0, orderable: false, searchable: false }
+        ]
+    });
+
+    // Đánh số thứ tự theo trang hiện tại
+    productsDT.on('draw.dt', function() {
+        const info = productsDT.page.info();
+        productsDT.column(0, { page: 'current' }).nodes().each(function(cell, i) {
+            cell.innerHTML = info.start + i + 1;
+            cell.classList.add('text-center');
+        });
+    }).draw(false);
+
+    // Bind custom search input to DataTables search
+    $('#productSearch').off('keyup').on('keyup', function() {
+        productsDT.search(this.value).draw();
+    });
 }
 
 function filterTable() {

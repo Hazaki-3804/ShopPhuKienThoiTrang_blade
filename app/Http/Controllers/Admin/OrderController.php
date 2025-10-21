@@ -35,6 +35,26 @@ class OrderController extends Controller
         if ($currentStatus && array_key_exists($currentStatus, $statusMap)) {
             $ordersQuery->where('status', $currentStatus);
         }
+
+        // Search filter
+        if ($request->filled('q')) {
+            $q = trim($request->q);
+            $ordersQuery->where(function ($query) use ($q) {
+                // match by id if numeric
+                if (is_numeric($q)) {
+                    $query->orWhere('id', (int) $q);
+                }
+                $like = '%'.$q.'%';
+                $query->orWhere('customer_name', 'like', $like)
+                      ->orWhere('customer_email', 'like', $like)
+                      ->orWhere('customer_phone', 'like', $like)
+                      ->orWhereHas('user', function ($u) use ($like) {
+                          $u->where('name', 'like', $like)
+                            ->orWhere('email', 'like', $like);
+                      });
+            });
+        }
+
         $orders = $ordersQuery->with(['user', 'order_items.product'])->paginate(15);
 
         // Thống kê cho dashboard (giữ lại cho tương thích)
@@ -58,7 +78,17 @@ class OrderController extends Controller
         $validated = $request->validate([
             'status' => ['required', 'in:pending,processing,shipped,delivered,cancelled'],
         ]);
+        
         $order->update(['status' => $validated['status']]);
+        
+        // Nếu là AJAX request, trả về JSON
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái đơn hàng thành công'
+            ]);
+        }
+        
         return back()->with('success', 'Cập nhật trạng thái đơn #' . $order->id . ' thành công');
     }
 
@@ -222,6 +252,34 @@ class OrderController extends Controller
             }
 
             return redirect()->route('admin.orders.index')->with('error', 'Không tìm thấy đơn hàng!');
+        }
+    }
+
+    public function getDetail($id)
+    {
+        try {
+            $order = Order::with(['user', 'order_items.product.product_images'])->findOrFail($id);
+            
+            $statusMap = [
+                'pending' => 'Chờ xác nhận',
+                'processing' => 'Chờ lấy hàng',
+                'shipped' => 'Chờ giao hàng',
+                'delivered' => 'Đã giao',
+                'cancelled' => 'Đã hủy',
+            ];
+
+            $html = view('admin.orders.partials.detail-modal', compact('order', 'statusMap'))->render();
+
+            return response()->json([
+                'success' => true,
+                'html' => $html
+            ]);
+        } catch (\Exception $e) {
+            Log::error('OrderController getDetail error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy đơn hàng!'
+            ], 404);
         }
     }
 

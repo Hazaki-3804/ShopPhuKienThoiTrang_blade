@@ -10,9 +10,12 @@ use App\Models\CartItem;
 use App\Models\Discount;
 use App\Models\ShippingFee;
 use App\Services\MoMoService;
+use App\Mail\OrderConfirmationMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -824,7 +827,7 @@ class CheckoutController extends Controller
         $total = $subtotal + $shippingFee - $discount + $insuranceFee;
         $order = null;
 
-        DB::transaction(function () use ($items, $addressData, $paymentMethod, $total, $voucherCode, $discount, $appliedDiscountId, $insuranceFee, &$order) {
+        DB::transaction(function () use ($items, $addressData, $paymentMethod, $total, $voucherCode, $discount, $appliedDiscountId, $insuranceFee, $shippingFee, &$order) {
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'customer_name' => $addressData['customer_name'],
@@ -838,6 +841,7 @@ class CheckoutController extends Controller
                 'discount_code' => $voucherCode,
                 'discount_amount' => $discount,
                 'insurance_fee' => $insuranceFee,
+                'shipping_fee' => $shippingFee,
             ]);
 
             foreach ($items as $row) {
@@ -859,6 +863,20 @@ class CheckoutController extends Controller
                 }
             }
         });
+
+        // Gửi email xác nhận đơn hàng
+        try {
+            $order->load(['order_items.product']);
+            Mail::to($order->customer_email)->send(new OrderConfirmationMail($order));
+            Log::info('Order confirmation email sent successfully', ['order_id' => $order->id, 'email' => $order->customer_email]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send order confirmation email', [
+                'order_id' => $order->id,
+                'email' => $order->customer_email,
+                'error' => $e->getMessage()
+            ]);
+            // Không throw exception để không ảnh hưởng đến quá trình đặt hàng
+        }
 
         // Nếu thanh toán MoMo, chuyển hướng đến MoMo
         if ($paymentMethod === 'momo') {
@@ -898,7 +916,7 @@ class CheckoutController extends Controller
         }
 
         // Chuyển về trang chủ với thông báo thành công
-        return redirect()->route('shop.index')->with('success', 'Bạn đã đặt hàng thành công!');
+        return redirect()->route('shop.index')->with('success', 'Bạn đã đặt hàng thành công! Vui lòng kiểm tra email để xem chi tiết đơn hàng.');
     }
 
     public function momoReturn(Request $request)
@@ -911,6 +929,18 @@ class CheckoutController extends Controller
             $order = Order::find($orderId);
             if ($order) {
                 $order->update(['status' => 'confirmed']);
+                
+                // Gửi email xác nhận đơn hàng nếu chưa gửi
+                try {
+                    $order->load(['order_items.product']);
+                    Mail::to($order->customer_email)->send(new OrderConfirmationMail($order));
+                    Log::info('Order confirmation email sent after MoMo payment', ['order_id' => $order->id]);
+                } catch (\Exception $e) {
+                    Log::error('Failed to send order confirmation email after MoMo payment', [
+                        'order_id' => $order->id,
+                        'error' => $e->getMessage()
+                    ]);
+                }
             }
 
             // Xóa session và cart items
@@ -921,7 +951,7 @@ class CheckoutController extends Controller
                 CartItem::where('cart_id', $cart->id)->delete();
             }
 
-            return redirect()->route('home')->with('success', 'Thanh toán MoMo thành công! Đơn hàng #' . $orderId . ' đã được xác nhận.');
+            return redirect()->route('home')->with('success', 'Thanh toán MoMo thành công! Đơn hàng #' . $orderId . ' đã được xác nhận. Vui lòng kiểm tra email để xem chi tiết.');
         } else {
             // Thanh toán thất bại
             return redirect()->route('checkout.payment')->withErrors(['payment' => 'Thanh toán MoMo thất bại. Vui lòng thử lại.']);

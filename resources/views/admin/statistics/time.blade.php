@@ -63,49 +63,67 @@
     <div class="row m-3" id="summaryCards">
         <div class="col-lg-2 col-md-4">
             <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalOrders">-</h4>
-                    <p class="mb-0">Tổng đơn hàng</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="totalOrders">-</h4>
+                        <p class="mb-0">Tổng đơn hàng</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:26px;"><i class="fas fa-receipt"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4">
             <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="totalRevenue">-</h4>
-                    <p class="mb-0">Tổng doanh thu</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="totalRevenue">-</h4>
+                        <p class="mb-0">Tổng doanh thu</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:26px;"><i class="fas fa-coins"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4">
             <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="avgOrderValue">-</h4>
-                    <p class="mb-0">Giá trị đơn TB</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="avgOrderValue">-</h4>
+                        <p class="mb-0">Giá trị đơn TB</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:26px;"><i class="fas fa-dollar-sign"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4">
             <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="uniqueCustomers">-</h4>
-                    <p class="mb-0">Khách hàng</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="uniqueCustomers">-</h4>
+                        <p class="mb-0">Khách hàng</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:26px;"><i class="fas fa-users"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4">
             <div class="card bg-secondary text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="revenueGrowth">-</h4>
-                    <p class="mb-0">Tăng trưởng DT</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="revenueGrowth">-</h4>
+                        <p class="mb-0">Tăng trưởng DT</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:26px;"><i class="fas fa-chart-line"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4">
             <div class="card bg-dark text-white">
-                <div class="card-body">
-                    <h4 class="mb-0" id="orderGrowth">-</h4>
-                    <p class="mb-0">Tăng trưởng ĐH</p>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0" id="orderGrowth">-</h4>
+                        <p class="mb-0">Tăng trưởng ĐH</p>
+                    </div>
+                    <div class="opacity-75" style="font-size:26px;"><i class="fas fa-chart-bar"></i></div>
                 </div>
             </div>
         </div>
