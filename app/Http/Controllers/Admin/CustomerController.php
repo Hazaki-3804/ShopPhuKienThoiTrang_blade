@@ -36,10 +36,14 @@ class CustomerController extends Controller
                     : '<span class="badge bg-danger text-white p-1"><i class="fas fa-ban"></i> Blocked</span>';
             })
             ->addColumn('actions', function ($customer) {
-                $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-customer" data-toggle="modal" data-target="#editCustomerModal" data-id="' . $customer->id . '">
+                $editButton = '';
+                if(auth()->user()->can('edit customers')) {
+                   $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-customer" data-toggle="modal" data-target="#editCustomerModal" data-id="' . $customer->id . '">
                     <i class="fas fa-edit"></i>
-                </button>';
-
+                </button>'; 
+                }
+                $toggleButton = '';
+                if(auth()->user()->can('lock/unlock customers')) {
                 $toggleButton = $customer->status == 1
                     ? '<button type="button" class="btn btn-sm btn-outline-secondary toggle-status" data-id="' . $customer->id . '" data-status="0" title="Khóa tài khoản">
                         <i class="fas fa-lock"></i>
@@ -47,11 +51,14 @@ class CustomerController extends Controller
                     : '<button type="button" class="btn btn-sm btn-outline-success toggle-status" data-id="' . $customer->id . '" data-status="1" title="Mở khóa tài khoản">
                         <i class="fas fa-unlock"></i>
                     </button>';
-
-                $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-customer" data-toggle="modal" data-target="#deleteCustomerModal" data-id="' . $customer->id . '">
-                    <i class="fas fa-trash me-2"></i>
-                </button>';
-                return $editButton . ' ' . $toggleButton . ' ' . $deleteButton;
+                }
+                $deleteButton = '';
+                if(auth()->user()->can('delete customers')) {
+                    $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-customer" data-toggle="modal" data-target="#deleteCustomerModal" data-id="' . $customer->id . '">
+                        <i class="fas fa-trash"></i>
+                    </button>';
+                }
+                return '<div class="btn-action">' . $editButton . ' ' . $toggleButton . ' ' . $deleteButton . '</div>';
             })
             ->rawColumns(['status_badge', 'actions']) // cho phép render HTML
             ->make(true);

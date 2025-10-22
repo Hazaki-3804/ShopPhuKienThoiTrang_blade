@@ -17,12 +17,12 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Check if user is authenticated
-        if (!Auth::check()) {
+        if (!auth()->check()) {
             return redirect()->route('login');
         }
         
         // Check if user has admin role (1 or 2)
-        if (!in_array(Auth::user()->role_id, [1, 2])) {
+        if (!in_array(auth()->user()->role_id, [1, 2])) {
             abort(403);
         }
         

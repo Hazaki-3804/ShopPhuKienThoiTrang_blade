@@ -91,13 +91,17 @@
 
             <!-- Right side - Bulk actions and Add button -->
             <div class="d-flex align-items-center">
+                @if(auth()->user()->can('delete shipping fees'))
                 <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
                     <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
+                @endif
 
+                @if(auth()->user()->can('create shipping fees'))
                 <button type="button" class="btn btn-success btn-sm mr-2" data-toggle="modal" data-target="#addShippingFeeModal">
                     <i class="fas fa-plus"></i> Thêm quy tắc
                 </button>
+                @endif
             </div>
         </div>
 
@@ -175,29 +179,14 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<style>
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-
 <script>
 $(document).ready(function() {
-    // Initialize DataTable
-    const table = $('#shippingFeesTable').DataTable({
-        processing: true,
+     window.shippingFeesTable = $('#shippingFeesTable').DataTable({
+        processing: false,
         serverSide: true,
         ajax: {
             url: '{{ route("admin.shipping-fees.data") }}',
@@ -214,16 +203,123 @@ $(document).ready(function() {
             { data: 'status_badge', name: 'status_badge', orderable: false },
             { data: 'actions', name: 'actions', orderable: false, searchable: false }
         ],
-        order: [[1, 'asc']], // Sort by STT
-        pageLength: 10,
+        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+            "t" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        buttons: [{
+                extend: 'excelHtml5',
+                name: 'excel-custom',
+                bom: true,
+                charset: 'utf-8',
+                title: 'Danh sách quy tắc phí vận chuyển',
+                filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
+                className: 'buttons-excel',
+                exportOptions: {
+                    columns: ':visible:not(:first-child):not(:last-child)'
+                }
+            },
+            {
+                extend: 'csvHtml5', 
+                className: 'buttons-csv',
+                bom: true,
+                charset: 'utf-8',
+                filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
+                exportOptions: {
+                    columns: ':visible:not(:first-child):not(:last-child)'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                className: 'buttons-pdf',
+                title: 'Danh sách quy tắc phí vận chuyển',
+                filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
+                exportOptions: {
+                    columns: ':visible:not(:first-child):not(:last-child)'
+                }
+            },
+            {
+                extend: 'print',
+                className: 'buttons-print',
+                title: 'Danh sách quy tắc phí vận chuyển',
+                exportOptions: {
+                    columns: ':visible:not(:first-child):not(:last-child)'
+                }
+            }
+        ],
+        
+        order: [
+            [2, 'asc']
+        ],
+        columnDefs: [{
+                targets: 0, // Cột checkbox
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            },
+            {
+                targets: 1, // Cột STT
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            },
+            {
+                targets: 7, // Cột hành động
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            }
+        ],
+        responsive: true,
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json'
-        }
+            search: 'Tìm kiếm:',
+            lengthMenu: 'Hiển thị _MENU_ quy tắc',
+            info: 'Hiển thị _START_ đến _END_ trong tổng _TOTAL_ quy tắc',
+            infoEmpty: 'Không có dữ liệu',
+            zeroRecords: '🔍 Không tìm thấy quy tắc',
+            infoFiltered: '(lọc từ tổng _MAX_ quy tắc)',
+            loadingRecords: '<i class="fas fa-spinner fa-spin"></i> Đang tải...',
+            emptyTable: 'Không có quy tắc nào để hiển thị.',
+            processing: '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...',
+            paginate: {
+                previous: 'Trước',
+                next: 'Sau'
+            }
+        },
+        drawCallback: function() {
+            $('.dataTables_paginate').addClass('justify-content-end');
+        },
+        searching: true
     });
 
-    // Custom search
+    // Search functionality
+    let typingTimer;
+    const typingDelay = 500;
+
     $('#shippingFeeSearch').on('keyup', function() {
-        table.search(this.value).draw();
+        clearTimeout(typingTimer);
+        const value = this.value;
+
+        typingTimer = setTimeout(function() {
+            shippingFeesTable.search(value).draw();
+        }, typingDelay);
+    });
+
+    // Export buttons
+    $('#btn-excel').on('click', function(e) {
+        e.preventDefault();
+        shippingFeesTable.button('.buttons-excel').trigger();
+    });
+    $('#btn-csv').on('click', function(e) {
+        e.preventDefault();
+        shippingFeesTable.button('.buttons-csv').trigger();
+    });
+    $('#btn-pdf').on('click', function(e) {
+        e.preventDefault();
+        shippingFeesTable.button('.buttons-pdf').trigger();
+    });
+    $('#btn-print').on('click', function(e) {
+        e.preventDefault();
+        shippingFeesTable.button('.buttons-print').trigger();
     });
 
     // Select all checkbox

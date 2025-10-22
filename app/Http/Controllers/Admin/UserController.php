@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -26,6 +28,57 @@ class UserController extends Controller
         ];
 
         return view('admin.users.index', compact('stats'));
+    }
+
+    public function editPermissions($id)
+    {
+        $user = User::where('role_id', 2)->findOrFail($id);
+
+        // Optional guard: only users with proper permission can manage permissions
+        // if (Auth::user() && !Auth::user()->can('manage permissions')) {
+        //     abort(403);
+        // }
+
+        $permissions = Permission::orderBy('name')->get();
+        // All effective permissions (direct + via roles)
+        $userPermissionNames = $user->getPermissionNames();
+        // Split for UI behavior
+        $directPermissionNames = $user->getDirectPermissions()->pluck('name');
+        $inheritedPermissionNames = $user->getPermissionsViaRoles()->pluck('name');
+
+        return view('admin.users.permissions', [
+            'user' => $user,
+            'permissions' => $permissions,
+            'userPermissionNames' => $userPermissionNames,
+            'directPermissionNames' => $directPermissionNames,
+            'inheritedPermissionNames' => $inheritedPermissionNames,
+        ]);
+    }
+
+    public function updatePermissions(Request $request, $id)
+    {
+        $user = User::where('role_id', 2)->findOrFail($id);
+
+        // if (Auth::user() && !Auth::user()->can('manage permissions')) {
+        //     abort(403);
+        // }
+
+        $validated = $request->validate([
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['string', 'exists:permissions,name'],
+        ]);
+
+        $permissionNames = $validated['permissions'] ?? [];
+
+        // Sync user permissions (detach all then attach provided)
+        $user->syncPermissions($permissionNames);
+
+        // Clear permission cache to apply immediately
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        return redirect()
+            ->route('admin.users.permissions.edit', ['id' => $user->id])
+            ->with('success', 'Cập nhật quyền cho nhân viên thành công!');
     }
 
     public function data(Request $request)
@@ -73,23 +126,26 @@ class UserController extends Controller
                 return "<span class=\"badge bg-{$color}\">{$label}</span>";
             })
             ->addColumn('actions', function ($user) {
-                $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-user" style="margin-right:6px" data-toggle="modal" data-target="#editUserModal" data-id="' . $user->id . '">
-                    <i class="fas fa-edit"></i>
-                </button>';
+                $buttons = '';
 
-                $toggleButton = $user->status == 1
-                    ? '<button type="button" class="btn btn-sm btn-outline-secondary toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="0" title="Khóa tài khoản">
-                        <i class="fas fa-lock"></i>
-                    </button>'
-                    : '<button type="button" class="btn btn-sm btn-outline-success toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="1" title="Mở khóa tài khoản">
-                        <i class="fas fa-unlock"></i>
-                    </button>';
+                if (Auth::user() && Auth::user()->can('edit staffs')) {
+                    $buttons .= '<button type="button" class="btn btn-sm btn-outline-warning edit-user" style="margin-right:6px" data-toggle="modal" data-target="#editUserModal" data-id="' . $user->id . '"><i class="fas fa-edit"></i></button>';
 
-                $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-user" data-toggle="modal" data-target="#deleteUserModal" data-id="' . $user->id . '">
-                    <i class="fas fa-trash me-2"></i>
-                </button>';
+                    $buttons .= $user->status == 1
+                        ? '<button type="button" class="btn btn-sm btn-outline-secondary toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="0" title="Khóa tài khoản"><i class="fas fa-lock"></i></button>'
+                        : '<button type="button" class="btn btn-sm btn-outline-success toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="1" title="Mở khóa tài khoản"><i class="fas fa-unlock"></i></button>';
+                }
 
-                return $editButton . ' ' . $toggleButton . ' ' . $deleteButton;
+                if (Auth::user() && Auth::user()->can('manage permissions')) {
+                    $permUrl = route('admin.users.permissions.edit', ['id' => $user->id]);
+                    $buttons .= '<a href="' . $permUrl . '" class="btn btn-sm btn-outline-primary" style="margin-right:6px" title="Phân quyền"><i class="fas fa-key"></i></a>';
+                }
+
+                if (Auth::user() && Auth::user()->can('delete staffs')) {
+                    $buttons .= '<button type="button" class="btn btn-sm btn-outline-danger delete-user" data-toggle="modal" data-target="#deleteUserModal" data-id="' . $user->id . '"><i class="fas fa-trash me-2"></i></button>';
+                }
+
+                return trim($buttons) !== '' ? $buttons : '<span class="text-muted">Không có quyền</span>';
             })
             ->rawColumns(['user_info', 'status_badge', 'role_badge', 'actions'])
             ->make(true);
@@ -130,6 +186,7 @@ class UserController extends Controller
                 'email_verified_at' => now(),
                 'avatar' => 'storage/default-avatar.png',
             ]);
+            $user->assignRole('Nhân viên');
 
             if ($request->ajax()) {
                 return response()->json([

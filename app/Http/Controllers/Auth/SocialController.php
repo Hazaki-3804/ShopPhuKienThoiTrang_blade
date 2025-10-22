@@ -47,6 +47,7 @@ class SocialController extends Controller
                     'status' => 1,
                     'social_id' => 1,
                 ]);
+                $user->assignRole('Khách hàng');
             }
             // Kiểm tra trạng thái tài khoản
             if ($user->status == 0) {

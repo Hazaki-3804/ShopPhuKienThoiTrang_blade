@@ -6,7 +6,7 @@
 @section('content')
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center px-3">
+    <div class="d-flex justify-content-between align-items-center px-4">
         <h4 class="fw-semibold m-0">Quản lý sản phẩm</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý sản phẩm']]" />
     </div>
@@ -139,14 +139,17 @@
                 </select>
             
             <!-- Bulk delete button (hidden by default) -->
-            
+                @if(auth()->user()->can('delete products'))
                 <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
                     <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
-            
+                @endif
+                
+                @if(auth()->user()->can('create products'))
                 <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm mr-2" title="Thêm sản phẩm">
                     <i class="fas fa-plus"></i> Thêm sản phẩm mới
                 </a>
+                @endif
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"

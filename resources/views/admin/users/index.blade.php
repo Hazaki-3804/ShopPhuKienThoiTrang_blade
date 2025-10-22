@@ -344,7 +344,7 @@
                 {
                     data: 'actions',
                     name: 'actions',
-                    width: '13%',
+                    width: '15%',
                     orderable: false,
                     searchable: false
                 }

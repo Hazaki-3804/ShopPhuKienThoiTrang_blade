@@ -32,7 +32,7 @@
     transform : translateY(-2px);
 }
 .btn-brand:disabled {
-    opacity: 1 !important;
+    opacity: 0.8 !important;
     cursor: not-allowed;
     background: #d43f1f;
     color: #fff !important;
@@ -65,16 +65,6 @@ a {
 a:hover {
     color          : var(--accent-hover);
     text-decoration: none;
-}
-
-.btn-brand {
-    background: var(--accent);
-    color     : #fff;
-    border    : none;
-}
-
-.btn-brand:hover {
-    background: var(--accent-hover);
 }
 
 .card-hover {
@@ -173,22 +163,6 @@ a:hover {
         margin: 10px auto;
         display: block;
     }
-}
-
-#heroCarousel .carousel-item[data-bg="sline1"]::before {
-    background-image: url("{{ asset('img/sline1.png') }}");
-}
-
-#heroCarousel .carousel-item[data-bg="sline2"]::before {
-    background-image: url("{{ asset('img/sline2.jpg') }}");
-}
-
-#heroCarousel .carousel-item[data-bg="sline3"]::before {
-    background-image: url("{{ asset('img/sline3.jpg') }}");
-}
-
-#heroCarousel .carousel-item[data-bg="sline4"]::before {
-    background-image: url("{{ asset('img/sline4.jpeg') }}");
 }
 
 .custom-caption {

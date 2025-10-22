@@ -6,7 +6,7 @@
 @section('content')
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center px-3">
+    <div class="d-flex justify-content-between align-items-center px-4">
         <h4 class="fw-semibold m-0">Quản lý danh mục sản phẩm</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý danh mục']]" />
     </div>
@@ -90,15 +90,19 @@
             </div>
 
             <!-- Right side - Bulk actions, Add button and Export -->
-            <div class="d-flex align-items-center">
+            <div class="btn-group">
                 <!-- Bulk delete button (hidden by default) -->
-                <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
+                @if(auth()->user()->can('delete categories'))
+                <button type="button" class="btn btn-danger btn-sm" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
                     <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
+                @endif
 
-                <button type="button" class="btn btn-success btn-sm mr-2" data-toggle="modal" data-target="#addCategoryModal">
+                @if(auth()->user()->can('create categories'))
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCategoryModal">
                     <i class="fas fa-plus"></i> Thêm danh mục
                 </button>
+                @endif
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
@@ -333,6 +337,12 @@
                     searchable: false,
                     className: 'text-center'
                 },
+                {
+                    targets: 7, // Cột hành động
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
             ],
             responsive: true,
             language: {

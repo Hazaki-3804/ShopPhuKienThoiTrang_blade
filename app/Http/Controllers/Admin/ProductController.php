@@ -219,7 +219,7 @@ class ProductController extends Controller
                     return $product->created_at ? $product->created_at->format('d/m/Y') : 'N/A';
                 })
                 ->addColumn('actions', function ($product) {
-                    $viewButton = '<button type="button" class="btn btn-sm btn-outline-info view-product" style="margin-right:6px" data-toggle="modal" data-target="#viewProductModal" 
+                    $viewButton = '<button type="button" class="btn btn-sm btn-outline-info view-product" data-toggle="modal" data-target="#viewProductModal" 
                         data-id="' . $product->id . '" 
                         data-name="' . htmlspecialchars($product->name) . '" 
                         data-description="' . htmlspecialchars($product->description ?? '') . '"
@@ -233,16 +233,21 @@ class ProductController extends Controller
                         title="Xem chi tiết">
                         <i class="fas fa-eye"></i>
                     </button>';
-
-                    $editButton = '<a href="' . route('admin.products.edit', $product->id) . '" class="btn btn-sm btn-outline-warning" style="margin-right:6px" title="Chỉnh sửa">
+                    $editButton = '';
+                    if(auth()->user()->can('edit products')){
+                       $editButton = '<a href="' . route('admin.products.edit', $product->id) . '" class="btn btn-sm btn-outline-warning" title="Chỉnh sửa">
                         <i class="fas fa-edit"></i>
-                    </a>';
-
-                    $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-product" data-toggle="modal" data-target="#deleteProductModal" data-id="' . $product->id . '" data-name="' . htmlspecialchars($product->name) . '" title="Xóa">
+                    </a>'; 
+                    }
+                    
+                    $deleteButton = '';
+                    if(auth()->user()->can('delete products')){
+                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-product" data-toggle="modal" data-target="#deleteProductModal" data-id="' . $product->id . '" data-name="' . htmlspecialchars($product->name) . '" title="Xóa">
                         <i class="fas fa-trash"></i>
                     </button>';
+                    }
 
-                    return $viewButton . $editButton . $deleteButton;
+                    return '<div class="btn-action">' . $viewButton . $editButton . $deleteButton . '</div>';
                 })
                 ->rawColumns(['checkbox', 'product_info', 'category_name', 'price_formatted', 'stock_badge', 'status_badge', 'actions'])
                 ->make(true);

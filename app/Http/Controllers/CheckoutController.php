@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use App\Models\Payment;
 
 class CheckoutController extends Controller
 {
@@ -892,21 +893,48 @@ class CheckoutController extends Controller
                 return back()->withErrors(['payment' => 'Không thể kết nối đến MoMo. Vui lòng thử lại.']);
             }
         }
+        if ($paymentMethod === 'payos') {
+            // Create PayOS payment link server-side and redirect to checkout URL
+            $data = [
+                "orderCode" => (int) $order->id,
+                // "amount" => (int) $total,
+                "amount" => 2000,
+                "description" => "Thanh toán đơn hàng #" . $order->id,
+                "returnUrl" => route('payos.success'),
+                "cancelUrl" => route('payos.cancel'),
+            ];
+
+            try {
+                $response = $this->payOS->createPaymentLink($data);
+                return redirect($response['checkoutUrl']);
+            } catch (\Throwable $th) {
+                Log::error($th->getMessage());
+                return back()->withErrors(['payment' => 'Không thể tạo liên kết thanh toán PayOS: ' . $th->getMessage()]);
+            }
+        }
         if ($paymentMethod === 'vnpay') {
             return redirect()->route('vnpay.create', ['order_id' => $order->id, 'total' => $total]);
         }
-
-        // Xóa session và cart items cho COD
-        session()->forget(['checkout_address', 'checkout_selected']);
-        if ($cart) {
-            // Xóa các sản phẩm đã đặt hàng khỏi giỏ hàng
-            if ($selected->isNotEmpty()) {
-                CartItem::where('cart_id', $cart->id)
-                    ->whereIn('product_id', $selected->all())
-                    ->delete();
-            } else {
-                // Nếu không có sản phẩm được chọn cụ thể, xóa toàn bộ giỏ hàng
-                CartItem::where('cart_id', $cart->id)->delete();
+        if ($paymentMethod === 'cod') {
+            //Ghi dữ liệu cho bảng payments
+            Payment::create([
+                'order_id' => $order->id,
+                'amount' => $total,
+                'payment_method' => 'cod',
+                'status' => 'pending', 
+            ]);
+            // Xóa session và cart items cho COD
+            session()->forget(['checkout_address', 'checkout_selected']);
+            if ($cart) {
+                // Xóa các sản phẩm đã đặt hàng khỏi giỏ hàng
+                if ($selected->isNotEmpty()) {
+                    CartItem::where('cart_id', $cart->id)
+                        ->whereIn('product_id', $selected->all())
+                        ->delete();
+                } else {
+                    // Nếu không có sản phẩm được chọn cụ thể, xóa toàn bộ giỏ hàng
+                    CartItem::where('cart_id', $cart->id)->delete();
+                }
             }
         }
 

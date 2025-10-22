@@ -25,11 +25,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
-	protected $table = 'roles';
+	protected $table = 'roles_ex';
 
 	protected $fillable = [
 		'name',
-		'description'
 	];
 
 	public function users()

@@ -92,9 +92,17 @@
                 <div class="text-muted small">Tổng tiền</div>
                 <div class="fw-bold text-danger">{{ number_format($order->total_price,0,',','.') }}₫</div>
             </div>
-            <div class="mt-2 d-flex justify-content-end gap-2">
+            <div class="mt-2 d-flex justify-content-between align-items-center gap-2">
+              <div class="d-flex gap-2">
+                <div class="small text-muted">Thanh toán:</div>
+                @php
+                    $badge = 'bg-' . ($order->payment && $order->payments->status==='completed'?'success':'danger');
+                @endphp
+                <span class="badge {{ $badge }}">{{$order->payment && $order->payments->status==='completed'?'Đã thanh toán':'Chưa thanh toán' }}</span>
+              </div>
+              <div class="d-flex gap-2">
                 <a href="{{ route('user.orders.show', $order) }}" class="btn btn-sm btn-secondary">Chi tiết</a>
-                @if(in_array($order->status, ['pending','processing']))
+                @if($order->payments && $order->payments->status!=='completed' && in_array($order->status, ['pending','processing']))
                 <form method="POST" action="{{ route('user.orders.cancel', $order) }}" id="cancelForm-{{ $order->id }}">
                     @csrf
                     @method('PATCH')
@@ -133,6 +141,7 @@
                 </script>
                 @endpush
                 @endif
+              </div>
             </div>
         </div>
     </div>
