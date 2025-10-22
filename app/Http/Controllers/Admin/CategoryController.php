@@ -41,15 +41,19 @@ class CategoryController extends Controller
                     return $category->created_at ? $category->created_at->format('d/m/Y') : 'N/A';
                 })
                 ->addColumn('actions', function ($category) {
-                    $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-category" style="margin-right:6px" data-toggle="modal" data-target="#editCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '" data-description="' . htmlspecialchars($category->description ?? '') . '">
-                        <i class="fas fa-edit"></i>
-                    </button>';
-
-                    $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-category" data-toggle="modal" data-target="#deleteCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '">
-                        <i class="fas fa-trash"></i>
-                    </button>';
-
-                    return $editButton . $deleteButton;
+                    $editButton = '';
+                    $deleteButton = '';
+                    if(auth()->user()->can('edit categories')){
+                        $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-category"data-toggle="modal" data-target="#editCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '" data-description="' . htmlspecialchars($category->description ?? '') . '">
+                            <i class="fas fa-edit"></i>
+                        </button>';
+                    }
+                    if(auth()->user()->can('delete categories')){
+                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-category" data-toggle="modal" data-target="#deleteCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '">
+                            <i class="fas fa-trash"></i>
+                        </button>';
+                    }
+                    return '<div class="btn-action">' . $editButton . $deleteButton . '</div>';
                 })
                 ->rawColumns(['checkbox', 'products_count', 'actions'])
                 ->make(true);

@@ -74,11 +74,20 @@ class PromotionController extends Controller
                     return '<span class="badge ' . $badgeClass . '">' . $remaining . '/' . $promotion->quantity . '</span>';
                 })
                 ->addColumn('actions', function ($promotion) {
-                    $editButton = '<a href="' . route('admin.promotions.edit', $promotion->id) . '" class="btn btn-sm btn-outline-warning">
+                    $editButton = '';
+                    if(auth()->user()->can('edit promotions')){
+                        $editButton = '<a href="' . route('admin.promotions.edit', $promotion->id) . '" class="btn btn-sm btn-outline-warning">
                         <i class="fas fa-edit"></i>
                     </a>';
+                    }
+                    $deleteButton = '';
+                    if(auth()->user()->can('delete promotions')){
+                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-promotion-btn" data-id="' . $promotion->id . '">
+                        <i class="fas fa-trash"></i>
+                    </button>';
+                    }
 
-                    return $editButton;
+                    return '<div class="btn-action">' . $editButton . $deleteButton . '</div>';
                 })
                 ->rawColumns(['checkbox', 'discount_display', 'status_badge', 'products_count', 'quantity_display', 'actions'])
                 ->make(true);
@@ -354,85 +363,5 @@ class PromotionController extends Controller
                 'type' => 'danger'
             ], 500);
         }
-    }
-
-    /**
-     * Export promotions to Excel
-     */
-    public function exportExcel()
-    {
-        $promotions = Discount::with('products')->get();
-
-        $filename = 'chuong-trinh-khuyen-mai-' . date('Y-m-d-His') . '.csv';
-
-        $headers = [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
-
-        $callback = function () use ($promotions) {
-            $file = fopen('php://output', 'w');
-
-            // Add BOM for UTF-8
-            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
-
-            // Header
-            fputcsv($file, [
-                'STT',
-                'Mã KM',
-                'Mô tả',
-                'Loại giảm giá',
-                'Giá trị',
-                'Ngày bắt đầu',
-                'Ngày kết thúc',
-                'Số sản phẩm',
-                'Trạng thái'
-            ]);
-
-            // Data
-            foreach ($promotions as $index => $promo) {
-                $discountType = $promo->discount_type === 'percent' ? 'Phần trăm' : 'Số tiền';
-                $discountValue = $promo->discount_type === 'percent'
-                    ? $promo->discount_value . '%'
-                    : number_format($promo->discount_value, 0, ',', '.') . '₫';
-
-                $status = $promo->status ? 'Kích hoạt' : 'Tắt';
-
-                fputcsv($file, [
-                    $index + 1,
-                    $promo->code,
-                    $promo->description,
-                    $discountType,
-                    $discountValue,
-                    $promo->start_date->format('d/m/Y'),
-                    $promo->end_date->format('d/m/Y'),
-                    $promo->products->count(),
-                    $status
-                ]);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
-    }
-
-    /**
-     * Export promotions to PDF
-     */
-    public function exportPdf()
-    {
-        $promotions = Discount::with('products')->get();
-
-        $html = view('admin.promotions.export-pdf', compact('promotions'))->render();
-
-        // Simple HTML to PDF approach
-        $filename = 'chuong-trinh-khuyen-mai-' . date('Y-m-d-His') . '.pdf';
-
-        return response()->streamDownload(function () use ($html) {
-            echo $html;
-        }, $filename, [
-            'Content-Type' => 'application/pdf',
-        ]);
     }
 }

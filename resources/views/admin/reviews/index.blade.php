@@ -2,14 +2,15 @@
 @section('title', 'Quản lý bình luận')
 
 @section('content_header')
-<h1>Quản lý bình luận</h1>
+<h1></h1>
 @stop
 
 @section('content')
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center px-3 mb-3">
+    <div class="d-flex justify-content-between align-items-center px-4 mb-3">
         <h4 class="fw-semibold m-0">Quản lý bình luận</h4>
+        <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý bình luận']]" />
     </div>
 
     <!-- Stats Cards -->
@@ -62,31 +63,36 @@
     </div>
 
     <!-- Filters -->
-    <div class="card mx-3 mb-3">
+    <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
-            <form method="GET" class="row g-3 align-items-end">
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">Tìm kiếm</label>
-                    <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung, khách hàng, sản phẩm...">
+            <form method="GET" class="form-row align-items-center">
+                
+                <div class="col-lg-5 col-md-6 col-sm-12 mb-3 mb-md-0">
+                    <label class="sr-only" for="search-input">Tìm kiếm</label> <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span> </div>
+                        <input type="text" id="search-input" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung, khách hàng, sản phẩm...">
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label fw-semibold">Trạng thái</label>
-                    <select name="visibility" class="form-select">
-                        <option value="">Tất cả</option>
+
+                <div class="col-lg-3 col-md-4 col-sm-12 mb-3 mb-md-0">
+                    <label class="sr-only" for="status-select">Trạng thái</label>
+                    <select id="status-select" name="visibility" class="form-control">
+                        <option value="">-- Trạng thái: Tất cả --</option>
                         <option value="visible" {{ request('visibility') === 'visible' ? 'selected' : '' }}>Đang hiển thị</option>
                         <option value="hidden" {{ request('visibility') === 'hidden' ? 'selected' : '' }}>Đã ẩn</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i> Tìm kiếm
+
+                <div class="col-lg-4 col-md-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary mr-2">
+                        <i class="fas fa-search mr-1"></i> Tìm kiếm
                     </button>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary w-100">
-                        <i class="bi bi-arrow-clockwise me-1"></i> Làm mới
+                    <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-redo mr-1"></i> Làm mới
                     </a>
                 </div>
+                
             </form>
         </div>
     </div>
@@ -113,7 +119,7 @@
                     </thead>
                     <tbody>
                         @forelse($reviews as $review)
-                        <tr class="{{ $review->is_hidden ? 'table-warning' : '' }}">
+                        <tr class="{{ $review->is_hidden ? 'table-warning' : 'table-info' }}">
                             <td>{{ $review->id }}</td>
                             <td>
                                 <div>
@@ -164,26 +170,29 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="d-flex justify-content-center align-items-center" style="gap: 10px;">
+                                <div class="btn-action">
                                     <!-- Toggle visibility -->
+                                    @if(auth()->user()->can('hide reviews'))
                                     <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="d-inline toggle-form">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-sm {{ $review->is_hidden ? 'btn-success' : 'btn-warning' }}"
+                                        <button type="submit" class="btn btn-sm {{ $review->is_hidden ? 'btn-info' : 'btn-warning' }}"
                                             title="{{ $review->is_hidden ? 'Hiển thị' : 'Ẩn' }}"
                                             data-action="{{ $review->is_hidden ? 'hiển thị' : 'ẩn' }}">
-                                            <i class="bi bi-eye{{ $review->is_hidden ? '' : '-slash' }}"></i>
+                                            <i class="fas fa-eye{{ $review->is_hidden ? '' : '-slash' }}"></i>
                                         </button>
                                     </form>
-
+                                    @endif
                                     <!-- Delete -->
+                                    @if(auth()->user()->can('delete reviews'))
                                     <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" title="Xóa">
-                                            <i class="bi bi-trash"></i>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
+                                    @endif         
                                 </div>
                             </td>
                         </tr>
@@ -212,61 +221,12 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <style>
-    /* Stats Cards Styling - Giống trang quản lý khuyến mãi */
-    .card.bg-primary,
-    .card.bg-success,
-    .card.bg-warning,
-    .card.bg-danger {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .card.bg-primary:hover,
-    .card.bg-success:hover,
-    .card.bg-warning:hover,
-    .card.bg-danger:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
     /* Table styling */
     .table-warning {
         background-color: #fff3cd !important;
     }
-
-    .table thead th {
-        background-color: #e7f3ff;
-        color: #333;
-        font-weight: 600;
-        border-bottom: 2px solid #dee2e6;
-    }
-
-    /* Action buttons styling */
-    .btn-sm {
-        width: 36px;
-        height: 36px;
-        padding: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    .btn-sm:hover {
-        transform: scale(1.1);
-    }
-
-    .btn-sm i {
-        font-size: 1rem;
-    }
-
-    /* Card enhancements */
-    .card {
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .card-header {
-        border-bottom: 2px solid #e9ecef;
+    .table-info{
+        background-color: #cfe2ff !important;
     }
 
     /* Form controls */
@@ -276,11 +236,6 @@
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
     }
 
-    /* Badge styling */
-    .badge {
-        padding: 0.5em 0.75em;
-        font-weight: 500;
-    }
 </style>
 @endpush
 

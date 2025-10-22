@@ -64,34 +64,38 @@ class ShippingFeeController extends Controller
                     return '<span class="badge bg-secondary">Tắt</span>';
                 })
                 ->addColumn('actions', function ($fee) {
-                    $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-shipping-fee" style="margin-right:6px" 
-                        data-toggle="modal" 
-                        data-target="#editShippingFeeModal"
-                        data-id="' . $fee->id . '" 
-                        data-name="' . htmlspecialchars($fee->name) . '"
-                        data-area_type="' . $fee->area_type . '"
-                        data-min_distance="' . $fee->min_distance . '"
-                        data-max_distance="' . ($fee->max_distance ?? '') . '"
-                        data-min_order_value="' . $fee->min_order_value . '"
-                        data-base_fee="' . $fee->base_fee . '"
-                        data-per_km_fee="' . $fee->per_km_fee . '"
-                        data-max_fee="' . ($fee->max_fee ?? '') . '"
-                        data-is_free_shipping="' . ($fee->is_free_shipping ? '1' : '0') . '"
-                        data-priority="' . $fee->priority . '"
-                        data-status="' . ($fee->status ? '1' : '0') . '"
-                        data-description="' . htmlspecialchars($fee->description ?? '') . '">
-                        <i class="fas fa-edit"></i>
-                    </button>';
-
-                    $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-shipping-fee" 
-                        data-toggle="modal" 
-                        data-target="#deleteShippingFeeModal"
-                        data-id="' . $fee->id . '" 
-                        data-name="' . htmlspecialchars($fee->name) . '">
-                        <i class="fas fa-trash"></i>
-                    </button>';
-
-                    return $editButton . $deleteButton;
+                    $editButton = '';
+                    if(auth()->user()->can('edit shipping fees')){
+                        $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-shipping-fee" style="margin-right:6px" 
+                            data-toggle="modal" 
+                            data-target="#editShippingFeeModal"
+                            data-id="' . $fee->id . '" 
+                            data-name="' . htmlspecialchars($fee->name) . '"
+                            data-area_type="' . $fee->area_type . '"
+                            data-min_distance="' . $fee->min_distance . '"
+                            data-max_distance="' . ($fee->max_distance ?? '') . '"
+                            data-min_order_value="' . $fee->min_order_value . '"
+                            data-base_fee="' . $fee->base_fee . '"
+                            data-per_km_fee="' . $fee->per_km_fee . '"
+                            data-max_fee="' . ($fee->max_fee ?? '') . '"
+                            data-is_free_shipping="' . ($fee->is_free_shipping ? '1' : '0') . '"
+                            data-priority="' . $fee->priority . '"
+                            data-status="' . ($fee->status ? '1' : '0') . '"
+                            data-description="' . htmlspecialchars($fee->description ?? '') . '">
+                            <i class="fas fa-edit"></i>
+                        </button>';
+                    }
+                    $deleteButton = '';
+                    if(auth()->user()->can('delete shipping fees')){
+                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-shipping-fee" 
+                            data-toggle="modal" 
+                            data-target="#deleteShippingFeeModal"
+                            data-id="' . $fee->id . '" 
+                            data-name="' . htmlspecialchars($fee->name) . '">
+                            <i class="fas fa-trash"></i>
+                        </button>';
+                    }
+                    return '<div class="btn-action">' . $editButton . $deleteButton . '</div>';
                 })
                 ->rawColumns(['checkbox', 'area_type_badge', 'fee_display', 'status_badge', 'actions'])
                 ->make(true);

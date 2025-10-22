@@ -29,9 +29,11 @@
                     @if($order->payment_method === 'cod')
                         Thanh toán khi nhận hàng (COD)
                     @elseif($order->payment_method === 'momo')
-                        Ví điện tử MoMo
+                        Thanh toán qua MoMo
                     @elseif($order->payment_method === 'vnpay')
-                        VNPay
+                        Thanh toán qua VNPay
+                    @elseif($order->payment_method === 'payos')
+                        Thanh toán qua PayOS
                     @else
                         {{ $order->payment_method }}
                     @endif

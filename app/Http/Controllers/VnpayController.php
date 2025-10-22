@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use Illuminate\Support\Str;
+use App\Models\Cart;
+use App\Models\CartItem;
+use Illuminate\Support\Facades\Auth;
 
 class VnpayController extends Controller
 {
@@ -13,7 +16,7 @@ class VnpayController extends Controller
         $vnp_TmnCode = config('services.vnpay.tmn_code');
         $vnp_HashSecret = config('services.vnpay.hash_secret');
         $vnp_Url = config('services.vnpay.url');
-        $vnp_Returnurl = config('services.vnpay.return_url');
+        $vnp_ReturnUrl = config('services.vnpay.return_url');
 
         $vnp_TxnRef = $request->input('order_id').'_'.time(); // Mã đơn hàng
         $vnp_OrderInfo = "Thanh toán đơn hàng tại Nàng Thơ Shop";   
@@ -33,39 +36,66 @@ class VnpayController extends Controller
             "vnp_Locale" => $vnp_Locale,
             "vnp_OrderInfo" => $vnp_OrderInfo,
             "vnp_OrderType" => $vnp_OrderType,
-            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_ReturnUrl" => $vnp_ReturnUrl,
             "vnp_TxnRef" => $vnp_TxnRef,
         ];
 
+        // 🔹 Bước 1: Sắp xếp key theo thứ tự alphabet
         ksort($inputData);
-        $query = http_build_query($inputData, '', '&', PHP_QUERY_RFC3986);
-        $vnp_SecureHash = hash_hmac('sha512', $query, $vnp_HashSecret);
-        $vnp_Url = $vnp_Url . "?" . $query . "&vnp_SecureHash=" . $vnp_SecureHash;
 
+        // 🔹 Bước 2: Tạo query string
+        $query = [];
+        foreach ($inputData as $key => $value) {
+            if ($value != null && $value != '') {
+                $query[] = urlencode($key) . "=" . urlencode($value);
+            }
+        }
+        $queryString = implode('&', $query);
+
+        // 🔹 Bước 3: Ký bằng HMAC SHA512
+        $vnp_SecureHash = hash_hmac('sha512', $queryString, $vnp_HashSecret);
+
+        // 🔹 Bước 4: Tạo URL redirect
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" . $queryString . '&vnp_SecureHash=' . $vnp_SecureHash;
         return redirect($vnp_Url);
     }
-    public function vnpayReturn(Request $request)
+    public function returnPayment(Request $request)
     {
         $vnp_HashSecret = config('services.vnpay.hash_secret');
         $vnp_SecureHash = $request->get('vnp_SecureHash');
         $inputData = $request->except(['vnp_SecureHash', 'vnp_SecureHashType']);
-        ksort($inputData);
-        $hashData = http_build_query($inputData, '', '&', PHP_QUERY_RFC3986);
-        $checkHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        ksort($inputData, SORT_STRING);
 
-        if ($checkHash === $vnp_SecureHash && $request->get('vnp_ResponseCode') == '00') {
+        $hashDataArr = [];
+        foreach ($inputData as $key => $value) {
+            $hashDataArr[] = urlencode($key) . "=" . urlencode($value);
+        }
+        $hashData = implode('&', $hashDataArr);
+        $orderId = (int) Str::before($request->get('vnp_TxnRef'), '_');
+        $checkHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        if ($checkHash === $vnp_SecureHash && $request->get('vnp_ResponseCode') == '01') {
             Payment::create([
-                'order_id' => Str::before($request->get('vnp_TxnRef'), '_'),
+                'order_id' => $orderId,
                 'amount' => $request->get('vnp_Amount') / 100,
-                'status' => 'success',
+                'status' => 'completed',
                 'payment_method' => 'vnpay',
                 'transaction_code' => $request->get('vnp_TransactionNo'),
                 'paid_at' => $this->changeDatetime($request->get('vnp_PayDate')),
             ]);
-            return redirect()->route('checkout.success')->with('success', 'Thanh toán thành công!');
-        } else {
-            return redirect()->route('checkout.failed')->with('error', 'Thanh toán thất bại hoặc bị hủy!');
+            // Clear current user's cart after successful payment
+            if (Auth::check()) {
+                $cart = Cart::where('user_id', Auth::id())->first();
+                if ($cart) {
+                    CartItem::where('cart_id', $cart->id)->delete();
+                    $cart->delete();
+                }
+            }
+            return redirect()->route('user.orders.show', ['order' => $orderId])
+                ->with('success', 'Thanh toán qua VNPAY thành công! Cảm ơn bạn đã mua hàng của Nàng Thơ Shop!');
         }
+        // Payment failed or invalid signature
+        return redirect()->route('user.orders.show', ['order' => $orderId])
+            ->withErrors(['payment' => 'Thanh toán qua VNPAY thất bại hoặc bị hủy!']);
     }
     private function changeDatetime($payDate){
         $datetime_sql = substr($payDate,0,4) . '-' .  // Năm
@@ -76,5 +106,4 @@ class VnpayController extends Controller
                         substr($payDate,12,2);        // Giây
         return $datetime_sql;
     }
-
 }

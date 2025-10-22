@@ -6,7 +6,7 @@
 @section('content')
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header giống card-header -->
-    <div class="d-flex justify-content-between align-items-center px-3">
+    <div class="d-flex justify-content-between align-items-center px-4">
         <h4 class="fw-semibold m-0">Danh sách khách hàng</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý khách hàng']]" />
     </div>
@@ -32,9 +32,11 @@
                     </select>
                 </div>
                 <div class="mr-2">
+                    @if(auth()->user()->can('create customers'))
                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCustomerModal">
                         <i class="fas fa-user-plus"></i> Thêm khách hàng
                     </button>
+                    @endif
                 </div>
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"

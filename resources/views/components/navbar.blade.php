@@ -37,13 +37,15 @@
                     <li>
                         <hr class="dropdown-divider my-2">
                     </li>
-                    @if(auth()->check() && auth()->user()->role_id === 1)
+                    @auth
+                    @hasanyrole('Admin|Nhân viên')
                     <li>
                         <a class="dropdown-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <i class="bi bi-speedometer2 me-2"></i> Trang quản trị
                         </a>
                     </li>
-                    @endif
+                    @endhasanyrole
+                    @endauth
                     <li>
                         <a class="dropdown-item {{ request()->routeIs('profile.index') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                             <i class="bi bi-person-badge me-2"></i> Thông tin người dùng
@@ -187,13 +189,15 @@
                         <li>
                             <hr class="dropdown-divider my-2">
                         </li>
-                        @if(auth()->check() && auth()->user()->role_id === 1)
+                        @auth
+                        @hasanyrole('Admin|Nhân viên')
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                                 <i class="bi bi-speedometer2 me-2"></i> Trang quản trị
                             </a>
                         </li>
-                        @endif
+                        @endhasanyrole
+                        @endauth
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('profile.index') ? 'active' : '' }}" href="{{ route('profile.index') }}">
                                 <i class="bi bi-person-badge me-2"></i> Thông tin người dùng

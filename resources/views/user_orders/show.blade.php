@@ -21,6 +21,7 @@
               <div class="fw-semibold">Trạng thái: <span class="badge {{ $badge }} {{ $textFix }}">{{ $order->status_text }}</span></div>
               <div class="small text-muted">Tạo lúc: {{ $order->created_at->format('d/m/Y H:i') }}</div>
             </div>
+            @if($payments_status->status!=='completed')
             @if($canCancel)
             <form method="POST" action="{{ route('user.orders.cancel', $order) }}" id="cancelForm-show-{{ $order->id }}">
               @csrf
@@ -56,6 +57,7 @@
               });
             </script>
             @endpush
+            @endif
             @endif
           </div>
 
@@ -106,6 +108,9 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="fw-semibold">Tổng thanh toán</div>
               <div class="fw-bold text-danger">{{ number_format($grand,0,',','.') }}₫</div>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+              <div class="badge {{ $payments_status->status==='completed'?'bg-success':'bg-danger' }}">{{ $payments_status->status==='completed'?'Đã thanh toán':'Chưa thanh toán' }} qua {{ Str::upper($payments_status->payment_method) }}</div>
             </div>
           </div>
         </div>

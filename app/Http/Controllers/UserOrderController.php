@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
+use App\Models\Payment;
 
 class UserOrderController extends Controller
 {
@@ -36,12 +37,12 @@ class UserOrderController extends Controller
         $reviewableCount = $counts['delivered'] ?? 0;
 
         // Fetch recent orders (optionally filtered)
-        $ordersQuery = Order::where('user_id', $userId)->latest();
+        $ordersQuery = Order::with('payments')->where('user_id', $userId)->latest();
         if ($status && in_array($status, array_keys($statusMap))) {
             $ordersQuery->where('status', $status);
         }
         $orders = $ordersQuery->with(['order_items.product.product_images'])->paginate(10);
-
+        // dd($orders);
         return view('user_orders.index', [
             'orders' => $orders,
             'counts' => $counts,
@@ -63,7 +64,8 @@ class UserOrderController extends Controller
             'cancelled' => 'Đã hủy',
         ];
         $canCancel = in_array($order->status, ['pending','processing']);
-        return view('user_orders.show', compact('order','statusMap','canCancel'));
+        $payments_status = Payment::select('status','payment_method')->where('order_id', $order->id)->first();
+        return view('user_orders.show', compact('order','statusMap','canCancel','payments_status'));
     }
 
     public function cancel(Order $order)

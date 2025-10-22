@@ -168,6 +168,7 @@ class AuthController extends Controller
             'status' => 1,
             'avatar' => 'storage/avatars/default-avatar.png',
         ]);
+        $user->assignRole('Khách hàng');
         // Generate 6-digit email verification code, store for 60s and send via email
         $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $cacheKey = 'email_verify_code:'.strtolower($user->email);

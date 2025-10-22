@@ -114,22 +114,25 @@ return [
             'icon' => 'fas fa-home',
             'breadcrumb' => true, // bật breadcrumb
         ],
-        ['header' => 'SẢN PHẨM'],
+        ['header' => 'SẢN PHẨM', 'can' => 'menu.products'],
         [
             'text' => 'Quản lý đơn hàng',
             'route' => 'admin.orders.index',
             'icon' => 'fas fa-shopping-cart',
             'breadcrumb' => true,
+            'can' => 'view orders',
         ],
         [
             'text' => 'Quản lý danh mục',
             'icon' => 'fas fa-tags',
             'breadcrumb' => true,
+            'can' => 'view categories',
             'submenu' => [
                 [
                     'text' => 'Danh sách danh mục',
                     'route' => 'admin.categories.index',
                     'breadcrumb' => true,
+                    'can' => 'view categories',
                 ],
             ]
         ],
@@ -137,16 +140,19 @@ return [
             'text' => 'Quản lý sản phẩm',
             'icon' => 'fas fa-cubes',
             'breadcrumb' => true,
+            'can' => 'view products',
             'submenu' => [
                 [
                     'text' => 'Danh sách sản phẩm',
                     'route' => 'admin.products.index',
                     'breadcrumb' => true,
+                    'can' => 'view products',
                 ],
                 [
                     'text' => 'Thêm sản phẩm',
                     'route' => 'admin.products.create',
                     'breadcrumb' => true,
+                    'can' => 'create products',
                 ],
             ],
         ],
@@ -154,16 +160,19 @@ return [
             'text' => 'Quản lý khuyến mãi',
             'icon' => 'fas fa-gift',
             'breadcrumb' => true,
+            'can' => 'view promotions',
             'submenu' => [
                 [
                     'text' => 'Danh sách khuyến mãi',
                     'route' => 'admin.promotions.index',
                     'breadcrumb' => true,
+                    'can' => 'view promotions',
                 ],
                 [
                     'text' => 'Thêm khuyến mãi',
                     'route' => 'admin.promotions.create',
                     'breadcrumb' => true,
+                    'can' => 'create promotions',
                 ],
             ],
         ],
@@ -172,58 +181,78 @@ return [
             'route' => 'admin.shipping-fees.index',
             'icon' => 'fas fa-shipping-fast',
             'breadcrumb' => true,
+            'can' => 'view shipping fees',
         ],
-        ['header' => 'KHÁCH HÀNG'],
+        ['header' => 'KHÁCH HÀNG', 'can' => 'menu.customers'],
         [
             'text' => 'Quản lý khách hàng',
             'route' => 'admin.customers.index',
-            'icon' => 'far fa-user'
+            'icon' => 'far fa-user',
+            'can' => 'view customers',
         ],
-        ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true],
-        ['header' => 'THỐNG KÊ'],
+        ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true, 'can' => 'view reviews'],
+        ['header' => 'THỐNG KÊ', 'can' => 'menu.statistics'],
         [
             'text' => 'Thống kê & Báo cáo',
             'icon' => 'fas fa-chart-line',
             'breadcrumb' => true,
+            'can' => 'view reports',
             'submenu' => [
                 [
                     'text' => 'Tổng quan',
                     'route' => 'admin.statistics.index',
                     'icon' => 'fas fa-tachometer-alt',
                     'breadcrumb' => true,
+                    'can' => 'view reports',
                 ],
                 [
                     'text' => 'Thống kê khách hàng',
                     'route' => 'admin.statistics.customers',
                     'icon' => 'fas fa-users',
                     'breadcrumb' => true,
+                    'can' => 'view reports',
                 ],
                 [
                     'text' => 'Thống kê sản phẩm',
                     'route' => 'admin.statistics.products',
                     'icon' => 'fas fa-box',
                     'breadcrumb' => true,
+                    'can' => 'view reports',
                 ],
                 [
                     'text' => 'Thống kê thời gian',
                     'route' => 'admin.statistics.time',
                     'icon' => 'fas fa-calendar-alt',
                     'breadcrumb' => true,
+                    'can' => 'view reports',
                 ],
             ],
         ],
-        ['header' => 'NHÂN VIÊN'],
+        ['header' => 'NHÂN VIÊN', 'can' => 'menu.staff'],
         [
             'text' => 'Quản lý nhân viên',
             'route' => 'admin.users.index',
-            'icon' => 'fas fa-user'
+            'icon' => 'fas fa-user',
+            'can' => 'view staffs',
         ],
-        ['header' => 'HỆ THỐNG'],
+        ['header' => 'HỆ THỐNG', 'can' => 'menu.system'],
         [
             'text' => 'Cài đặt',
             'route' => 'settings',
-            'icon' => 'fas fa-cog'
+            'icon' => 'fas fa-cog',
+            'can' => 'manage settings',
         ],
+    ],
+
+    // Menu filters (ensure GateFilter is enabled to apply 'can')
+    'filters' => [
+        JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
+        JeroenNoten\LaravelAdminLte\Menu\Filters\DataFilter::class,
     ],
 
     'plugins' => [
@@ -314,7 +343,7 @@ return [
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => 'build/assets/custom.css',
+                    'location' => 'css/custom.css',
                 ],
             ],
         ],
