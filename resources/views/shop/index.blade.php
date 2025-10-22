@@ -6,6 +6,9 @@
 @endpush
 @section('content')
 <div class="container py-4">
+    @if(!empty($activeDiscount))
+        @include('components.promo-banner', ['discount' => $activeDiscount])
+    @endif
     <div class="row g-4">
         <div class="col-12 col-lg-3">
             <h5 class="fw-semibold"><i class="bi bi-card-list"></i> Danh mục sản phẩm</h5>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -70,7 +71,16 @@ class ShopController extends Controller
             $priceCap = 100000;
         } // sensible minimum cap
 
-        return view('shop.index', compact('products', 'categories', 'currentCategory', 'priceCap'));
+        // Active discount for promo icon/banner
+        $activeDiscount = Discount::query()
+            ->where('status', 1)
+            ->where(function ($q) { $q->whereNull('start_date')->orWhere('start_date', '<=', now()); })
+            ->where(function ($q) { $q->whereNull('end_date')->orWhere('end_date', '>=', now()); })
+            ->where(function ($q) { $q->whereNull('quantity')->orWhereColumn('used_quantity', '<', 'quantity'); })
+            ->orderByDesc('id')
+            ->first();
+
+        return view('shop.index', compact('products', 'categories', 'currentCategory', 'priceCap', 'activeDiscount'));
     }
 
     public function show(string $id)
@@ -93,6 +103,15 @@ class ShopController extends Controller
                 ->where('product_id', $product->id)
                 ->first();
         }
-        return view('shop.show', compact('product', 'canReview', 'myReview'));
+        // Active discount for promo icon/banner
+        $activeDiscount = Discount::query()
+            ->where('status', 1)
+            ->where(function ($q) { $q->whereNull('start_date')->orWhere('start_date', '<=', now()); })
+            ->where(function ($q) { $q->whereNull('end_date')->orWhere('end_date', '>=', now()); })
+            ->where(function ($q) { $q->whereNull('quantity')->orWhereColumn('used_quantity', '<', 'quantity'); })
+            ->orderByDesc('id')
+            ->first();
+
+        return view('shop.show', compact('product', 'canReview', 'myReview', 'activeDiscount'));
     }
 }

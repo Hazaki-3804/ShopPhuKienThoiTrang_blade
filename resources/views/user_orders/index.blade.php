@@ -93,12 +93,12 @@
                 <div class="fw-bold text-danger">{{ number_format($order->total_price,0,',','.') }}₫</div>
             </div>
             <div class="mt-2 d-flex justify-content-end gap-2">
-                <a href="{{ route('user.orders.show', $order) }}" class="btn btn-sm btn-outline-secondary">Chi tiết</a>
+                <a href="{{ route('user.orders.show', $order) }}" class="btn btn-sm btn-secondary">Chi tiết</a>
                 @if(in_array($order->status, ['pending','processing']))
                 <form method="POST" action="{{ route('user.orders.cancel', $order) }}" id="cancelForm-{{ $order->id }}">
                     @csrf
                     @method('PATCH')
-                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ $order->id }}">Hủy đơn</button>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ $order->id }}">Hủy đơn</button>
                 </form>
 
                 <!-- Modal xác nhận hủy -->

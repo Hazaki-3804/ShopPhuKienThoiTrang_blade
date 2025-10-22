@@ -3,6 +3,9 @@
 
 @section('content')
 <div class="container py-4">
+    @if(!empty($activeDiscount))
+        @include('components.promo-banner', ['discount' => $activeDiscount])
+    @endif
     <div class="row g-4">
         <!-- Cột ảnh + slider + đánh giá -->
         <div class="col-12 col-md-6">
