@@ -4,6 +4,9 @@
 @section('content')
 
 <div class="container shop-theme py-4">
+    @if(!empty($activeDiscount))
+        @include('components.promo-banner', ['discount' => $activeDiscount])
+    @endif
     <!-- Header Logo + Title -->
     <!-- Hero Carousel -->
     <div id="heroCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="5000">

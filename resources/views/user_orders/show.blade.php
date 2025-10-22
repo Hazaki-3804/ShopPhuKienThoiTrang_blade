@@ -25,7 +25,7 @@
             <form method="POST" action="{{ route('user.orders.cancel', $order) }}" id="cancelForm-show-{{ $order->id }}">
               @csrf
               @method('PATCH')
-              <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal-show-{{ $order->id }}">Hủy đơn</button>
+              <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal-show-{{ $order->id }}">Hủy đơn</button>
             </form>
             <!-- Modal xác nhận hủy -->
             <div class="modal fade" id="cancelModal-show-{{ $order->id }}" tabindex="-1" aria-hidden="true">

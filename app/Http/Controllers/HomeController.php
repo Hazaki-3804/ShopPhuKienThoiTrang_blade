@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use App\Models\Product;
+use App\Models\Discount;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -64,8 +65,22 @@ class HomeController extends Controller
         };
         $newBannerImage = $normalize($newBannerImage);
         $bestBannerImage = $normalize($bestBannerImage);
-        // dd($newBannerImage, $bestBannerImage);   
-        // dd($products);
-        return view('home', compact('products', 'newBannerImage', 'bestBannerImage'));
+        // Lấy 1 mã giảm giá đang còn hiệu lực để hiển thị banner
+        $activeDiscount = Discount::query()
+            ->where('status', 1)
+            ->where(function ($q) {
+                $q->whereNull('start_date')->orWhere('start_date', '<=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('end_date')->orWhere('end_date', '>=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('quantity')
+                  ->orWhereColumn('used_quantity', '<', 'quantity');
+            })
+            ->orderByDesc('id')
+            ->first();
+
+        return view('home', compact('products', 'newBannerImage', 'bestBannerImage', 'activeDiscount'));
     }
 }
