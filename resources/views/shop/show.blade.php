@@ -33,13 +33,10 @@
 
 
             <!-- Đánh giá -->
-            <div class="mt-4" id="review">
+            <div class="mt-4">
                 <h6 class="fw-semibold mb-2">Đánh giá</h6>
                 <div class="mb-3">
-                    @php
-                        $visibleReviews = $product->reviews->where('is_hidden', false);
-                    @endphp
-                    @forelse($visibleReviews as $rv)
+                    @forelse($product->reviews as $rv)
                     <div class="border rounded p-2 mb-2">
                         <div class="d-flex justify-content-between align-items-start">
                             <strong>{{ $rv->user->name ?? $rv->user_name ?? 'Người dùng' }}</strong>
@@ -47,7 +44,8 @@
                                 @for($i = 0; $i < (int) $rv->rating; $i++)★@endfor
                             </span>
                         </div>
-                        <div class="mt-1">{{ trim((string)$rv->comment) !== '' ? $rv->comment : '(Không có nhận xét)' }}</div>
+                        <div class="small text-muted">{{ $rv->created_at->format('d/m/Y H:i') }}</div>
+                        <div>{{ $rv->comment }}</div>
                     </div>
                     @empty
                     <div class="text-muted small">Chưa có đánh giá</div>
@@ -129,7 +127,7 @@
 
             <!-- Khuyến mãi nổi bật -->
             <div class="promo-box mb-2">
-                <span class="promo-label">Áp dụng mã khuyến mãi giảm 15k khi mua đơn hàng 250k</span>
+                <span class="promo-label">Áp dụng mã khuyến mãi giảm 5% khi mua hàng từ 10/10</span>
                 <span class="promo-label">Mua để nhận quà</span>
             </div>
             @if($product->stock == 1)
@@ -147,7 +145,7 @@
                     $totalPrice = $product->price * 1; // Số lượng mặc định là 1, có thể thay bằng biến qty nếu có
                 @endphp
                 <div class="mb-3 w-100">
-                        <!-- Quantity and buttons section on new line -->
+                        <!-- Quantity and buttons section -->
                         <div class="d-flex align-items-center gap-3">
                             <label for="qtyInput" style="margin-bottom:0;font-weight:500;">Số lượng:</label>
                             @include('components.quantity-selector', [
@@ -158,26 +156,27 @@
                             ])
                             <form method="POST" action="{{ route('cart.add', $product->id) }}"
                                 style="margin-bottom:0;"
-                                id="addToCartForm"
+                                onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value; this.querySelector('input[name=voucher]').value=document.getElementById('voucherSelect').value;"
                             >
                                 @csrf
-                                <input type="hidden" name="qty" value="1" id="addToCartQty">
+                                <input type="hidden" name="qty" value="1">
+                                <input type="hidden" name="voucher" value="">
                                 <button class="btn btn-shopee  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
                                     <i class="bi bi-bag-plus me-1"></i> Thêm vào giỏ
                                 </button>
                             </form>
                             <form method="POST" action="{{ route('cart.buynow', $product->id) }}"
                                 style="margin-bottom:0;"
-                                id="buyNowForm"
+                                onsubmit="this.querySelector('input[name=qty]').value=document.getElementById('qtyInput').value; this.querySelector('input[name=voucher]').value=document.getElementById('voucherSelect').value;"
                             >
                                 @csrf
-                                <input type="hidden" name="qty" value="1" id="buyNowQty">
+                                <input type="hidden" name="qty" value="1">
+                                <input type="hidden" name="voucher" value="">
                                 <button class="btn btn-shopee  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
                                     <i class="bi bi-lightning-charge"></i> Mua ngay
                                 </button>
                             </form>
                         </div>
-                        <!-- Bỏ hiển thị tổng tiền -->
                 </div>
                 
             </div>
@@ -479,6 +478,7 @@
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     document.getElementById('modalImage').src = images[currentIndex];
   }
+<<<<<<< Updated upstream
 
   // Cập nhật tổng tiền khi thay đổi số lượng
   document.addEventListener('DOMContentLoaded', function() {

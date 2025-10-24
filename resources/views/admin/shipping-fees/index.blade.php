@@ -434,8 +434,8 @@ $(document).ready(function() {
     toggleFreeShipping();
     toggleFreeShipping('edit');
 
-    // Handle form submissions
-    $('#addShippingFeeModal form, #editShippingFeeModal form, #deleteShippingFeeModal form, #bulkDeleteModal form').on('submit', function(e) {
+    // Handle form submissions - Using event delegation for better compatibility
+    $(document).on('submit', '#addShippingFeeModal form, #editShippingFeeModal form, #deleteShippingFeeModal form, #bulkDeleteModal form', function(e) {
         e.preventDefault();
         e.stopPropagation();
         
@@ -444,7 +444,11 @@ $(document).ready(function() {
         const formData = $form.serialize();
         const modalId = $form.closest('.modal').attr('id');
         
-        console.log('Form submitted:', {url, modalId, formData}); // Debug
+        console.log('🚀 Form submitted:', {url, modalId, formData}); // Debug
+        
+        // Disable submit button to prevent double submission
+        const $submitBtn = $form.find('button[type="submit"]');
+        $submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Đang xử lý...');
 
         $.ajax({
             url: url,
@@ -454,7 +458,17 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                console.log('Success response:', response); // Debug
+                console.log('✅ Success response:', response); // Debug
+                
+                // Re-enable submit button
+                $submitBtn.prop('disabled', false);
+                if (modalId === 'editShippingFeeModal') {
+                    $submitBtn.html('Cập nhật');
+                } else if (modalId === 'deleteShippingFeeModal' || modalId === 'bulkDeleteModal') {
+                    $submitBtn.html('Xóa');
+                } else {
+                    $submitBtn.html('Lưu');
+                }
                 
                 // Close modal - Simple approach
                 $(`#${modalId}`).hide();
@@ -462,7 +476,7 @@ $(document).ready(function() {
                 $('body').removeClass('modal-open').css('padding-right', '');
                 
                 // Reload table
-                table.ajax.reload(null, false);
+                window.shippingFeesTable.ajax.reload(null, false);
                 
                 // Reset checkboxes
                 $('.shipping-fee-checkbox').prop('checked', false);
@@ -472,32 +486,67 @@ $(document).ready(function() {
                 // Reset form
                 $form[0].reset();
                 
-                // Show success message
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công!',
-                    text: response.message || 'Thao tác thành công!',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+                // Show success Toast notification
+                if (typeof Swal !== 'undefined') {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message || 'Thao tác thành công!'
+                    });
+                } else {
+                    console.warn('SweetAlert2 not loaded');
+                }
             },
             error: function(xhr) {
-                console.error('Error response:', xhr); // Debug
+                console.error('❌ Error response:', xhr); // Debug
+                
+                // Re-enable submit button
+                $submitBtn.prop('disabled', false);
+                if (modalId === 'editShippingFeeModal') {
+                    $submitBtn.html('Cập nhật');
+                } else if (modalId === 'deleteShippingFeeModal' || modalId === 'bulkDeleteModal') {
+                    $submitBtn.html('Xóa');
+                } else {
+                    $submitBtn.html('Lưu');
+                }
                 
                 let message = 'Có lỗi xảy ra!';
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     message = xhr.responseJSON.message;
                 } else if (xhr.responseJSON && xhr.responseJSON.errors) {
                     const errors = Object.values(xhr.responseJSON.errors).flat();
-                    message = errors.join('\n');
+                    message = errors.join('<br>');
                 }
                 
+                // Show error Toast notification
                 if (typeof Swal !== 'undefined') {
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    
+                    Toast.fire({
                         icon: 'error',
                         title: 'Lỗi!',
-                        text: message,
-                        showConfirmButton: true
+                        html: message
                     });
                 } else {
                     alert(message);
@@ -508,7 +557,7 @@ $(document).ready(function() {
 
     // Reload table after operations
     window.addEventListener('shipping-fee-updated', function() {
-        table.ajax.reload(null, false);
+        window.shippingFeesTable.ajax.reload(null, false);
         $('.shipping-fee-checkbox').prop('checked', false);
         $('#selectAll').prop('checked', false);
         updateBulkDeleteButton();

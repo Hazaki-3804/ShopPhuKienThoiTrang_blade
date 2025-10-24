@@ -228,53 +228,39 @@ $(document).ready(function() {
             data: form.serialize(),
             success: function(response) {
                 if (response.success) {
-                    // Show success message
-                    showToast('success', response.message);
+                    // Show success message using AjaxFormHandler
+                    if (typeof AjaxFormHandler !== 'undefined') {
+                        AjaxFormHandler.showToast(response.message, 'success');
+                    }
                     
-                    // Redirect after 1 second
+                    // Redirect after 1.5 seconds
                     setTimeout(function() {
                         window.location.href = response.redirect;
-                    }, 1000);
+                    }, 1500);
                 }
             },
             error: function(xhr) {
                 submitBtn.prop('disabled', false).html(originalText);
                 
-                if (xhr.status === 422) {
+                let message = 'Có lỗi xảy ra!';
+                if (xhr.status === 422 && xhr.responseJSON.errors) {
                     // Validation errors
                     const errors = xhr.responseJSON.errors;
-                    let errorMessage = '';
+                    const errorList = [];
                     for (let field in errors) {
-                        errorMessage += errors[field][0] + '<br>';
+                        errorList.push(errors[field][0]);
                     }
-                    showToast('danger', errorMessage);
-                } else {
-                    const message = xhr.responseJSON?.message || 'Có lỗi xảy ra!';
-                    showToast('danger', message);
+                    message = errorList.join('<br>');
+                } else if (xhr.responseJSON?.message) {
+                    message = xhr.responseJSON.message;
+                }
+                
+                if (typeof AjaxFormHandler !== 'undefined') {
+                    AjaxFormHandler.showToast(message, 'danger');
                 }
             }
         });
     });
-
-    function showToast(type, message) {
-        const toast = `
-            <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            </div>
-        `;
-        
-        $('.toast-container').append(toast);
-        const toastElement = $('.toast-container .toast').last();
-        const bsToast = new bootstrap.Toast(toastElement[0]);
-        bsToast.show();
-        
-        setTimeout(() => toastElement.remove(), 5000);
-    }
 
     // Update end date minimum when start date changes
     $('#start_date').on('change', function() {

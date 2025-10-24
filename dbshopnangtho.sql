@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< Updated upstream:dbshopnangtho.sql
 -- Generation Time: Oct 24, 2025 at 04:46 AM
+=======
+-- Generation Time: Oct 24, 2025 at 09:46 AM
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,7 +64,11 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 ('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:50:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:17:\"manage categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:13:\"manage orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:16:\"manage discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:20:\"manage shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:14:\"manage reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:14:\"view discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:16:\"create discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:14:\"edit discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:16:\"delete discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"create orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:11:\"edit orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"delete orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:37;a:4:{s:1:\"a\";i:38;s:1:\"b\";s:12:\"edit reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:38;a:4:{s:1:\"a\";i:39;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:39;a:4:{s:1:\"a\";i:40;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:40;a:4:{s:1:\"a\";i:41;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:41;a:4:{s:1:\"a\";i:42;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:42;a:4:{s:1:\"a\";i:43;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:43;a:4:{s:1:\"a\";i:44;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:44;a:4:{s:1:\"a\";i:45;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:45;a:4:{s:1:\"a\";i:46;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:46;a:4:{s:1:\"a\";i:47;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:47;a:4:{s:1:\"a\";i:48;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:48;a:4:{s:1:\"a\";i:49;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:49;a:4:{s:1:\"a\";i:50;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:11:\"Nhân viên\";s:1:\"c\";s:3:\"web\";}}}', 1761343810);
+=======
+('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:0:{}s:11:\"permissions\";a:0:{}s:5:\"roles\";a:0:{}}', 1761321729);
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -92,9 +100,15 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (2, 9, '2025-10-09 07:02:37', '2025-10-09 07:02:37'),
 (4, 5, '2025-10-22 17:46:58', '2025-10-22 17:46:58'),
 (6, 2, '2025-10-24 00:22:06', '2025-10-24 00:22:06');
+=======
+(1, 2, '2025-09-24 01:37:45', '2025-09-24 01:37:45'),
+(3, 14, '2025-10-23 06:51:23', '2025-10-23 06:51:23'),
+(4, 15, '2025-10-23 10:04:43', '2025-10-23 10:04:43');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -117,8 +131,12 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `voucher`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (50, 4, 15, 1, NULL, '2025-10-22 17:46:58', '2025-10-22 17:46:58'),
 (54, 6, 133, 1, NULL, '2025-10-24 00:41:54', '2025-10-24 00:41:54');
+=======
+(57, 3, 19, 1, NULL, '2025-10-23 16:24:53', '2025-10-23 16:24:53');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -145,7 +163,7 @@ INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `up
 (5, 'Túi xách', 'Túi xách, balo, ví nam nữ', 'tui_xach', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (10, 'Kẹp tóc', 'Kẹp tóc', 'kep-toc', '2025-09-20 00:33:39', '2025-09-20 01:18:54'),
 (11, 'Dây Chuyền', 'Dây Chuyền Thời Trang', 'day-chuyen', '2025-09-22 08:09:39', '2025-09-22 08:09:39'),
-(12, 'Vòng Tay', 'Vòng Tay Thời Trang', 'vong-tay', '2025-09-22 08:10:23', '2025-09-22 08:10:23');
+(12, 'Vòng Tay', 'Vòng Tay Thời Trang1', 'vong-tay', '2025-09-22 08:10:23', '2025-10-23 13:08:20');
 
 -- --------------------------------------------------------
 
@@ -173,7 +191,12 @@ CREATE TABLE `discounts` (
 --
 
 INSERT INTO `discounts` (`id`, `code`, `description`, `discount_type`, `discount_value`, `start_date`, `end_date`, `status`, `quantity`, `used_quantity`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-31', 1, 100, 1, '2025-10-09 06:14:51', '2025-10-23 06:13:50');
+=======
+(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-30', 1, 100, 4, '2025-10-09 06:14:51', '2025-10-23 14:58:11'),
+(15, 'GIAM10', 'da', 'percent', 10.00, '2025-10-25', '2025-11-12', 1, 99, 0, '2025-10-23 13:12:03', '2025-10-23 15:25:10');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -268,7 +291,18 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (23, '2025_10_09_140900_create_shipping_fees_table', 5),
 (24, '2025_10_10_070026_add_insurance_fee_to_orders_table', 6),
 (26, '2025_10_11_021739_add_quantity_to_discounts_table', 7),
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (27, '2025_10_21_131842_create_permission_tables', 8);
+=======
+(27, '2025_10_21_093300_add_shipping_fee_to_orders_table', 8),
+(28, '2025_10_21_131842_create_permission_tables', 8),
+(29, '2025_10_23_063000_create_banners_table', 9),
+(30, '2025_10_23_064500_add_guard_name_to_roles_table', 9),
+(31, '2025_10_23_092500_add_payos_vnpay_to_orders_payment_method', 10),
+(32, '2025_10_23_162650_add_payos_vnpay_to_orders_payment_method', 10),
+(33, '2025_10_23_193800_add_sepay_to_payment_method_enum', 11),
+(34, '2025_10_23_193916_add_sepay_to_payment_method_enum', 11);
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -282,6 +316,7 @@ CREATE TABLE `model_has_permissions` (
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+<<<<<<< Updated upstream:dbshopnangtho.sql
 --
 -- Dumping data for table `model_has_permissions`
 --
@@ -293,6 +328,8 @@ INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) 
 (39, 'App\\Models\\User', 5),
 (40, 'App\\Models\\User', 5);
 
+=======
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 -- --------------------------------------------------------
 
 --
@@ -310,11 +347,16 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (1, 'App\\Models\\User', 2),
 (2, 'App\\Models\\User', 5),
 (2, 'App\\Models\\User', 9),
 (2, 'App\\Models\\User', 13),
 (2, 'App\\Models\\User', 14);
+=======
+(1, 'App\\Models\\User', 14),
+(3, 'App\\Models\\User', 15);
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -331,12 +373,20 @@ CREATE TABLE `orders` (
   `total_price` decimal(10,2) NOT NULL,
   `status` enum('pending','processing','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
   `shipping_address` varchar(255) NOT NULL,
+<<<<<<< Updated upstream:dbshopnangtho.sql
   `payment_method` enum('cod','momo','vnpay','payos') NOT NULL DEFAULT 'cod',
+=======
+  `payment_method` enum('cod','bank','momo','paypal','payos','vnpay','sepay') NOT NULL DEFAULT 'cod',
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
   `discount_id` bigint(20) UNSIGNED DEFAULT NULL,
   `discount_code` varchar(50) DEFAULT NULL,
   `discount_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
   `insurance_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+<<<<<<< Updated upstream:dbshopnangtho.sql
   `shipping_fee` float DEFAULT NULL,
+=======
+  `shipping_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -346,6 +396,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `shipping_fee`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (33, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 183000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 15:32:02', '2025-10-22 15:32:02'),
 (34, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 16:23:04', '2025-10-22 16:23:04'),
 (35, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'delivered', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 16:23:23', '2025-09-22 16:23:23'),
@@ -356,6 +407,49 @@ INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `custo
 (40, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', 'Định Thới B, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-24 00:08:51', '2025-10-24 00:08:51'),
 (41, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', 'Định Thới B, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-24 00:10:50', '2025-10-24 00:10:50'),
 (42, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 191500.00, 'pending', '123, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 12500, '2025-10-24 00:35:34', '2025-10-24 00:35:34');
+=======
+(1, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 309000.00, 'delivered', '259/28', 'cod', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-07 00:47:36', '2025-10-23 09:43:10'),
+(2, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 274000.00, 'processing', 'Phường 9', 'cod', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-07 00:53:40', '2025-10-23 13:04:34'),
+(3, 2, 'Trương Minh Thư', 'minhthu@gmail.com', '03219313131', 340000.00, 'pending', 'Nhà Trọ Ngọc hân', 'cod', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
+(4, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 649000.00, 'pending', '259/12, Phường Long Châu, Vĩnh Long', 'cod', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(5, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 200050.00, 'pending', 'aaa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'SALE30K', 8950.00, 0.00, 0.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
+(7, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 793750.00, 'pending', '259/29, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 41250.00, 0.00, 0.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
+(8, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 770000.00, 'pending', '255, Xã Hiếu Phụng, Vĩnh Long', 'cod', 1, 'GIAM5%', 40000.00, 0.00, 0.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
+(9, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 523950.00, 'processing', '259/28, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 26850.00, 1300.00, 0.00, '2025-10-10 19:14:20', '2025-10-10 19:15:19'),
+(10, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 185800.00, 'pending', 'a, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 8200.00, 0.00, 0.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
+(11, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 280800.00, 'delivered', 'aa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 13200.00, 0.00, 0.00, '2025-10-10 19:30:01', '2025-10-10 19:31:03'),
+(12, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 318800.00, 'pending', '123, Phường Long Châu, Vĩnh Long', 'cod', NULL, NULL, 0.00, 1300.00, 12500.00, '2025-10-23 09:06:43', '2025-10-23 09:06:43'),
+(13, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 273850.00, 'pending', 'Đường Phạm Hùng, Phường Long Châu, Vĩnh Long', 'cod', NULL, NULL, 0.00, 1300.00, 12550.00, '2025-10-23 09:14:01', '2025-10-23 09:14:01'),
+(14, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 301300.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 1300.00, 40000.00, '2025-10-23 09:14:38', '2025-10-23 09:14:38'),
+(15, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 431300.00, 'pending', '256, Phường Thục Phán, Cao Bằng', 'cod', NULL, NULL, 0.00, 1300.00, 40000.00, '2025-10-23 09:15:07', '2025-10-23 09:15:07'),
+(16, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 142550.00, 'delivered', 'Đường Phạm Hùng, Phường Long Châu, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 12550.00, '2025-10-23 09:27:30', '2025-10-23 09:43:55'),
+(17, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 142550.00, 'pending', 'Đường Phạm Hùng, Phường Long Châu, Vĩnh Long', 'vnpay', NULL, NULL, 0.00, 0.00, 12550.00, '2025-10-23 09:34:05', '2025-10-23 09:34:05'),
+(18, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 163500.00, 'pending', '256, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 6500.00, 0.00, 40000.00, '2025-10-23 09:35:51', '2025-10-23 09:35:51'),
+(19, 15, 'Lê Minh Hà', 'giadat180104@gmail.com', '0932131311', 164800.00, 'pending', '259, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 6500.00, 1300.00, 40000.00, '2025-10-23 10:05:12', '2025-10-23 10:05:12'),
+(20, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 142550.00, 'pending', 'Đường Phạm Hùng, Phường Long Châu, Vĩnh Long', 'sepay', NULL, NULL, 0.00, 0.00, 12550.00, '2025-10-23 12:41:19', '2025-10-23 12:41:19'),
+(21, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 170000.00, 'pending', '254, Phường Thục Phán, Cao Bằng', 'sepay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 12:50:30', '2025-10-23 12:50:30'),
+(22, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 170000.00, 'pending', '254, Phường Thục Phán, Cao Bằng', 'sepay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 12:51:41', '2025-10-23 12:51:41'),
+(23, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 170000.00, 'pending', '256, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 12:52:41', '2025-10-23 12:52:41'),
+(24, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 32000.00, 'pending', '256, Phường Hoàn Kiếm, Thành phố Hà Nội, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 30000.00, '2025-10-23 12:56:15', '2025-10-23 12:56:15'),
+(25, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 183000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 14:32:33', '2025-10-23 14:32:33'),
+(26, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 490000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 14:49:06', '2025-10-23 14:49:06'),
+(27, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 215000.00, 'pending', '65, Phường Hoàn Kiếm, Thành phố Hà Nội', 'vnpay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 14:49:42', '2025-10-23 14:49:42'),
+(28, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 187550.00, 'pending', 'Đường Phạm Hùng, Phường Long Châu, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 12550.00, '2025-10-23 14:54:37', '2025-10-23 14:54:37'),
+(29, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 187550.00, 'pending', 'Đường Phạm Hùng, Phường Long Châu, Vĩnh Long', 'vnpay', NULL, NULL, 0.00, 0.00, 12550.00, '2025-10-23 14:54:56', '2025-10-23 14:54:56'),
+(30, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 207550.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', 1, 'GIAM5%', 8750.00, 1300.00, 40000.00, '2025-10-23 14:58:11', '2025-10-23 14:58:11'),
+(31, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 215000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 15:10:12', '2025-10-23 15:10:12'),
+(32, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 215000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 15:12:09', '2025-10-23 15:12:09'),
+(33, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 215000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'vnpay', NULL, NULL, 0.00, 0.00, 40000.00, '2025-10-23 15:14:31', '2025-10-23 15:14:31'),
+(34, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 18:57:20', '2025-10-23 18:57:20'),
+(35, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 19:04:14', '2025-10-23 19:04:14'),
+(36, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 19:07:20', '2025-10-23 19:07:20'),
+(37, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 19:14:58', '2025-10-23 19:14:58'),
+(38, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'processing', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 19:19:40', '2025-10-23 19:24:38'),
+(39, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-23 19:27:15', '2025-10-23 19:27:15'),
+(40, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'momo', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-24 07:04:10', '2025-10-24 07:04:10'),
+(41, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'sepay', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-24 07:07:30', '2025-10-24 07:07:30'),
+(42, 14, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861736', 2000.00, 'pending', '25, Phường Hoàn Kiếm, Thành phố Hà Nội', 'momo', NULL, NULL, 0.00, 0.00, 0.00, '2025-10-24 07:22:19', '2025-10-24 07:22:19');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -378,6 +472,7 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (39, 33, 23, 1, 153000.00, '2025-10-22 15:32:02', '2025-10-22 15:32:02'),
 (40, 34, 13, 1, 130000.00, '2025-10-22 16:23:05', '2025-10-22 16:23:05'),
 (41, 35, 13, 1, 130000.00, '2025-10-22 16:23:23', '2025-10-22 16:23:23'),
@@ -388,6 +483,56 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, 
 (46, 40, 18, 1, 99000.00, '2025-10-24 00:08:51', '2025-10-24 00:08:51'),
 (47, 41, 18, 1, 99000.00, '2025-10-24 00:10:50', '2025-10-24 00:10:50'),
 (48, 42, 22, 1, 179000.00, '2025-10-24 00:35:34', '2025-10-24 00:35:34');
+=======
+(1, 1, 143, 1, 164000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
+(2, 1, 19, 1, 160000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
+(3, 2, 25, 1, 159000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
+(4, 2, 26, 1, 130000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
+(5, 3, 17, 1, 165000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
+(6, 3, 16, 1, 175000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
+(7, 4, 32, 1, 175000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(8, 4, 19, 1, 160000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(9, 4, 143, 1, 164000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(10, 4, 21, 1, 150000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
+(11, 5, 22, 1, 179000.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
+(13, 7, 17, 5, 165000.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
+(14, 8, 19, 5, 160000.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
+(15, 9, 22, 3, 179000.00, '2025-10-10 19:14:20', '2025-10-10 19:14:20'),
+(16, 10, 143, 1, 164000.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
+(17, 11, 30, 4, 66000.00, '2025-10-10 19:30:01', '2025-10-10 19:30:01'),
+(18, 12, 32, 1, 175000.00, '2025-10-23 09:06:43', '2025-10-23 09:06:43'),
+(19, 12, 13, 1, 130000.00, '2025-10-23 09:06:43', '2025-10-23 09:06:43'),
+(20, 13, 13, 2, 130000.00, '2025-10-23 09:14:01', '2025-10-23 09:14:01'),
+(21, 14, 13, 2, 130000.00, '2025-10-23 09:14:38', '2025-10-23 09:14:38'),
+(22, 15, 13, 3, 130000.00, '2025-10-23 09:15:07', '2025-10-23 09:15:07'),
+(23, 16, 13, 1, 130000.00, '2025-10-23 09:27:30', '2025-10-23 09:27:30'),
+(24, 17, 13, 1, 130000.00, '2025-10-23 09:34:05', '2025-10-23 09:34:05'),
+(25, 18, 13, 1, 130000.00, '2025-10-23 09:35:51', '2025-10-23 09:35:51'),
+(26, 19, 13, 1, 130000.00, '2025-10-23 10:05:12', '2025-10-23 10:05:12'),
+(27, 20, 13, 1, 130000.00, '2025-10-23 12:41:19', '2025-10-23 12:41:19'),
+(28, 21, 13, 1, 130000.00, '2025-10-23 12:50:30', '2025-10-23 12:50:30'),
+(29, 22, 13, 1, 130000.00, '2025-10-23 12:51:42', '2025-10-23 12:51:42'),
+(30, 23, 13, 1, 130000.00, '2025-10-23 12:52:41', '2025-10-23 12:52:41'),
+(31, 24, 67, 1, 2000.00, '2025-10-23 12:56:15', '2025-10-23 12:56:15'),
+(32, 25, 23, 1, 153000.00, '2025-10-23 14:32:33', '2025-10-23 14:32:33'),
+(33, 26, 111, 1, 450000.00, '2025-10-23 14:49:06', '2025-10-23 14:49:06'),
+(34, 27, 16, 1, 175000.00, '2025-10-23 14:49:42', '2025-10-23 14:49:42'),
+(35, 28, 16, 1, 175000.00, '2025-10-23 14:54:37', '2025-10-23 14:54:37'),
+(36, 29, 16, 1, 175000.00, '2025-10-23 14:54:56', '2025-10-23 14:54:56'),
+(37, 30, 16, 1, 175000.00, '2025-10-23 14:58:11', '2025-10-23 14:58:11'),
+(38, 31, 16, 1, 175000.00, '2025-10-23 15:10:12', '2025-10-23 15:10:12'),
+(39, 32, 16, 1, 175000.00, '2025-10-23 15:12:09', '2025-10-23 15:12:09'),
+(40, 33, 16, 1, 175000.00, '2025-10-23 15:14:31', '2025-10-23 15:14:31'),
+(41, 34, 19, 1, 2000.00, '2025-10-23 18:57:20', '2025-10-23 18:57:20'),
+(42, 35, 19, 1, 2000.00, '2025-10-23 19:04:14', '2025-10-23 19:04:14'),
+(43, 36, 19, 1, 2000.00, '2025-10-23 19:07:20', '2025-10-23 19:07:20'),
+(44, 37, 19, 1, 2000.00, '2025-10-23 19:14:58', '2025-10-23 19:14:58'),
+(45, 38, 19, 1, 2000.00, '2025-10-23 19:19:40', '2025-10-23 19:19:40'),
+(46, 39, 19, 1, 2000.00, '2025-10-23 19:27:15', '2025-10-23 19:27:15'),
+(47, 40, 19, 1, 2000.00, '2025-10-24 07:04:10', '2025-10-24 07:04:10'),
+(48, 41, 19, 1, 2000.00, '2025-10-24 07:07:30', '2025-10-24 07:07:30'),
+(49, 42, 19, 1, 2000.00, '2025-10-24 07:22:19', '2025-10-24 07:22:19');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -411,7 +556,11 @@ CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
   `amount` decimal(10,2) NOT NULL,
+<<<<<<< Updated upstream:dbshopnangtho.sql
   `payment_method` enum('cod','momo','vnpay','payos') NOT NULL,
+=======
+  `payment_method` enum('cod','bank','momo','paypal','payos','vnpay','sepay') NOT NULL,
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
   `status` enum('pending','completed','failed','refunded') NOT NULL DEFAULT 'pending',
   `transaction_code` varchar(100) DEFAULT NULL,
   `paid_at` timestamp NULL DEFAULT NULL,
@@ -424,11 +573,33 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`id`, `order_id`, `amount`, `payment_method`, `status`, `transaction_code`, `paid_at`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (1, 33, 183000.00, 'vnpay', 'completed', '15214826', '2025-10-22 15:34:04', '2025-10-22 15:33:53', '2025-10-22 15:33:53'),
 (2, 35, 160000.00, 'cod', 'completed', '15214826', '2025-09-30 20:11:22', '2025-10-22 16:23:23', '2025-10-22 16:23:23'),
 (3, 38, 170000.00, 'vnpay', 'completed', '15215404', '2025-10-23 06:23:17', '2025-10-23 06:21:42', '2025-10-23 06:21:42'),
 (4, 41, 0.00, 'payos', 'completed', '9d72719e0e8e4876a43205d57c2eb85a', '2025-10-24 00:21:16', '2025-10-24 00:21:16', '2025-10-24 00:21:16'),
 (5, 42, 191500.00, 'payos', 'completed', '22e2137dc04c4abc873140fe4b29ab07', '2025-10-24 00:46:51', '2025-10-24 00:46:51', '2025-10-24 00:46:51');
+=======
+(1, 12, 318800.00, 'cod', 'pending', NULL, NULL, '2025-10-23 09:06:44', '2025-10-23 09:06:44'),
+(2, 13, 273850.00, 'cod', 'pending', NULL, NULL, '2025-10-23 09:14:02', '2025-10-23 09:14:02'),
+(3, 14, 301300.00, 'cod', 'pending', NULL, NULL, '2025-10-23 09:14:38', '2025-10-23 09:14:38'),
+(4, 15, 431300.00, 'cod', 'pending', NULL, NULL, '2025-10-23 09:15:07', '2025-10-23 09:15:07'),
+(5, 18, 163500.00, 'cod', 'pending', NULL, NULL, '2025-10-23 09:35:52', '2025-10-23 09:35:52'),
+(6, 19, 164800.00, 'cod', 'pending', NULL, NULL, '2025-10-23 10:05:13', '2025-10-23 10:05:13'),
+(7, 26, 490000.00, 'cod', 'pending', NULL, NULL, '2025-10-23 14:49:07', '2025-10-23 14:49:07'),
+(8, 32, 215000.00, 'sepay', 'pending', 'SEPAY_32_1761232331', NULL, '2025-10-23 15:12:11', '2025-10-23 15:12:11'),
+(9, 32, 215000.00, 'sepay', 'pending', 'SEPAY_32_1761232338', NULL, '2025-10-23 15:12:18', '2025-10-23 15:12:18'),
+(10, 34, 2000.00, 'sepay', 'pending', 'SEPAY_34_1761245841', NULL, '2025-10-23 18:57:21', '2025-10-23 18:57:21'),
+(11, 35, 2000.00, 'sepay', 'pending', 'SEPAY_35_1761246255', NULL, '2025-10-23 19:04:15', '2025-10-23 19:04:15'),
+(12, 35, 2000.00, 'sepay', 'pending', 'SEPAY_35_1761246352', NULL, '2025-10-23 19:05:52', '2025-10-23 19:05:52'),
+(13, 36, 2000.00, 'sepay', 'pending', 'SEPAY_36_1761246442', NULL, '2025-10-23 19:07:22', '2025-10-23 19:07:22'),
+(14, 37, 2000.00, 'sepay', 'pending', 'SEPAY_37_1761246900', NULL, '2025-10-23 19:15:00', '2025-10-23 19:15:00'),
+(15, 37, 2000.00, 'sepay', 'pending', 'SEPAY_37_1761247019', NULL, '2025-10-23 19:16:59', '2025-10-23 19:16:59'),
+(16, 38, 2000.00, 'sepay', 'completed', 'SEPAY_38_1761247182', '2025-10-23 19:24:38', '2025-10-23 19:19:42', '2025-10-23 19:24:38'),
+(17, 38, 2000.00, 'sepay', 'pending', 'SEPAY_38_1761247476', NULL, '2025-10-23 19:24:36', '2025-10-23 19:24:36'),
+(18, 39, 2000.00, 'sepay', 'pending', 'SEPAY_39_1761247637', NULL, '2025-10-23 19:27:17', '2025-10-23 19:27:17'),
+(19, 41, 2000.00, 'sepay', 'pending', 'SEPAY_41_1761289651', NULL, '2025-10-24 07:07:31', '2025-10-24 07:07:31');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -444,6 +615,7 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+<<<<<<< Updated upstream:dbshopnangtho.sql
 --
 -- Dumping data for table `permissions`
 --
@@ -500,6 +672,8 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (49, 'lock/unlock customers', 'web', '2025-10-21 18:00:33', '2025-10-21 18:00:33'),
 (50, 'lock/unlock staffs', 'web', '2025-10-21 18:00:33', '2025-10-21 18:00:33');
 
+=======
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 -- --------------------------------------------------------
 
 --
@@ -523,6 +697,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `status`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 28, 1, '2025-09-23 12:45:45', '2025-10-22 16:23:23'),
 (14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 8, 1, '2025-09-23 12:45:54', '2025-10-23 06:21:14'),
 (15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 4, 1, '2025-09-23 12:46:08', '2025-10-22 17:47:13'),
@@ -534,6 +709,19 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (21, 5, 'B.202 Túi xách tay Little bow nơ nền ô vuông 14x29x38', '✨ Túi xách tay Little bow với thiết kế nền ô vuông độc đáo, mang lại sự trẻ trung và hiện đại.\r\n🎀 Điểm nhấn là chi tiết nơ nhỏ xinh phía trước, tạo vẻ nữ tính và tinh tế cho người dùng.\r\n📏 Kích thước: 14 x 29 x 38 cm, không gian rộng rãi, đựng được nhiều vật dụng như điện thoại, ví, sổ tay, mỹ phẩm…\r\n👜 Kiểu dáng xách tay/đeo vai, dễ phối hợp với nhiều phong cách, từ thanh lịch đến năng động.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, thích hợp sử dụng hàng ngày, đi học, đi làm hay dạo phố.', 150000.00, 24, 1, '2025-09-23 12:47:21', '2025-10-09 05:54:49'),
 (22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 15, 1, '2025-09-23 12:47:29', '2025-10-24 00:35:34'),
 (23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 32, 1, '2025-09-23 12:47:35', '2025-10-22 15:32:02'),
+=======
+(13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 24, 1, '2025-09-23 12:45:45', '2025-10-23 12:52:41'),
+(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 10, 1, '2025-09-23 12:45:54', '2025-09-23 12:46:04'),
+(15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 5, 1, '2025-09-23 12:46:08', '2025-09-23 12:46:12'),
+(16, 5, 'B.202 Túi đeo vải Basic Gentle Woman text dập nổi một màu 19x28', '✨ Túi đeo vải Basic với thiết kế tối giản, tinh tế.\r\n🖋️ Điểm nhấn độc đáo với dòng chữ Gentle Woman dập nổi trên nền một màu sang trọng.\r\n📏 Kích thước: 19 x 28 cm, vừa vặn để đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, phù hợp cho nhiều phong cách thời trang.\r\n🌸 Chất liệu vải cao cấp, bền đẹp, dễ phối đồ, mang lại sự thanh lịch cho người dùng.', 175000.00, 2, 1, '2025-09-23 12:46:17', '2025-10-23 15:14:31'),
+(17, 5, 'B.202 Túi đeo vải Gentle Woman text nổi quai lớn phối nơ hai bên 21x28', '✨ Túi đeo vải Gentle Woman với thiết kế hiện đại, tinh tế.\r\n🖋️ Điểm nhấn nổi bật với dòng chữ Gentle Woman dập nổi cùng quai bản lớn phối nơ hai bên duyên dáng.\r\n📏 Kích thước: 21 x 28 cm, thoải mái đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, dễ dàng kết hợp với nhiều phong cách thời trang.\r\n🌸 Chất liệu vải bền đẹp, mềm mại, mang lại sự thanh lịch và trẻ trung cho người dùng.', 165000.00, 24, 1, '2025-09-23 12:46:53', '2025-10-09 08:49:58'),
+(18, 5, 'B.202 Túi đeo vải Sanrio family Hello Kitty face phối quai màu 6x30x38', '✨ Túi đeo vải Sanrio Family với thiết kế đáng yêu, nổi bật hình Hello Kitty face xinh xắn.\r\n🖋️ Quai túi phối màu tinh tế, tạo điểm nhấn trẻ trung và dễ thương.\r\n📏 Kích thước: 6 x 30 x 38 cm, rộng rãi, có thể đựng sách vở, tài liệu, laptop mỏng, mỹ phẩm hoặc các vật dụng cá nhân.\r\n👜 Kiểu dáng đeo vai/đeo chéo tiện lợi, phù hợp cho đi học, đi làm hoặc dạo phố.\r\n🌸 Chất liệu vải bền đẹp, nhẹ nhàng, dễ phối đồ, đặc biệt phù hợp cho các bạn trẻ yêu thích phong cách cute – năng động.', 99000.00, 6, 1, '2025-09-23 12:47:00', '2025-09-23 12:47:04'),
+(19, 5, 'B.23 Túi xách tay Butterfly dây rút phối dây xích ngọc trai 8x17x25', '✨ Túi xách tay Butterfly với thiết kế dây rút độc đáo, mang lại nét nữ tính và thời thượng.\r\n🖋️ Điểm nhấn ấn tượng với dây xích ngọc trai phối tinh tế, vừa sang trọng vừa trẻ trung.\r\n📏 Kích thước: 8 x 17 x 25 cm, gọn gàng nhưng đủ chỗ cho điện thoại, ví, son phấn và các vật dụng cần thiết.\r\n👜 Có thể sử dụng như túi xách tay hoặc đeo vai tùy phong cách.\r\n🌸 Chất liệu vải bền đẹp, dễ phối đồ, phù hợp cho đi chơi, dự tiệc hay hẹn hò.', 2000.00, 1, 1, '2025-09-23 12:47:07', '2025-10-24 07:22:19'),
+(20, 5, 'B.23 Túi xách tay Bow nơ nền màu viền dày 5x13x22', '✨ Túi xách tay Bow nơ với thiết kế nền màu tinh tế, điểm nhấn viền dày tạo sự chắc chắn và sang trọng.\r\n🎀 Phối nơ xinh xắn ở mặt trước, mang lại vẻ nữ tính, ngọt ngào cho người dùng.\r\n📏 Kích thước: 5 x 13 x 22 cm, nhỏ gọn, thích hợp để đựng điện thoại, ví mini, son phấn và một vài vật dụng cần thiết.\r\n👜 Kiểu dáng xách tay/đeo vai, dễ dàng phối hợp với nhiều phong cách thời trang khác nhau.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, phù hợp cho đi chơi, hẹn hò hoặc dạo phố.', 160000.00, 14, 1, '2025-09-23 12:47:15', '2025-09-23 12:47:18'),
+(21, 5, 'B.202 Túi xách tay Little bow nơ nền ô vuông 14x29x38', '✨ Túi xách tay Little bow với thiết kế nền ô vuông độc đáo, mang lại sự trẻ trung và hiện đại.\r\n🎀 Điểm nhấn là chi tiết nơ nhỏ xinh phía trước, tạo vẻ nữ tính và tinh tế cho người dùng.\r\n📏 Kích thước: 14 x 29 x 38 cm, không gian rộng rãi, đựng được nhiều vật dụng như điện thoại, ví, sổ tay, mỹ phẩm…\r\n👜 Kiểu dáng xách tay/đeo vai, dễ phối hợp với nhiều phong cách, từ thanh lịch đến năng động.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, thích hợp sử dụng hàng ngày, đi học, đi làm hay dạo phố.', 150000.00, 24, 1, '2025-09-23 12:47:21', '2025-10-09 05:54:49'),
+(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 16, 1, '2025-09-23 12:47:29', '2025-10-10 19:14:20'),
+(23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 34, 1, '2025-09-23 12:47:35', '2025-10-23 14:32:33'),
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 (24, 5, 'B.202 Túi đeo vai Little things denim style 11x24x36', '👖 Túi đeo vai denim style cá tính với thiết kế Little Things trẻ trung, năng động.\r\n👜 Form túi chữ nhật mềm mại, mang hơi hướng retro, dễ phối với nhiều outfit thường ngày.\r\n📏 Kích thước: 11 x 24 x 36 cm, đủ rộng để đựng điện thoại, ví, sổ tay, mỹ phẩm và các vật dụng cần thiết.\r\n🌟 Quai vai bản vừa, chắc chắn, tạo cảm giác thoải mái khi sử dụng cả ngày.\r\n✨ Chất liệu vải denim bền đẹp, giữ form tốt, mang lại phong cách vừa giản dị vừa hiện đại.\r\n💙 Phù hợp cho đi học, đi chơi, dạo phố hay du lịch nhẹ nhàng.', 180000.00, 10, 1, '2025-09-23 12:47:44', '2025-09-23 12:47:47'),
 (25, 5, 'B.23 Túi xách tay da lộn Basic color dây bện 9x18x23', '✨ Túi xách tay Basic Color được làm từ chất liệu da lộn mềm mại, mang lại cảm giác sang trọng và thời thượng.\r\n👜 Thiết kế nhỏ gọn với kích thước 9 x 18 x 23 cm, vừa vặn để đựng điện thoại, ví, son và các vật dụng cần thiết.\r\n🌸 Điểm nhấn tinh tế với dây bện độc đáo, tạo sự khác biệt cho phong cách tối giản.\r\n🎀 Form túi cứng cáp, giữ dáng tốt, dễ phối với nhiều outfit từ thanh lịch đến casual.\r\n💼 Phù hợp cho đi làm, đi chơi, hẹn hò hay những buổi gặp gỡ nhẹ nhàng.', 159000.00, 1, 1, '2025-09-23 12:47:51', '2025-10-07 00:53:40'),
 (26, 5, 'B.202 Túi xách tay vải nhung tăm Bow nơ ô vuông 8x14x22', '✨ Túi xách tay vải nhung tăm với chất liệu mềm mại, mang lại cảm giác ấm áp và sang trọng.\r\n🎀 Thiết kế nổi bật với nơ ô vuông tinh tế, tạo điểm nhấn nữ tính và dễ thương.\r\n📏 Kích thước 8 x 14 x 22 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví tiền, son và những vật dụng cần thiết hàng ngày.\r\n👜 Kiểu dáng thanh lịch, phù hợp mang đi chơi, dạo phố hay dự tiệc nhẹ.\r\n🌸 Dễ dàng kết hợp với nhiều phong cách thời trang, từ trẻ trung đến dịu dàng.', 130000.00, 2, 1, '2025-09-23 12:47:56', '2025-10-07 00:53:40'),
@@ -542,7 +730,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (29, 5, 'B.202 Túi đeo vai gấp gọn Black cat have a good day 40x61', '✨ Túi đeo vai gấp gọn với hình ảnh mèo đen Black Cat kèm dòng chữ \"Have a Good Day\", mang lại cảm giác đáng yêu nhưng vẫn cá tính.\r\n🎒 Kích thước 40 x 61 cm, siêu rộng rãi, đựng được quần áo, sách vở, đồ tập gym hoặc dùng đi du lịch, đi chợ, đi chơi cuối tuần.\r\n👜 Thiết kế có thể gấp gọn lại khi không sử dụng, cực kỳ tiện lợi để bỏ balo hoặc mang theo bên mình.\r\n🌸 Chất liệu vải bền, nhẹ, dễ giặt, phù hợp cho nhiều nhu cầu hằng ngày.\r\n💖 Sản phẩm vừa thời trang, vừa tiện ích, dành cho những ai yêu thích phong cách trẻ trung, linh hoạt.', 66000.00, 10, 1, '2025-09-23 12:48:21', '2025-09-23 12:48:24'),
 (30, 5, 'B.202 Túi đeo vai gấp gọn Hi puppy dog fruit 37x56', '✨ Túi đeo vai gấp gọn với họa tiết chú chó con Hi Puppy Dog kết hợp hoa quả đầy màu sắc, mang lại cảm giác tươi vui và năng động.\r\n🎒 Kích thước 37 x 56 cm, rộng rãi để đựng quần áo, sách vở, đồ tập gym, đi chơi hay đi siêu thị.\r\n👜 Thiết kế gấp gọn tiện lợi, dễ dàng bỏ vào balo, túi xách nhỏ hoặc vali khi không sử dụng.\r\n🌸 Chất liệu vải bền đẹp, nhẹ, dễ giặt, phù hợp cho nhiều hoạt động thường ngày và du lịch ngắn ngày.\r\n💖 Lựa chọn hoàn hảo cho những ai yêu thích phong cách trẻ trung, dễ thương và tiện dụng.', 66000.00, 21, 1, '2025-09-23 12:48:32', '2025-10-10 19:30:01'),
 (31, 5, 'Túi đeo da Bow nơ 1 màu 14x20', '✨ Túi đeo da với thiết kế tối giản, 1 màu sang trọng, dễ dàng phối cùng nhiều trang phục.\r\n🎀 Điểm nhấn nổi bật là chi tiết nơ xinh xắn phía trước, mang lại nét nữ tính và thanh lịch.\r\n📏 Kích thước 14 x 20 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví, son và các vật dụng cần thiết hằng ngày.\r\n👜 Quai đeo chắc chắn, có thể sử dụng đeo vai hoặc đeo chéo, tiện lợi trong nhiều hoàn cảnh.\r\n🌸 Chất liệu da mềm mịn, bền đẹp, tôn lên sự tinh tế cho phong cách thời trang của bạn.', 185000.00, 30, 1, '2025-09-23 12:48:43', '2025-09-23 12:48:46'),
-(32, 5, 'Túi đeo da Sanrio family Hello Kitty face cắt hình kèm móc 11x15', '✨ Túi đeo da với thiết kế Sanrio Family – Hello Kitty dễ thương, được cắt hình mặt mèo nổi bật.\r\n🎀 Đi kèm móc trang trí tiện lợi, có thể treo chìa khóa, charm hoặc phụ kiện nhỏ xinh.\r\n📏 Kích thước 11 x 15 cm, nhỏ gọn, thích hợp để đựng điện thoại mini, thẻ, tiền mặt hoặc son môi.\r\n👜 Thiết kế quai đeo chắc chắn, phù hợp mang theo khi đi chơi, dạo phố hoặc hẹn hò.\r\n🌸 Chất liệu da mềm, bền đẹp, kết hợp với phong cách cute – trẻ trung, cực kỳ thích hợp cho các fan Hello Kitty.', 175000.00, 10, 1, '2025-09-23 12:48:54', '2025-10-09 07:02:47'),
+(32, 5, 'Túi đeo da Sanrio family Hello Kitty face cắt hình kèm móc 11x15', '✨ Túi đeo da với thiết kế Sanrio Family – Hello Kitty dễ thương, được cắt hình mặt mèo nổi bật.\r\n🎀 Đi kèm móc trang trí tiện lợi, có thể treo chìa khóa, charm hoặc phụ kiện nhỏ xinh.\r\n📏 Kích thước 11 x 15 cm, nhỏ gọn, thích hợp để đựng điện thoại mini, thẻ, tiền mặt hoặc son môi.\r\n👜 Thiết kế quai đeo chắc chắn, phù hợp mang theo khi đi chơi, dạo phố hoặc hẹn hò.\r\n🌸 Chất liệu da mềm, bền đẹp, kết hợp với phong cách cute – trẻ trung, cực kỳ thích hợp cho các fan Hello Kitty.', 175000.00, 9, 1, '2025-09-23 12:48:54', '2025-10-23 09:06:43'),
 (33, 2, 'A.806 Bộ móng tay giả đính chi tiết nổi Bow nơ star nền kẻ ô kèm keo S251 set10', '💅 Bộ móng tay giả thời trang với thiết kế nền kẻ ô độc đáo, điểm xuyết chi tiết nổi Bow nơ và Star đầy tinh tế.\r\n✨ Phối màu Mix trẻ trung – hiện đại, phù hợp cho nhiều phong cách từ ngọt ngào dễ thương đến cá tính sành điệu.\r\n📦 Set gồm 10 móng + keo dán tiện lợi, giúp bạn dễ dàng gắn và tháo tại nhà mà không làm hại móng thật.\r\n🌸 Chất liệu móng cao cấp, bề mặt bóng mịn, ôm khít ngón tay và tạo cảm giác tự nhiên khi đeo.\r\n🌟 Thích hợp dùng khi đi tiệc, hẹn hò, chụp ảnh hoặc thay đổi diện mạo hằng ngày mà không cần ra tiệm nail.', 55000.00, 9, 1, '2025-09-23 12:49:11', '2025-09-23 12:49:17'),
 (34, 2, 'A.806 Bộ móng tay giả đính chi tiết nổi Bow nơ star nền màu sắc kèm keo S252 set10', '💅 Bộ móng tay giả với thiết kế Bow nơ và Star nổi bật trên nền màu sắc trẻ trung, tạo điểm nhấn độc đáo và cuốn hút.\r\n✨ Phối màu Mix đa dạng, dễ dàng kết hợp với nhiều phong cách thời trang khác nhau từ ngọt ngào, nữ tính đến cá tính, hiện đại.\r\n📦 Set gồm 10 móng + keo dán tiện lợi, dễ sử dụng, giúp bạn thay đổi diện mạo nhanh chóng ngay tại nhà.\r\n🌸 Chất liệu móng cao cấp, bền đẹp, bề mặt bóng mịn và ôm khít, mang lại cảm giác tự nhiên khi đeo.\r\n🌟 Phù hợp dùng khi đi tiệc, dạo phố, hẹn hò hay chụp ảnh, giúp bạn luôn nổi bật và tự tin.', 55000.00, 40, 1, '2025-09-23 12:49:20', '2025-09-23 12:49:23'),
 (35, 2, 'A.806 Bộ móng tay giả đính chi tiết nổi Sanrio family Hello Kitty face bow star kèm keo S184 set10', '💅 Bộ móng tay giả cao cấp lấy cảm hứng từ Sanrio Family – Hello Kitty dễ thương, kết hợp chi tiết Bow nơ và Star nổi bật.\r\n✨ Thiết kế Mix độc đáo, mang lại sự trẻ trung, đáng yêu nhưng vẫn thời trang và nổi bật.\r\n📦 Set gồm 10 móng + keo dán tiện lợi, dễ dàng sử dụng tại nhà, giúp bạn nhanh chóng sở hữu đôi tay xinh xắn mà không cần ra tiệm.\r\n🌸 Chất liệu móng cao cấp, bền đẹp, ôm khít tự nhiên, không gây khó chịu khi đeo.\r\n🌟 Phù hợp cho nhiều dịp: đi chơi, chụp ảnh, dự tiệc hay hẹn hò, giúp bạn thêm phần tự tin và cuốn hút.', 55000.00, 45, 1, '2025-09-23 12:49:36', '2025-09-23 12:49:39'),
@@ -575,7 +763,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (64, 11, 'Dây chuyền mạ bạc Heart trái tim đính đá phối xích lớn', '🎀 Dây chuyền mạ bạc Heart với mặt trái tim đính đá lấp lánh, kết hợp xích lớn cá tính, nổi bật.\r\n✨ Phong cách hiện đại, thời thượng, phù hợp đi chơi, dự tiệc hoặc làm điểm nhấn cho trang phục hàng ngày.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n❤️ Điểm nhấn từ đá lấp lánh và xích lớn tạo vẻ nổi bật, sang trọng và cuốn hút.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 50000.00, 60, 1, '2025-09-22 08:18:16', '2025-09-22 08:18:16'),
 (65, 11, 'Dây chuyền mạ bạc Star thả ngôi sao đính đá', '🎀 Dây chuyền mạ bạc Star với mặt thả ngôi sao đính đá lấp lánh, mang phong cách trẻ trung và tinh tế.\r\n✨ Phù hợp đi học, đi chơi hoặc dự tiệc, tạo điểm nhấn nổi bật cho trang phục.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Chi tiết ngôi sao đính đá tinh xảo, tạo vẻ lấp lánh, cuốn hút.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm nhỏ gọn, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 50000.00, 32, 1, '2025-09-22 08:18:16', '2025-09-22 08:18:16'),
 (66, 11, 'Dây chuyền mạ bạc Star ngôi sao ngọc trai phối xích lớn', '🎀 Dây chuyền mạ bạc Star với mặt ngôi sao kết hợp ngọc trai và xích lớn cá tính, tạo phong cách nổi bật và sang trọng.\r\n✨ Phù hợp đi chơi, dự tiệc hoặc làm điểm nhấn cho trang phục hàng ngày.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Điểm nhấn từ ngôi sao và ngọc trai kết hợp xích lớn tạo vẻ cuốn hút, thời thượng.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 5000.00, 40, 1, '2025-09-22 08:18:16', '2025-09-22 08:18:16'),
-(67, 11, 'Dây chuyền mạ bạc Star ngôi sao đính đá phối mắt xích lớn', '🎀 Dây chuyền mạ bạc Star với mặt ngôi sao đính đá lấp lánh, kết hợp mắt xích lớn cá tính và nổi bật.\r\n✨ Phong cách hiện đại, trẻ trung, phù hợp đi chơi, dự tiệc hoặc làm điểm nhấn cho trang phục hàng ngày.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Điểm nhấn từ đá lấp lánh và mắt xích lớn tạo vẻ sang trọng, thu hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 50000.00, 1, 1, '2025-09-22 08:19:49', '2025-09-22 08:19:49'),
+(67, 11, 'Dây chuyền mạ bạc Star ngôi sao đính đá phối mắt xích lớn', '🎀 Dây chuyền mạ bạc Star với mặt ngôi sao đính đá lấp lánh, kết hợp mắt xích lớn cá tính và nổi bật.\r\n✨ Phong cách hiện đại, trẻ trung, phù hợp đi chơi, dự tiệc hoặc làm điểm nhấn cho trang phục hàng ngày.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌟 Điểm nhấn từ đá lấp lánh và mắt xích lớn tạo vẻ sang trọng, thu hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 2000.00, 0, 1, '2025-09-22 08:19:49', '2025-10-23 12:56:15'),
 (68, 11, 'Dây chuyền mạ bạc Bow nơ đính đá lớn nhỏ', '🎀 Dây chuyền mạ bạc Bow với mặt nơ đính đá lớn nhỏ tinh tế, tạo vẻ nữ tính và sang trọng.\r\n✨ Phù hợp đi học, đi chơi hoặc dự tiệc, làm điểm nhấn nổi bật cho trang phục.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🎀 Chi tiết nơ đính đá lớn nhỏ tinh xảo, lấp lánh, cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 40000.00, 1, 1, '2025-09-22 08:22:24', '2025-09-22 08:22:24'),
 (69, 11, 'Dây chuyền mạ bạc đôi Black flower circle hình tròn', '🎀 Dây chuyền mạ bạc đôi Black Flower Circle với mặt hình tròn kết hợp hoa đen tinh tế, mang phong cách thanh lịch và độc đáo.\r\n✨ Phù hợp đi học, đi chơi hoặc dự tiệc, tạo điểm nhấn nữ tính nhưng vẫn cá tính.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🌸 Chi tiết hoa đen trên mặt tròn tinh xảo, nổi bật và cuốn hút.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 50000.00, 5, 1, '2025-09-22 08:22:24', '2025-09-22 08:22:24'),
 (70, 11, 'Dây chuyền mạ bạc Black heart star phối xích', '🎀 Dây chuyền mạ bạc Black Heart Star với mặt trái tim đen kết hợp ngôi sao và xích cá tính, tạo phong cách nổi bật và độc đáo.\r\n✨ Phù hợp đi chơi, dự tiệc hoặc làm điểm nhấn cho trang phục hàng ngày.\r\n💎 Chất liệu mạ bạc bền, nhẹ, thoải mái khi đeo cả ngày.\r\n🖤 Điểm nhấn từ trái tim đen, ngôi sao và xích tạo vẻ sang trọng, cuốn hút.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm dễ phối hợp với nhiều phong cách trang phục khác nhau.', 50000.00, 9, 1, '2025-09-22 08:22:24', '2025-09-22 08:22:24'),
@@ -599,7 +787,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (108, 12, 'Vòng tay set2 chuỗi hạt tròn phối màu thả hạt tròn dây xích tua rua', '🎀 Vòng tay set 2 với chuỗi hạt tròn phối màu, thả hạt tròn kết hợp dây xích tua rua, mang phong cách trẻ trung và năng động.\r\n✨ Phù hợp đi học, đi chơi hoặc dự tiệc, tạo điểm nhấn nổi bật cho trang phục.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n🌈 Chi tiết hạt tròn và tua rua sinh động, tạo vẻ độc đáo, tinh tế và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Bộ gồm 2 vòng, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 53000.00, 26, 1, '2025-09-22 08:42:59', '2025-09-22 08:42:59'),
 (109, 12, 'Vòng tay set2 Ocean sao biển lá nhỏ chuỗi hạt phối màu', '🎀 Vòng tay set 2 Ocean với charm sao biển và lá nhỏ, kết hợp chuỗi hạt phối màu trẻ trung và sinh động.\r\n✨ Phong cách nữ tính, dễ thương, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n🌊 Chi tiết sao biển và lá nhỏ nổi bật, tạo vẻ sinh động, đáng yêu và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Bộ gồm 2 vòng, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 53000.00, 15, 1, '2025-09-22 08:47:00', '2025-09-22 08:47:00'),
 (110, 12, 'Gấu bông vòng tay Cute dog đeo kính 17cm', '🎀 Gấu bông vòng tay Cute Dog đeo kính, cao 17cm, đáng yêu và tinh nghịch.\r\n✨ Phù hợp làm phụ kiện trang trí hoặc quà tặng đi học, đi chơi.\r\n💎 Chất liệu mềm mại, bền, an toàn khi sử dụng.\r\n🐶 Chi tiết kính và tạo hình chú chó tinh tế, sinh động và dễ thương.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm nhỏ gọn, dễ mang theo và phối hợp với nhiều phong cách trang trí.', 70000.00, 19, 1, '2025-09-22 08:47:00', '2025-09-22 08:47:00'),
-(111, 12, 'Vòng tay MJ Heart đính đá leng keng chuỗi hạt tròn phối màu', '🎀 Vòng tay MJ Heart với charm trái tim đính đá leng keng, kết hợp chuỗi hạt tròn phối màu sinh động.\r\n✨ Phong cách dễ thương, nữ tính, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n❤️ Chi tiết trái tim đính đá leng keng nổi bật, tạo vẻ lấp lánh, cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm nhỏ gọn, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 450000.00, 14, 1, '2025-09-22 08:47:00', '2025-09-22 08:47:00'),
+(111, 12, 'Vòng tay MJ Heart đính đá leng keng chuỗi hạt tròn phối màu', '🎀 Vòng tay MJ Heart với charm trái tim đính đá leng keng, kết hợp chuỗi hạt tròn phối màu sinh động.\r\n✨ Phong cách dễ thương, nữ tính, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n❤️ Chi tiết trái tim đính đá leng keng nổi bật, tạo vẻ lấp lánh, cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm nhỏ gọn, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 450000.00, 13, 1, '2025-09-22 08:47:00', '2025-10-23 14:49:06'),
 (112, 12, 'Vòng tay MJ Mermaid đính đá thả ngọc trai ngôi sao chuỗi hạt tròn phối màu', '🎀 Vòng tay MJ Mermaid với charm nàng tiên cá đính đá, thả ngọc trai và ngôi sao, kết hợp chuỗi hạt tròn phối màu sinh động.\r\n✨ Phong cách dễ thương, nữ tính, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n🧜‍♀️🌟 Chi tiết nàng tiên cá, ngọc trai và ngôi sao nổi bật, lấp lánh và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Bộ gồm vòng nhỏ gọn, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 40000.00, 12, 1, '2025-09-22 08:47:00', '2025-09-22 08:47:00'),
 (113, 12, 'Vòng tay MJ Cute cat face mermaid chuỗi hạt tròn phối màu', '🎀 Vòng tay MJ Cute Cat Face Mermaid với charm mặt mèo dễ thương kết hợp hình nàng tiên cá, cùng chuỗi hạt tròn phối màu sinh động.\r\n✨ Phong cách trẻ trung, nữ tính, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n🐱🧜‍♀️ Chi tiết mặt mèo và nàng tiên cá nổi bật, sinh động và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm nhỏ gọn, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 40000.00, 16, 1, '2025-09-22 08:47:00', '2025-09-22 08:47:00'),
 (114, 12, 'Vòng tay mạ bạc Little bow nơ chuỗi hạt tròn màu sắc', '🎀 Vòng tay mạ bạc Little Bow với charm nơ xinh xắn, kết hợp chuỗi hạt tròn nhiều màu sắc sinh động.\r\n✨ Phong cách nữ tính, dễ thương, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n🎀 Chi tiết nơ tinh xảo nổi bật, tạo vẻ đáng yêu và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Sản phẩm nhỏ gọn, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 30000.00, 1, 1, '2025-09-22 08:50:07', '2025-09-22 08:50:07'),
@@ -1071,9 +1259,13 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_hidden`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-21 18:18:33'),
 (2, 30, 2, 5, 'Rất đẹp và vừa ý', 0, '2025-10-22 14:39:12', '2025-10-22 14:39:12'),
 (3, 13, 2, 5, 'Rất đẹp và rất hài lòng', 0, '2025-10-22 20:11:55', '2025-10-22 20:11:55');
+=======
+(3, 13, 14, 5, 'xấu quá', 0, '2025-10-23 09:49:58', '2025-10-23 10:02:54');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -1083,8 +1275,14 @@ INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_h
 
 CREATE TABLE `roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
+<<<<<<< Updated upstream:dbshopnangtho.sql
   `name` varchar(255) NOT NULL,
   `guard_name` varchar(255) NOT NULL,
+=======
+  `name` varchar(50) NOT NULL,
+  `guard_name` varchar(255) NOT NULL DEFAULT 'web',
+  `description` varchar(255) DEFAULT NULL,
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1093,14 +1291,22 @@ CREATE TABLE `roles` (
 -- Dumping data for table `roles`
 --
 
+<<<<<<< Updated upstream:dbshopnangtho.sql
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'web', '2025-10-21 13:38:56', '2025-10-21 13:38:56'),
 (2, 'Nhân viên', 'web', '2025-10-21 13:38:56', '2025-10-21 13:38:56'),
 (3, 'Khách hàng', 'web', '2025-10-21 13:38:56', '2025-10-21 13:38:56');
+=======
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'web', 'Quản trị hệ thống', '2025-10-01 17:59:49', '2025-10-01 17:59:49'),
+(2, 'Nhân viên', 'web', 'Nhân viên', '2025-10-01 18:00:56', '2025-10-01 18:00:56'),
+(3, 'Khách hàng', 'web', 'Khách hàng mua sắm', '2025-10-01 18:00:56', '2025-10-01 18:00:56');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream:dbshopnangtho.sql
 -- Table structure for table `roles_ex`
 --
 
@@ -1120,6 +1326,15 @@ INSERT INTO `roles_ex` (`id`, `name`, `description`, `created_at`, `updated_at`)
 (1, 'Admin', 'Quản trị hệ thống', '2025-10-01 17:59:49', '2025-10-01 17:59:49'),
 (2, 'Nhân viên', 'Nhân viên', '2025-10-01 18:00:56', '2025-10-01 18:00:56'),
 (3, 'Khách hàng', 'Khách hàng mua sắm', '2025-10-01 18:00:56', '2025-10-01 18:00:56');
+=======
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -1214,9 +1429,13 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 ('FJ2RZJFKhBKx5pXpHK5CQ1uNT8JmQ4Obs81hU0PD', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiS1IyWVJQTndSVEJDZ0h5WHhxakd0SElHd25aREtHM2Rld3FOWTZvNyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wLzEzMyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1761266515),
 ('oWWkjbdCVexUZqsKNUmdDing6ZgrpJgSTujUclmU', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiUGZZN0xsQldRNGMzcWhFR1k1QUlHdkVnNGNkQ1BsTmgwckJCcVRTUSI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyNjoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2hvbWUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJjaGVja291dF9hZGRyZXNzIjthOjY6e3M6MTM6ImN1c3RvbWVyX25hbWUiO3M6MTM6Ik5o4buxdCBLaOG6r2MiO3M6MTQ6ImN1c3RvbWVyX2VtYWlsIjtzOjI1OiJraGFjbmh1dDIwMDR2bGdAZ21haWwuY29tIjtzOjE0OiJjdXN0b21lcl9waG9uZSI7czoxMDoiMDk2NzUyMzQ1NiI7czoxNjoiY3VzdG9tZXJfYWRkcmVzcyI7czozMDoiMTIzLCBYw6MgQ8OhaSBOaHVtLCBWxKluaCBMb25nIjtzOjEzOiJwcm92aW5jZV9uYW1lIjtzOjEwOiJWxKluaCBMb25nIjtzOjk6IndhcmRfbmFtZSI7czoxMzoiWMOjIEPDoWkgTmh1bSI7fXM6MTc6ImNoZWNrb3V0X3NlbGVjdGVkIjthOjA6e319', 1761271568),
 ('ZK3jPr6sgP79ijSoSE2FCdH1nBrKsHRwvSDp7ZYl', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOFVYbzdBR2dKOUZDaWt4elNOdHV5Yzd0SWVyTURKSHBOS09WTmV1RyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcGkvbG9naW4vZ29vZ2xlL3JlZGlyZWN0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1761263184);
+=======
+('02NrMrzoB9sfTlm6lMrRXFGJhV4KJ6eSq2Ye5Fpi', 14, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiRDhLOGFuejA2UmZPN2xYZ0VlbTExNU1BSHltVkpRU3MzcFFsSU5ybiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTQ7czoxNjoiY2hlY2tvdXRfYWRkcmVzcyI7YTo2OntzOjEzOiJjdXN0b21lcl9uYW1lIjtzOjIzOiJMw6ogTmd1eeG7hW4gR2lhIMSQ4bqhdCI7czoxNDoiY3VzdG9tZXJfZW1haWwiO3M6MjQ6ImdpYWRhdDE4MDEyMDAyQGdtYWlsLmNvbSI7czoxNDoiY3VzdG9tZXJfcGhvbmUiO3M6MTA6IjA5MzI4NjE3MzYiO3M6MTY6ImN1c3RvbWVyX2FkZHJlc3MiO3M6NTA6IjI1LCBQaMaw4budbmcgSG/DoG4gS2nhur9tLCBUaMOgbmggcGjhu5EgSMOgIE7hu5lpIjtzOjEzOiJwcm92aW5jZV9uYW1lIjtzOjIyOiJUaMOgbmggcGjhu5EgSMOgIE7hu5lpIjtzOjk6IndhcmRfbmFtZSI7czoyMjoiUGjGsOG7nW5nIEhvw6BuIEtp4bq/bSI7fXM6MTc6ImNoZWNrb3V0X3NlbGVjdGVkIjthOjE6e2k6MDtzOjI6IjE5Ijt9czoxMzoibW9tb19vcmRlcl9pZCI7aTo0MjtzOjE3OiJzZXBheV90cmFuc2FjdGlvbiI7YTo4OntzOjg6Im9yZGVyX2lkIjtzOjI6IjQxIjtzOjY6ImFtb3VudCI7czo0OiIyMDAwIjtzOjE2OiJ0cmFuc2FjdGlvbl9jb2RlIjtzOjE5OiJTRVBBWV80MV8xNzYxMjg5NjUxIjtzOjE2OiJ0cmFuc2Zlcl9jb250ZW50IjtzOjE0OiJOQU5HVEhPU0hPUCA0MSI7czoxNDoiYWNjb3VudF9udW1iZXIiO3M6MTA6IjA5MzI4NjE3MzQiO3M6MTI6ImFjY291bnRfbmFtZSI7czoxNzoiTEUgTkdVWUVOIEdJQSBEQVQiO3M6OToiYmFua19jb2RlIjtzOjI6Ik1CIjtzOjk6ImJhbmtfbmFtZSI7czozNDoiTUIgQmFuayAoTmfDom4gaMOgbmcgUXXDom4gxJHhu5lpKSI7fX0=', 1761290761);
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -1247,8 +1466,8 @@ CREATE TABLE `shipping_fees` (
 --
 
 INSERT INTO `shipping_fees` (`id`, `name`, `area_type`, `min_distance`, `max_distance`, `min_order_value`, `base_fee`, `per_km_fee`, `max_fee`, `is_free_shipping`, `priority`, `status`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Hỗ trợ ship 10k đa 20k cho đơn hàng từ 100k nội thành Vĩnh Long', 'local', 1.00, 19.00, 100000.00, 10000.00, 500.00, 20000.00, 0, 100, 1, 'Quy tắc cho nội thành Vĩnh Long', '2025-10-10 18:46:43', '2025-10-10 19:03:19'),
-(2, 'Hỗ trợ ship 15k đa 30k cho đơn hàng từ 200k các khu vực khác', 'nearby', 20.00, NULL, 200000.00, 15000.00, 2000.00, 30000.00, 0, 80, 1, 'Quy tắc cho các khu vực lân cận và xa', '2025-10-10 18:46:43', '2025-10-10 18:46:43');
+(1, 'Hỗ trợ ship 10k đa 20k cho đơn hàng từ 50k nội thành Vĩnh Long', 'local', 1.00, 19.00, 50000.00, 10000.00, 500.00, 20000.00, 0, 100, 0, 'Quy tắc cho nội thành Vĩnh Long', '2025-10-10 18:46:43', '2025-10-23 16:21:49'),
+(2, 'Hỗ trợ ship 15k đa 30k cho đơn hàng từ 100k các khu vực khác', 'nearby', 20.00, 3000.00, 100000.00, 15000.00, 2000.00, 40000.00, 0, 80, 0, 'Quy tắc cho các khu vực lân cận và xa', '2025-10-10 18:46:43', '2025-10-23 16:21:52');
 
 -- --------------------------------------------------------
 
@@ -1280,11 +1499,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `phone`, `ward_id`, `address`, `email_verified_at`, `role_id`, `status`, `social_id`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
+<<<<<<< Updated upstream:dbshopnangtho.sql
 (2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/default-avatar.png', '9CnXeV3ncpl7Rbq5jVwdlG8m1aEbSrIOQtOJPDX1zWZblgLxXWmoyeoFZymn', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
 (5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, 'storage/avatars/default-avatar.png', NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
 (9, 'dat1', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$7RuGwSvf7MombGz1aUTc1O.eB/ekeR7c/EtyILMp.WvFIoPg1QLrW', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', '2025-10-13 17:43:53', 2, 1, NULL, 'storage/avatars/default-avatar.png', 'ba3AEh0vqrx0oivdDilAgUOhQNww8QPasUkYp0dgPoIlyiXPDcOdxliV6RK2', '2025-10-09 07:00:12', '2025-10-09 07:00:12'),
 (13, 'Hazaki', 'Nhựt Khắc', '22004294@st.vlute.edu.vn', '$2y$12$llFu2/WHiTH1FLs3INL8yO8vpUV182HFaHO4o5upWzFsB67oNNbjW', '0779089252', 29641, '123', '2025-10-22 17:32:01', 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-22 17:31:42', '2025-10-22 17:32:01'),
 (14, 'nguyen-van-a', 'Nguyễn Văn A', 'a67429485@gmail.com', '$2y$12$BAC4A52cvUCKLVS2Hx6o7ej2YBZSVwFZLoBPcDuvGgAK52nCZX9w.', '0192920234', NULL, 'Vĩnh Long', '2025-10-23 22:15:26', 2, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-23 22:15:26', '2025-10-23 22:15:26');
+=======
+(2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/d7e6d222-3172-42a3-b197-0628119e1e9b.png', 'pMokMfUSwbJppERdaH3chzXTeGbqALUMeYbVRPsFAeoXbH5lILjNuK1JSPfW', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
+(5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', NULL, 1, 1, 0, NULL, NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
+(10, 'dat1', 'Lê Nguyễn Gia Đạt', 'bachhoangdat9900@gmail.com', '$2y$12$i2VC69mVm4GhKKJugu5SneowV7PehVQWC3SkrcfEd7hIbdqVEoKwK', '0932861734', 28789, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/default-avatar.png', NULL, '2025-10-09 07:00:58', '2025-10-09 07:00:58'),
+(11, 'hn1', 'Lê Hạnh Nguyên', 'hanhnguyen22@gmail.com', '$2y$12$Ncvrv5nkTIJ743k0lm3S8eCT5LBGXrZzNAnD3rLHExGla7O9HXU.u', '09321322131', 28789, '259/28 An Phương', NULL, 3, 1, NULL, 'storage/default-avatar.png', NULL, '2025-10-09 07:01:47', '2025-10-09 07:01:47'),
+(14, 'dat1', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$kkXP4bJ6BkBI/wMZiy/RseUw23IxGObOxmaFu0MM/lIUz12pWLKHq', '0932861736', 70, '259', '2025-10-23 06:51:05', 1, 1, NULL, 'storage/avatars/default-avatar.png', 'QwrAFN4iiZeoQ1LMLeTsa4uwFyVwgEtcEO0CqcyKarV5lEo9aD1S4TACbAGC', '2025-10-23 06:49:40', '2025-10-23 14:52:31'),
+(15, 'MinhHa', 'Lê Minh Hà', 'giadat180104@gmail.com', '$2y$12$1KPVYzIZ2Hbk.2MSINBH2O.9rsI4h6C5qbU0M/BuYpQBWclZdDf3u', '0932131311', 73, '252', '2025-10-23 09:52:46', 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-23 09:52:34', '2025-10-23 09:52:46');
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 -- --------------------------------------------------------
 
@@ -4860,13 +5088,21 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -4878,7 +5114,11 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `discounts`
 --
 ALTER TABLE `discounts`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -4896,7 +5136,11 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+=======
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -4908,19 +5152,31 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -4968,7 +5224,11 @@ ALTER TABLE `shipping_fees`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
+<<<<<<< Updated upstream:dbshopnangtho.sql
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+=======
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+>>>>>>> Stashed changes:shopphukienthoitrang.sql
 
 --
 -- Constraints for dumped tables

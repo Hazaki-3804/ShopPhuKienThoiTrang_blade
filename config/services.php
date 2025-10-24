@@ -62,4 +62,19 @@ return [
         'url' => env('VNP_URL'),
         'return_url' => env('VNP_RETURN_URL'),
     ],
+    'sepay' => [
+        'account_number' => env('SEPAY_ACCOUNT_NUMBER'),
+        'account_name' => env('SEPAY_ACCOUNT_NAME'),
+        'bank_code' => env('SEPAY_BANK_CODE'),
+        'bank_name' => env('SEPAY_BANK_NAME'),
+        'webhook_secret' => env('SEPAY_WEBHOOK_SECRET'),
+    ],
+    'momo' => [
+        'partner_code' => env('MOMO_PARTNER_CODE'),
+        'access_key' => env('MOMO_ACCESS_KEY'),
+        'secret_key' => env('MOMO_SECRET_KEY'),
+        'endpoint' => env('MOMO_ENDPOINT', 'https://test-payment.momo.vn/v2/gateway/api/create'),
+        'return_url' => env('MOMO_RETURN_URL'),
+        'notify_url' => env('MOMO_NOTIFY_URL'),
+    ],
 ];

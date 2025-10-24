@@ -283,12 +283,16 @@ class AuthController extends Controller
     }
     protected function redirectByRole()
     {
+        try{
         if (Auth::user()->role_id === 1) {
             return redirect()->intended(route('dashboard'));
         }
         return redirect()->intended(route('home'));
-    }
+    }catch(Exception $e){
+        \Log::error($e);
 
+    }
+    }
     private function consumePendingAddToCart(Request $request)
     {
         $pending = $request->session()->pull('pending_add_to_cart');

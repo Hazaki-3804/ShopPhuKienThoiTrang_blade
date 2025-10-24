@@ -58,8 +58,7 @@
                     <thead class="table-info">
                         <tr>
                             <th>ID</th>
-                            <th>Họ tên</th>
-                            <th>Email</th>
+                            <th>Khách hàng</th>
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
                             <th>Trạng thái</th>
@@ -137,7 +136,7 @@
 <x-admin.modal
     modal_id='editCustomerModal'
     title="Cập nhật thông tin khách hàng"
-    url="{{ route('admin.customers.update') }}"
+    url="{{ route('admin.customers.update', ['id' => 0]) }}"
     button_type="update"
     method="PUT">
     <div class="row g-3">
@@ -172,7 +171,7 @@
             <x-input-error name="address" />
             <div class="text-danger mt-1" id="edit_address_error" style="font-size: 12px; display: none;"></div>
         </div>
-        <!-- <div class="col-12 col-md-6">
+                <!-- <div class="col-12 col-md-6">
             <label for="edit_ward_id" class="form-label">Xã/Phường <span class="text-danger">*</span></label>
             <select class="form-control" id="edit_ward_id" name="ward_id" required>
                 <option value="">-- Chọn xã/phường --</option>
@@ -277,12 +276,10 @@
                     name: 'id',
                 },
                 {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
+                    data: 'customer_info',
+                    name: 'customer_info',
+                    orderable: false,
+                    searchable: true
                 },
                 {
                     data: 'phone',
@@ -369,6 +366,12 @@
         $(document).on('click', '.edit-customer', function() {
             let customerId = $(this).data('id');
             $('#edit_customer_id').val(customerId);
+
+            // Update form action URL with customer ID
+            const form = $('#editCustomerModal form');
+            const baseUrl = "{{ route('admin.customers.update', ['id' => ':id']) }}";
+            const newUrl = baseUrl.replace(':id', customerId);
+            form.attr('action', newUrl);
 
             // Load customer data
             $.ajax({

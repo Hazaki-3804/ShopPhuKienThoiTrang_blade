@@ -25,6 +25,8 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\PayosController;
+use App\Http\Controllers\SePayController;
+use App\Http\Controllers\MomoController;
 
 Route::get('/', fn() => redirect()->route('home'));
 
@@ -38,6 +40,13 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{id}', [ShopController::class, 'show'])->name('shop.show');
 
+
+// Invoice routes
+Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
+
+// Product reviews routes
+Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
+
 // Static pages
 Route::get('/about', fn() => view('pages.about'))->name('about');
 Route::get('/contact', fn() => view('pages.contact'))->name('contact');
@@ -46,6 +55,12 @@ Route::get('/contact', fn() => view('pages.contact'))->name('contact');
 Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
 Route::post('/api/chatbot/greet', [ChatbotController::class, 'greet'])->name('chatbot.greet');
 
+// Payment webhooks (không cần auth)
+Route::post('/sepay/callback', [SePayController::class, 'callback'])->name('sepay.callback');
+Route::post('/checkout/momo/notify', [MomoController::class, 'notifyPayment'])->name('momo.notify');
+
+// API kiểm tra trạng thái thanh toán
+Route::get('/api/payment/check/{orderId}', [SePayController::class, 'checkPaymentStatus'])->name('payment.check');
 
 // Profile routes
 Route::middleware('auth')->group(function () {
@@ -57,6 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/buy-now/{id}', [CartController::class, 'buyNow'])->name('cart.buynow');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/save-address', [CheckoutController::class, 'saveAddress'])->name('checkout.saveAddress');
+    Route::post('/checkout/calculate-shipping-fee', [CheckoutController::class, 'calculateShippingFeeAjax'])->name('checkout.calculateShippingFee');
     Route::get('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
     Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
     Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo.return');
@@ -71,6 +87,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/payos', [PayosController::class, 'handlePayOSWebhook'])->name('payos.create');
     Route::get('/checkout/payos/success', [PayosController::class, 'paymentSuccess'])->name('payos.success');
     Route::get('/checkout/payos/cancel', [PayosController::class, 'paymentCancel'])->name('payos.cancel');
+
+    // SEPAY
+    Route::get('/checkout/sepay', [SePayController::class, 'createPayment'])->name('sepay.create');
+    Route::get('/checkout/sepay-return', [SePayController::class, 'returnPayment'])->name('sepay.return');
+
+    // MOMO
+    Route::get('/checkout/momo', [MomoController::class, 'createPayment'])->name('momo.create');
+    Route::get('/checkout/momo/return', [MomoController::class, 'returnPayment'])->name('momo.return');
 
     // Invoice routes
     Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
@@ -129,7 +153,26 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->middleware('permission:view reports')->name('time');
         Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->middleware('permission:view reports')->name('time.data');
     });
-
+ // Statistics module
+ Route::name('admin.statistics.')->group(function () {
+    Route::get('/admin/statistics', [AdminStatisticsController::class, 'index'])->name('index');
+    
+    // Customer analytics
+    Route::get('/admin/statistics/customers', [AdminStatisticsController::class, 'customerAnalytics'])->name('customers');
+    Route::get('/admin/statistics/customers/data', [AdminStatisticsController::class, 'customerAnalyticsData'])->name('customers.data');
+    Route::get('/admin/statistics/customers/export/excel', [AdminStatisticsController::class, 'exportCustomersExcel'])->name('customers.export.excel');
+    Route::get('/admin/statistics/customers/export/pdf', [AdminStatisticsController::class, 'exportCustomersPdf'])->name('customers.export.pdf');
+    
+    // Product analytics
+    Route::get('/admin/statistics/products', [AdminStatisticsController::class, 'productAnalytics'])->name('products');
+    Route::get('/admin/statistics/products/data', [AdminStatisticsController::class, 'productAnalyticsData'])->name('products.data');
+    Route::get('/admin/statistics/products/chart-data', [AdminStatisticsController::class, 'productChartData'])->name('products.chart');
+    Route::get('/admin/statistics/products/export/excel', [AdminStatisticsController::class, 'exportProductsExcel'])->name('products.export.excel');
+    
+    // Time analytics
+    Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->name('time');
+    Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->name('time.data');
+});
     // Category management
     Route::name('admin.categories.')->group(function () {
         Route::get('/admin/categories/data', [AdminCategoryController::class, 'data'])->middleware('permission:view categories')->name('data');
@@ -156,7 +199,31 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->middleware('permission:delete products')->name('destroy.multiple');
     });
 
-    // Order management - Unified using OrderController
+    // Promotion management
+    Route::name('admin.promotions.')->group(function () {
+        Route::get('/admin/promotions/data', [AdminPromotionController::class, 'data'])->name('data');
+        Route::get('/admin/promotions', [AdminPromotionController::class, 'index'])->name('index');
+        Route::get('/admin/promotions/create', [AdminPromotionController::class, 'create'])->name('create');
+        Route::post('/admin/promotions', [AdminPromotionController::class, 'store'])->name('store');
+        Route::get('/admin/promotions/{id}/edit', [AdminPromotionController::class, 'edit'])->name('edit');
+        Route::put('/admin/promotions/update', [AdminPromotionController::class, 'update'])->name('update');
+        Route::delete('/admin/promotions/delete', [AdminPromotionController::class, 'destroy'])->name('destroy');
+        Route::delete('/admin/promotions/delete-multiple', [AdminPromotionController::class, 'destroyMultiple'])->name('destroy.multiple');
+        Route::get('/admin/promotions/export/excel', [AdminPromotionController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/admin/promotions/export/pdf', [AdminPromotionController::class, 'exportPdf'])->name('export.pdf');
+    });
+
+    // Shipping Fee management
+    Route::name('admin.shipping-fees.')->group(function () {
+        Route::get('/admin/shipping-fees/data', [AdminShippingFeeController::class, 'data'])->name('data');
+        Route::get('/admin/shipping-fees', [AdminShippingFeeController::class, 'index'])->name('index');
+        Route::post('/admin/shipping-fees', [AdminShippingFeeController::class, 'store'])->name('store');
+        Route::put('/admin/shipping-fees/update', [AdminShippingFeeController::class, 'update'])->name('update');
+        Route::delete('/admin/shipping-fees/delete', [AdminShippingFeeController::class, 'destroy'])->name('destroy');
+        Route::delete('/admin/shipping-fees/delete-multiple', [AdminShippingFeeController::class, 'destroyMultiple'])->name('destroy.multiple');
+    });
+
+    // Order management
     Route::name('admin.orders.')->group(function () {
         Route::patch('admin/orders/{order}', [OrderController::class, 'update'])->middleware('permission:edit orders')->name('update');
         Route::get('/admin/orders/data', [OrderController::class, 'data'])->middleware('permission:view orders')->name('data');
