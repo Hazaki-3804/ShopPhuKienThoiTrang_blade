@@ -3,16 +3,77 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Log;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use App\Models\CartItem;
+use App\Models\Cart;
 
 class PayosController extends Controller
 {
-    public function success()
+    public function paymentSuccess(Request $request)
     {
-        return view('payos-return.success');
+        $data = $request->all();
+        $orderId = (int)($data['orderCode'] ?? 0);
+        $amount = Order::find($orderId)->total_price;
+        $transactionCode = (string)($data['transactionId'] ?? ($data['id'] ?? ($data['paymentLinkId'] ?? '')));
+        $status = strtoupper((string)($data['status'] ?? ''));
+        if (Auth::check() && $orderId > 0) {
+            $order = Order::with('order_items')->find($orderId);
+            if ($order && $order->user_id === Auth::id()) {
+                $cart = Cart::where('user_id', Auth::id())->first();
+                if ($cart) {
+                    $productIds = $order->order_items->pluck('product_id')->all();
+                    if (!empty($productIds)) {
+                        CartItem::where('cart_id', $cart->id)
+                            ->whereIn('product_id', $productIds)
+                            ->delete();
+                    }
+                    // Nếu giỏ hàng trống sau khi xóa các sản phẩm đã mua thì xóa luôn giỏ
+                    $remaining = CartItem::where('cart_id', $cart->id)->count();
+                    if ($remaining === 0) {
+                        $cart->delete();
+                    }
+                }
+            }
+        }
+        if ($status === 'PAID') {        
+            //Lưu vào payment
+            Payment::create([
+                'order_id' => $orderId,
+                'amount' => $amount,
+                'status' => 'completed',
+                'payment_method' => 'payos',
+                'transaction_code' => $transactionCode,
+                'paid_at' => now(),
+            ]);
+        }
+        // Xóa chỉ những sản phẩm vừa mua ra khỏi giỏ hàng
+        if (Auth::check() && $orderId > 0) {
+            $order = Order::with('order_items')->find($orderId);
+            if ($order && $order->user_id === Auth::id()) {
+                $cart = Cart::where('user_id', Auth::id())->first();
+                if ($cart) {
+                    $productIds = $order->order_items->pluck('product_id')->all();
+                    if (!empty($productIds)) {
+                        CartItem::where('cart_id', $cart->id)
+                            ->whereIn('product_id', $productIds)
+                            ->delete();
+                    }
+                    // Nếu giỏ hàng trống sau khi xóa các sản phẩm đã mua thì xóa luôn giỏ
+                    $remaining = CartItem::where('cart_id', $cart->id)->count();
+                    if ($remaining === 0) {
+                        $cart->delete();
+                    }
+                }
+            }
+        }
+        return redirect()->route('shop.index')->with(['success'=>true, 'message'=>'Thanh toán qua PayOS thành công']);
     }
-    public function cancel()
+    public function paymentCancel()
     {
-        return view('payos-return.cancel');
+        return redirect()->route('shop.index')->with(['success'=>false, 'message'=>'Thanh toán qua PayOS thất bại']);
     }
     public function handlePayOSWebhook(Request $request)
     {
@@ -44,13 +105,55 @@ class PayosController extends Controller
             ], 400);
         }
 
-        // Process webhook data
-        // ...
+        // Process webhook data -> Save payment when status is paid
+        try {
+            $data = $body['data'] ?? [];
+            $status = strtoupper((string)($data['status'] ?? ''));
+            $orderId = (int)($data['orderCode'] ?? 0);
+            $amount = (int)($data['amount'] ?? 0);
+            $transactionCode = (string)($data['transactionId'] ?? ($data['id'] ?? ($data['paymentLinkId'] ?? '')));
 
-        return response()->json([
-            "error" => 0,
-            "message" => "Ok",
-            "data" => $body["data"]
-        ]);
+            if ($status === 'PAID' && $orderId > 0 && $amount > 0) {
+                // Idempotent write: avoid duplicates if transaction already recorded
+                $exists = null;
+                if (!empty($transactionCode)) {
+                    $exists = Payment::where('transaction_code', $transactionCode)
+                        ->where('payment_method', 'payos')
+                        ->first();
+                }
+
+                if (!$exists) {
+                    Payment::create([
+                        'order_id' => $orderId,
+                        'amount' => $amount,
+                        'status' => 'completed',
+                        'payment_method' => 'payos',
+                        'transaction_code' => $transactionCode ?: null,
+                        'paid_at' => now(),
+                    ]);
+                }
+            } else {
+                Log::warning('PayOS webhook received non-paid status or invalid data', [
+                    'status' => $status,
+                    'order_id' => $orderId,
+                    'amount' => $amount,
+                    'transaction' => $transactionCode,
+                ]);
+            }
+
+            return response()->json([
+                "error" => 0,
+                "message" => "Ok",
+                "data" => $data
+            ]);
+        } catch (\Throwable $th) {
+            Log::error('PayOS webhook processing failed', [
+                'error' => $th->getMessage(),
+            ]);
+            return response()->json([
+                "error" => 1,
+                "message" => "Server error",
+            ], 500);
+        }
     }
 }

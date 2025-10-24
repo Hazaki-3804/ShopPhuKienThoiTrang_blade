@@ -96,9 +96,9 @@
               <div class="d-flex gap-2">
                 <div class="small text-muted">Thanh toán:</div>
                 @php
-                    $badge = 'bg-' . ($order->payment && $order->payments->status==='completed'?'success':'danger');
+                    $badge = 'bg-' . ($order->payments && $order->payments->status==='completed'?'success':'danger');
                 @endphp
-                <span class="badge {{ $badge }}">{{$order->payment && $order->payments->status==='completed'?'Đã thanh toán':'Chưa thanh toán' }}</span>
+                <span class="badge {{ $badge }}">{{$order->payments && $order->payments->status==='completed'?'Đã thanh toán':'Chưa thanh toán' }}</span>
               </div>
               <div class="d-flex gap-2">
                 <a href="{{ route('user.orders.show', $order) }}" class="btn btn-sm btn-secondary">Chi tiết</a>

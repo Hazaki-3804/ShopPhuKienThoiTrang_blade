@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -57,7 +58,7 @@ class StatisticsController extends Controller
                      ->whereBetween('orders.created_at', [$startDate, $endDate])
                      ->where('orders.status', '!=', 'cancelled');
             })
-            ->where('users.role_id', 3) // Only customers
+            // ->where('users.role_id', 3) // Only customers
             ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
             ->orderBy('total_spent', 'desc')
             ->get();
@@ -72,13 +73,19 @@ class StatisticsController extends Controller
 
         $topSpender = $customers->first();
 
+        // Calculate actual revenue from payments table within the same date range
+        $totalActualRevenue = Payment::where('status', 'completed')
+            ->whereBetween('paid_at', [$startDate, $endDate])
+            ->sum('amount');
+
         return response()->json([
             'success' => true,
             'data' => $customers,
             'summary' => [
                 'total_customers' => $customers->count(),
                 'active_customers' => $customers->where('total_orders', '>', 0)->count(),
-                'total_revenue' => $customers->sum('total_spent'),
+                'total_revenue_expected' => $customers->sum('total_spent'),
+                'total_revenue_actual' => $totalActualRevenue,
                 'avg_customer_value' => $customers->avg('total_spent'),
                 'top_spender_name' => optional($topSpender)->name ?? '-',
                 'top_spender_amount' => optional($topSpender)->total_spent ?? 0,

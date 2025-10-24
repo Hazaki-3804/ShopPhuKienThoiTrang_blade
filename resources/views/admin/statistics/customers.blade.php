@@ -53,19 +53,24 @@
                     <div>
                         <h4 class="mb-0" id="totalCustomers">-</h4>
                         <p class="mb-0">Tổng khách hàng</p>
+                        <p class="mb-0 small">Có <span id="activeCustomers">-</span> KH đã mua hàng</p>
+
                     </div>
                     <div class="opacity-75" style="font-size:28px;"><i class="fas fa-users"></i></div>
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-6">
-            <div class="card bg-success text-white">
+            <div class="card bg-info text-white">
                 <div class="card-body d-flex justify-content-between align-items-center summary-card">
                     <div>
-                        <h4 class="mb-0" id="activeCustomers">-</h4>
-                        <p class="mb-0">Khách hàng có mua hàng</p>
+                        <h4 class="mb-0" id="totalRevenueExpected">-</h4>
+                        <p class="mb-0">Tổng doanh thu</p>
+                        <p class="mb-0 small">Doanh thu dự kiến</p>
+
                     </div>
-                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-user-check"></i></div>
+                    <div class="opacity-75" style="font-size:28px;"><i class="fas fa-coins"></i></div>
                 </div>
             </div>
         </div>
@@ -73,8 +78,9 @@
             <div class="card bg-info text-white">
                 <div class="card-body d-flex justify-content-between align-items-center summary-card">
                     <div>
-                        <h4 class="mb-0" id="totalRevenue">-</h4>
+                        <h4 class="mb-0" id="totalRevenueActual">-</h4>
                         <p class="mb-0">Tổng doanh thu</p>
+                        <p class="mb-0 small">Doanh thu thực tế</p>
                     </div>
                     <div class="opacity-75" style="font-size:28px;"><i class="fas fa-coins"></i></div>
                 </div>
@@ -211,6 +217,7 @@ function loadCustomerData() {
                 updateSummaryCards(response.summary);
                 renderCustomersTable(response.data);
                 createCustomerCharts(response.data);
+                console.log(response.data);
             }
         },
         error: function() {
@@ -222,7 +229,8 @@ function loadCustomerData() {
 function updateSummaryCards(summary) {
     $('#totalCustomers').text(summary.total_customers.toLocaleString());
     $('#activeCustomers').text(summary.active_customers.toLocaleString());
-    $('#totalRevenue').text(formatCurrency(summary.total_revenue));
+    $('#totalRevenueExpected').text(formatCurrency(summary.total_revenue_expected || 0));
+    $('#totalRevenueActual').text(formatCurrency(summary.total_revenue_actual || 0));
     $('#topSpenderName').text(summary.top_spender_name || '-');
     $('#topSpenderAmount').text(formatCurrency(summary.top_spender_amount || 0));
 }

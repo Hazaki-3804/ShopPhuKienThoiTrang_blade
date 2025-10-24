@@ -147,14 +147,14 @@
                 
                 @if(auth()->user()->can('create products'))
                 <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm mr-2" title="Thêm sản phẩm">
-                    <i class="fas fa-plus"></i> Thêm sản phẩm mới
+                    <i class="fas fa-plus mr-1"></i> Thêm sản phẩm mới
                 </a>
                 @endif
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-file-export"></i> Export
+                        <i class="fas fa-file-export mr-1"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
                         <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel"></i> Excel</a>

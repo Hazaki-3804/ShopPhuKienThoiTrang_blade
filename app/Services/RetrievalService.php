@@ -21,11 +21,64 @@ class RetrievalService
         $q = trim($query);
         if ($q === '') return collect();
 
+        // Tokenize simple terms (remove punctuation, split by space) for broader matching
+        $terms = collect(preg_split('/\s+/u', preg_replace('/[\p{P}\p{S}]+/u', ' ', $q)))
+            ->filter(fn ($t) => strlen($t) > 1)
+            ->take(6)
+            ->values()
+            ->all();
+
         return Product::with(['product_images', 'reviews'])
             ->where('status', 1)
-            ->where(function ($w) use ($q) {
-                $w->where('name', 'LIKE', "%{$q}%")
-                  ->orWhere('description', 'LIKE', "%{$q}%");
+            ->where(function ($w) use ($terms, $q) {
+                if (!empty($terms)) {
+                    foreach ($terms as $t) {
+                        $w->orWhere('name', 'LIKE', "%{$t}%")
+                          ->orWhere('description', 'LIKE', "%{$t}%");
+                    }
+                } else {
+                    $w->where('name', 'LIKE', "%{$q}%")
+                      ->orWhere('description', 'LIKE', "%{$q}%");
+                }
+            })
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
+    /**
+     * Tìm sản phẩm theo truy vấn và ràng buộc danh mục (ưu tiên chính xác loại sản phẩm).
+     */
+    public function findProductsByQueryAndCategory(string $query, string $hint, int $limit = 5)
+    {
+        $q = trim($query);
+        $h = trim($hint);
+        if ($h === '') return $this->findProducts($q, $limit);
+
+        $cats = Category::where('name', 'LIKE', "%{$h}%")
+            ->orWhere('slug', 'LIKE', "%{$h}%")
+            ->pluck('id');
+        if ($cats->isEmpty()) return collect();
+
+        $terms = collect(preg_split('/\s+/u', preg_replace('/[\p{P}\p{S}]+/u', ' ', $q)))
+            ->filter(fn ($t) => strlen($t) > 1)
+            ->take(6)
+            ->values()
+            ->all();
+
+        return Product::with(['product_images', 'reviews'])
+            ->where('status', 1)
+            ->whereIn('category_id', $cats)
+            ->where(function ($w) use ($terms, $q) {
+                if (!empty($terms)) {
+                    foreach ($terms as $t) {
+                        $w->orWhere('name', 'LIKE', "%{$t}%")
+                          ->orWhere('description', 'LIKE', "%{$t}%");
+                    }
+                } else {
+                    $w->where('name', 'LIKE', "%{$q}%")
+                      ->orWhere('description', 'LIKE', "%{$q}%");
+                }
             })
             ->orderBy('created_at', 'desc')
             ->take($limit)

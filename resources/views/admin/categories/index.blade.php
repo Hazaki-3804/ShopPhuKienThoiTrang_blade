@@ -99,15 +99,15 @@
                 @endif
 
                 @if(auth()->user()->can('create categories'))
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCategoryModal">
-                    <i class="fas fa-plus"></i> Thêm danh mục
+                <button type="button" class="btn btn-success btn-sm mr-2 rounded" data-toggle="modal" data-target="#addCategoryModal">
+                    <i class="fas fa-plus mr-1"></i> Thêm danh mục
                 </button>
                 @endif
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-file-export"></i> Export
+                        <i class="fas fa-file-export mr-1"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
                         <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success"></i> Excel</a>
@@ -323,7 +323,7 @@
                 }
             ],
             order: [
-                [2, 'asc']
+                [6, 'desc']
             ],
             columnDefs: [{
                     targets: 0, // Cột checkbox

@@ -117,10 +117,17 @@ return [
         ['header' => 'SẢN PHẨM', 'can' => 'menu.products'],
         [
             'text' => 'Quản lý đơn hàng',
-            'route' => 'admin.orders.index',
             'icon' => 'fas fa-shopping-cart',
             'breadcrumb' => true,
             'can' => 'view orders',
+            'submenu' => [
+                [
+                    'text' => 'Danh sách đơn hàng',
+                    'route' => 'admin.orders.index',
+                    'breadcrumb' => true,
+                    'can' => 'view orders',
+                ],
+            ]
         ],
         [
             'text' => 'Quản lý danh mục',
@@ -148,12 +155,12 @@ return [
                     'breadcrumb' => true,
                     'can' => 'view products',
                 ],
-                [
-                    'text' => 'Thêm sản phẩm',
-                    'route' => 'admin.products.create',
-                    'breadcrumb' => true,
-                    'can' => 'create products',
-                ],
+                // [
+                //     'text' => 'Thêm sản phẩm',
+                //     'route' => 'admin.products.create',
+                //     'breadcrumb' => true,
+                //     'can' => 'create products',
+                // ],
             ],
         ],
         [
@@ -168,27 +175,41 @@ return [
                     'breadcrumb' => true,
                     'can' => 'view promotions',
                 ],
-                [
-                    'text' => 'Thêm khuyến mãi',
-                    'route' => 'admin.promotions.create',
-                    'breadcrumb' => true,
-                    'can' => 'create promotions',
-                ],
+                // [
+                //     'text' => 'Thêm khuyến mãi',
+                //     'route' => 'admin.promotions.create',
+                //     'breadcrumb' => true,
+                //     'can' => 'create promotions',
+                // ],
             ],
         ],
         [
             'text' => 'QL phí vận chuyển',
-            'route' => 'admin.shipping-fees.index',
             'icon' => 'fas fa-shipping-fast',
             'breadcrumb' => true,
             'can' => 'view shipping fees',
+            'submenu' => [
+                [
+                    'text' => 'DS phí vận chuyển',
+                    'route' => 'admin.shipping-fees.index',
+                    'breadcrumb' => true,
+                    'can' => 'view shipping fees',
+                ],
+            ]
         ],
         ['header' => 'KHÁCH HÀNG', 'can' => 'menu.customers'],
         [
             'text' => 'Quản lý khách hàng',
-            'route' => 'admin.customers.index',
             'icon' => 'far fa-user',
             'can' => 'view customers',
+            'submenu' => [
+                [
+                    'text' => 'Danh sách khách hàng',
+                    'route' => 'admin.customers.index',
+                    'breadcrumb' => true,
+                    'can' => 'view customers',
+                ],
+            ]
         ],
         ['text' => 'Quản lý bình luận', 'route' => 'admin.reviews.index', 'icon' => 'fas fa-comments', 'breadcrumb' => true, 'can' => 'view reviews'],
         ['header' => 'THỐNG KÊ', 'can' => 'menu.statistics'],
@@ -234,6 +255,20 @@ return [
             'route' => 'admin.users.index',
             'icon' => 'fas fa-user',
             'can' => 'view staffs',
+            'submenu' => [
+                [
+                    'text' => 'Danh sách nhân viên',
+                    'route' => 'admin.users.index',
+                    'breadcrumb' => true,
+                    'can' => 'view staffs',
+                ],
+                [
+                    'text' => 'Quản lý quyền',
+                    'route' => 'admin.users.base-permissions.edit',
+                    'breadcrumb' => true,
+                    'can' => 'manage permissions',
+                ],
+            ]
         ],
         ['header' => 'HỆ THỐNG', 'can' => 'menu.system'],
         [

@@ -11,6 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -81,12 +82,48 @@ class UserController extends Controller
             ->with('success', 'Cập nhật quyền cho nhân viên thành công!');
     }
 
+    // Base permissions applied to all staff via Role "Nhân viên"
+    public function editBasePermissions()
+    {
+        // if (Auth::user() && !Auth::user()->can('manage permissions')) abort(403);
+        $permissions = Permission::orderBy('name')->get();
+        $role = SpatieRole::where('name', 'Nhân viên')->firstOrFail();
+        $rolePermissionNames = $role->permissions->pluck('name');
+
+        return view('admin.users.base-permissions', [
+            'role' => $role,
+            'permissions' => $permissions,
+            'rolePermissionNames' => $rolePermissionNames,
+        ]);
+    }
+
+    public function updateBasePermissions(Request $request)
+    {
+        // if (Auth::user() && !Auth::user()->can('manage permissions')) abort(403);
+        $validated = $request->validate([
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['string', 'exists:permissions,name'],
+        ]);
+
+        $permissionNames = $validated['permissions'] ?? [];
+        $role = SpatieRole::where('name', 'Nhân viên')->firstOrFail();
+        $role->syncPermissions($permissionNames);
+
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        return redirect()
+            ->route('admin.users.base-permissions.edit')
+            ->with('success', 'Cập nhật quyền cơ bản cho toàn bộ nhân viên thành công!');
+    }
+
     public function data(Request $request)
     {
         $query = User::query();
 
         // Lọc chỉ nhân viên (role_id = 2)
+        // $query->whereIn('role_id', [1, 2]);
         $query->where('role_id', 2);
+
 
         // Filter status
         if ($request->filled('status')) {
@@ -113,17 +150,17 @@ class UserController extends Controller
             })
             ->addColumn('status_badge', function ($user) {
                 return $user->status == '1'
-                    ? '<span class="badge bg-success text-white p-1"><i class="fas fa-check"></i> Active</span>'
-                    : '<span class="badge bg-danger text-white p-1"><i class="fas fa-ban"></i> Blocked</span>';
+                    ? '<span class="badge bg-success text-white"><i class="fas fa-check"></i> Active</span>'
+                    : '<span class="badge bg-danger text-white"><i class="fas fa-ban"></i> Blocked</span>';
             })
             ->addColumn('role_badge', function ($user) {
                 $roleMap = [
-                    1 => ['Admin', 'primary'],
-                    2 => ['Staff', 'info'],
-                    3 => ['Customer', 'secondary']
+                    1 => ['Admin', 'primary','fas fa-user-shield'],
+                    2 => ['Nhân viên', 'info','fas fa-user-tie'],
+                    3 => ['Khách hàng', 'secondary','fas fa-user']
                 ];
-                [$label, $color] = $roleMap[$user->role_id] ?? ['Unknown', 'dark'];
-                return "<span class=\"badge bg-{$color}\">{$label}</span>";
+                [$label, $color,$icon] = $roleMap[$user->role_id] ?? ['Unknown', 'dark','fas fa-user'];
+                return "<span class=\"badge bg-{$color}\"><i class=\"{$icon}\"></i> {$label}</span>";
             })
             ->addColumn('actions', function ($user) {
                 $buttons = '';
@@ -184,7 +221,7 @@ class UserController extends Controller
                 'role_id' => 2, // Staff role
                 'status' => $validated['status'],
                 'email_verified_at' => now(),
-                'avatar' => 'storage/default-avatar.png',
+                'avatar' => 'storage/avatars/default-avatar.png',
             ]);
             $user->assignRole('Nhân viên');
 
