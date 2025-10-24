@@ -7,7 +7,7 @@
 @section('content')
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center px-3">
+    <div class="d-flex justify-content-between align-items-center px-4">
         <h4 class="fw-semibold m-0">Dashboard Thống kê</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Thống kê']]" />
     </div>

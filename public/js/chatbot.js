@@ -37,13 +37,46 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             };
 
-            let contentHtml = msg.role === 'bot' ? stripEmojis(msg.content) : msg.content;
+            // Lightweight markdown renderer for better presentation
+            const renderMarkdown = (text) => {
+                if (!text) return '';
+                let t = text;
+                // Normalize line endings
+                t = t.replace(/\r\n/g, '\n');
+                // Bold **text**
+                t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1<\/strong>');
+                // Headings: line starting with '# '
+                t = t.replace(/^#\s+(.*)$/gm, '<div class="md-h1">$1<\/div>');
+                t = t.replace(/^##\s+(.*)$/gm, '<div class="md-h2">$1<\/div>');
+                // Bullet lists: lines starting with * or -
+                if (/^[*-]\s+/m.test(t)) {
+                    t = t.replace(/^(?:\s*[*-]\s+.*(?:\n|$))+?/gm, (block) => {
+                        const items = block.trim().split(/\n+/).map(l => l.replace(/^[*-]\s+/, '').trim()).filter(Boolean);
+                        return '<ul class="md-list">' + items.map(i => `<li>${i}<\/li>`).join('') + '<\/ul>';
+                    });
+                }
+                // Convert paragraphs: split by double newline
+                t = t.split(/\n{2,}/).map(p => {
+                    // keep existing HTML blocks
+                    if (/^<\/?(ul|div|p|strong)/.test(p.trim())) return p;
+                    return '<p>' + p.replace(/\n/g, '<br>') + '<\/p>';
+                }).join('');
+                return t;
+            };
+
+            let raw = msg.role === 'bot' ? stripEmojis(msg.content) : msg.content;
+            let contentHtml = msg.role === 'bot' ? renderMarkdown(raw) : raw.replace(/\n/g, '<br>');
             if (msg.image) contentHtml += `<br><img src="${msg.image}" class="chat-img">`;
             if (msg.links) contentHtml += Object.entries(msg.links).map(([key, url]) => `
                 <a href="${url}" target="_blank" class="badge text-white mt-1 me-1" style="background-color:#ff6f3c;">
                     ${key.charAt(0).toUpperCase() + key.slice(1)}
                 </a>`).join('');
             msgEl.innerHTML = contentHtml;
+
+            // Mark long bot messages as rich for elevated styling
+            if (msg.role === 'bot' && (raw && raw.length > 120)) {
+                msgEl.classList.add('rich');
+            }
 
             rowEl.appendChild(msgEl);
             chatContainer.appendChild(rowEl);

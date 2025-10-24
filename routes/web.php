@@ -69,8 +69,8 @@ Route::middleware('auth')->group(function () {
 
     // PAYOS
     Route::post('/checkout/payos', [PayosController::class, 'handlePayOSWebhook'])->name('payos.create');
-    Route::get('/checkout/payos/success.html', [PayosController::class, 'success'])->name('payos.success');
-    Route::get('/checkout/payos/cancel.html', [PayosController::class, 'cancel'])->name('payos.cancel');
+    Route::get('/checkout/payos/success', [PayosController::class, 'paymentSuccess'])->name('payos.success');
+    Route::get('/checkout/payos/cancel', [PayosController::class, 'paymentCancel'])->name('payos.cancel');
 
     // Invoice routes
     Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
@@ -174,6 +174,10 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/admin/users/data', [AdminUserController::class, 'data'])->middleware('permission:view staffs')->name('data');
         Route::get('/admin/users/stats', [AdminUserController::class, 'getStats'])->middleware('permission:view staffs')->name('stats');
         Route::get('/admin/users', [AdminUserController::class, 'index'])->middleware('permission:view staffs')->name('index');
+        
+        // Base permissions applied to all staff via Role "Nhân viên"
+        Route::get('/admin/users/base-permissions', [AdminUserController::class, 'editBasePermissions'])->middleware('permission:manage permissions')->name('base-permissions.edit');
+        Route::put('/admin/users/base-permissions', [AdminUserController::class, 'updateBasePermissions'])->middleware('permission:manage permissions')->name('base-permissions.update');
         Route::post('/admin/users', [AdminUserController::class, 'store'])->middleware('permission:create staffs')->name('store');
         Route::get('/admin/users/{id}', [AdminUserController::class, 'show'])->middleware('permission:view staffs')->name('show');
         Route::get('/admin/users/{id}/permissions', [AdminUserController::class, 'editPermissions'])->middleware('permission:manage permissions')->name('permissions.edit');

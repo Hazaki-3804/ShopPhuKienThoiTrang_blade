@@ -106,11 +106,11 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-4">
-            <div class="card bg-secondary text-white">
+            <div class="card bg-dark text-white">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h4 class="mb-0" id="revenueGrowth">-</h4>
-                        <p class="mb-0">Tăng trưởng DT</p>
+                        <p class="mb-0">Tăng trưởng doanh thu</p>
                     </div>
                     <div class="opacity-75" style="font-size:26px;"><i class="fas fa-chart-line"></i></div>
                 </div>
@@ -121,7 +121,7 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h4 class="mb-0" id="orderGrowth">-</h4>
-                        <p class="mb-0">Tăng trưởng ĐH</p>
+                        <p class="mb-0">Tăng trưởng đơn hàng</p>
                     </div>
                     <div class="opacity-75" style="font-size:26px;"><i class="fas fa-chart-bar"></i></div>
                 </div>
@@ -154,7 +154,7 @@
     </div>
 
     <!-- Detailed Data Table -->
-    <div class="card m-3">
+    <div class="card m-4">
         <div class="card-header">
             <h5 class="mb-0">Chi tiết theo thời gian</h5>
         </div>

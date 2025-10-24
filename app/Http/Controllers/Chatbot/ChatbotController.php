@@ -44,7 +44,7 @@ class ChatbotController extends Controller
         $userMessage = function_exists('mb_strtolower')
             ? mb_strtolower(trim($originalMessage), 'UTF-8')
             : strtolower(trim($originalMessage));
-  Log::info('Encoding check:', [
+        Log::info('Encoding check:', [
                 'encoding' => mb_detect_encoding($userMessage),
                 'message' => $userMessage,
             ]);
@@ -75,7 +75,8 @@ class ChatbotController extends Controller
                 'mắt kính', 'kính', 'dây chuyền', 'kẹp tóc',
                 'túi xách', 'nhẫn', 'bông tai', 'vòng tay',
                 'thanh toán', 'payment', 'momo', 'cod',
-                'bảo hành', 'warranty', 'tư vấn', 'consult'
+                'bảo hành', 'warranty', 'tư vấn', 'consult',
+                'phí giao hàng', 'shipping', 'phí vận chuyển', 'shipping fee', 'shipping cost',
             ];
             // Kiểm tra câu hỏi có liên quan không
             $isRelevant = false;
@@ -127,12 +128,16 @@ class ChatbotController extends Controller
                 }
             }
             if (!empty($entities['product_query'])) {
-                $context['products'] = $this->retrieval->findProducts($entities['product_query'], 5);
+                if (!empty($entities['category_hint'])) {
+                    $context['products'] = $this->retrieval->findProductsByQueryAndCategory($entities['product_query'], $entities['category_hint'], 5);
+                } else {
+                    $context['products'] = $this->retrieval->findProducts($entities['product_query'], 5);
+                }
                 // Remember last product query for follow-up turns
                 session(['last_product_query' => $entities['product_query']]);
             }
             // If we have a category hint, try category-based retrieval (when no explicit products yet)
-            if (empty($context['products']) && !empty($entities['category_hint'])) {
+            if ((empty($context['products']) || (is_countable($context['products']) && count($context['products']) === 0)) && !empty($entities['category_hint'])) {
                 $context['products'] = $this->retrieval->findProductsByCategoryHint($entities['category_hint'], 5);
             }
             // If still no products, add suggested products as fallback to help LLM suggest alternatives
@@ -153,6 +158,35 @@ class ChatbotController extends Controller
             if (in_array($intent, ['auth', 'order_support'])) {
                 $context['auth'] = $this->retrieval->getAuthInfo();
                 $context['links'] = $this->retrieval->getShopLinks();
+            }
+
+            // If product intent, ground response deterministically to avoid hallucinations
+            if (in_array($intent, ['product_info', 'price_stock'])) {
+                $products = $context['products'] ?? collect();
+                if ($products && (is_countable($products) ? count($products) : $products->count()) > 0) {
+                    // Build concise list with name/price/stock
+                    $lines = [];
+                    $count = 0;
+                    foreach ($products as $p) {
+                        $count++;
+                        $lines[] = "**{$p->name}**\nGiá: " . number_format($p->price, 0, ',', '.') . "đ\nCòn: " . (int)($p->stock ?? 0) . " sản phẩm";
+                        if ($count >= 5) break;
+                    }
+                    $msg = "Tìm thấy " . (is_countable($products) ? count($products) : $products->count()) . " sản phẩm phù hợp:\n\n" . implode("\n\n", $lines) . "\n\nBạn muốn xem chi tiết mẫu nào?";
+                    return response()->json(
+                        ['message' => $msg, 'links' => []],
+                        200,
+                        [],
+                        JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
+                    );
+                } else {
+                    return response()->json(
+                        ['message' => 'Mình chưa tìm thấy sản phẩm phù hợp. Bạn có thể mô tả rõ hơn (ví dụ: chất liệu, màu, mức giá, thương hiệu)?', 'links' => []],
+                        200,
+                        [],
+                        JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
+                    );
+                }
             }
 
             // Build prompt from context + history
@@ -193,11 +227,11 @@ class ChatbotController extends Controller
                     ]
                 ],
                 'generationConfig' => [
-                    'maxOutputTokens' => 180,
-                    'temperature' => 0.9,
+                    'maxOutputTokens' => 500,
+                    'temperature' => 0.8,
                     'topP' => 0.9,
                     'topK' => 40,
-                    'candidateCount' => 3,
+                    'candidateCount' => 1,
                 ],
             ];
 

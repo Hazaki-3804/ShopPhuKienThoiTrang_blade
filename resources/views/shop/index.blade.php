@@ -64,7 +64,7 @@
                     <div class="small text-muted mt-1">Kết quả cho: <span class="badge bg-dark">"{{ request('q') }}"</span> <a href="{{ route('shop.index') }}" class="text-decoration-none ms-2">Xoá từ khoá</a></div>
                     @endif
                 </div>
-                <div class="small text-muted">{{ $products->total() }} kết quả</div>
+                <div class="small text-muted">{{ $products->total() }} sản phẩm</div>
             </div>
             <div class="row g-3">
                 @forelse($products as $p)

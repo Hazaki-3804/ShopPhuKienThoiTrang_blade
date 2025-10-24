@@ -19,6 +19,8 @@
     max-width    : 75%;
     word-break   : break-word;
     white-space  : pre-wrap;
+    line-height  : 1.45;
+    font-size    : 14px;
 }
 
 .chat-bubble.user {
@@ -29,6 +31,7 @@
     border-top-right-radius  : 6px;
     border-top-left-radius   : 12px;
     border-bottom-left-radius: 12px;
+    box-shadow               : 0 2px 6px rgba(255, 111, 60, 0.15);
 }
 
 .chat-bubble.bot {
@@ -37,6 +40,42 @@
     border-top-left-radius    : 6px;
     border-top-right-radius   : 12px;
     border-bottom-right-radius: 12px;
+    box-shadow                : 0 2px 6px rgba(17, 24, 39, 0.08);
+}
+
+/* Elevated style for long rich bot messages */
+.chat-bubble.bot.rich {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #eef2f7;
+    box-shadow: 0 6px 20px rgba(17, 24, 39, 0.08);
+}
+
+/* Markdown enhancements */
+.chat-bubble .md-h1 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: #111827;
+}
+.chat-bubble .md-h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 6px 0 4px 0;
+    color: #374151;
+}
+.chat-bubble p {
+    margin: 0 0 6px 0;
+}
+.chat-bubble ul.md-list {
+    padding-left: 18px;
+    margin: 4px 0 8px 0;
+}
+.chat-bubble ul.md-list li {
+    margin-bottom: 4px;
+    position: relative;
+}
+.chat-bubble ul.md-list li::marker {
+    color: #ff6f3c;
 }
 
 .chat-img {
@@ -44,9 +83,24 @@
     max-height   : 120px;
     border-radius: 8px;
     margin-top   : 4px;
+    border       : 1px solid #e5e7eb;
 }
 
 /* Hover state for toggle button */
 #toggle-chat:hover {
+    filter: brightness(0.95);
+}
+
+/* Header close button inside the chatbot card header */
+#close-chat.btn {
+    color: #fff;
+    opacity: 0.9;
+}
+#close-chat.btn:hover {
+    opacity: 1;
+}
+
+/* Link badge hover tweak (links appended in messages) */
+.chat-bubble a.badge:hover {
     filter: brightness(0.95);
 }

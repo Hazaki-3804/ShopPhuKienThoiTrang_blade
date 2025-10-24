@@ -73,7 +73,7 @@ class VnpayController extends Controller
         $hashData = implode('&', $hashDataArr);
         $orderId = (int) Str::before($request->get('vnp_TxnRef'), '_');
         $checkHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
-        if ($checkHash === $vnp_SecureHash && $request->get('vnp_ResponseCode') == '01') {
+        if ($checkHash === $vnp_SecureHash && $request->get('vnp_ResponseCode') == '00') {
             Payment::create([
                 'order_id' => $orderId,
                 'amount' => $request->get('vnp_Amount') / 100,

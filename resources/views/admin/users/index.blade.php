@@ -6,9 +6,9 @@
 @section('content')
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header giống card-header -->
-    <div class="d-flex justify-content-between align-items-center px-3">
+    <div class="d-flex justify-content-between align-items-center px-4">
         <h4 class="fw-semibold m-0">Quản lý nhân viên</h4>
-        <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý người dùng']]" />
+        <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý nhân viên']]" />
     </div>
 
     <!-- Statistics Cards -->
@@ -101,20 +101,20 @@
 
                 <div class="mr-2">
                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addUserModal">
-                        <i class="fas fa-user-plus"></i> Thêm nhân viên
+                        <i class="fas fa-user-plus mr-1"></i>Thêm nhân viên
                     </button>
                 </div>
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-file-export"></i> Export
+                        <i class="fas fa-file-export mr-1"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
-                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel"></i> Excel</a>
-                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv"></i> CSV</a>
-                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf"></i> PDF</a>
-                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print"></i> Print</a>
+                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success"></i> Excel</a>
+                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv text-info"></i> CSV</a>
+                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf text-danger"></i> PDF</a>
+                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print text-primary"></i> Print</a>
                     </div>
                 </div>
             </div>
@@ -165,6 +165,14 @@
             <div class="text-danger mt-1" id="add_phone_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12 col-md-6">
+            <label for="add_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+            <select class="form-control" id="add_status" name="status" required>
+                <option value="1">✅ Hoạt động</option>
+                <option value="0">🚫 Bị chặn</option>
+            </select>
+            <div class="text-danger mt-1" id="add_status_error" style="font-size: 12px; display: none;"></div>
+        </div>
+        <div class="col-12 col-md-6">
             <label for="add_password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
             <input type="password" class="form-control" id="add_password" name="password" required>
             <div class="text-danger mt-1" id="add_password_error" style="font-size: 12px; display: none;"></div>
@@ -173,14 +181,6 @@
             <label for="add_password_confirmation" class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
             <input type="password" class="form-control" id="add_password_confirmation" name="password_confirmation" required>
             <div class="text-danger mt-1" id="add_password_confirmation_error" style="font-size: 12px; display: none;"></div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label for="add_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
-            <select class="form-control" id="add_status" name="status" required>
-                <option value="1">✅ Hoạt động</option>
-                <option value="0">🚫 Bị chặn</option>
-            </select>
-            <div class="text-danger mt-1" id="add_status_error" style="font-size: 12px; display: none;"></div>
         </div>
         <div class="col-12">
             <label for="add_address" class="form-label">Địa chỉ <span class="text-danger">*</span></label>
