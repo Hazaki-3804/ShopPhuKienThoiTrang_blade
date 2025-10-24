@@ -49,14 +49,6 @@ class CartController extends Controller
 
                 $total = (int)$items->sum('subtotal');
 
-                // ✅ Áp dụng voucher nếu có trong session
-                $voucher = session('current_voucher');
-                $discount = 0;
-                if ($voucher === 'Giam15k' && $total >= 150000) {
-                    $discount = 15000;
-                }
-                $finalTotal = max(0, $total - $discount);
-
                 if ($items->isNotEmpty()) {
                     $categoryIds = $items->pluck('product.category_id')->unique()->filter();
                     $excludeIds = $items->pluck('product.id')->unique();
@@ -70,36 +62,19 @@ class CartController extends Controller
                             ->get();
                     }
                 }
-
-                // ✅ Gửi thêm biến discount và finalTotal sang view
-                return view('cart.index', compact('items', 'total', 'related', 'discount', 'finalTotal', 'voucher'));
             }
         }
 
-        // Nếu chưa đăng nhập hoặc chưa có cart
-        $discount = 0;
-        $finalTotal = $total;
-        $voucher = session('current_voucher');
-        return view('cart.index', compact('items', 'total', 'related', 'discount', 'finalTotal', 'voucher'));
+        return view('cart.index', compact('items', 'total', 'related'));
     }
 
     public function add(Request $request, string $productId)
     {
-        $request->validate([
-            'qty' => ['nullable', 'integer', 'min:1'],
-            'voucher_code' => ['nullable', 'string']
-        ]);
-
+        $request->validate(['qty' => ['nullable', 'integer', 'min:1']]);
         $qty = max(1, (int)$request->integer('qty'));
         $product = Product::where('status', 1)->findOrFail($productId);
-
-        // ✅ Lưu voucher vào session nếu có chọn
-        if ($request->filled('voucher_code')) {
-            session(['current_voucher' => $request->voucher_code]);
-        }
-
         // Require login: if guest, store pending action then redirect to login
-        if (!\Auth::check()) {
+        if (!auth()->check()) {
             session(['pending_add_to_cart' => [
                 'product_id' => (string)$productId,
                 'qty' => $qty,
@@ -119,25 +94,15 @@ class CartController extends Controller
         if ($newQty > $product->stock) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
         $item->quantity = $newQty;
         $item->save();
-
         return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng thành công');
     }
 
     public function buyNow(Request $request, string $productId)
     {
-        $request->validate([
-            'qty' => ['nullable', 'integer', 'min:1'],
-            'voucher_code' => ['nullable', 'string']
-        ]);
+        $request->validate(['qty' => ['nullable', 'integer', 'min:1']]);
         $qty = max(1, (int)$request->integer('qty'));
         $product = Product::where('status', 1)->findOrFail($productId);
         if ($product->stock < $qty) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
-
-        // ✅ Lưu voucher khi bấm Mua ngay
-        if ($request->filled('voucher_code')) {
-            session(['current_voucher' => $request->voucher_code]);
-        }
-
         if (!auth()->check()) {
             session(['pending_add_to_cart' => [
                 'product_id' => (string)$productId,
@@ -146,7 +111,6 @@ class CartController extends Controller
             ]]);
             return redirect()->route('login');
         }
-
         $cart = $this->currentCart();
         $item = CartItem::updateOrCreate(
             ['cart_id' => $cart->id, 'product_id' => (int)$product->id],
@@ -178,3 +142,4 @@ class CartController extends Controller
         return back()->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng');
     }
 }
+

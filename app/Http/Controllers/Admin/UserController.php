@@ -245,7 +245,7 @@ class UserController extends Controller
             }
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            Log::error('Error adding user: ' . $e->getMessage());
+            \Log::info("Lỗi: " . $e->getMessage());
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,

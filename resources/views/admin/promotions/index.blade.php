@@ -395,14 +395,23 @@ $(document).ready(function() {
                 $('#selectAll').prop('checked', false);
                 updateBulkDeleteButton();
                 
-                // Show success message
+                // Show success Toast notification
                 if (typeof Swal !== 'undefined') {
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    
+                    Toast.fire({
                         icon: 'success',
-                        title: 'Thành công!',
-                        text: response.message,
-                        timer: 2000,
-                        showConfirmButton: false
+                        title: response.message || 'Thao tác thành công!'
                     }).then(() => {
                         // Force reload page to update statistics
                         location.reload();
@@ -416,14 +425,29 @@ $(document).ready(function() {
                 let message = 'Có lỗi xảy ra!';
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     message = xhr.responseJSON.message;
+                } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    const errors = Object.values(xhr.responseJSON.errors).flat();
+                    message = errors.join('<br>');
                 }
                 
+                // Show error Toast notification
                 if (typeof Swal !== 'undefined') {
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    
+                    Toast.fire({
                         icon: 'error',
                         title: 'Lỗi!',
-                        text: message,
-                        showConfirmButton: true
+                        html: message
                     });
                 } else {
                     alert(message);

@@ -124,7 +124,7 @@
                 </li>
 
                 <li class="nav-item me-3 position-relative">
-                    <a class="nav-link position-relative" href="#" data-cart-toggle role="button" aria-expanded="false">
+                    <a class="nav-link position-relative text-center" href="#" data-cart-toggle role="button" aria-expanded="false">
                         <i class="bi bi-bag-heart-fill fs-3 icon-cart-shopee"></i>
                         @if(($sharedCartCount ?? 0) > 0)
                         <span class="position-absolute top-0 start-100 translate-middle-x

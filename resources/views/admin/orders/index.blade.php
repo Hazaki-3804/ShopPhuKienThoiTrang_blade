@@ -388,6 +388,7 @@
         box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3);
     }
 </style>
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

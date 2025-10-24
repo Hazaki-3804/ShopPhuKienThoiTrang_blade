@@ -66,7 +66,6 @@ class ReviewsController extends Controller
     public function destroy(Review $review)
     {
         $review->delete();
-
         // Always return JSON for AJAX requests (check X-Requested-With header)
         if (request()->ajax() || request()->wantsJson() || request()->header('X-Requested-With') === 'XMLHttpRequest') {
             return response()->json([
