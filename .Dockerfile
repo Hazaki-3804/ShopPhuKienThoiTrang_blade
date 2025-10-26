@@ -43,4 +43,5 @@ RUN php artisan storage:link
 
 # Mở port 8000 và chạy Laravel
 EXPOSE 8080
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD php artisan storage:link && \
+    php artisan serve --host=0.0.0.0 --port=8080
