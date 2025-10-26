@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 21, 2025 lúc 09:08 PM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Oct 26, 2025 at 08:51 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `shopphukienthoitrang_new`
+-- Database: `shopphukienthoitrang_new`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `banners`
+-- Table structure for table `banners`
 --
 
 CREATE TABLE `banners` (
@@ -36,7 +36,7 @@ CREATE TABLE `banners` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `banners`
+-- Dumping data for table `banners`
 --
 
 INSERT INTO `banners` (`id`, `type`, `image_url`, `status`, `created_at`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `banners` (`id`, `type`, `image_url`, `status`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cache`
+-- Table structure for table `cache`
 --
 
 CREATE TABLE `cache` (
@@ -56,16 +56,16 @@ CREATE TABLE `cache` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `cache`
+-- Dumping data for table `cache`
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:50:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:17:\"manage categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:13:\"manage orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:16:\"manage discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:20:\"manage shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:14:\"manage reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:14:\"view discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:16:\"create discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:14:\"edit discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:16:\"delete discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"create orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:11:\"edit orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"delete orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:37;a:4:{s:1:\"a\";i:38;s:1:\"b\";s:12:\"edit reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:38;a:4:{s:1:\"a\";i:39;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:39;a:4:{s:1:\"a\";i:40;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:40;a:4:{s:1:\"a\";i:41;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:41;a:4:{s:1:\"a\";i:42;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:42;a:4:{s:1:\"a\";i:43;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:43;a:4:{s:1:\"a\";i:44;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:44;a:4:{s:1:\"a\";i:45;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:45;a:4:{s:1:\"a\";i:46;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:46;a:4:{s:1:\"a\";i:47;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:47;a:4:{s:1:\"a\";i:48;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:48;a:4:{s:1:\"a\";i:49;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:49;a:4:{s:1:\"a\";i:50;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:11:\"Nhân viên\";s:1:\"c\";s:3:\"web\";}}}', 1761158683);
+('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:50:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:17:\"manage categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:13:\"manage orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:16:\"manage discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:20:\"manage shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:14:\"manage reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:14:\"view discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:16:\"create discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:14:\"edit discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:16:\"delete discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"create orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:11:\"edit orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"delete orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:37;a:4:{s:1:\"a\";i:38;s:1:\"b\";s:12:\"edit reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:38;a:4:{s:1:\"a\";i:39;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:39;a:4:{s:1:\"a\";i:40;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:40;a:4:{s:1:\"a\";i:41;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:41;a:4:{s:1:\"a\";i:42;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:42;a:4:{s:1:\"a\";i:43;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:43;a:4:{s:1:\"a\";i:44;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:44;a:4:{s:1:\"a\";i:45;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:45;a:4:{s:1:\"a\";i:46;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:46;a:4:{s:1:\"a\";i:47;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:47;a:4:{s:1:\"a\";i:48;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:48;a:4:{s:1:\"a\";i:49;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:49;a:4:{s:1:\"a\";i:50;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:1:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}}}', 1761588063);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cache_locks`
+-- Table structure for table `cache_locks`
 --
 
 CREATE TABLE `cache_locks` (
@@ -77,7 +77,7 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `carts`
+-- Table structure for table `carts`
 --
 
 CREATE TABLE `carts` (
@@ -88,17 +88,18 @@ CREATE TABLE `carts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `carts`
+-- Dumping data for table `carts`
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 2, '2025-09-24 01:37:45', '2025-09-24 01:37:45'),
-(2, 9, '2025-10-09 07:02:37', '2025-10-09 07:02:37');
+(2, 9, '2025-10-09 07:02:37', '2025-10-09 07:02:37'),
+(4, 5, '2025-10-22 17:46:58', '2025-10-22 17:46:58'),
+(6, 2, '2025-10-24 00:22:06', '2025-10-24 00:22:06');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cart_items`
+-- Table structure for table `cart_items`
 --
 
 CREATE TABLE `cart_items` (
@@ -112,16 +113,17 @@ CREATE TABLE `cart_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `cart_items`
+-- Dumping data for table `cart_items`
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `voucher`, `created_at`, `updated_at`) VALUES
-(45, 1, 13, 1, NULL, '2025-10-20 05:49:58', '2025-10-20 05:49:58');
+(50, 4, 15, 1, NULL, '2025-10-22 17:46:58', '2025-10-22 17:46:58'),
+(54, 6, 133, 1, NULL, '2025-10-24 00:41:54', '2025-10-24 00:41:54');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `categories`
+-- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -134,11 +136,11 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `categories`
+-- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', NULL, NULL),
+(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', '2025-10-01 06:43:02', '2025-10-26 16:04:03'),
 (2, 'Móng tay giả', 'Các loại móng giả', 'mong-tay', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (5, 'Túi xách', 'Túi xách, balo, ví nam nữ', 'tui_xach', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (10, 'Kẹp tóc', 'Kẹp tóc', 'kep-toc', '2025-09-20 00:33:39', '2025-09-20 01:18:54'),
@@ -148,7 +150,7 @@ INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `up
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `discounts`
+-- Table structure for table `discounts`
 --
 
 CREATE TABLE `discounts` (
@@ -167,16 +169,16 @@ CREATE TABLE `discounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `discounts`
+-- Dumping data for table `discounts`
 --
 
 INSERT INTO `discounts` (`id`, `code`, `description`, `discount_type`, `discount_value`, `start_date`, `end_date`, `status`, `quantity`, `used_quantity`, `created_at`, `updated_at`) VALUES
-(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-13', 1, 1, 1, '2025-10-09 06:14:51', '2025-10-10 19:30:01');
+(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-31', 1, 100, 1, '2025-10-09 06:14:51', '2025-10-23 06:13:50');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `failed_jobs`
+-- Table structure for table `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -192,7 +194,7 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `jobs`
+-- Table structure for table `jobs`
 --
 
 CREATE TABLE `jobs` (
@@ -208,7 +210,7 @@ CREATE TABLE `jobs` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `job_batches`
+-- Table structure for table `job_batches`
 --
 
 CREATE TABLE `job_batches` (
@@ -227,7 +229,7 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -237,7 +239,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -271,7 +273,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `model_has_permissions`
+-- Table structure for table `model_has_permissions`
 --
 
 CREATE TABLE `model_has_permissions` (
@@ -281,26 +283,17 @@ CREATE TABLE `model_has_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `model_has_permissions`
+-- Dumping data for table `model_has_permissions`
 --
 
 INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 5),
-(2, 'App\\Models\\User', 5),
-(3, 'App\\Models\\User', 5),
-(4, 'App\\Models\\User', 5),
-(33, 'App\\Models\\User', 5),
-(37, 'App\\Models\\User', 5),
-(39, 'App\\Models\\User', 5),
-(40, 'App\\Models\\User', 5),
-(41, 'App\\Models\\User', 5),
-(42, 'App\\Models\\User', 5),
-(43, 'App\\Models\\User', 5);
+(21, 'App\\Models\\User', 13),
+(22, 'App\\Models\\User', 13);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `model_has_roles`
+-- Table structure for table `model_has_roles`
 --
 
 CREATE TABLE `model_has_roles` (
@@ -309,10 +302,21 @@ CREATE TABLE `model_has_roles` (
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\Models\\User', 2),
+(2, 'App\\Models\\User', 5),
+(2, 'App\\Models\\User', 9),
+(2, 'App\\Models\\User', 13),
+(2, 'App\\Models\\User', 14);
+
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -329,41 +333,45 @@ CREATE TABLE `orders` (
   `discount_code` varchar(50) DEFAULT NULL,
   `discount_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
   `insurance_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `shipping_fee` float DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `orders`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 309000.00, 'processing', '259/28', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 00:47:36', '2025-10-21 15:17:38'),
-(2, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 274000.00, 'pending', 'Phường 9', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
-(3, 2, 'Trương Minh Thư', 'minhthu@gmail.com', '03219313131', 340000.00, 'pending', 'Nhà Trọ Ngọc hân', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
-(4, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 649000.00, 'pending', '259/12, Phường Long Châu, Vĩnh Long', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(5, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 200050.00, 'pending', 'aaa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'SALE30K', 8950.00, 0.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
-(6, 9, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 205000.00, 'delivered', 'aaa, Phường Nùng Trí Cao, Cao Bằng', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-09 07:02:46', '2025-10-09 07:03:22'),
-(7, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 793750.00, 'pending', '259/29, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 41250.00, 0.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
-(8, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 770000.00, 'pending', '255, Xã Hiếu Phụng, Vĩnh Long', 'cod', 1, 'GIAM5%', 40000.00, 0.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
-(9, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 523950.00, 'processing', '259/28, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 26850.00, 1300.00, '2025-10-10 19:14:20', '2025-10-10 19:15:19'),
-(10, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 185800.00, 'pending', 'a, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 8200.00, 0.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
-(11, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 280800.00, 'delivered', 'aa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 13200.00, 0.00, '2025-10-10 19:30:01', '2025-10-10 19:31:03'),
-(12, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Thục Phán, Cao Bằng', 'vnpay', NULL, NULL, 0.00, 0.00, '2025-10-20 05:51:51', '2025-10-20 05:51:51'),
-(13, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:18:06', '2025-10-21 08:18:06'),
-(14, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:22:14', '2025-10-21 08:22:14'),
-(15, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:27:42', '2025-10-21 08:27:42'),
-(16, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:33:16', '2025-10-21 08:33:16'),
-(17, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:35:36', '2025-10-21 08:35:36'),
-(18, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:35:49', '2025-10-21 08:35:49'),
-(19, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:36:53', '2025-10-21 08:36:53'),
-(20, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:38:28', '2025-10-21 08:38:28'),
-(21, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:59:06', '2025-10-21 08:59:06');
+INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `shipping_fee`, `created_at`, `updated_at`) VALUES
+(33, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 183000.00, 'processing', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 15:32:02', '2025-10-24 17:16:14'),
+(34, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'shipped', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 16:23:04', '2025-10-24 17:16:31'),
+(35, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'delivered', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 16:23:23', '2025-09-22 16:23:23'),
+(36, 5, 'Minh Thư', 'le6168610@gmail.com', '0779089257', 170000.00, 'pending', '123, Phường Thục Phán, Cao Bằng', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-22 17:47:13', '2025-10-22 17:47:13'),
+(37, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Nùng Trí Cao, Cao Bằng', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-23 06:16:31', '2025-09-23 06:16:31'),
+(38, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Nùng Trí Cao, Cao Bằng', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-23 06:21:14', '2025-09-23 06:21:14'),
+(39, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', '123, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-23 23:49:43', '2025-10-23 23:49:43'),
+(40, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', 'Định Thới B, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-24 00:08:51', '2025-10-24 00:08:51'),
+(41, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', 'Định Thới B, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-24 00:10:50', '2025-10-24 00:10:50'),
+(42, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 191500.00, 'pending', '123, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 12500, '2025-10-24 00:35:34', '2025-10-24 00:35:34'),
+(43, 5, 'Minh Thư', 'le6168610@gmail.com', '0779089257', 140000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'momo', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:11:20', '2025-10-24 15:11:20'),
+(44, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:26:29', '2025-10-24 15:26:29'),
+(45, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:27:25', '2025-10-24 15:27:25'),
+(46, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:28:42', '2025-10-24 15:28:42'),
+(47, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:31:15', '2025-10-24 15:31:15'),
+(48, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:32:24', '2025-10-24 15:32:24'),
+(49, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:33:30', '2025-10-24 15:33:30'),
+(50, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:35:06', '2025-10-24 15:35:06'),
+(51, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:35:43', '2025-10-24 15:35:43'),
+(52, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:43:06', '2025-10-24 15:43:06'),
+(53, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:48:53', '2025-10-24 15:48:53'),
+(54, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:50:25', '2025-10-24 15:50:25'),
+(55, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:51:21', '2025-10-24 15:51:21'),
+(56, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 29000.00, 'pending', '123, Phường Cửa Nam, Thành phố Hà Nội', 'vnpay', NULL, NULL, 0.00, 0.00, 0, '2025-10-24 15:53:44', '2025-10-24 15:53:44');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `order_items`
+-- Table structure for table `order_items`
 --
 
 CREATE TABLE `order_items` (
@@ -377,42 +385,39 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `order_items`
+-- Dumping data for table `order_items`
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 143, 1, 164000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
-(2, 1, 19, 1, 160000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
-(3, 2, 25, 1, 159000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
-(4, 2, 26, 1, 130000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
-(5, 3, 17, 1, 165000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
-(6, 3, 16, 1, 175000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
-(7, 4, 32, 1, 175000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(8, 4, 19, 1, 160000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(9, 4, 143, 1, 164000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(10, 4, 21, 1, 150000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(11, 5, 22, 1, 179000.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
-(12, 6, 32, 1, 175000.00, '2025-10-09 07:02:47', '2025-10-09 07:02:47'),
-(13, 7, 17, 5, 165000.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
-(14, 8, 19, 5, 160000.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
-(15, 9, 22, 3, 179000.00, '2025-10-10 19:14:20', '2025-10-10 19:14:20'),
-(16, 10, 143, 1, 164000.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
-(17, 11, 30, 4, 66000.00, '2025-10-10 19:30:01', '2025-10-10 19:30:01'),
-(18, 12, 13, 1, 130000.00, '2025-10-20 05:51:51', '2025-10-20 05:51:51'),
-(19, 13, 13, 1, 130000.00, '2025-10-21 08:18:06', '2025-10-21 08:18:06'),
-(20, 14, 13, 1, 130000.00, '2025-10-21 08:22:14', '2025-10-21 08:22:14'),
-(21, 15, 13, 1, 130000.00, '2025-10-21 08:27:42', '2025-10-21 08:27:42'),
-(22, 16, 13, 1, 130000.00, '2025-10-21 08:33:16', '2025-10-21 08:33:16'),
-(23, 17, 13, 1, 130000.00, '2025-10-21 08:35:36', '2025-10-21 08:35:36'),
-(24, 18, 13, 1, 130000.00, '2025-10-21 08:35:49', '2025-10-21 08:35:49'),
-(25, 19, 13, 1, 130000.00, '2025-10-21 08:36:53', '2025-10-21 08:36:53'),
-(26, 20, 13, 1, 130000.00, '2025-10-21 08:38:28', '2025-10-21 08:38:28'),
-(27, 21, 13, 1, 130000.00, '2025-10-21 08:59:07', '2025-10-21 08:59:07');
+(39, 33, 23, 1, 153000.00, '2025-10-22 15:32:02', '2025-10-22 15:32:02'),
+(40, 34, 13, 1, 130000.00, '2025-10-22 16:23:05', '2025-10-22 16:23:05'),
+(41, 35, 13, 1, 130000.00, '2025-10-22 16:23:23', '2025-10-22 16:23:23'),
+(42, 36, 15, 1, 140000.00, '2025-10-22 17:47:13', '2025-10-22 17:47:13'),
+(43, 37, 14, 1, 140000.00, '2025-10-23 06:16:31', '2025-10-23 06:16:31'),
+(44, 38, 14, 1, 140000.00, '2025-10-23 06:21:14', '2025-10-23 06:21:14'),
+(45, 39, 18, 1, 99000.00, '2025-10-23 23:49:43', '2025-10-23 23:49:43'),
+(46, 40, 18, 1, 99000.00, '2025-10-24 00:08:51', '2025-10-24 00:08:51'),
+(47, 41, 18, 1, 99000.00, '2025-10-24 00:10:50', '2025-10-24 00:10:50'),
+(48, 42, 22, 1, 179000.00, '2025-10-24 00:35:34', '2025-10-24 00:35:34'),
+(49, 43, 15, 1, 140000.00, '2025-10-24 15:11:20', '2025-10-24 15:11:20'),
+(50, 44, 133, 1, 29000.00, '2025-10-24 15:26:29', '2025-10-24 15:26:29'),
+(51, 45, 133, 1, 29000.00, '2025-10-24 15:27:25', '2025-10-24 15:27:25'),
+(52, 46, 133, 1, 29000.00, '2025-10-24 15:28:42', '2025-10-24 15:28:42'),
+(53, 47, 133, 1, 29000.00, '2025-10-24 15:31:15', '2025-10-24 15:31:15'),
+(54, 48, 133, 1, 29000.00, '2025-10-24 15:32:24', '2025-10-24 15:32:24'),
+(55, 49, 133, 1, 29000.00, '2025-10-24 15:33:30', '2025-10-24 15:33:30'),
+(56, 50, 133, 1, 29000.00, '2025-10-24 15:35:06', '2025-10-24 15:35:06'),
+(57, 51, 133, 1, 29000.00, '2025-10-24 15:35:43', '2025-10-24 15:35:43'),
+(58, 52, 133, 1, 29000.00, '2025-10-24 15:43:06', '2025-10-24 15:43:06'),
+(59, 53, 133, 1, 29000.00, '2025-10-24 15:48:53', '2025-10-24 15:48:53'),
+(60, 54, 133, 1, 29000.00, '2025-10-24 15:50:25', '2025-10-24 15:50:25'),
+(61, 55, 133, 1, 29000.00, '2025-10-24 15:51:21', '2025-10-24 15:51:21'),
+(62, 56, 133, 1, 29000.00, '2025-10-24 15:53:44', '2025-10-24 15:53:44');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `password_reset_tokens`
+-- Table structure for table `password_reset_tokens`
 --
 
 CREATE TABLE `password_reset_tokens` (
@@ -424,7 +429,7 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `payments`
+-- Table structure for table `payments`
 --
 
 CREATE TABLE `payments` (
@@ -439,10 +444,21 @@ CREATE TABLE `payments` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `order_id`, `amount`, `payment_method`, `status`, `transaction_code`, `paid_at`, `created_at`, `updated_at`) VALUES
+(1, 33, 183000.00, 'vnpay', 'completed', '15214826', '2025-10-22 15:34:04', '2025-10-22 15:33:53', '2025-10-22 15:33:53'),
+(2, 35, 160000.00, 'cod', 'completed', '15214826', '2025-09-30 20:11:22', '2025-10-22 16:23:23', '2025-10-22 16:23:23'),
+(3, 38, 170000.00, 'vnpay', 'completed', '15215404', '2025-10-23 06:23:17', '2025-10-23 06:21:42', '2025-10-23 06:21:42'),
+(4, 41, 0.00, 'payos', 'completed', '9d72719e0e8e4876a43205d57c2eb85a', '2025-10-24 00:21:16', '2025-10-24 00:21:16', '2025-10-24 00:21:16'),
+(5, 42, 191500.00, 'payos', 'completed', '22e2137dc04c4abc873140fe4b29ab07', '2025-10-24 00:46:51', '2025-10-24 00:46:51', '2025-10-24 00:46:51');
+
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `permissions`
+-- Table structure for table `permissions`
 --
 
 CREATE TABLE `permissions` (
@@ -454,7 +470,7 @@ CREATE TABLE `permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `permissions`
+-- Dumping data for table `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
@@ -512,7 +528,7 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `products`
+-- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
@@ -528,21 +544,21 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `status`, `created_at`, `updated_at`) VALUES
-(13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 30, 1, '2025-09-23 12:45:45', '2025-10-21 08:59:07'),
-(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 10, 1, '2025-09-23 12:45:54', '2025-09-23 12:46:04'),
-(15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 5, 1, '2025-09-23 12:46:08', '2025-09-23 12:46:12'),
+(13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 28, 1, '2025-09-23 12:45:45', '2025-10-22 16:23:23'),
+(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 8, 1, '2025-09-23 12:45:54', '2025-10-23 06:21:14'),
+(15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 3, 1, '2025-09-23 12:46:08', '2025-10-24 15:11:20'),
 (16, 5, 'B.202 Túi đeo vải Basic Gentle Woman text dập nổi một màu 19x28', '✨ Túi đeo vải Basic với thiết kế tối giản, tinh tế.\r\n🖋️ Điểm nhấn độc đáo với dòng chữ Gentle Woman dập nổi trên nền một màu sang trọng.\r\n📏 Kích thước: 19 x 28 cm, vừa vặn để đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, phù hợp cho nhiều phong cách thời trang.\r\n🌸 Chất liệu vải cao cấp, bền đẹp, dễ phối đồ, mang lại sự thanh lịch cho người dùng.', 175000.00, 9, 1, '2025-09-23 12:46:17', '2025-10-07 04:00:40'),
 (17, 5, 'B.202 Túi đeo vải Gentle Woman text nổi quai lớn phối nơ hai bên 21x28', '✨ Túi đeo vải Gentle Woman với thiết kế hiện đại, tinh tế.\r\n🖋️ Điểm nhấn nổi bật với dòng chữ Gentle Woman dập nổi cùng quai bản lớn phối nơ hai bên duyên dáng.\r\n📏 Kích thước: 21 x 28 cm, thoải mái đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, dễ dàng kết hợp với nhiều phong cách thời trang.\r\n🌸 Chất liệu vải bền đẹp, mềm mại, mang lại sự thanh lịch và trẻ trung cho người dùng.', 165000.00, 24, 1, '2025-09-23 12:46:53', '2025-10-09 08:49:58'),
-(18, 5, 'B.202 Túi đeo vải Sanrio family Hello Kitty face phối quai màu 6x30x38', '✨ Túi đeo vải Sanrio Family với thiết kế đáng yêu, nổi bật hình Hello Kitty face xinh xắn.\r\n🖋️ Quai túi phối màu tinh tế, tạo điểm nhấn trẻ trung và dễ thương.\r\n📏 Kích thước: 6 x 30 x 38 cm, rộng rãi, có thể đựng sách vở, tài liệu, laptop mỏng, mỹ phẩm hoặc các vật dụng cá nhân.\r\n👜 Kiểu dáng đeo vai/đeo chéo tiện lợi, phù hợp cho đi học, đi làm hoặc dạo phố.\r\n🌸 Chất liệu vải bền đẹp, nhẹ nhàng, dễ phối đồ, đặc biệt phù hợp cho các bạn trẻ yêu thích phong cách cute – năng động.', 99000.00, 6, 1, '2025-09-23 12:47:00', '2025-09-23 12:47:04'),
+(18, 5, 'B.202 Túi đeo vải Sanrio family Hello Kitty face phối quai màu 6x30x38', '✨ Túi đeo vải Sanrio Family với thiết kế đáng yêu, nổi bật hình Hello Kitty face xinh xắn.\r\n🖋️ Quai túi phối màu tinh tế, tạo điểm nhấn trẻ trung và dễ thương.\r\n📏 Kích thước: 6 x 30 x 38 cm, rộng rãi, có thể đựng sách vở, tài liệu, laptop mỏng, mỹ phẩm hoặc các vật dụng cá nhân.\r\n👜 Kiểu dáng đeo vai/đeo chéo tiện lợi, phù hợp cho đi học, đi làm hoặc dạo phố.\r\n🌸 Chất liệu vải bền đẹp, nhẹ nhàng, dễ phối đồ, đặc biệt phù hợp cho các bạn trẻ yêu thích phong cách cute – năng động.', 99000.00, 3, 1, '2025-09-23 12:47:00', '2025-10-24 00:10:50'),
 (19, 5, 'B.23 Túi xách tay Butterfly dây rút phối dây xích ngọc trai 8x17x25', '✨ Túi xách tay Butterfly với thiết kế dây rút độc đáo, mang lại nét nữ tính và thời thượng.\r\n🖋️ Điểm nhấn ấn tượng với dây xích ngọc trai phối tinh tế, vừa sang trọng vừa trẻ trung.\r\n📏 Kích thước: 8 x 17 x 25 cm, gọn gàng nhưng đủ chỗ cho điện thoại, ví, son phấn và các vật dụng cần thiết.\r\n👜 Có thể sử dụng như túi xách tay hoặc đeo vai tùy phong cách.\r\n🌸 Chất liệu vải bền đẹp, dễ phối đồ, phù hợp cho đi chơi, dự tiệc hay hẹn hò.', 160000.00, 0, 1, '2025-09-23 12:47:07', '2025-10-09 09:37:10'),
-(20, 5, 'B.23 Túi xách tay Bow nơ nền màu viền dày 5x13x22', '✨ Túi xách tay Bow nơ với thiết kế nền màu tinh tế, điểm nhấn viền dày tạo sự chắc chắn và sang trọng.\r\n🎀 Phối nơ xinh xắn ở mặt trước, mang lại vẻ nữ tính, ngọt ngào cho người dùng.\r\n📏 Kích thước: 5 x 13 x 22 cm, nhỏ gọn, thích hợp để đựng điện thoại, ví mini, son phấn và một vài vật dụng cần thiết.\r\n👜 Kiểu dáng xách tay/đeo vai, dễ dàng phối hợp với nhiều phong cách thời trang khác nhau.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, phù hợp cho đi chơi, hẹn hò hoặc dạo phố.', 160000.00, 14, 1, '2025-09-23 12:47:15', '2025-09-23 12:47:18'),
+(20, 5, 'B.23 Túi xách tay Bow nơ nền màu viền dày 5x13x22', '✨ Túi xách tay Bow nơ với thiết kế nền màu tinh tế, điểm nhấn viền dày tạo sự chắc chắn và sang trọng.\r\n🎀 Phối nơ xinh xắn ở mặt trước, mang lại vẻ nữ tính, ngọt ngào cho người dùng.\r\n📏 Kích thước: 5 x 13 x 22 cm, nhỏ gọn, thích hợp để đựng điện thoại, ví mini, son phấn và một vài vật dụng cần thiết.\r\n👜 Kiểu dáng xách tay/đeo vai, dễ dàng phối hợp với nhiều phong cách thời trang khác nhau.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, phù hợp cho đi chơi, hẹn hò hoặc dạo phố.', 160000.00, 5, 1, '2025-09-23 12:47:15', '2025-10-22 12:06:16'),
 (21, 5, 'B.202 Túi xách tay Little bow nơ nền ô vuông 14x29x38', '✨ Túi xách tay Little bow với thiết kế nền ô vuông độc đáo, mang lại sự trẻ trung và hiện đại.\r\n🎀 Điểm nhấn là chi tiết nơ nhỏ xinh phía trước, tạo vẻ nữ tính và tinh tế cho người dùng.\r\n📏 Kích thước: 14 x 29 x 38 cm, không gian rộng rãi, đựng được nhiều vật dụng như điện thoại, ví, sổ tay, mỹ phẩm…\r\n👜 Kiểu dáng xách tay/đeo vai, dễ phối hợp với nhiều phong cách, từ thanh lịch đến năng động.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, thích hợp sử dụng hàng ngày, đi học, đi làm hay dạo phố.', 150000.00, 24, 1, '2025-09-23 12:47:21', '2025-10-09 05:54:49'),
-(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 16, 1, '2025-09-23 12:47:29', '2025-10-10 19:14:20'),
-(23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 35, 1, '2025-09-23 12:47:35', '2025-09-23 12:47:38'),
+(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 15, 1, '2025-09-23 12:47:29', '2025-10-24 00:35:34'),
+(23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 32, 1, '2025-09-23 12:47:35', '2025-10-22 15:32:02'),
 (24, 5, 'B.202 Túi đeo vai Little things denim style 11x24x36', '👖 Túi đeo vai denim style cá tính với thiết kế Little Things trẻ trung, năng động.\r\n👜 Form túi chữ nhật mềm mại, mang hơi hướng retro, dễ phối với nhiều outfit thường ngày.\r\n📏 Kích thước: 11 x 24 x 36 cm, đủ rộng để đựng điện thoại, ví, sổ tay, mỹ phẩm và các vật dụng cần thiết.\r\n🌟 Quai vai bản vừa, chắc chắn, tạo cảm giác thoải mái khi sử dụng cả ngày.\r\n✨ Chất liệu vải denim bền đẹp, giữ form tốt, mang lại phong cách vừa giản dị vừa hiện đại.\r\n💙 Phù hợp cho đi học, đi chơi, dạo phố hay du lịch nhẹ nhàng.', 180000.00, 10, 1, '2025-09-23 12:47:44', '2025-09-23 12:47:47'),
 (25, 5, 'B.23 Túi xách tay da lộn Basic color dây bện 9x18x23', '✨ Túi xách tay Basic Color được làm từ chất liệu da lộn mềm mại, mang lại cảm giác sang trọng và thời thượng.\r\n👜 Thiết kế nhỏ gọn với kích thước 9 x 18 x 23 cm, vừa vặn để đựng điện thoại, ví, son và các vật dụng cần thiết.\r\n🌸 Điểm nhấn tinh tế với dây bện độc đáo, tạo sự khác biệt cho phong cách tối giản.\r\n🎀 Form túi cứng cáp, giữ dáng tốt, dễ phối với nhiều outfit từ thanh lịch đến casual.\r\n💼 Phù hợp cho đi làm, đi chơi, hẹn hò hay những buổi gặp gỡ nhẹ nhàng.', 159000.00, 1, 1, '2025-09-23 12:47:51', '2025-10-07 00:53:40'),
 (26, 5, 'B.202 Túi xách tay vải nhung tăm Bow nơ ô vuông 8x14x22', '✨ Túi xách tay vải nhung tăm với chất liệu mềm mại, mang lại cảm giác ấm áp và sang trọng.\r\n🎀 Thiết kế nổi bật với nơ ô vuông tinh tế, tạo điểm nhấn nữ tính và dễ thương.\r\n📏 Kích thước 8 x 14 x 22 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví tiền, son và những vật dụng cần thiết hàng ngày.\r\n👜 Kiểu dáng thanh lịch, phù hợp mang đi chơi, dạo phố hay dự tiệc nhẹ.\r\n🌸 Dễ dàng kết hợp với nhiều phong cách thời trang, từ trẻ trung đến dịu dàng.', 130000.00, 2, 1, '2025-09-23 12:47:56', '2025-10-07 00:53:40'),
@@ -615,7 +631,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (115, 12, 'Vòng tay set2 Ocean butterfly flower chuỗi hạt tròn', '🎀 Vòng tay set 2 Ocean Butterfly Flower với charm bướm và hoa kết hợp chuỗi hạt tròn tinh tế, mang phong cách nữ tính và sinh động.\r\n✨ Phù hợp đi học, đi chơi hoặc dự tiệc, tạo điểm nhấn đáng yêu cho trang phục.\r\n💎 Hạt nhẹ, bền, thoải mái khi đeo cả ngày.\r\n🦋🌸 Chi tiết bướm và hoa nổi bật, sinh động và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng ý nghĩa cho bạn bè, người thân hoặc người thương.\r\n📦 Bộ gồm 2 vòng, dễ phối hợp với nhiều phong cách trang phục khác nhau.', 50000.00, 1, 1, '2025-09-22 08:50:07', '2025-09-22 08:50:07');
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `status`, `created_at`, `updated_at`) VALUES
 (132, 1, '🌈Patrackiy✨Mắt kính chống bức xạ và ánh sáng xanh có thể thay thế thời trang cao cấp cho nam và nữ', '🌈 Patrackiy ✨ Mắt kính chống bức xạ và ánh sáng xanh, thiết kế thời trang cao cấp dành cho nam và nữ.\r\n🕶️ Bảo vệ mắt hiệu quả khỏi ánh sáng xanh từ màn hình, giảm mỏi mắt khi làm việc, học tập hay chơi game.\r\n💎 Khung kính bền, nhẹ, mang cảm giác thoải mái khi đeo cả ngày.\r\n✨ Phong cách hiện đại, dễ dàng phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang và thiết thực cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 5050.00, 25, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
-(133, 1, 'Kính mắt thời trang unisex chống tia UV400 cho nam nữ - Trà, Đen, Màu xám', '🌈 Kính mắt thời trang unisex chống tia UV400, dành cho nam và nữ, có các màu Trà, Đen và Xám.\r\n🕶️ Bảo vệ mắt hiệu quả khỏi tia UV, giảm mỏi mắt khi đi ngoài trời nắng.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n✨ Thiết kế hiện đại, thời trang, dễ dàng phối hợp với nhiều phong cách trang phục.\r\n💖 Lý tưởng làm quà tặng cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 29000.00, 42, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
+(133, 1, 'Kính mắt thời trang unisex chống tia UV400 cho nam nữ - Trà, Đen, Màu xám', '🌈 Kính mắt thời trang unisex chống tia UV400, dành cho nam và nữ, có các màu Trà, Đen và Xám.\r\n🕶️ Bảo vệ mắt hiệu quả khỏi tia UV, giảm mỏi mắt khi đi ngoài trời nắng.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n✨ Thiết kế hiện đại, thời trang, dễ dàng phối hợp với nhiều phong cách trang phục.\r\n💖 Lý tưởng làm quà tặng cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 29000.00, 29, 1, '2025-09-24 07:10:37', '2025-10-24 15:53:44'),
 (134, 1, 'Kính mắt mèo thời trang cho nữ, chống ánh sáng xanh, nhiều màu sắc C2, Xám, Da beo', '🌸 Kính mắt mèo thời trang cho nữ, chống ánh sáng xanh, có nhiều màu sắc: C2, Xám, Da beo.\r\n🕶️ Bảo vệ mắt hiệu quả khỏi ánh sáng xanh từ màn hình, giảm mỏi mắt khi làm việc hoặc học tập.\r\n💎 Khung kính nhẹ, bền, mang cảm giác thoải mái khi đeo cả ngày.\r\n✨ Thiết kế mắt mèo thanh lịch, nữ tính, dễ phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang và thiết thực cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 16900.00, 28, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
 (135, 1, 'Kính Thời Trang Tròn Blush Gradient - Kính Mát Mới Hàn Quốc Dễ Thương', '🌸 Kính thời trang tròn Blush Gradient phong cách Hàn Quốc, thiết kế dễ thương và hiện đại.\r\n🕶️ Bảo vệ mắt khỏi ánh sáng mặt trời, giảm chói và mỏi mắt khi di chuyển ngoài trời.\r\n💎 Khung kính nhẹ, bền, mang cảm giác thoải mái khi đeo cả ngày.\r\n✨ Thiết kế tròn thời thượng, tông màu Blush Gradient thanh lịch, dễ phối hợp với nhiều trang phục.\r\n💖 Lý tưởng làm quà tặng thời trang cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi', 13140.00, 47, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
 (136, 1, '🍑RY🍑Mắt kính chống bức xạ và ánh sáng xanh có thể thay thế thời trang cao cấp cho nam và nữ', '🍑 RY 🍑 Mắt kính chống bức xạ và ánh sáng xanh, thiết kế thời trang cao cấp dành cho cả nam và nữ.\r\n🕶️ Bảo vệ mắt hiệu quả khỏi ánh sáng xanh từ màn hình, giảm mỏi mắt khi làm việc, học tập hoặc chơi game.\r\n💎 Khung kính bền, nhẹ, thoải mái khi đeo cả ngày.\r\n✨ Phong cách hiện đại, dễ dàng phối hợp với nhiều trang phục khác nhau.\r\n💖 Lý tưởng làm quà tặng thời trang và thiết thực cho bạn bè, người thân hoặc đồng nghiệp.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo mọi lúc, mọi nơi.', 5596.00, 32, 1, '2025-09-24 07:10:37', '2025-09-24 07:10:37'),
@@ -658,7 +674,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `product_discounts`
+-- Table structure for table `product_discounts`
 --
 
 CREATE TABLE `product_discounts` (
@@ -668,7 +684,7 @@ CREATE TABLE `product_discounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `product_discounts`
+-- Dumping data for table `product_discounts`
 --
 
 INSERT INTO `product_discounts` (`id`, `product_id`, `discount_id`) VALUES
@@ -797,7 +813,7 @@ INSERT INTO `product_discounts` (`id`, `product_id`, `discount_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `product_images`
+-- Table structure for table `product_images`
 --
 
 CREATE TABLE `product_images` (
@@ -810,206 +826,207 @@ CREATE TABLE `product_images` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `product_images`
+-- Dumping data for table `product_images`
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `image_url`, `type`, `created_at`, `updated_at`) VALUES
-(21, 13, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_FnWj6iPICb.jpeg?v=1756626688', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(22, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_ETxxn2IBdy.jpeg?v=1756626583', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(23, 15, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_mffOya1Ss5.jpeg?v=1756626487', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(24, 16, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_H45CDxXiTh.jpeg?v=1756626780', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(25, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_qocGQZlTn6.jpeg?v=1756626864', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(26, 18, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_tiSFxzXSZT.jpeg?v=1756529284', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(27, 19, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_bOEQtAIwgo.jpeg?v=1756529207', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(28, 20, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_9PIspS4SG1.jpeg?v=1756621371', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(29, 21, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_ii9p9VcAKB.jpeg?v=1756528622', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(30, 22, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_fu6s3KfkX0.jpeg?v=1756528549', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(31, 23, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Elp2hWI5WF.jpeg?v=1756621301', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(32, 24, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Z8mtsJSwfw.jpeg?v=1756621210', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(33, 25, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_USdgRkaU9a.jpeg?v=1756621107', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(34, 26, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_lEIss4gfdC.jpeg?v=1756621022', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(35, 27, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_vVxGpui4LJ.jpeg?v=1756528472', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(36, 28, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_y5tU71Mcmc.jpeg?v=1756528407', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(37, 29, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_gHhXClXB3T.jpeg?v=1756528348', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(38, 30, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_kO3TYYyAcj.jpeg?v=1756528283', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(39, 31, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_RiMHcp26N8.jpeg?v=1755223768', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(40, 32, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_pmaiUFoeWm.jpeg?v=1755223705', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(41, 33, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_PELdGNbYfG.jpeg?v=1757223065', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(42, 34, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_4IIP0a4CgU.jpeg?v=1757223018', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(43, 35, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_ITQwmTabaY.jpeg?v=1757222964', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(44, 36, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_Ql4jJMJ0tU.jpeg?v=1757222918', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(45, 37, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_iY62fCEQEM.jpeg?v=1757222860', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(46, 38, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_Wsm0Wkf5Az.jpeg?v=1757222796', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(47, 39, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_Z2ibDpyIPj.jpeg?v=1757222736', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(48, 40, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Lpa1hRgA2O.jpeg?v=1756628218', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(49, 41, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_MfoB9eaj7R.jpeg?v=1756628170', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(50, 42, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_XX5EFLTreY.jpeg?v=1756628081', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(51, 43, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_JAD2LIEnAl.jpeg?v=1756628128', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(52, 44, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_9HlRBeasC5.jpeg?v=1756628033', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(53, 45, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_G2hx4iCDZ3.jpeg?v=1756627946', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(54, 46, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_PNV8yW1RJI.jpeg?v=1756627875', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(55, 47, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_XlAaG3GOjX.jpeg?v=1756627823', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(56, 48, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_AplTEjnp38.jpeg?v=1756627761', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(57, 49, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_huPXR6n6xP.jpeg?v=1755598997', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(58, 50, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_IE2IKy98cN.jpeg?v=1755598949', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(59, 51, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_5DXT8kvpBB.jpeg?v=1755598894', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(60, 52, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_xezAfqMjvt.jpeg?v=1755598847', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(61, 53, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_1IZklSqivk.jpeg?v=1755224662', 'thumbnail', '2025-09-22 08:26:59', '2025-09-22 08:26:59'),
-(62, 54, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_HepLrlc7ti.jpeg?v=1754359799', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(63, 57, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_oRQFiucdvs.jpeg?v=1754359725', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(64, 58, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_le1dWfGMWd.jpeg?v=1753007033', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(65, 59, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_3iUNs2S1mi.jpeg?v=1753006978', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(66, 60, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_UA5mQBR9EG.jpeg?v=1753006915', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(67, 61, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_oWO5WXoiGt.jpeg?v=1753006870', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(68, 62, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_IER0eLpJNT.jpeg?v=1753006813', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(69, 63, 'https://pos.nvncdn.com/cba2a3-7534/ps/Day-chuyen-ma-bac-Black-bow-no-ngoc-trai.jpg?v=1753367085', 'detail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(70, 64, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_vxpdG1lSTO.jpeg?v=1753006769', 'detail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(71, 65, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_bRqmYkQpgD.jpeg?v=1753006724', 'thumbnail', '2025-09-22 08:35:18', '2025-09-22 08:35:18'),
-(72, 66, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_GnV8YnY3SK.jpeg?v=1753006683', 'thumbnail', '2025-09-22 08:35:18', '2025-09-22 08:35:18'),
-(73, 67, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_pckQARJPW6.jpeg?v=1753006637', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(74, 68, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_H0g5GfXOEt.jpeg?v=1753006594', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(75, 69, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_BcrtdtlTzu.jpeg?v=1753006548', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(76, 70, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_tdYDANQoij.jpeg?v=1753006495', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(77, 71, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250503_JMIukQYKpc.jpeg?v=1746283861', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(78, 72, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250304_65L9eiCfQ3.jpeg?v=1741095309', 'thumbnail', '2025-09-22 08:38:00', '2025-09-22 08:38:00'),
-(79, 73, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250228_i6wLL1CGnP.jpeg?v=1740716359', 'thumbnail', '2025-09-22 08:38:21', '2025-09-22 08:38:21'),
-(80, 94, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250917_bThBCJzcUF.jpeg?v=1758095923', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(81, 95, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_3PrVsKRA5L.jpeg?v=1757222678', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(82, 96, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_ilgz30nDf4.jpeg?v=1757222621', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(83, 97, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_IeokOng7ar.jpeg?v=1757222501', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(84, 98, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_sMnhxL2mRX.jpeg?v=1757222447', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(85, 99, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_BX1DCRcd21.jpeg?v=1757222386', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(86, 100, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_EKAyutcEHP.jpeg?v=1757222318', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(87, 101, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250911_qgn0qSQHcl.jpeg?v=1757605639', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(88, 102, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_p2DbzFBG5g.jpeg?v=1757222254', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(89, 103, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_GuyC6YKsVm.jpeg?v=1757221960', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(90, 104, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_ux3VBzk78J.jpeg?v=1757221903', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(91, 105, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250903_MwPuK2zq0q.jpeg?v=1756868549', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(92, 106, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250903_YZp0cRr4b4.jpeg?v=1756868477', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(93, 107, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_0m5bmG3E9J.jpeg?v=1755224610', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(94, 108, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_BVklbDSEoF.jpeg?v=1755224555', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(95, 109, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_OQNfTfRnwl.jpeg?v=1755224506', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(96, 110, 'https://pos.nvncdn.com/cba2a3-7534/ps/Gau-bong-vong-tay-Cute-dog-deo-kinh-17cm.jpg?v=1753105547', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(97, 111, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_pwRoecWLLX.jpeg?v=1753006269', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(98, 112, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_sPuHTs59Wk.jpeg?v=1753006218', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(99, 113, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_APXQs2J1Vm.jpeg?v=1753006175', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(100, 114, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_rUoexCnFVE.jpeg?v=1753006319', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(101, 115, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250919_QEyOey3KOY.jpeg?v=1758256011', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(102, 132, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8onk8ttat8n8e_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(103, 133, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4euheea0vw0d7_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(104, 134, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rd3n-lu8w01t3lqq4a8_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(105, 135, 'https://down-vn.img.susercontent.com/file/sg-11134201-7qvdu-ljt9w9tlt0cy74_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(106, 136, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m7akrq4d5h4sce_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(107, 137, 'https://down-vn.img.susercontent.com/file/1cd69764282e9d0c40b6512c768cd0e0_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(108, 138, 'https://down-vn.img.susercontent.com/file/cn-11134207-7r98o-lx9iw0r7vccl4f_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(109, 139, 'https://down-vn.img.susercontent.com/file/sg-11134253-7rdxy-mdh87mxsbf10ea_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(110, 140, 'https://down-vn.img.susercontent.com/file/75ceda60bfd27acff5374d2160428c5b_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(111, 141, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mb60olxz98ev1c_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(112, 142, 'https://down-vn.img.susercontent.com/file/sg-11134201-824hm-mei02vvvh6v705_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(113, 143, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1cj7se4xr2w90_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(114, 144, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rdy3-m06sfmjq8xd3c4_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(115, 145, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mcsmg5y0nt0cd7_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(116, 146, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m720q6a6waldcb_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(117, 147, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-md07b499di8s8a_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(118, 148, 'https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lfttzwegh6gn6d_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(119, 149, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-md15f4yham9rf4_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(120, 150, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rd55-lwp5kbu2p1ys40_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(121, 151, 'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lyc0p2d8va6lcc_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(122, 152, 'https://down-vn.img.susercontent.com/file/sg-11134201-7ra1g-mbam5i6e9t61be', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(123, 153, 'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lzvoxkigky19a9', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(124, 154, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8efkezmnpmv99', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(125, 155, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8dl4n0vz88e1e_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(126, 156, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mbj0qevdx5c45d_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(127, 157, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mciy11ajbrfg38_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(128, 158, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mbrmyg8bdap687_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(129, 159, 'https://down-vn.img.susercontent.com/file/sg-11134253-7rdvo-mdp8f2423aw4fb_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(130, 160, 'https://down-vn.img.susercontent.com/file/310402d145388bca4464324a817d0675_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(131, 161, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rene-m8j69s8cljpx9a_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(132, 162, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m5r9e8zid0l2e5_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(133, 163, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rauu-magtfqqv93rke7_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(134, 164, 'https://down-vn.img.susercontent.com/file/sg-11134201-7renw-m8hr7viqpxkmcf_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(135, 165, 'https://down-vn.img.susercontent.com/file/sg-11134201-7ravh-mb6vtr6biqgm37_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(136, 166, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1cib73qc0gob1_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(137, 167, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rfhr-m9xv0johgi1ode_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(138, 168, 'https://down-vn.img.susercontent.com/file/sg-11134201-7repw-m2qlocafiugdf1_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(139, 169, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mdj75x2al8z555_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(140, 170, 'https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lhm46hp5shol45_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(141, 171, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rd5n-m7xg7fjq5c7p83_tn.webp', 'thumbnail', '0000-00-00 00:00:00', '2025-09-24 07:27:08'),
-(143, 13, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_WbrkDHVjip.jpeg?v=1756626693', 'detail', '2025-09-29 16:35:28', '2025-09-29 16:35:28'),
-(144, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_hFhoOOuvRX.jpeg?v=1756626628', 'detail', '2025-09-29 16:37:16', '2025-09-29 16:37:16'),
-(145, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_wcECV7nu5x.jpeg?v=1756626590', 'detail', '2025-09-29 16:40:01', '2025-09-29 16:40:01'),
-(146, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_udVLA2qPjV.jpeg?v=1756626652', 'detail', '2025-09-29 16:40:53', '2025-09-29 16:40:53'),
-(148, 15, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_ng2iko6I5t.jpeg?v=1756626516', 'detail', '2025-09-28 17:11:09', '2025-09-28 17:11:09'),
-(149, 15, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_32ig1Uaqs7.jpeg?v=1756626492', 'detail', '2025-09-29 17:12:11', '2025-09-29 17:12:11'),
-(150, 16, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_90lOfvm6wv.jpeg?v=1756626786', 'detail', '2025-09-29 17:13:37', '2025-09-29 17:13:37'),
-(151, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_TwPQ5ALsW7.jpeg?v=1756626903', 'detail', '2025-09-29 17:13:49', '2025-09-29 17:13:49'),
-(152, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_gqus9BpvRs.jpeg?v=1756626870', 'detail', '2025-09-29 17:13:49', '2025-09-29 17:13:49'),
-(153, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_3JQS2auVkD.jpeg?v=1756626876', 'detail', '2025-09-29 17:16:14', '2025-09-29 17:16:14'),
-(154, 18, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_D3ngIpgLQo.jpeg?v=1756529289', 'detail', '2025-09-29 17:16:34', '2025-09-29 17:16:34'),
-(155, 19, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_39hsOTrQkZ.jpeg?v=1756529211', 'detail', '2025-09-29 17:20:15', '2025-09-29 17:20:15'),
-(156, 20, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_yE8wBbikvp.jpeg?v=1756621375', 'detail', '2025-09-29 17:20:44', '2025-09-29 17:20:44'),
-(157, 20, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Ru52y71y7w.jpeg?v=1756621379', 'detail', '2025-09-29 17:20:44', '2025-09-29 17:20:44'),
-(158, 21, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_Q5SML1C7iu.jpeg?v=1756528629', 'detail', '2025-09-29 17:47:35', '2025-09-29 17:47:35'),
-(159, 22, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_XK8Vz7Ruk6.jpeg?v=1756528558', 'detail', '2025-09-29 17:47:45', '2025-09-29 17:47:45'),
-(160, 22, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_CafBFMhMQf.jpeg?v=1756528562', 'detail', '2025-09-29 17:47:45', '2025-09-29 17:47:45'),
-(161, 23, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_1DYXs1Zszf.jpeg?v=1756621309', 'detail', '2025-09-29 18:20:53', '2025-09-29 18:20:53'),
-(162, 24, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_0uoZ5JtJnD.jpeg?v=1756621250', 'detail', '2025-09-29 18:24:05', '2025-09-29 18:24:05'),
-(163, 24, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_UN9A3QJUnx.jpeg?v=1756621216', 'detail', '2025-09-29 18:24:05', '2025-09-29 18:24:05'),
-(164, 25, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_AQbU1uCvtz.jpeg?v=1756621114', 'detail', '2025-09-29 18:29:44', '2025-09-29 18:29:44'),
-(165, 26, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Jqts6FwZdM.jpeg?v=1756621028', 'detail', '2025-09-29 18:32:16', '2025-09-29 18:32:16'),
-(166, 27, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_8K8qsruOqV.jpeg?v=1756528487', 'detail', '2025-09-29 18:33:46', '2025-09-29 18:33:46'),
-(167, 28, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_we1mYKMcQu.jpeg?v=1756528414', 'detail', '2025-09-29 18:37:51', '2025-09-29 18:37:51'),
-(168, 29, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_7t6TA98WxH.jpeg?v=1756528368', 'detail', '2025-09-29 18:40:03', '2025-09-29 18:40:03'),
-(169, 30, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_azEZhALwm6.jpeg?v=1756528311', 'detail', '2025-09-29 18:41:18', '2025-09-29 18:41:18'),
-(170, 36, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_eL4Hd4LNZf.jpeg?v=1757222933', 'detail', '2025-09-29 18:43:44', '2025-09-29 18:43:44'),
-(171, 37, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_znADoNq1pG.jpeg?v=1757222883', 'detail', '2025-09-29 18:48:55', '2025-09-29 18:48:55'),
-(172, 38, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_FtUgjWPcBd.jpeg?v=1757222817', 'detail', '2025-09-30 04:52:40', '2025-09-30 04:52:40'),
-(173, 39, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_C7b4S4Z8RT.jpeg?v=1757222761', 'detail', '2025-09-30 04:52:58', '2025-09-30 04:52:58'),
-(174, 40, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_wbVpZpuZ4K.jpeg?v=1756628243', 'detail', '2025-09-30 04:55:36', '2025-09-30 04:55:36'),
-(175, 41, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_5hGwYCi7n4.jpeg?v=1756628186', 'detail', '2025-09-30 05:23:48', '2025-09-30 05:23:48'),
-(176, 43, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_NFTzqdXO7V.jpeg?v=1756628144', 'detail', '2025-09-30 05:28:36', '2025-09-30 05:28:36'),
-(177, 44, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_gz1QWPk0L3.jpeg?v=1756628048', 'detail', '2025-09-30 06:01:36', '2025-09-30 06:01:36'),
-(178, 45, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Te1Or9lia9.jpeg?v=1756627962', 'detail', '2025-09-30 06:02:57', '2025-09-30 06:02:57'),
-(179, 45, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_QnSBZXvJRl.jpeg?v=1756627950', 'detail', '2025-09-30 06:02:57', '2025-09-30 06:02:57'),
-(180, 46, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_mYvRZleN3S.jpeg?v=1756627899', 'detail', '2025-09-30 06:04:39', '2025-09-30 06:04:39'),
-(181, 46, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Wzizj6eSnn.jpeg?v=1756627883', 'detail', '2025-09-30 06:04:39', '2025-09-30 06:04:39'),
-(182, 47, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_NrPygDngWK.jpeg?v=1756627833', 'detail', '2025-09-30 06:07:01', '2025-09-30 06:07:01'),
-(183, 48, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_tg18ITjYPX.jpeg?v=1756627764', 'detail', '2025-09-30 06:08:03', '2025-09-30 06:08:03'),
-(184, 48, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_CCQt1bW2KM.jpeg?v=1756627786', 'detail', '2025-09-30 06:08:03', '2025-09-30 06:08:03'),
-(185, 49, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_tjQudPTwR8.jpeg?v=1755599014', 'detail', '2025-09-30 06:09:27', '2025-09-30 06:09:27'),
-(186, 50, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_9U7hJnyB2q.jpeg?v=1755598965', 'detail', '2025-09-30 06:10:23', '2025-09-30 06:10:23'),
-(187, 50, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_1ZTElSqKmc.jpeg?v=1755598955', 'detail', '2025-09-30 06:10:23', '2025-09-30 06:10:23'),
-(188, 51, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_L5PdXT0Nxv.jpeg?v=1755598910', 'detail', '2025-09-30 06:38:02', '2025-09-30 06:38:02'),
-(189, 52, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_Iw7TWiwtgB.jpeg?v=1755598863', 'detail', '2025-09-30 06:43:21', '2025-09-30 06:43:21'),
-(190, 53, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_lYWpWKckOu.jpeg?v=1755224664', 'detail', '2025-09-30 06:44:08', '2025-09-30 06:44:08'),
-(191, 54, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_TIgGkebq16.jpeg?v=1754359815', 'detail', '2025-09-30 06:45:18', '2025-09-30 06:45:18'),
-(192, 57, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_DEIclvuftY.jpeg?v=1754359736', 'detail', '2025-09-30 06:47:39', '2025-09-30 06:47:39'),
-(193, 60, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_JlUGqMfCB3.jpeg?v=1753006923', 'detail', '2025-09-30 06:48:31', '2025-09-30 06:48:31'),
-(194, 60, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_JlUGqMfCB3.jpeg?v=1753006923', 'detail', '2025-09-30 06:52:01', '2025-09-30 06:52:01'),
-(195, 61, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_6bTcD3szNc.jpeg?v=1753006880', 'detail', '2025-09-30 06:54:10', '2025-09-30 06:54:10'),
-(196, 62, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_28TMeiaoUp.jpeg?v=1753006822', 'detail', '2025-09-30 06:58:26', '2025-09-30 06:58:26'),
-(197, 69, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_qG3WEtxD1W.jpeg?v=1753006557', 'detail', '2025-09-30 07:05:52', '2025-09-30 07:05:52'),
-(198, 73, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250228_0cdqbr3q5v.jpeg?v=1740716375', 'detail', '2025-09-30 07:23:26', '2025-09-30 07:23:26'),
-(199, 73, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250228_tYoPuAnj3f.jpeg?v=1740716362', 'detail', '2025-09-30 07:23:26', '2025-09-30 07:23:26'),
-(200, 94, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250917_kTdJlXleak.jpeg?v=1758095930', 'detail', '2025-09-30 07:27:41', '2025-09-30 07:27:41'),
-(201, 95, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_f6MdYEKWVE.jpeg?v=1757222681', 'detail', '2025-09-30 07:28:56', '2025-09-30 07:28:56'),
-(202, 96, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_chQQEod8ET.jpeg?v=1757222641', 'detail', '2025-09-30 07:29:48', '2025-09-30 07:29:48'),
-(203, 98, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_tG39a4SvYc.jpeg?v=1757222451', 'detail', '2025-09-30 07:30:41', '2025-09-30 07:30:41'),
-(204, 98, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_D8AcrshHa0.jpeg?v=1757222455', 'detail', '2025-09-30 07:30:41', '2025-09-30 07:30:41'),
-(205, 99, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_SLrIv2mUz4.jpeg?v=1757222390', 'detail', '2025-09-30 07:32:43', '2025-09-30 07:32:43'),
-(206, 100, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_przejwckkY.jpeg?v=1757222321', 'detail', '2025-09-30 07:33:46', '2025-09-30 07:33:46'),
-(207, 101, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250911_zrDrvR7ogd.jpeg?v=1757605676', 'detail', '2025-09-30 07:34:46', '2025-09-30 07:34:46'),
-(208, 101, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250911_sB54rpYXYj.jpeg?v=1757605680', 'detail', '2025-09-30 07:34:46', '2025-09-30 07:34:46'),
-(209, 102, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_AGAshaEZmf.jpeg?v=1757222258', 'detail', '2025-09-30 07:36:13', '2025-09-30 07:36:13'),
-(210, 103, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_5CFjc9UlcH.jpeg?v=1757222227', 'detail', '2025-09-30 07:37:36', '2025-09-30 07:37:36'),
-(211, 110, 'https://pos.nvncdn.com/cba2a3-7534/ps/Gau-bong-vong-tay-Cute-dog-deo-kinh-17cm-1.jpg?v=1753105551', 'detail', '2025-09-30 07:40:14', '2025-09-30 07:40:14'),
-(212, 110, 'https://pos.nvncdn.com/cba2a3-7534/ps/Gau-bong-vong-tay-Cute-dog-deo-kinh-17cm-2.jpg?v=1753105555', 'detail', '2025-09-30 07:40:14', '2025-09-30 07:40:14'),
-(213, 115, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250629_Mq8pfuKK5D.jpeg?v=1751211813', 'detail', '2025-09-30 07:47:41', '2025-09-30 07:47:41');
+(21, 13, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464499/products/1761464502_68fdd0b66ca52.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:41:46'),
+(22, 14, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464504/products/1761464506_68fdd0ba979f9.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:41:50'),
+(23, 15, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464508/products/1761464510_68fdd0be978c2.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:41:54'),
+(24, 16, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464511/products/1761464514_68fdd0c266aeb.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:41:57'),
+(25, 17, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464515/products/1761464517_68fdd0c5ebd86.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:01'),
+(26, 18, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464518/products/1761464521_68fdd0c9c5e56.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:04'),
+(27, 19, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464522/products/1761464525_68fdd0cd15f11.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:08'),
+(28, 20, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464526/products/1761464529_68fdd0d154feb.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:12'),
+(29, 21, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464530/products/1761464533_68fdd0d52a660.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:16'),
+(30, 22, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464535/products/1761464536_68fdd0d8ea712.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:20'),
+(31, 23, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464539/products/1761464541_68fdd0dd60319.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:24'),
+(32, 24, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464543/products/1761464545_68fdd0e176f38.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:29'),
+(33, 25, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464547/products/1761464549_68fdd0e5e13cd.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:33'),
+(34, 26, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464552/products/1761464554_68fdd0ea0d280.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:37'),
+(35, 27, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464556/products/1761464558_68fdd0ee5ee61.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:42'),
+(36, 28, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464560/products/1761464562_68fdd0f282728.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:46'),
+(37, 29, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464564/products/1761464566_68fdd0f6abc4e.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:50'),
+(38, 30, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464569/products/1761464571_68fdd0fb493ef.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:54'),
+(39, 31, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464573/products/1761464575_68fdd0ff35ab7.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:42:59'),
+(40, 32, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464577/products/1761464579_68fdd10399f3e.jpg', 'thumbnail', '2025-09-22 00:02:08', '2025-10-26 07:43:03'),
+(41, 33, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464581/products/1761464583_68fdd107b2a95.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:07'),
+(42, 34, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464585/products/1761464588_68fdd10c1f45d.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:11'),
+(43, 35, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464589/products/1761464592_68fdd1102086e.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:15'),
+(44, 36, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464593/products/1761464595_68fdd1139261f.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:19'),
+(45, 37, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464597/products/1761464599_68fdd117f1d54.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:23'),
+(46, 38, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464601/products/1761464603_68fdd11b7163e.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:27'),
+(47, 39, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464604/products/1761464607_68fdd11f5f831.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:30'),
+(48, 40, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464608/products/1761464611_68fdd12318115.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:34'),
+(49, 41, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464613/products/1761464615_68fdd12726e72.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:38'),
+(50, 42, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464616/products/1761464619_68fdd12b38b59.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:42'),
+(51, 43, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464621/products/1761464622_68fdd12edc9bb.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:46'),
+(52, 44, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464625/products/1761464627_68fdd133505b2.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:51'),
+(53, 45, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464629/products/1761464631_68fdd1378af08.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:56'),
+(54, 46, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464633/products/1761464636_68fdd13c6a488.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:43:59'),
+(55, 47, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464637/products/1761464639_68fdd13fbfbd9.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:44:03'),
+(56, 48, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464640/products/1761464643_68fdd14365ffb.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:44:06'),
+(57, 49, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464643/products/1761464646_68fdd14695bc8.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:44:09'),
+(58, 50, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464647/products/1761464649_68fdd149d4fc9.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:44:13'),
+(59, 51, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464650/products/1761464653_68fdd14dd9e72.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:44:16'),
+(60, 52, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464654/products/1761464657_68fdd1512b350.jpg', 'thumbnail', '2025-09-22 00:17:05', '2025-10-26 07:44:20'),
+(61, 53, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464658/products/1761464660_68fdd1549e3c2.jpg', 'thumbnail', '2025-09-22 01:26:59', '2025-10-26 07:44:24'),
+(62, 54, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464662/products/1761464664_68fdd158a4174.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:28'),
+(63, 57, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464666/products/1761464668_68fdd15ccde7b.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:32'),
+(64, 58, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464670/products/1761464672_68fdd16083144.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:35'),
+(65, 59, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464673/products/1761464676_68fdd16451381.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:39'),
+(66, 60, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464677/products/1761464679_68fdd167c022a.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:42'),
+(67, 61, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464680/products/1761464683_68fdd16b57dee.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:46'),
+(68, 62, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464683/products/1761464686_68fdd16eee9db.jpg', 'thumbnail', '2025-09-22 01:28:40', '2025-10-26 07:44:49'),
+(69, 63, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464687/products/1761464690_68fdd1721a0d2.jpg', 'detail', '2025-09-22 01:28:40', '2025-10-26 07:44:53'),
+(70, 64, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464691/products/1761464693_68fdd175f3391.jpg', 'detail', '2025-09-22 01:28:40', '2025-10-26 07:44:57'),
+(71, 65, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464695/products/1761464697_68fdd179878b7.jpg', 'thumbnail', '2025-09-22 01:35:18', '2025-10-26 07:45:00'),
+(72, 66, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464698/products/1761464701_68fdd17d57042.jpg', 'thumbnail', '2025-09-22 01:35:18', '2025-10-26 07:45:04'),
+(73, 67, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464701/products/1761464705_68fdd1810595d.jpg', 'thumbnail', '2025-09-22 01:36:09', '2025-10-26 07:45:07'),
+(74, 68, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464705/products/1761464708_68fdd1842b71d.jpg', 'thumbnail', '2025-09-22 01:36:09', '2025-10-26 07:45:11'),
+(75, 69, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464708/products/1761464711_68fdd18770a6c.jpg', 'thumbnail', '2025-09-22 01:36:09', '2025-10-26 07:45:14'),
+(76, 70, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464712/products/1761464715_68fdd18b16e62.jpg', 'thumbnail', '2025-09-22 01:36:09', '2025-10-26 07:45:18'),
+(77, 71, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464716/products/1761464718_68fdd18edf066.jpg', 'thumbnail', '2025-09-22 01:36:09', '2025-10-26 07:45:22'),
+(78, 72, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464720/products/1761464722_68fdd192dffad.jpg', 'thumbnail', '2025-09-22 01:38:00', '2025-10-26 07:45:26'),
+(79, 73, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464724/products/1761464726_68fdd196adc40.jpg', 'thumbnail', '2025-09-22 01:38:21', '2025-10-26 07:45:30'),
+(80, 94, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464729/products/1761464730_68fdd19ad52cb.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:35'),
+(81, 95, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464733/products/1761464735_68fdd19faf1b3.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:39'),
+(82, 96, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464736/products/1761464739_68fdd1a3b4669.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:42'),
+(83, 97, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464740/products/1761464743_68fdd1a7141be.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:45'),
+(84, 98, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464743/products/1761464746_68fdd1aa2b3cf.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:49'),
+(85, 99, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464747/products/1761464749_68fdd1adeab97.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:53'),
+(86, 100, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464750/products/1761464753_68fdd1b17b16b.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:56'),
+(87, 101, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464753/products/1761464756_68fdd1b4a1c05.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:45:59'),
+(88, 102, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464757/products/1761464760_68fdd1b819fcf.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:03'),
+(89, 103, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464761/products/1761464763_68fdd1bba067f.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:07'),
+(90, 104, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464765/products/1761464767_68fdd1bf7e16b.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:11'),
+(91, 105, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464769/products/1761464771_68fdd1c3ca7f5.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:15'),
+(92, 106, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464773/products/1761464775_68fdd1c79b6ef.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:18'),
+(93, 107, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464777/products/1761464779_68fdd1cb36f5e.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:22'),
+(94, 108, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464780/products/1761464783_68fdd1cf39008.jpg', 'thumbnail', '2025-09-22 01:52:47', '2025-10-26 07:46:26'),
+(95, 109, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464784/products/1761464787_68fdd1d30238d.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:30'),
+(96, 110, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464788/products/1761464790_68fdd1d66fd04.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:34'),
+(97, 111, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464791/products/1761464794_68fdd1da7d86e.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:37'),
+(98, 112, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464795/products/1761464798_68fdd1de5f1d4.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:41'),
+(99, 113, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464798/products/1761464801_68fdd1e1a0b9e.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:44'),
+(100, 114, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464803/products/1761464805_68fdd1e5364a1.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:49'),
+(101, 115, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464806/products/1761464809_68fdd1e96e437.jpg', 'thumbnail', '2025-09-22 01:58:56', '2025-10-26 07:46:52'),
+(102, 132, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464808/products/1761464812_68fdd1ec3e89c.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:46:53'),
+(103, 133, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464809/products/1761464813_68fdd1ede9f14.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:46:55'),
+(104, 134, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464811/products/1761464815_68fdd1efad09b.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:46:57'),
+(105, 135, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464813/products/1761464817_68fdd1f16e93d.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:46:59'),
+(106, 136, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464815/products/1761464819_68fdd1f331d70.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:00'),
+(107, 137, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464816/products/1761464821_68fdd1f5123c8.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:02'),
+(108, 138, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464818/products/1761464822_68fdd1f6d7560.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:04'),
+(109, 139, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464820/products/1761464824_68fdd1f89aa5b.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:06'),
+(110, 140, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464822/products/1761464826_68fdd1fa4ce05.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:07'),
+(111, 141, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464823/products/1761464828_68fdd1fc04527.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:09'),
+(112, 142, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464825/products/1761464829_68fdd1fdb55ee.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:11'),
+(113, 143, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464827/products/1761464831_68fdd1ff71689.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:12'),
+(114, 144, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464828/products/1761464833_68fdd2010d54e.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:14'),
+(115, 145, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464830/products/1761464834_68fdd202b839d.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:16'),
+(116, 146, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464832/products/1761464836_68fdd2042e968.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:17'),
+(117, 147, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464833/products/1761464837_68fdd205ee353.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:19'),
+(118, 148, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464835/products/1761464839_68fdd2076ee89.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:21'),
+(119, 149, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464837/products/1761464841_68fdd20936dde.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:22'),
+(120, 150, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464838/products/1761464843_68fdd20b00bf2.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:24'),
+(121, 151, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464840/products/1761464844_68fdd20c7a855.webp', 'thumbnail', '2025-09-24 00:14:42', '2025-10-26 07:47:26'),
+(122, 152, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464843/products/1761464846_68fdd20e637e6.jpg', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:28'),
+(123, 153, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464846/products/1761464849_68fdd211004c3.jpg', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:32'),
+(124, 154, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464849/products/1761464852_68fdd21462d09.jpg', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:35'),
+(125, 155, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464851/products/1761464855_68fdd21746696.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:36'),
+(126, 156, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464852/products/1761464857_68fdd2190bcf6.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:38'),
+(127, 157, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464854/products/1761464858_68fdd21acbe54.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:40'),
+(128, 158, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464856/products/1761464860_68fdd21c97f7e.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:42'),
+(129, 159, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464858/products/1761464862_68fdd21e5e6b7.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:43'),
+(130, 160, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464859/products/1761464864_68fdd2201bf5a.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:45'),
+(131, 161, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464861/products/1761464865_68fdd221e1cc5.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:47'),
+(132, 162, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464863/products/1761464867_68fdd2239b845.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:49'),
+(133, 163, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464865/products/1761464869_68fdd2254e494.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:50'),
+(134, 164, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464866/products/1761464871_68fdd22706b9f.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:52'),
+(135, 165, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464868/products/1761464872_68fdd228a90f9.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:54'),
+(136, 166, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464870/products/1761464874_68fdd22aa2b01.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:56'),
+(137, 167, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464872/products/1761464876_68fdd22c5faed.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:47:57'),
+(138, 168, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464874/products/1761464878_68fdd22e26033.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:48:00'),
+(139, 169, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464876/products/1761464880_68fdd23071fba.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:48:02'),
+(140, 170, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464878/products/1761464882_68fdd2322ccb3.webp', 'thumbnail', '2025-09-24 00:27:08', '2025-10-26 07:48:03'),
+(141, 171, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464879/products/1761464883_68fdd233d7ff1.webp', 'thumbnail', '0000-00-00 00:00:00', '2025-10-26 07:48:05'),
+(143, 13, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464882/products/1761464885_68fdd235804b1.jpg', 'detail', '2025-09-29 09:35:28', '2025-10-26 07:48:08'),
+(144, 14, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464886/products/1761464888_68fdd238dd96f.jpg', 'detail', '2025-09-29 09:37:16', '2025-10-26 07:48:12'),
+(145, 14, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464890/products/1761464892_68fdd23c86bf2.jpg', 'detail', '2025-09-29 09:40:01', '2025-10-26 07:48:15'),
+(146, 14, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464894/products/1761464896_68fdd24055e1b.jpg', 'detail', '2025-09-29 09:40:53', '2025-10-26 07:48:19'),
+(148, 15, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464898/products/1761464900_68fdd2444df17.jpg', 'detail', '2025-09-28 10:11:09', '2025-10-26 07:48:23'),
+(149, 15, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464901/products/1761464904_68fdd2484d72d.jpg', 'detail', '2025-09-29 10:12:11', '2025-10-26 07:48:27'),
+(150, 16, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464905/products/1761464908_68fdd24c475e3.jpg', 'detail', '2025-09-29 10:13:37', '2025-10-26 07:48:31'),
+(151, 17, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464909/products/1761464911_68fdd24fb5bd8.jpg', 'detail', '2025-09-29 10:13:49', '2025-10-26 07:48:34'),
+(152, 17, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464912/products/1761464915_68fdd25344008.jpg', 'detail', '2025-09-29 10:13:49', '2025-10-26 07:48:38'),
+(153, 17, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464916/products/1761464919_68fdd2570701d.jpg', 'detail', '2025-09-29 10:16:14', '2025-10-26 07:48:42'),
+(154, 18, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464920/products/1761464922_68fdd25ad8ebc.jpg', 'detail', '2025-09-29 10:16:34', '2025-10-26 07:48:45'),
+(155, 19, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464923/products/1761464926_68fdd25e3407a.jpg', 'detail', '2025-09-29 10:20:15', '2025-10-26 07:48:49'),
+(156, 20, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464926/products/1761464930_68fdd262131c9.jpg', 'detail', '2025-09-29 10:20:44', '2025-10-26 07:48:52'),
+(157, 20, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464930/products/1761464933_68fdd26541f0d.jpg', 'detail', '2025-09-29 10:20:44', '2025-10-26 07:48:56'),
+(158, 21, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464934/products/1761464936_68fdd2689d12d.jpg', 'detail', '2025-09-29 10:47:35', '2025-10-26 07:48:59'),
+(159, 22, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464937/products/1761464940_68fdd26c4f0d5.jpg', 'detail', '2025-09-29 10:47:45', '2025-10-26 07:49:03'),
+(160, 22, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464941/products/1761464944_68fdd27034d86.jpg', 'detail', '2025-09-29 10:47:45', '2025-10-26 07:49:07'),
+(161, 23, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464946/products/1761464948_68fdd2743852d.jpg', 'detail', '2025-09-29 11:20:53', '2025-10-26 07:49:11'),
+(162, 24, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464949/products/1761464952_68fdd278428e5.jpg', 'detail', '2025-09-29 11:24:05', '2025-10-26 07:49:15'),
+(163, 24, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464953/products/1761464956_68fdd27c3284b.jpg', 'detail', '2025-09-29 11:24:05', '2025-10-26 07:49:19'),
+(164, 25, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464957/products/1761464960_68fdd280605dc.jpg', 'detail', '2025-09-29 11:29:44', '2025-10-26 07:49:23'),
+(165, 26, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464961/products/1761464964_68fdd284029fe.jpg', 'detail', '2025-09-29 11:32:16', '2025-10-26 07:49:27'),
+(166, 27, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464965/products/1761464967_68fdd287dcf05.jpg', 'detail', '2025-09-29 11:33:46', '2025-10-26 07:49:31'),
+(167, 28, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464969/products/1761464971_68fdd28bde8b2.jpg', 'detail', '2025-09-29 11:37:51', '2025-10-26 07:49:35'),
+(168, 29, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464973/products/1761464975_68fdd28fd9e56.jpg', 'detail', '2025-09-29 11:40:03', '2025-10-26 07:49:39'),
+(169, 30, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464977/products/1761464979_68fdd2936eac6.jpg', 'detail', '2025-09-29 11:41:18', '2025-10-26 07:49:43'),
+(170, 36, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464981/products/1761464983_68fdd297bdeaa.jpg', 'detail', '2025-09-29 11:43:44', '2025-10-26 07:49:47'),
+(171, 37, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464984/products/1761464987_68fdd29b7b8ae.jpg', 'detail', '2025-09-29 11:48:55', '2025-10-26 07:49:50'),
+(172, 38, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464988/products/1761464990_68fdd29eb0ed7.jpg', 'detail', '2025-09-29 21:52:40', '2025-10-26 07:49:54'),
+(173, 39, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464991/products/1761464994_68fdd2a283994.jpg', 'detail', '2025-09-29 21:52:58', '2025-10-26 07:49:57'),
+(174, 40, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761464995/products/1761464998_68fdd2a60f06b.jpg', 'detail', '2025-09-29 21:55:36', '2025-10-26 07:50:01'),
+(175, 41, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465000/products/1761465002_68fdd2aa62795.jpg', 'detail', '2025-09-29 22:23:48', '2025-10-26 07:50:05'),
+(176, 43, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465004/products/1761465006_68fdd2ae537d2.jpg', 'detail', '2025-09-29 22:28:36', '2025-10-26 07:50:09'),
+(177, 44, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465007/products/1761465010_68fdd2b24ce06.jpg', 'detail', '2025-09-29 23:01:36', '2025-10-26 07:50:13'),
+(178, 45, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465011/products/1761465014_68fdd2b6243d5.jpg', 'detail', '2025-09-29 23:02:57', '2025-10-26 07:50:17'),
+(179, 45, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465016/products/1761465018_68fdd2ba70b59.jpg', 'detail', '2025-09-29 23:02:57', '2025-10-26 07:50:22'),
+(180, 46, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465019/products/1761465022_68fdd2be80863.jpg', 'detail', '2025-09-29 23:04:39', '2025-10-26 07:50:25'),
+(181, 46, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465023/products/1761465026_68fdd2c207897.jpg', 'detail', '2025-09-29 23:04:39', '2025-10-26 07:50:29'),
+(182, 47, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465026/products/1761465029_68fdd2c5c1e1d.jpg', 'detail', '2025-09-29 23:07:01', '2025-10-26 07:50:32'),
+(183, 48, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465030/products/1761465033_68fdd2c906c76.jpg', 'detail', '2025-09-29 23:08:03', '2025-10-26 07:50:35'),
+(184, 48, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465033/products/1761465036_68fdd2cc326b2.jpg', 'detail', '2025-09-29 23:08:03', '2025-10-26 07:50:38'),
+(185, 49, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465036/products/1761465039_68fdd2cf27eed.jpg', 'detail', '2025-09-29 23:09:27', '2025-10-26 07:50:41'),
+(186, 50, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465039/products/1761465042_68fdd2d2523dd.jpg', 'detail', '2025-09-29 23:10:23', '2025-10-26 07:50:45'),
+(187, 50, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465043/products/1761465046_68fdd2d61b905.jpg', 'detail', '2025-09-29 23:10:23', '2025-10-26 07:50:49'),
+(188, 51, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465046/products/1761465049_68fdd2d99cbc2.jpg', 'detail', '2025-09-29 23:38:02', '2025-10-26 07:50:52'),
+(189, 52, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465050/products/1761465053_68fdd2dd03665.jpg', 'detail', '2025-09-29 23:43:21', '2025-10-26 07:50:56'),
+(190, 53, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465053/products/1761465056_68fdd2e0d8add.jpg', 'detail', '2025-09-29 23:44:08', '2025-10-26 07:50:59'),
+(191, 54, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465057/products/1761465060_68fdd2e400313.jpg', 'detail', '2025-09-29 23:45:18', '2025-10-26 07:51:03'),
+(192, 57, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465061/products/1761465063_68fdd2e77eb34.jpg', 'detail', '2025-09-29 23:47:39', '2025-10-26 07:51:06'),
+(193, 60, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465065/products/1761465067_68fdd2eb5410e.jpg', 'detail', '2025-09-29 23:48:31', '2025-10-26 07:51:11'),
+(194, 60, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465069/products/1761465071_68fdd2ef7e04b.jpg', 'detail', '2025-09-29 23:52:01', '2025-10-26 07:51:15'),
+(195, 61, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465072/products/1761465075_68fdd2f3a8da2.jpg', 'detail', '2025-09-29 23:54:10', '2025-10-26 07:51:18'),
+(196, 62, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465076/products/1761465079_68fdd2f726488.jpg', 'detail', '2025-09-29 23:58:26', '2025-10-26 07:51:21'),
+(197, 69, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465080/products/1761465082_68fdd2fab977a.jpg', 'detail', '2025-09-30 00:05:52', '2025-10-26 07:51:25'),
+(198, 73, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465084/products/1761465086_68fdd2fe4a799.jpg', 'detail', '2025-09-30 00:23:26', '2025-10-26 07:51:30'),
+(199, 73, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465087/products/1761465090_68fdd3028298e.jpg', 'detail', '2025-09-30 00:23:26', '2025-10-26 07:51:33'),
+(200, 94, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465091/products/1761465093_68fdd305ab335.jpg', 'detail', '2025-09-30 00:27:41', '2025-10-26 07:51:37'),
+(201, 95, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465094/products/1761465097_68fdd309a53c4.jpg', 'detail', '2025-09-30 00:28:56', '2025-10-26 07:51:40'),
+(202, 96, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465097/products/1761465100_68fdd30cb3e46.jpg', 'detail', '2025-09-30 00:29:48', '2025-10-26 07:51:43'),
+(203, 98, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465101/products/1761465104_68fdd31033b87.jpg', 'detail', '2025-09-30 00:30:41', '2025-10-26 07:51:47'),
+(204, 98, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465104/products/1761465107_68fdd313b88d7.jpg', 'detail', '2025-09-30 00:30:41', '2025-10-26 07:51:50'),
+(205, 99, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465107/products/1761465110_68fdd316f2497.jpg', 'detail', '2025-09-30 00:32:43', '2025-10-26 07:51:53'),
+(206, 100, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465111/products/1761465114_68fdd31a23f09.jpg', 'detail', '2025-09-30 00:33:46', '2025-10-26 07:51:56'),
+(207, 101, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465114/products/1761465117_68fdd31d352c5.jpg', 'detail', '2025-09-30 00:34:46', '2025-10-26 07:52:00'),
+(208, 101, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465117/products/1761465120_68fdd320c435d.jpg', 'detail', '2025-09-30 00:34:46', '2025-10-26 07:52:03'),
+(209, 102, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465121/products/1761465124_68fdd32421799.jpg', 'detail', '2025-09-30 00:36:13', '2025-10-26 07:52:07'),
+(210, 103, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465125/products/1761465128_68fdd3283bb8e.jpg', 'detail', '2025-09-30 00:37:36', '2025-10-26 07:52:11'),
+(211, 110, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465131/products/1761465132_68fdd32c7ecf6.jpg', 'detail', '2025-09-30 00:40:14', '2025-10-26 07:52:17'),
+(212, 110, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465137/products/1761465138_68fdd3323e6ff.jpg', 'detail', '2025-09-30 00:40:14', '2025-10-26 07:52:23'),
+(213, 115, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761465142/products/1761465144_68fdd338063c9.jpg', 'detail', '2025-09-30 00:47:41', '2025-10-26 07:52:28'),
+(235, 168, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761504306/products/lqmbtwm6qcopjmt4vuyd.jpg', 'detail', '2025-10-26 18:45:09', '2025-10-26 18:45:09');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `provinces`
+-- Table structure for table `provinces`
 --
 
 CREATE TABLE `provinces` (
@@ -1019,7 +1036,7 @@ CREATE TABLE `provinces` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `provinces`
+-- Dumping data for table `provinces`
 --
 
 INSERT INTO `provinces` (`id`, `name`, `code_name`) VALUES
@@ -1061,7 +1078,7 @@ INSERT INTO `provinces` (`id`, `name`, `code_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `reviews`
+-- Table structure for table `reviews`
 --
 
 CREATE TABLE `reviews` (
@@ -1076,16 +1093,18 @@ CREATE TABLE `reviews` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `reviews`
+-- Dumping data for table `reviews`
 --
 
 INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_hidden`, `created_at`, `updated_at`) VALUES
-(1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-21 18:18:33');
+(1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-21 18:18:33'),
+(2, 30, 2, 5, 'Rất đẹp và vừa ý', 0, '2025-10-22 14:39:12', '2025-10-22 14:39:12'),
+(3, 13, 2, 5, 'Rất đẹp và rất hài lòng', 0, '2025-10-22 20:11:55', '2025-10-26 17:42:28');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -1097,7 +1116,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
@@ -1108,7 +1127,7 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `roles_ex`
+-- Table structure for table `roles_ex`
 --
 
 CREATE TABLE `roles_ex` (
@@ -1120,7 +1139,7 @@ CREATE TABLE `roles_ex` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `roles_ex`
+-- Dumping data for table `roles_ex`
 --
 
 INSERT INTO `roles_ex` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
@@ -1131,7 +1150,7 @@ INSERT INTO `roles_ex` (`id`, `name`, `description`, `created_at`, `updated_at`)
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `role_has_permissions`
+-- Table structure for table `role_has_permissions`
 --
 
 CREATE TABLE `role_has_permissions` (
@@ -1140,46 +1159,33 @@ CREATE TABLE `role_has_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `role_has_permissions`
+-- Dumping data for table `role_has_permissions`
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
-(1, 2),
 (2, 1),
-(2, 2),
 (3, 1),
-(3, 2),
 (4, 1),
 (5, 1),
-(5, 2),
 (6, 1),
-(6, 2),
 (7, 1),
-(7, 2),
 (8, 1),
-(8, 2),
 (9, 1),
-(9, 2),
 (10, 1),
-(10, 2),
 (11, 1),
 (12, 1),
-(12, 2),
 (13, 1),
 (14, 1),
 (15, 1),
 (16, 1),
 (17, 1),
-(17, 2),
 (18, 1),
 (19, 1),
 (20, 1),
 (21, 1),
-(21, 2),
 (22, 1),
 (23, 1),
-(23, 2),
 (24, 1),
 (25, 1),
 (26, 1),
@@ -1190,21 +1196,15 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (31, 1),
 (32, 1),
 (33, 1),
-(33, 2),
 (34, 1),
 (35, 1),
-(35, 2),
 (36, 1),
 (37, 1),
-(37, 2),
 (38, 1),
-(38, 2),
 (39, 1),
 (40, 1),
-(40, 2),
 (41, 1),
 (42, 1),
-(42, 2),
 (43, 1),
 (44, 1),
 (45, 1),
@@ -1217,7 +1217,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `sessions`
+-- Table structure for table `sessions`
 --
 
 CREATE TABLE `sessions` (
@@ -1230,17 +1230,17 @@ CREATE TABLE `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `sessions`
+-- Dumping data for table `sessions`
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('C84VKi0PXBT9jvuub0gQcPrBJuVHAPYMtzIJ1koa', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieGN1ZE5kNVVSclhzMjJ3bkRVWk1zeWNkQXFybXdnakNRTlZPQ0l1byI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9vcmRlcnMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo1O30=', 1761072868),
-('i1665T7TdYQkcdiPzof3GNvAisgkGdWg2DGlB8Dw', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQm9wNVduZGRWd3BDeGpvVDlxc1IxVDFKaVUyV1dza1gzNVJnNUJxMiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hZG1pbi91c2Vycy81L3Blcm1pc3Npb25zIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1761073659);
+('7kzqSeBrX0XrTncsDLm7FZHIjpRNUJfYN9ZMBWz1', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibkt4cllOMjk2alM3YUE5d0FqZFIxMDFUYnhKRWFrVHFNeUFwY3FtMyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi91c2VycyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1761507978),
+('IotPzzo7xittAe66Rl5iy80tgACTRZIWGpgioxyW', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiODRXTFc5ME5MNUdIMktLazBLa2hxZWFGMEN3NjI5dWViZ0VIeUVadyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fX0=', 1761501301);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `shipping_fees`
+-- Table structure for table `shipping_fees`
 --
 
 CREATE TABLE `shipping_fees` (
@@ -1262,7 +1262,7 @@ CREATE TABLE `shipping_fees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `shipping_fees`
+-- Dumping data for table `shipping_fees`
 --
 
 INSERT INTO `shipping_fees` (`id`, `name`, `area_type`, `min_distance`, `max_distance`, `min_order_value`, `base_fee`, `per_km_fee`, `max_fee`, `is_free_shipping`, `priority`, `status`, `description`, `created_at`, `updated_at`) VALUES
@@ -1272,7 +1272,7 @@ INSERT INTO `shipping_fees` (`id`, `name`, `area_type`, `min_distance`, `max_dis
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -1295,21 +1295,20 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `phone`, `ward_id`, `address`, `email_verified_at`, `role_id`, `status`, `social_id`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/default-avatar.png', 'okjt7P6Dit5elqkxuXsHLZYxIBbllpE2ed6QM6GdXd6mz2zmtHZnMP89tBMf', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
-(5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, 'storage/avatars/default-avatar.png', NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
-(9, 'dat1', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$7RuGwSvf7MombGz1aUTc1O.eB/ekeR7c/EtyILMp.WvFIoPg1QLrW', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', 'ba3AEh0vqrx0oivdDilAgUOhQNww8QPasUkYp0dgPoIlyiXPDcOdxliV6RK2', '2025-10-09 07:00:12', '2025-10-09 07:00:12'),
-(10, 'dat1', 'Lê Nguyễn Gia Đạt', 'bachhoangdat9900@gmail.com', '$2y$12$i2VC69mVm4GhKKJugu5SneowV7PehVQWC3SkrcfEd7hIbdqVEoKwK', '0932861734', 28789, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-09 07:00:58', '2025-10-09 07:00:58'),
-(11, 'hn1', 'Lê Hạnh Nguyên', 'hanhnguyen22@gmail.com', '$2y$12$Ncvrv5nkTIJ743k0lm3S8eCT5LBGXrZzNAnD3rLHExGla7O9HXU.u', '09321322131', 28789, '259/28 An Phương', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-09 07:01:47', '2025-10-09 07:01:47'),
-(12, 'Hazaki', 'Khắc Nhựt', '22004294@st.vlute.edu.vn', '$2y$12$HUkk0VD6DA5LKOh3Lc9pveoOwJPEMp8HG7rGL1wgE5pWqZfTRRtTK', '0192920239', 29641, '123', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-20 06:08:48', '2025-10-20 06:08:48');
+(2, 'Hazakiii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761495563/avatars/j5snmdriqkdpgel7gwvd.png', '194xCiiBOqOEThQzkYX0HLd8P0a5jfnhqvro0uG0yIxo1DYDNydGopfAkeUX', '2025-09-18 11:28:33', '2025-10-26 16:19:31'),
+(5, 'Minh Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, 'https://ui-avatars.com/api/?name=Minh+Th%C6%B0&background=random&color=fff&size=40', 'leJIlrojfeZWKbYRZuzkxTVMyGxbKn1vSau0p2f2KzmcXdcJSdFAQea23IFw', '2025-09-28 06:12:54', '2025-10-26 19:38:17'),
+(9, 'Gia Đạt', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', '2025-10-13 17:43:53', 2, 1, NULL, NULL, 'ba3AEh0vqrx0oivdDilAgUOhQNww8QPasUkYp0dgPoIlyiXPDcOdxliV6RK2', '2025-10-09 07:00:12', '2025-10-09 07:00:12'),
+(13, 'Khắc Nhựt', 'Nhựt Khắc', '22004294@st.vlute.edu.vn', '$2y$12$llFu2/WHiTH1FLs3INL8yO8vpUV182HFaHO4o5upWzFsB67oNNbjW', '0779089252', 29641, '123', '2025-10-22 17:32:01', 3, 1, NULL, NULL, NULL, '2025-10-22 17:31:42', '2025-10-26 18:51:29'),
+(14, 'Văn Tiến', 'Nguyễn Văn Tiến', 'a67429485@gmail.com', '$2y$12$hcvJ7.AsbqH/C3zgxLJUFuzwmI4/grBtO2A.bje18097QuCpeF6kW', '0192920234', NULL, 'Vĩnh Long', '2025-10-23 22:15:26', 2, 1, NULL, NULL, NULL, '2025-10-23 22:15:26', '2025-10-26 17:11:41');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `wards`
+-- Table structure for table `wards`
 --
 
 CREATE TABLE `wards` (
@@ -1320,7 +1319,7 @@ CREATE TABLE `wards` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `wards`
+-- Dumping data for table `wards`
 --
 
 INSERT INTO `wards` (`id`, `name`, `code_name`, `province_id`) VALUES
@@ -4649,37 +4648,37 @@ INSERT INTO `wards` (`id`, `name`, `code_name`, `province_id`) VALUES
 (32248, 'Xã Đất Mũi', 'xa_dat_mui', 96);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `banners`
+-- Indexes for table `banners`
 --
 ALTER TABLE `banners`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `image_url` (`image_url`);
 
 --
--- Chỉ mục cho bảng `cache`
+-- Indexes for table `cache`
 --
 ALTER TABLE `cache`
   ADD PRIMARY KEY (`key`);
 
 --
--- Chỉ mục cho bảng `cache_locks`
+-- Indexes for table `cache_locks`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
 
 --
--- Chỉ mục cho bảng `carts`
+-- Indexes for table `carts`
 --
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `carts_user_id_foreign` (`user_id`);
 
 --
--- Chỉ mục cho bảng `cart_items`
+-- Indexes for table `cart_items`
 --
 ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`id`),
@@ -4687,61 +4686,61 @@ ALTER TABLE `cart_items`
   ADD KEY `cart_items_product_id_foreign` (`product_id`);
 
 --
--- Chỉ mục cho bảng `categories`
+-- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `slug_unique` (`slug`);
 
 --
--- Chỉ mục cho bảng `discounts`
+-- Indexes for table `discounts`
 --
 ALTER TABLE `discounts`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `discounts_code_unique` (`code`);
 
 --
--- Chỉ mục cho bảng `failed_jobs`
+-- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Chỉ mục cho bảng `jobs`
+-- Indexes for table `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `jobs_queue_index` (`queue`);
 
 --
--- Chỉ mục cho bảng `job_batches`
+-- Indexes for table `job_batches`
 --
 ALTER TABLE `job_batches`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `model_has_permissions`
+-- Indexes for table `model_has_permissions`
 --
 ALTER TABLE `model_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
   ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
--- Chỉ mục cho bảng `model_has_roles`
+-- Indexes for table `model_has_roles`
 --
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
--- Chỉ mục cho bảng `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
@@ -4749,7 +4748,7 @@ ALTER TABLE `orders`
   ADD KEY `orders_discount_id_foreign` (`discount_id`);
 
 --
--- Chỉ mục cho bảng `order_items`
+-- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
@@ -4757,27 +4756,27 @@ ALTER TABLE `order_items`
   ADD KEY `order_items_product_id_foreign` (`product_id`);
 
 --
--- Chỉ mục cho bảng `password_reset_tokens`
+-- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Chỉ mục cho bảng `payments`
+-- Indexes for table `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `payments_order_id_foreign` (`order_id`);
 
 --
--- Chỉ mục cho bảng `permissions`
+-- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
 
 --
--- Chỉ mục cho bảng `products`
+-- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
@@ -4785,7 +4784,7 @@ ALTER TABLE `products`
   ADD KEY `products_name_index` (`name`);
 
 --
--- Chỉ mục cho bảng `product_discounts`
+-- Indexes for table `product_discounts`
 --
 ALTER TABLE `product_discounts`
   ADD PRIMARY KEY (`id`),
@@ -4793,21 +4792,21 @@ ALTER TABLE `product_discounts`
   ADD KEY `product_discounts_discount_id_foreign` (`discount_id`);
 
 --
--- Chỉ mục cho bảng `product_images`
+-- Indexes for table `product_images`
 --
 ALTER TABLE `product_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_images_product_id_foreign` (`product_id`);
 
 --
--- Chỉ mục cho bảng `provinces`
+-- Indexes for table `provinces`
 --
 ALTER TABLE `provinces`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`,`code_name`);
 
 --
--- Chỉ mục cho bảng `reviews`
+-- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
@@ -4815,28 +4814,28 @@ ALTER TABLE `reviews`
   ADD KEY `reviews_user_id_foreign` (`user_id`);
 
 --
--- Chỉ mục cho bảng `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
 
 --
--- Chỉ mục cho bảng `roles_ex`
+-- Indexes for table `roles_ex`
 --
 ALTER TABLE `roles_ex`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `roles_name_unique` (`name`);
 
 --
--- Chỉ mục cho bảng `role_has_permissions`
+-- Indexes for table `role_has_permissions`
 --
 ALTER TABLE `role_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`role_id`),
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Chỉ mục cho bảng `sessions`
+-- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
@@ -4844,13 +4843,13 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
--- Chỉ mục cho bảng `shipping_fees`
+-- Indexes for table `shipping_fees`
 --
 ALTER TABLE `shipping_fees`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -4859,7 +4858,7 @@ ALTER TABLE `users`
   ADD KEY `ward_id` (`ward_id`);
 
 --
--- Chỉ mục cho bảng `wards`
+-- Indexes for table `wards`
 --
 ALTER TABLE `wards`
   ADD PRIMARY KEY (`id`),
@@ -4867,220 +4866,220 @@ ALTER TABLE `wards`
   ADD KEY `id` (`id`,`code_name`,`province_id`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `banners`
+-- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `carts`
+-- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT cho bảng `cart_items`
+-- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
--- AUTO_INCREMENT cho bảng `categories`
+-- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT cho bảng `discounts`
+-- AUTO_INCREMENT for table `discounts`
 --
 ALTER TABLE `discounts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT cho bảng `failed_jobs`
+-- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `jobs`
+-- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT cho bảng `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
--- AUTO_INCREMENT cho bảng `order_items`
+-- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
--- AUTO_INCREMENT cho bảng `payments`
+-- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `permissions`
+-- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
--- AUTO_INCREMENT cho bảng `products`
+-- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
--- AUTO_INCREMENT cho bảng `product_discounts`
+-- AUTO_INCREMENT for table `product_discounts`
 --
 ALTER TABLE `product_discounts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 
 --
--- AUTO_INCREMENT cho bảng `product_images`
+-- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 
 --
--- AUTO_INCREMENT cho bảng `reviews`
+-- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `roles`
+-- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `roles_ex`
+-- AUTO_INCREMENT for table `roles_ex`
 --
 ALTER TABLE `roles_ex`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `shipping_fees`
+-- AUTO_INCREMENT for table `shipping_fees`
 --
 ALTER TABLE `shipping_fees`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT cho bảng `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `carts`
+-- Constraints for table `carts`
 --
 ALTER TABLE `carts`
   ADD CONSTRAINT `carts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `cart_items`
+-- Constraints for table `cart_items`
 --
 ALTER TABLE `cart_items`
   ADD CONSTRAINT `cart_items_cart_id_foreign` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `cart_items_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `model_has_permissions`
+-- Constraints for table `model_has_permissions`
 --
 ALTER TABLE `model_has_permissions`
   ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `model_has_roles`
+-- Constraints for table `model_has_roles`
 --
 ALTER TABLE `model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `orders`
+-- Constraints for table `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_discount_id_foreign` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `order_items`
+-- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_items_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `payments`
+-- Constraints for table `payments`
 --
 ALTER TABLE `payments`
   ADD CONSTRAINT `payments_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `products`
+-- Constraints for table `products`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `product_discounts`
+-- Constraints for table `product_discounts`
 --
 ALTER TABLE `product_discounts`
   ADD CONSTRAINT `product_discounts_discount_id_foreign` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `product_discounts_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `product_images`
+-- Constraints for table `product_images`
 --
 ALTER TABLE `product_images`
   ADD CONSTRAINT `product_images_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `reviews`
+-- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `reviews_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `role_has_permissions`
+-- Constraints for table `role_has_permissions`
 --
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_roles_users` FOREIGN KEY (`role_id`) REFERENCES `roles_ex` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_wards_users` FOREIGN KEY (`ward_id`) REFERENCES `wards` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `wards`
+-- Constraints for table `wards`
 --
 ALTER TABLE `wards`
   ADD CONSTRAINT `fk_province_wards` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
