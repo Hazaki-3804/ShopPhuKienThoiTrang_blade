@@ -122,7 +122,9 @@
                             <th>Phí ship</th>
                             <th>Đơn tối thiểu</th>
                             <th>Trạng thái</th>
-                            <th width="120px">Thao tác</th>
+                            @canany(['create shipping fees', 'edit shipping fees', 'delete shipping fees'])
+                            <th>Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                 </table>
@@ -185,6 +187,7 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
+    let permissions = @canany(['create shipping fees', 'edit shipping fees', 'delete shipping fees']) true @else false @endcanany;
      window.shippingFeesTable = $('#shippingFeesTable').DataTable({
         processing: false,
         serverSide: true,
@@ -201,7 +204,7 @@ $(document).ready(function() {
             { data: 'fee_display', name: 'fee_display', orderable: false },
             { data: 'min_order_display', name: 'min_order_display', orderable: false },
             { data: 'status_badge', name: 'status_badge', orderable: false },
-            { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            { data: 'actions', name: 'actions', orderable: false, searchable: false, visible: permissions, width: '8%' }
         ],
         dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
             "t" +

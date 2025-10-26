@@ -64,38 +64,53 @@ class ShippingFeeController extends Controller
                     return '<span class="badge bg-secondary">Tắt</span>';
                 })
                 ->addColumn('actions', function ($fee) {
-                    $editButton = '';
+                    $buttons = '
+                    <div class="dropdown text-center">
+                        <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu' . $fee->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                            <i class="fas fa-ellipsis-v text-secondary"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu' . $fee->id . '">
+                    ';
+
+                    // Chỉnh sửa
                     if(auth()->user()->can('edit shipping fees')){
-                        $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-shipping-fee" style="margin-right:6px" 
-                            data-toggle="modal" 
-                            data-target="#editShippingFeeModal"
-                            data-id="' . $fee->id . '" 
-                            data-name="' . htmlspecialchars($fee->name) . '"
-                            data-area_type="' . $fee->area_type . '"
-                            data-min_distance="' . $fee->min_distance . '"
-                            data-max_distance="' . ($fee->max_distance ?? '') . '"
-                            data-min_order_value="' . $fee->min_order_value . '"
-                            data-base_fee="' . $fee->base_fee . '"
-                            data-per_km_fee="' . $fee->per_km_fee . '"
-                            data-max_fee="' . ($fee->max_fee ?? '') . '"
-                            data-is_free_shipping="' . ($fee->is_free_shipping ? '1' : '0') . '"
-                            data-priority="' . $fee->priority . '"
-                            data-status="' . ($fee->status ? '1' : '0') . '"
-                            data-description="' . htmlspecialchars($fee->description ?? '') . '">
-                            <i class="fas fa-edit"></i>
-                        </button>';
+                        $buttons .= '
+                            <a class="dropdown-item edit-shipping-fee" href="#" 
+                                data-toggle="modal" 
+                                data-target="#editShippingFeeModal"
+                                data-id="' . $fee->id . '" 
+                                data-name="' . htmlspecialchars($fee->name) . '"
+                                data-area_type="' . $fee->area_type . '"
+                                data-min_distance="' . $fee->min_distance . '"
+                                data-max_distance="' . ($fee->max_distance ?? '') . '"
+                                data-min_order_value="' . $fee->min_order_value . '"
+                                data-base_fee="' . $fee->base_fee . '"
+                                data-per_km_fee="' . $fee->per_km_fee . '"
+                                data-max_fee="' . ($fee->max_fee ?? '') . '"
+                                data-is_free_shipping="' . ($fee->is_free_shipping ? '1' : '0') . '"
+                                data-priority="' . $fee->priority . '"
+                                data-status="' . ($fee->status ? '1' : '0') . '"
+                                data-description="' . htmlspecialchars($fee->description ?? '') . '">
+                                <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
+                            </a>
+                        ';
                     }
-                    $deleteButton = '';
+
+                    // Xóa
                     if(auth()->user()->can('delete shipping fees')){
-                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-shipping-fee" 
-                            data-toggle="modal" 
-                            data-target="#deleteShippingFeeModal"
-                            data-id="' . $fee->id . '" 
-                            data-name="' . htmlspecialchars($fee->name) . '">
-                            <i class="fas fa-trash"></i>
-                        </button>';
+                        $buttons .= '
+                            <a class="dropdown-item delete-shipping-fee text-danger" href="#" 
+                                data-toggle="modal" 
+                                data-target="#deleteShippingFeeModal"
+                                data-id="' . $fee->id . '" 
+                                data-name="' . htmlspecialchars($fee->name) . '">
+                                <i class="fas fa-trash mr-2"></i>Xóa
+                            </a>
+                        ';
                     }
-                    return '<div class="btn-action">' . $editButton . $deleteButton . '</div>';
+
+                    $buttons .= '</div></div>';
+                    return $buttons;
                 })
                 ->rawColumns(['checkbox', 'area_type_badge', 'fee_display', 'status_badge', 'actions'])
                 ->make(true);
