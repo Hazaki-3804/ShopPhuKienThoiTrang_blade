@@ -77,9 +77,18 @@ class UserController extends Controller
         // Clear permission cache to apply immediately
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
+        // Kiểm tra nếu là AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật quyền cho nhân viên '.$user->name.' thành công!',
+                'type' => 'success'
+            ]);
+        }
+
         return redirect()
             ->route('admin.users.permissions.edit', ['id' => $user->id])
-            ->with('success', 'Cập nhật quyền cho nhân viên thành công!');
+            ->with('success', 'Cập nhật quyền cho nhân viên '.$user->name.' thành công!');
     }
 
     // Base permissions applied to all staff via Role "Nhân viên"
@@ -111,6 +120,15 @@ class UserController extends Controller
 
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
+        // Kiểm tra nếu là AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật quyền cơ bản cho toàn bộ nhân viên thành công!',
+                'type' => 'success'
+            ]);
+        }
+
         return redirect()
             ->route('admin.users.base-permissions.edit')
             ->with('success', 'Cập nhật quyền cơ bản cho toàn bộ nhân viên thành công!');
@@ -133,13 +151,15 @@ class UserController extends Controller
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('user_info', function ($user) {
-                $image = $user->avatar
-                    ? '<img src="' . asset($user->avatar) . '" width="50" height="50" style="object-fit: cover; margin-right:10px; border-radius:10px">'
-                    : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
-
+                
                 return '
-                <div class="d-flex align-items-center">
-                    ' . $image . '
+                <div class="d-flex align-items-center" style="gap: 10px;">
+                    <img src="https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=random&color=fff&size=40" 
+                         class="rounded-circle border" 
+                         width="40" 
+                         height="40" 
+                         style="object-fit: cover; min-width: 40px; min-height: 40px;" 
+                         alt="' . $user->name . '">
                     <div class="mr-2" style="text-align:left;">
                         <div class="fw-bold">
                             <span style="display:inline-block; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($user->name) . '</span>
@@ -150,8 +170,8 @@ class UserController extends Controller
             })
             ->addColumn('status_badge', function ($user) {
                 return $user->status == '1'
-                    ? '<span class="badge bg-success text-white"><i class="fas fa-check"></i> Active</span>'
-                    : '<span class="badge bg-danger text-white"><i class="fas fa-ban"></i> Blocked</span>';
+                    ? '<span class="badge bg-success text-white"><i class="fas fa-check"></i> Mở tài khoản</span>'
+                    : '<span class="badge bg-danger text-white"><i class="fas fa-ban"></i> Khóa tài khoản</span>';
             })
             ->addColumn('role_badge', function ($user) {
                 $roleMap = [
@@ -163,27 +183,147 @@ class UserController extends Controller
                 return "<span class=\"badge bg-{$color}\"><i class=\"{$icon}\"></i> {$label}</span>";
             })
             ->addColumn('actions', function ($user) {
-                $buttons = '';
+                $buttons = '
+                <style>
+/* 🌟 Nút ba chấm gọn gàng, hover có nền nhạt */
+.btn-light.border-0 {
+    padding: 12px;
+    background: transparent !important;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.btn-light.border-0:hover {
+    background-color: #f1f3f5 !important;
+    transform: scale(1.05);
+}
+.btn-light.border-0:active {
+    background-color: #e9ecef !important;
+}
 
+/* 🌈 Dropdown menu hiện đại */
+.dropdown-menu {
+    min-width: 180px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    background-color: #ffffff;
+    padding: 6px 0;
+    opacity: 0;
+    transform: translateY(8px);
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+/* 🎬 Hiệu ứng xuất hiện mượt */
+.show > .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+/* ✨ Mục trong menu */
+.dropdown-item {
+    padding: 8px 16px;
+    color: #495057;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    margin: 2px 6px;
+}
+.dropdown-item i {
+    width: 18px;
+    text-align: center;
+}
+.dropdown-item:hover {
+    background-color: #f1f3f5;
+    color: #212529 !important;
+    transform: translateX(2px);
+}
+
+/* 🧩 Fix DataTables bị che dropdown */
+table.dataTable td {
+    overflow: visible !important;
+}
+</style>
+
+                <div class="dropdown text-center">
+                    <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu' . $user->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                        <i class="fas fa-ellipsis-v text-secondary"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu' . $user->id . '">
+                ';
+
+                // Chỉnh sửa
                 if (Auth::user() && Auth::user()->can('edit staffs')) {
-                    $buttons .= '<button type="button" class="btn btn-sm btn-outline-warning edit-user" style="margin-right:6px" data-toggle="modal" data-target="#editUserModal" data-id="' . $user->id . '"><i class="fas fa-edit"></i></button>';
+                    $buttons .= '
+                        <a class="dropdown-item edit-user" href="#" data-toggle="modal" data-target="#editUserModal" data-id="' . $user->id . '">
+                            <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
+                        </a>
+                    ';
 
-                    $buttons .= $user->status == 1
-                        ? '<button type="button" class="btn btn-sm btn-outline-secondary toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="0" title="Khóa tài khoản"><i class="fas fa-lock"></i></button>'
-                        : '<button type="button" class="btn btn-sm btn-outline-success toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="1" title="Mở khóa tài khoản"><i class="fas fa-unlock"></i></button>';
+                    if ($user->status == 1) {
+                        $buttons .= '
+                            <a class="dropdown-item toggle-status" href="#" data-id="' . $user->id . '" data-status="0">
+                                <i class="fas fa-lock text-muted mr-2"></i>Khóa tài khoản
+                            </a>
+                        ';
+                    } else {
+                        $buttons .= '
+                            <a class="dropdown-item toggle-status" href="#" data-id="' . $user->id . '" data-status="1">
+                                <i class="fas fa-unlock text-success mr-2"></i>Mở khóa
+                            </a>
+                        ';
+                    }
                 }
 
+                // Phân quyền
                 if (Auth::user() && Auth::user()->can('manage permissions')) {
                     $permUrl = route('admin.users.permissions.edit', ['id' => $user->id]);
-                    $buttons .= '<a href="' . $permUrl . '" class="btn btn-sm btn-outline-primary" style="margin-right:6px" title="Phân quyền"><i class="fas fa-key"></i></a>';
+                    $buttons .= '
+                        <a class="dropdown-item" href="' . $permUrl . '">
+                            <i class="fas fa-key text-primary mr-2"></i>Phân quyền
+                        </a>
+                    ';
                 }
 
+                // Xóa
                 if (Auth::user() && Auth::user()->can('delete staffs')) {
-                    $buttons .= '<button type="button" class="btn btn-sm btn-outline-danger delete-user" data-toggle="modal" data-target="#deleteUserModal" data-id="' . $user->id . '"><i class="fas fa-trash me-2"></i></button>';
+                    $buttons .= '
+                        <a class="dropdown-item delete-user text-danger" href="#" data-toggle="modal" data-target="#deleteUserModal" data-id="' . $user->id . '">
+                            <i class="fas fa-trash mr-2"></i>Xóa
+                        </a>
+                    ';
                 }
 
-                return trim($buttons) !== '' ? $buttons : '<span class="text-muted">Không có quyền</span>';
+                $buttons .= '</div></div>';
+                return $buttons;
             })
+
+
+            // ->addColumn('actions', function ($user) {
+            //     $buttons = '';
+
+            //     if (Auth::user() && Auth::user()->can('edit staffs')) {
+            //         $buttons .= '<button type="button" class="btn btn-sm btn-outline-warning edit-user" style="margin-right:6px" data-toggle="modal" data-target="#editUserModal" data-id="' . $user->id . '"><i class="fas fa-edit"></i></button>';
+
+            //         $buttons .= $user->status == 1
+            //             ? '<button type="button" class="btn btn-sm btn-outline-secondary toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="0" title="Khóa tài khoản"><i class="fas fa-lock"></i></button>'
+            //             : '<button type="button" class="btn btn-sm btn-outline-success toggle-status" style="margin-right:6px" data-id="' . $user->id . '" data-status="1" title="Mở khóa tài khoản"><i class="fas fa-unlock"></i></button>';
+            //     }
+
+            //     if (Auth::user() && Auth::user()->can('manage permissions')) {
+            //         $permUrl = route('admin.users.permissions.edit', ['id' => $user->id]);
+            //         $buttons .= '<a href="' . $permUrl . '" class="btn btn-sm btn-outline-primary" style="margin-right:6px" title="Phân quyền"><i class="fas fa-key"></i></a>';
+            //     }
+
+            //     if (Auth::user() && Auth::user()->can('delete staffs')) {
+            //         $buttons .= '<button type="button" class="btn btn-sm btn-outline-danger delete-user" data-toggle="modal" data-target="#deleteUserModal" data-id="' . $user->id . '"><i class="fas fa-trash me-2"></i></button>';
+            //     }
+
+            //     return trim($buttons) !== '' ? $buttons : '<span class="text-muted">Không có quyền</span>';
+            // })
             ->rawColumns(['user_info', 'status_badge', 'role_badge', 'actions'])
             ->make(true);
     }
@@ -221,7 +361,7 @@ class UserController extends Controller
                 'role_id' => 2, // Staff role
                 'status' => $validated['status'],
                 'email_verified_at' => now(),
-                'avatar' => 'storage/avatars/default-avatar.png',
+                'avatar' => '',
             ]);
             $user->assignRole('Nhân viên');
 

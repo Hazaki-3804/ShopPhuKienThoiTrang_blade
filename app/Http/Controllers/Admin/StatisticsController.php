@@ -288,7 +288,7 @@ class StatisticsController extends Controller
         $endDate = $request->get('end_date', Carbon::now());
 
         return Excel::download(new CustomerAnalyticsExport($startDate, $endDate), 
-            'customer-analytics-' . date('Y-m-d') . '.xlsx');
+            'phan-tich-khach-hang-' . date('d-m-Y') . '.xlsx');
     }
 
     public function exportCustomersPdf(Request $request)
@@ -299,7 +299,7 @@ class StatisticsController extends Controller
         $customers = $this->getCustomerAnalyticsData($startDate, $endDate);
 
         $pdf = Pdf::loadView('admin.statistics.exports.customers-pdf', compact('customers', 'startDate', 'endDate'));
-        return $pdf->download('customer-analytics-' . date('Y-m-d') . '.pdf');
+        return $pdf->download('phan-tich-khach-hang-' . date('d-m-Y') . '.pdf');
     }
 
     public function exportProductsExcel(Request $request)
@@ -309,7 +309,7 @@ class StatisticsController extends Controller
         $categoryId = $request->get('category_id');
 
         return Excel::download(new ProductAnalyticsExport($startDate, $endDate, $categoryId), 
-            'product-analytics-' . date('Y-m-d') . '.xlsx');
+            'phan-tich-san-pham-' . date('d-m-Y') . '.xlsx');
     }
 
     /**

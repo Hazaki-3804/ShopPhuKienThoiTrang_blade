@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Thống kê Theo thời gian')
 @section('content_header')
-<span class="fw-semibold">Thống kê Theo thời gian</span>
+<span class="fw-semibold"></span>
 @stop
 
 @section('content')
@@ -50,7 +50,7 @@
                 <div class="col-md-2">
                     <label class="form-label">&nbsp;</label>
                     <div>
-                        <button type="button" class="btn btn-info" id="autoReport">
+                        <button type="button" class="btn btn-info" id="autoReport" data-toggle="modal" data-target="#autoReportModal">
                             <i class="fas fa-clock"></i> Báo cáo tự động
                         </button>
                     </div>
@@ -211,7 +211,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Thiết lập báo cáo tự động</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" aria-label="Close" style="font-size:26px; border:none; background-color:transparent;" data-bs-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="autoReportForm">
@@ -267,9 +267,7 @@ $(document).ready(function() {
         loadTimeData();
     });
 
-    $('#autoReport').on('click', function() {
-        $('#autoReportModal').modal('show');
-    });
+    // Modal được mở bằng data-toggle="modal" trong HTML
 
     $('#saveAutoReport').on('click', function() {
         saveAutoReportSettings();
@@ -525,7 +523,11 @@ function saveAutoReportSettings() {
         showConfirmButton: false
     });
     
-    $('#autoReportModal').modal('hide');
+    // Đóng modal bằng cách trigger click vào nút close hoặc dùng Bootstrap API
+    const modalElement = document.getElementById('autoReportModal');
+    if (modalElement) {
+        $(modalElement).modal('hide');
+    }
 }
 
 function formatPeriod(period) {

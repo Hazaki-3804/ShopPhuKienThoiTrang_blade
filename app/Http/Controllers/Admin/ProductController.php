@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Cloudinary\Cloudinary;
 
 class ProductController extends Controller
 {
@@ -73,47 +74,45 @@ class ProductController extends Controller
             if ($request->filled('removed_images')) {
                 $removedImageIds = json_decode($request->removed_images, true);
                 if (is_array($removedImageIds) && !empty($removedImageIds)) {
-                    // Delete from database and storage
+                    // Khởi tạo Cloudinary
+                    $cloudinary = new Cloudinary([
+                        'cloud' => [
+                            'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                            'api_key' => config('cloudinary.cloud.api_key'),
+                            'api_secret' => config('cloudinary.cloud.api_secret'),
+                        ],
+                        'url' => ['secure' => true]
+                    ]);
+                    
+                    // Delete from database and Cloudinary
                     $imagesToDelete = $product->product_images()->whereIn('id', $removedImageIds)->get();
                     foreach ($imagesToDelete as $image) {
-                        // Delete file from storage if it exists
-                        $imagePath = str_replace(asset('storage/'), '', $image->image_url);
-                        if (Storage::disk('public')->exists($imagePath)) {
-                            Storage::disk('public')->delete($imagePath);
+                        // Xóa từ Cloudinary nếu là URL Cloudinary
+                        if ($this->isCloudinaryUrl($image->image_url)) {
+                            $this->deleteCloudinaryByUrl($image->image_url, $cloudinary);
+                        } else {
+                            // Xóa file local nếu là ảnh cũ
+                            $imagePath = str_replace(asset('storage/'), '', $image->image_url);
+                            if (Storage::disk('public')->exists($imagePath)) {
+                                Storage::disk('public')->delete($imagePath);
+                            }
                         }
                         $image->delete();
                     }
                 }
             }
 
-            // Handle new uploaded images
+            // Handle new uploaded images (Cloudinary URLs)
             if ($request->filled('uploaded_images')) {
                 $uploadedFiles = json_decode($request->uploaded_images, true);
                 if (is_array($uploadedFiles) && !empty($uploadedFiles)) {
-                    // Tạo thư mục products nếu chưa có
-                    $productPath = public_path('storage/products/');
-                    $this->ensureDirectoryExists($productPath);
-                    
-                    foreach ($uploadedFiles as $filename) {
-                        // Di chuyển ảnh từ temp sang thư mục chính
-                        $tempPath = public_path('storage/products/temp/' . $filename);
-                        $finalPath = public_path('storage/products/' . $filename);
-                        
-                        if (file_exists($tempPath)) {
-                            // Di chuyển file từ temp sang thư mục chính
-                            if (rename($tempPath, $finalPath)) {
-                                // Lưu thông tin ảnh vào database
-                                $product->product_images()->create([
-                                    'product_id' => $product->id,
-                                    'image_url' => 'storage/products/' . $filename,
-                                    'type' => 'detail'
-                                ]);
-                            } else {
-                                Log::warning('Không thể di chuyển file: ' . $tempPath . ' -> ' . $finalPath);
-                            }
-                        } else {
-                            Log::warning('File temp không tồn tại: ' . $tempPath);
-                        }
+                    foreach ($uploadedFiles as $cloudinaryUrl) {
+                        // Lưu Cloudinary URL vào database
+                        $product->product_images()->create([
+                            'product_id' => $product->id,
+                            'image_url' => $cloudinaryUrl,
+                            'type' => 'detail'
+                        ]);
                     }
                     
                     // Xóa danh sách ảnh temp khỏi session
@@ -203,11 +202,11 @@ class ProductController extends Controller
                 })
                 ->addColumn('stock_badge', function ($product) {
                     if ($product->stock == 0) {
-                        return '<span class="badge bg-danger">Hết hàng</span>';
+                        return '<span class="badge bg-danger"><i class="fas fa-boxes mr-1"></i>Hết hàng</span>';
                     } elseif ($product->stock <= 10) {
-                        return '<span class="badge bg-warning text-dark">' . $product->stock . ' (Sắp hết)</span>';
+                        return '<span class="badge bg-warning text-dark"><i class="fas fa-boxes mr-1"></i>' . $product->stock . ' (Sắp hết)</span>';
                     } else {
-                        return '<span class="badge bg-success">' . $product->stock . '</span>';
+                        return '<span class="badge bg-primary"><i class="fas fa-boxes mr-1"></i>' . $product->stock . '</span>';
                     }
                 })
                 ->addColumn('status_badge', function ($product) {
@@ -230,6 +229,7 @@ class ProductController extends Controller
                         data-stock="' . $product->stock . '"
                         data-status="' . ($product->status == 1 ? 'Đang bán' : 'Tạm dừng') . '"
                         data-created="' . ($product->created_at ? $product->created_at->format('d/m/Y H:i') : 'N/A') . '"
+                        data-image="' . ($product->product_images->first() ? $product->product_images->first()->image_url : '') . '"
                         title="Xem chi tiết">
                         <i class="fas fa-eye"></i>
                     </button>';
@@ -274,34 +274,17 @@ class ProductController extends Controller
 
             $product = Product::create($validated);
 
-            // Handle uploaded images
+            // Handle uploaded images (Cloudinary URLs)
             if ($request->filled('uploaded_images')) {
                 $uploadedFiles = json_decode($request->uploaded_images, true);
                 if (is_array($uploadedFiles) && !empty($uploadedFiles)) {
-                    // Tạo thư mục products nếu chưa có
-                    $productPath = public_path('storage/products/');
-                    $this->ensureDirectoryExists($productPath);
-                    
-                    foreach ($uploadedFiles as $filename) {
-                        // Di chuyển ảnh từ temp sang thư mục chính
-                        $tempPath = public_path('storage/products/temp/' . $filename);
-                        $finalPath = public_path('storage/products/' . $filename);
-                        
-                        if (file_exists($tempPath)) {
-                            // Di chuyển file từ temp sang thư mục chính
-                            if (rename($tempPath, $finalPath)) {
-                                // Lưu thông tin ảnh vào database
-                                $product->product_images()->create([
-                                    'product_id' => $product->id,
-                                    'image_url' => 'storage/products/' . $filename,
-                                    'type' => 'detail'
-                                ]);
-                            } else {
-                                Log::warning('Cannot move file: ' . $tempPath . ' -> ' . $finalPath);
-                            }
-                        } else {
-                            Log::warning('File temp không tồn tại: ' . $tempPath);
-                        }
+                    foreach ($uploadedFiles as $cloudinaryUrl) {
+                        // Lưu Cloudinary URL vào database
+                        $product->product_images()->create([
+                            'product_id' => $product->id,
+                            'image_url' => $cloudinaryUrl,
+                            'type' => 'detail'
+                        ]);
                     }
                     
                     // Xóa danh sách ảnh temp khỏi session
@@ -313,12 +296,13 @@ class ProductController extends Controller
             if (request()->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Sản phẩm đã được tạo thành công!',
+                    'message' => 'Thêm sản phẩm mới thành công!',
                     'type' => 'success'
                 ]);
             }
 
-            return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được tạo thành công!');
+            
+            return redirect()->route('admin.products.index')->with('success', 'Thêm sản phẩm mới thành công!');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             if (request()->ajax()) {
@@ -364,12 +348,27 @@ class ProductController extends Controller
                 return redirect()->back()->with('warning', 'Cannot delete product with orders');
             }
 
+            // Khởi tạo Cloudinary
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                    'api_key' => config('cloudinary.cloud.api_key'),
+                    'api_secret' => config('cloudinary.cloud.api_secret'),
+                ],
+                'url' => ['secure' => true]
+            ]);
+            
             // Xóa tất cả ảnh của sản phẩm trước khi xóa sản phẩm
             foreach ($product->product_images as $image) {
-                // Xóa file ảnh từ storage
-                $imagePath = public_path($image->image_url);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
+                // Xóa từ Cloudinary nếu là URL Cloudinary
+                if ($this->isCloudinaryUrl($image->image_url)) {
+                    $this->deleteCloudinaryByUrl($image->image_url, $cloudinary);
+                } else {
+                    // Xóa file local nếu là ảnh cũ
+                    $imagePath = public_path($image->image_url);
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
                 }
                 // Xóa record trong database
                 $image->delete();
@@ -381,11 +380,12 @@ class ProductController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Xóa sản phẩm thành công!',
-                    'type' => 'success'
+                    'type' => 'success',
+                    'redirect' => route('admin.products.index')
                 ]);
             }
 
-            return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully');
+            return redirect()->route('admin.products.index')->with('success', 'Xóa sản phẩm thành công!');
         } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -427,16 +427,31 @@ class ProductController extends Controller
                 return redirect()->back()->with('warning', 'Cannot delete products with orders');
             }
 
+            // Khởi tạo Cloudinary
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                    'api_key' => config('cloudinary.cloud.api_key'),
+                    'api_secret' => config('cloudinary.cloud.api_secret'),
+                ],
+                'url' => ['secure' => true]
+            ]);
+            
             // Xóa các sản phẩm an toàn
             $products = Product::with('product_images')->whereIn('id', $productIds)->get();
             
             // Xóa ảnh của từng sản phẩm trước
             foreach ($products as $product) {
                 foreach ($product->product_images as $image) {
-                    // Xóa file ảnh từ storage
-                    $imagePath = public_path($image->image_url);
-                    if (file_exists($imagePath)) {
-                        unlink($imagePath);
+                    // Xóa từ Cloudinary nếu là URL Cloudinary
+                    if ($this->isCloudinaryUrl($image->image_url)) {
+                        $this->deleteCloudinaryByUrl($image->image_url, $cloudinary);
+                    } else {
+                        // Xóa file local nếu là ảnh cũ
+                        $imagePath = public_path($image->image_url);
+                        if (file_exists($imagePath)) {
+                            unlink($imagePath);
+                        }
                     }
                     // Xóa record trong database
                     $image->delete();
@@ -449,11 +464,12 @@ class ProductController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => "Đã xóa thành công {$deletedCount} sản phẩm!",
-                    'type' => 'success'
+                    'type' => 'success',
+                    'redirect' => route('admin.products.index')
                 ]);
             }
 
-            return redirect()->route('admin.products.index')->with('success', "Deleted {$deletedCount} products successfully");
+            return redirect()->route('admin.products.index')->with('success', "Đã xóa thành công {$deletedCount} sản phẩm!");
         } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -470,31 +486,44 @@ class ProductController extends Controller
     {
         try {
             $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120' // 5MB
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120' // 5MB
             ]);
 
+            // Khởi tạo Cloudinary
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                    'api_key' => config('cloudinary.cloud.api_key'),
+                    'api_secret' => config('cloudinary.cloud.api_secret'),
+                ],
+                'url' => ['secure' => true]
+            ]);
+            
             $image = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             
-            // Lưu vào thư mục temp
-            $tempPath = 'storage/products/temp/';
-            $fullPath = public_path($tempPath);
+            // Upload lên Cloudinary vào folder 'products'
+            $uploadResult = $cloudinary->uploadApi()->upload(
+                $image->getRealPath(),
+                [
+                    'folder' => 'products',
+                    'resource_type' => 'image',
+                    'transformation' => [
+                        'quality' => 'auto:good',
+                        'fetch_format' => 'auto'
+                    ]
+                ]
+            );
             
-            if (!file_exists($fullPath)) {
-                mkdir($fullPath, 0755, true);
-            }
-            
-            $image->move($fullPath, $filename);
-            
-            // Lưu vào session để theo dõi
+            // Lưu URL vào session để theo dõi
             $tempImages = session()->get('temp_product_images', []);
-            $tempImages[] = $filename;
+            $tempImages[] = $uploadResult['secure_url'];
             session()->put('temp_product_images', $tempImages);
 
             return response()->json([
                 'success' => true,
-                'filename' => $filename,
-                'url' => asset($tempPath . $filename),
+                'filename' => $uploadResult['secure_url'],
+                'url' => $uploadResult['secure_url'],
+                'public_id' => $uploadResult['public_id'],
                 'message' => 'Upload ảnh thành công!'
             ]);
 
@@ -526,21 +555,29 @@ class ProductController extends Controller
     public function clearTempImages(Request $request)
     {
         try {
-            $tempImages = session()->get('temp_product_images', []);
-            $tempPath = public_path('storage/products/temp/');
+            // Khởi tạo Cloudinary
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                    'api_key' => config('cloudinary.cloud.api_key'),
+                    'api_secret' => config('cloudinary.cloud.api_secret'),
+                ],
+                'url' => ['secure' => true]
+            ]);
             
-            // Nếu có filename cụ thể, chỉ xóa file đó
+            $tempImages = session()->get('temp_product_images', []);
+            
+            // Nếu có filename cụ thể (URL), chỉ xóa ảnh đó
             if ($request->has('filename')) {
-                $filename = $request->filename;
-                $filePath = $tempPath . $filename;
+                $url = $request->filename;
                 
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+                if ($this->isCloudinaryUrl($url)) {
+                    $this->deleteCloudinaryByUrl($url, $cloudinary);
                 }
                 
                 // Xóa khỏi session
-                $tempImages = array_filter($tempImages, function($img) use ($filename) {
-                    return $img !== $filename;
+                $tempImages = array_filter($tempImages, function($img) use ($url) {
+                    return $img !== $url;
                 });
                 session()->put('temp_product_images', $tempImages);
                 
@@ -550,11 +587,10 @@ class ProductController extends Controller
                 ]);
             }
             
-            // Xóa tất cả ảnh tạm
-            foreach ($tempImages as $filename) {
-                $filePath = $tempPath . $filename;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+            // Xóa tất cả ảnh tạm từ Cloudinary
+            foreach ($tempImages as $url) {
+                if ($this->isCloudinaryUrl($url)) {
+                    $this->deleteCloudinaryByUrl($url, $cloudinary);
                 }
             }
             
@@ -572,6 +608,92 @@ class ProductController extends Controller
                 'success' => false,
                 'message' => 'Có lỗi xảy ra khi xóa ảnh tạm!'
             ], 500);
+        }
+    }
+
+    /**
+     * Beacon cleanup: chỉ xóa các URL Cloudinary được gửi lên, không đụng session
+     */
+    public function clearTempImagesBeacon(Request $request)
+    {
+        try {
+            // Khởi tạo Cloudinary
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                    'api_key' => config('cloudinary.cloud.api_key'),
+                    'api_secret' => config('cloudinary.cloud.api_secret'),
+                ],
+                'url' => ['secure' => true]
+            ]);
+            
+            $files = $request->input('files');
+            if (is_array($files) && !empty($files)) {
+                foreach ($files as $url) {
+                    if ($this->isCloudinaryUrl($url)) {
+                        $this->deleteCloudinaryByUrl($url, $cloudinary);
+                    }
+                }
+            }
+            return response()->json(['success' => true]);
+        } catch (\Throwable $e) {
+            Log::warning('clearTempImagesBeacon error: ' . $e->getMessage());
+            return response()->json(['success' => false], 500);
+        }
+    }
+
+    /**
+     * Kiểm tra xem URL có phải là Cloudinary URL không
+     */
+    private function isCloudinaryUrl(string $url): bool
+    {
+        return str_contains($url, 'cloudinary.com') && str_contains($url, '/image/upload/');
+    }
+
+    /**
+     * Xóa ảnh trên Cloudinary bằng URL
+     */
+    private function deleteCloudinaryByUrl(string $url, Cloudinary $cloudinary): void
+    {
+        try {
+            $publicId = $this->extractPublicIdFromUrl($url);
+            if ($publicId) {
+                $cloudinary->uploadApi()->destroy($publicId);
+                Log::info('Deleted Cloudinary image: ' . $publicId);
+            }
+        } catch (\Exception $e) {
+            Log::warning('Cloudinary delete failed: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Trích xuất public_id từ Cloudinary URL
+     */
+    private function extractPublicIdFromUrl(string $url): ?string
+    {
+        try {
+            if (!str_contains($url, 'cloudinary.com')) {
+                return null;
+            }
+
+            // URL format: https://res.cloudinary.com/{cloud_name}/image/upload/v{version}/{folder}/{filename}.{ext}
+            $parts = explode('/upload/', $url);
+            if (count($parts) < 2) {
+                return null;
+            }
+
+            $pathAfterUpload = $parts[1];
+            
+            // Bỏ version nếu có (vXXXXXXXXXX/)
+            $pathAfterUpload = preg_replace('/^v\d+\//', '', $pathAfterUpload);
+            
+            // Bỏ extension
+            $publicId = preg_replace('/\.[^.]+$/', '', $pathAfterUpload);
+
+            return $publicId;
+        } catch (\Exception $e) {
+            Log::error('extractPublicIdFromUrl error: ' . $e->getMessage());
+            return null;
         }
     }
 

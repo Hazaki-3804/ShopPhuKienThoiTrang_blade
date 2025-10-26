@@ -21,7 +21,6 @@ class CustomerController extends Controller
     public function data(Request $request)
     {
         $query = Customer::query();
-
         // Lọc role_id nếu muốn
         $query->where('role_id', 3);
         // Filter status
@@ -31,26 +30,14 @@ class CustomerController extends Controller
 
         return DataTables::of($query)
             ->addColumn('customer_info', function ($customer) {
-                $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($customer->name) . '&background=random&color=fff&size=40';
-                if($customer->avatar) {
-                    // Nếu avatar bắt đầu bằng 'avatars/' thì là file trong storage
-                    if (str_starts_with($customer->avatar, 'avatars/')) {
-                        $avatarUrl = asset('storage/' . $customer->avatar);
-                    } 
-                    // Nếu bắt đầu bằng 'storage/' thì đã có đường dẫn đầy đủ
-                    elseif (str_starts_with($customer->avatar, 'storage/')) {
-                        $avatarUrl = asset($customer->avatar);
-                    }
-                    // Nếu là URL đầy đủ thì giữ nguyên
-                    elseif (str_starts_with($customer->avatar, 'http')) {
-                        $avatarUrl = $customer->avatar;
-                    }
-                    // Trường hợp khác, thêm asset()
-                    else {
-                        $avatarUrl = asset('storage/avatars/' . basename($customer->avatar));
-                    }
+                // Nếu có avatar và là Cloudinary URL thì dùng, không thì dùng UI Avatars
+                if ($customer->avatar) {
+                    $avatarUrl = $customer->avatar;
+                } else {
+                    $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($customer->name) . '&background=random&color=fff&size=40';
                 }
-                return '<div class="d-flex align-items-center gap-2">
+                
+                return '<div class="d-flex align-items-center"style="gap: 10px;">
                     <img src="' . $avatarUrl . '" 
                          class="rounded-circle border" 
                          width="40" 
@@ -58,7 +45,7 @@ class CustomerController extends Controller
                          style="object-fit: cover; min-width: 40px; min-height: 40px;"
                          alt="' . $customer->name . '"
                          onerror="this.src=\'https://ui-avatars.com/api/?name=' . urlencode($customer->name) . '&background=6c757d&color=fff&size=40\'">
-                    <div>
+                    <div class="text-left">
                         <div class="fw-semibold">' . $customer->name . '</div>
                         <div class="small text-muted">' . $customer->email . '</div>
                     </div>
@@ -66,8 +53,8 @@ class CustomerController extends Controller
             })
             ->addColumn('status_badge', function ($customer) {
                 return $customer->status == '1'
-                    ? '<span class="badge bg-success text-white p-1"><i class="fas fa-check"></i> Active</span>'
-                    : '<span class="badge bg-danger text-white p-1"><i class="fas fa-ban"></i> Blocked</span>';
+                    ? '<span class="badge bg-success text-white p-1"><i class="fas fa-check mr-1"></i>Mở tài khoản</span>'
+                    : '<span class="badge bg-danger text-white p-1"><i class="fas fa-ban mr-1"></i>Khóa tài khoản</span>';
             })
             ->addColumn('actions', function ($customer) {
                 $editButton = '';

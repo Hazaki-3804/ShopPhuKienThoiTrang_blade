@@ -18,13 +18,13 @@
             <div class="card">
                 <div class="card-body text-center">
                     <div class="mb-3">
-                        <img src="{{ $user->avatar ? asset($user->avatar) : asset('images/default-avatar.png') }}" 
+                        <img src="{{ $user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($user->username) . '&background=random&color=fff&size=40' }}" 
                              alt="Avatar" 
                              class="rounded-circle border-primary shadow" 
                              width="120" height="120"
                              style="object-fit: cover;">
                     </div>
-                    <h5 class="fw-bold">{{ $user->name }}</h5>
+                    <h5 class="fw-bold">{{ $user->username }}</h5>
                     <p class="text-muted">{{ $user->email }}</p>
                     <span class="badge bg-{{ $user->role_id == 1 ? 'danger' : ($user->role_id == 2 ? 'warning' : 'info') }}">
                         {{ $user->role_id == 1 ? 'Admin' : ($user->role_id == 2 ? 'Nhân viên' : 'Khách hàng') }}
@@ -42,14 +42,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if(session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
                         @csrf
                         @method('PUT')
                         
@@ -144,4 +137,106 @@
     border-bottom: 1px solid #dee2e6;
 }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Kiểm tra và hiển thị toast từ localStorage
+    const toastMessage = localStorage.getItem('toast_message');
+    const toastType = localStorage.getItem('toast_type');
+    
+    if (toastMessage) {
+        localStorage.removeItem('toast_message');
+        localStorage.removeItem('toast_type');
+        
+        if (typeof Swal !== 'undefined') {
+            const iconMap = {
+                'success': 'success',
+                'error': 'error',
+                'warning': 'warning',
+                'info': 'info'
+            };
+            
+            const titleMap = {
+                'success': 'Thành công!',
+                'error': 'Lỗi!',
+                'warning': 'Cảnh báo!',
+                'info': 'Thông tin!'
+            };
+            
+            Swal.fire({
+                icon: iconMap[toastType] || 'success',
+                title: titleMap[toastType] || 'Thành công!',
+                html: toastMessage,
+                timer: 3000,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }
+    }
+    
+    // Submit form qua AJAX
+    $('#profileForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const $submitBtn = $(this).find('button[type="submit"]');
+        const originalText = $submitBtn.html();
+        
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Đang cập nhật...');
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Lưu message vào localStorage
+                localStorage.setItem('toast_message', response.message || 'Cập nhật thông tin thành công!');
+                localStorage.setItem('toast_type', 'success');
+                
+                // Reload trang để cập nhật avatar
+                window.location.reload();
+            },
+            error: function(xhr) {
+                $submitBtn.prop('disabled', false).html(originalText);
+                
+                let message = 'Có lỗi xảy ra!';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                
+                // Hiển thị validation errors
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    let errorHtml = '<ul class="mb-0 text-start">';
+                    Object.values(xhr.responseJSON.errors).forEach(function(errors) {
+                        errors.forEach(function(error) {
+                            errorHtml += '<li>' + error + '</li>';
+                        });
+                    });
+                    errorHtml += '</ul>';
+                    message = errorHtml;
+                }
+                
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        html: message,
+                        timer: 5000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                } else {
+                    alert(message);
+                }
+            }
+        });
+    });
+});
+</script>
 @endpush

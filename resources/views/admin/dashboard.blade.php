@@ -312,7 +312,9 @@
                                     <th>Tổng Tiền</th>
                                     <th>Trạng Thái</th>
                                     <th>Ngày Tạo</th>
+                                    @can('view orders | manage orders')
                                     <th>Thao Tác</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             @php
@@ -346,11 +348,13 @@
                                         </span>
                                     </td>
                                     <td>{{ $order['created_at'] }}</td>
+                                    @can('view orders | manage orders')
                                     <td>
                                         <a href="{{ route('admin.orders.show', $order['id']) }}" class="btn-sm-clean">
                                             <i class="fas fa-eye"></i> Xem
                                         </a>
                                     </td>
+                                    @endcan
                                 </tr>
                                 @empty
                                 <tr>

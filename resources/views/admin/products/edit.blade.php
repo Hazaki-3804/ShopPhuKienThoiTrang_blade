@@ -8,8 +8,15 @@
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center px-3 mb-3">
-        <h4 class="fw-semibold m-0">Chỉnh sửa sản phẩm: {{ $product->name }}</h4>
-        <x-admin.breadcrumbs :items="[
+<h4 class="fw-semibold mb-0 d-flex align-items-center">
+    <i class="fas fa-edit me-2"></i>
+    Chỉnh sửa sản phẩm:
+    <span class="text-truncate text-dark ms-1" style="max-width: 250px;" title="{{ $product->name }}">
+        {{ $product->name }}
+    </span>
+</h4>
+   
+<x-admin.breadcrumbs :items="[
             ['name' => 'Trang chủ'], 
             ['name' => 'Quản lý sản phẩm', 'url' => route('admin.products.index')], 
             ['name' => 'Chỉnh sửa sản phẩm']
@@ -19,7 +26,7 @@
     <div class="card m-3">
         <div class="card-header">
             <h5 class="mb-0">
-                <i class="fas fa-edit me-2 text-warning"></i>Thông tin sản phẩm
+                Thông tin sản phẩm
             </h5>
         </div>
         <div class="card-body">
@@ -35,7 +42,7 @@
                             <div class="col-md-8">
                                 <div class="mb-3">
                                     <label for="name" class="form-label fw-bold">
-                                        <i class="fas fa-tag me-1 text-primary"></i>Tên sản phẩm <span class="text-danger">*</span>
+                                        Tên sản phẩm <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
                                            id="name" name="name" value="{{ old('name', $product->name) }}" required>
@@ -47,7 +54,7 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="category_id" class="form-label fw-bold">
-                                        <i class="fas fa-list me-1 text-info"></i>Danh mục <span class="text-danger">*</span>
+                                        Danh mục <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control @error('category_id') is-invalid @enderror" 
                                             id="category_id" name="category_id" required>
@@ -70,11 +77,11 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="price" class="form-label fw-bold">
-                                        <i class="fas fa-money-bill-wave me-1 text-success"></i>Giá bán <span class="text-danger">*</span>
+                                        Giá bán <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
                                         <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                               id="price" name="price" value="{{ old('price', $product->price) }}" min="0" step="1000" required>
+                                               id="price" name="price" value="{{ old('price', $product->price) }}" min="0" required>
                                         <span class="input-group-text">VNĐ</span>
                                     </div>
                                     @error('price')
@@ -85,7 +92,7 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="stock" class="form-label fw-bold">
-                                        <i class="fas fa-boxes me-1 text-warning"></i>Tồn kho <span class="text-danger">*</span>
+                                        Tồn kho <span class="text-danger">*</span>
                                     </label>
                                     <input type="number" class="form-control @error('stock') is-invalid @enderror" 
                                            id="stock" name="stock" value="{{ old('stock', $product->stock) }}" min="0" required>
@@ -97,7 +104,7 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="status" class="form-label fw-bold">
-                                        <i class="fas fa-toggle-on me-1 text-info"></i>Trạng thái <span class="text-danger">*</span>
+                                        Trạng thái <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control @error('status') is-invalid @enderror" 
                                             id="status" name="status" required>
@@ -113,7 +120,7 @@
 
                         <div class="mb-3">
                             <label for="description" class="form-label fw-bold">
-                                <i class="fas fa-align-left me-1 text-secondary"></i>Mô tả sản phẩm
+                                Mô tả sản phẩm
                             </label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" name="description" rows="4" 
@@ -130,7 +137,7 @@
                         @if($product->product_images->count() > 0)
                         <div class="mb-3">
                             <label class="form-label fw-bold">
-                                <i class="fas fa-images me-1 text-success"></i>Hình ảnh hiện tại
+                                Hình ảnh hiện tại
                             </label>
                             <div class="row g-2" id="currentImages">
                                 @foreach($product->product_images as $image)
@@ -152,11 +159,11 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">
-                                <i class="fas fa-plus me-1 text-primary"></i>Thêm hình ảnh mới
+                                Thêm hình ảnh mới
                             </label>
-                            
+                        
                             <!-- Simple file input -->
-                            <div class="mb-2">
+                            <div class="mb-2 d-none">
                                 <input type="file" class="form-control" id="simpleImageInput" accept="image/*" multiple>
                                 <small class="text-muted">Chọn nhiều hình ảnh (JPG, PNG, GIF - tối đa 5MB mỗi file)</small>
                             </div>
@@ -436,30 +443,79 @@ $(document).ready(function() {
         });
     });
     
-    // Form validation
+    // Form validation và submit qua AJAX
     $('#productForm').on('submit', function(e) {
+        e.preventDefault();
+        
         const name = $('#name').val().trim();
         const price = $('#price').val();
         const stock = $('#stock').val();
         const categoryId = $('#category_id').val();
         
         if (!name || !price || !stock || !categoryId) {
-            e.preventDefault();
             alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
             return false;
         }
         
         if (parseFloat(price) < 0) {
-            e.preventDefault();
             alert('Giá sản phẩm phải lớn hơn 0!');
             return false;
         }
         
         if (parseInt(stock) < 0) {
-            e.preventDefault();
             alert('Số lượng tồn kho phải lớn hơn hoặc bằng 0!');
             return false;
         }
+        
+        // CHẶN BEACON khi submit
+        isSubmitting = true;
+        uploadedFiles = [];
+        
+        // Submit qua AJAX
+        const formData = new FormData(this);
+        const $submitBtn = $(this).find('button[type="submit"]');
+        const originalText = $submitBtn.html();
+        
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Đang cập nhật...');
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Lưu message vào localStorage
+                localStorage.setItem('toast_message', response.message || 'Sản phẩm đã được cập nhật thành công!');
+                localStorage.setItem('toast_type', 'success');
+                
+                // Redirect ngay
+                window.location.href = '{{ route("admin.products.index") }}';
+            },
+            error: function(xhr) {
+                isSubmitting = false;
+                $submitBtn.prop('disabled', false).html(originalText);
+                
+                let message = 'Có lỗi xảy ra!';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        html: message,
+                        timer: 5000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                } else {
+                    alert(message);
+                }
+            }
+        });
     });
     
     // Reset form
@@ -481,40 +537,26 @@ $(document).ready(function() {
         $('.current-image').show();
     });
     
+    // Biến để chặn beacon khi submit
+    let isSubmitting = false;
+    
     // Cleanup khi rời khỏi trang mà chưa lưu
-    // $(window).on('beforeunload', function() {
-    //     if (uploadedFiles.length > 0) {
-    //         cleanupTempImages(uploadedFiles);
-    //     }
-    // });
     $(window).on('beforeunload', function() {
+        // KHÔNG chạy beacon nếu đang submit
+        if (isSubmitting) {
+            return;
+        }
+        
+        // Chỉ chạy beacon nếu có ảnh tạm và chưa submit
         if (uploadedFiles.length > 0) {
-            const url = '/admin/cleanup-temp-images';
-            const data = JSON.stringify({ files: uploadedFiles });
-            navigator.sendBeacon(url, data);
+            const url = '{{ route("admin.products.clear-temp-images-beacon") }}';
+            const fd = new FormData();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) fd.append('_token', token);
+            uploadedFiles.forEach(u => fd.append('files[]', u));
+            navigator.sendBeacon(url, fd);
         }
     });
-
-    // // Function để cleanup temp images
-    // function cleanupTempImages(filenames) {
-    //     if (!filenames || filenames.length === 0) return;
-        
-    //     $.ajax({
-    //         url: '{{ route("admin.products.clear-temp-images") }}',
-    //         type: 'POST',
-    //         data: {
-    //             filenames: filenames,
-    //             _token: $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         async: false, // Đồng bộ để đảm bảo cleanup trước khi rời trang
-    //         success: function(response) {
-    //             console.log('Temp images cleaned up:', response.message);
-    //         },
-    //         error: function(xhr) {
-    //             console.error('Failed to cleanup temp images:', xhr.responseJSON?.message);
-    //         }
-    //     });
-    // }
 });
 </script>
 @endpush

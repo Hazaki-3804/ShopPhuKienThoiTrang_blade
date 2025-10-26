@@ -182,7 +182,7 @@
                             <th>Giá (VNĐ)</th>
                             <th>Tồn kho</th>
                             <th>Trạng thái</th>
-                            <th width="120px">Hành động</th>
+                            <th width="120px">Thao tác</th>
                         </tr>
                     </thead>
                 </table>
@@ -517,6 +517,7 @@
             let stock = $(this).data('stock');
             let status = $(this).data('status');
             let created = $(this).data('created');
+            let image = $(this).data('image');
             
             $('#view_id').text(productId);
             $('#view_name').text(productName);
@@ -525,8 +526,10 @@
             $('#view_stock').text(stock + ' sản phẩm');
             $('#view_status').text(status);
             $('#view_created').text(created);
+            $('#view_image').attr('src', image);
             
             if (productDescription && productDescription.trim() !== '') {
+                productDescription = productDescription.replace(/\.\s*/g, '.<br>');
                 $('#view_description').html(productDescription);
             } else {
                 $('#view_description').html('<em class="text-muted">Chưa có mô tả</em>');
@@ -728,6 +731,43 @@
 <!-- Initialize AJAX Form Handler -->
 <script>
 $(document).ready(function() {
+    // Kiểm tra và hiển thị toast từ localStorage
+    const toastMessage = localStorage.getItem('toast_message');
+    const toastType = localStorage.getItem('toast_type');
+    
+    if (toastMessage) {
+        // Xóa khỏi localStorage
+        localStorage.removeItem('toast_message');
+        localStorage.removeItem('toast_type');
+        
+        // Hiển thị toast
+        if (typeof Swal !== 'undefined') {
+            const iconMap = {
+                'success': 'success',
+                'error': 'error',
+                'warning': 'warning',
+                'info': 'info'
+            };
+            
+            const titleMap = {
+                'success': 'Thành công!',
+                'error': 'Lỗi!',
+                'warning': 'Cảnh báo!',
+                'info': 'Thông tin!'
+            };
+            
+            Swal.fire({
+                icon: iconMap[toastType] || 'success',
+                title: titleMap[toastType] || 'Thành công!',
+                html: toastMessage,
+                timer: 3000,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }
+    }
+    
     if (typeof AjaxFormHandler !== 'undefined') {
         AjaxFormHandler.init({
             table: 'productsTable',

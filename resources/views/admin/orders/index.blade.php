@@ -103,7 +103,7 @@
                             <th>Trạng thái</th>
                             <th>Tổng tiền</th>
                             <th>Ngày tạo</th>
-                            <th class="text-end">Hành động</th>
+                            <th class="text-end">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -99,6 +99,18 @@ $(document).ready(function() {
                         $(`#${modalId} .close[data-dismiss="modal"]`).trigger('click');
                     }
                     
+                    // Show toast with type from response or default to success
+                    const toastType = response.type || 'success';
+                    self.showToast(response.message, toastType);
+                    
+                    // Handle redirect if provided
+                    if (response.redirect) {
+                        setTimeout(function() {
+                            window.location.href = response.redirect;
+                        }, 1500); // Delay để user thấy toast
+                        return;
+                    }
+                    
                     // Reload table if specified
                     if (self.table && window[self.table]) {
                         window[self.table].ajax.reload(null, false);
@@ -108,10 +120,6 @@ $(document).ready(function() {
                     if (self.onSuccess && typeof self.onSuccess === 'function') {
                         self.onSuccess(response);
                     }
-                    
-                    // Show toast with type from response or default to success
-                    const toastType = response.type || 'success';
-                    self.showToast(response.message, toastType);
                     
                     // Reset form
                     $form[0].reset();

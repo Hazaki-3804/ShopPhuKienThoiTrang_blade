@@ -2,9 +2,9 @@
 <li class="nav-item dropdown user-menu">
     {{-- Dropdown Toggle --}}
     <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown">
-        <img src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('storage/default-avatar.png') }}" 
+        <img src="{{ Auth::user()->avatar??'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->username) . '&background=random&color=fff&size=40' }}" 
              class="rounded-circle me-2" alt="Avatar" width="32" height="32" style="object-fit: cover;">
-        <span class="d-none d-md-inline fw-semibold mx-2">{{ Auth::user()->name ?? 'User' }}</span>
+        <span class="d-none d-md-inline fw-semibold mx-2">{{ Auth::user()->username ?? 'User' }}</span>
         <i class="fas fa-caret-down"></i>
     </a>
 
@@ -12,10 +12,10 @@
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right user-dropdown shadow-lg border-0">
         {{-- Header --}}
         <div class="dropdown-header text-dark text-center position-relative py-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <img src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('storage/default-avatar.png') }}" 
+            <img src="{{ Auth::user()->avatar??'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->username) . '&background=random&color=fff&size=40' }}" 
                  class="rounded-circle mb-2 border-white shadow" 
                  width="80" height="80" alt="User Avatar" style="object-fit: cover;">
-            <h6 class="mb-0 fw-bold text-white">{{ Auth::user()->name ?? 'User' }}</h6>
+            <h6 class="mb-0 fw-bold text-white">{{ Auth::user()->username ?? 'User' }}</h6>
             <small class="text-white-50">{{ Auth::user()->email ?? 'user@example.com' }}</small>
             <div class="mt-1">
                 @if(Auth::check() && Auth::user())

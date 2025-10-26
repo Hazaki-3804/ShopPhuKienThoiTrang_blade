@@ -132,7 +132,7 @@
                             <th>Địa chỉ</th>
                             <th>Quyền</th>
                             <th>Trạng thái</th>
-                            <th>Hành động</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                 </table>
@@ -344,7 +344,7 @@
                 {
                     data: 'actions',
                     name: 'actions',
-                    width: '15%',
+                    width: '8%',
                     orderable: false,
                     searchable: false
                 }
@@ -497,7 +497,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/users/toggle-status',
+                        url: '{{ route("admin.users.toggle-status") }}',
                         type: 'POST',
                         data: {
                             _token: $('meta[name="csrf-token"]').attr('content'),

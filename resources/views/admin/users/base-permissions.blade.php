@@ -128,20 +128,7 @@
                 ],
             ];
         @endphp
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('admin.users.base-permissions.update') }}" method="POST">
+        <form action="{{ route('admin.users.base-permissions.update') }}" method="POST" id="form-base-permissions">
             @csrf
             @method('PUT')
 
@@ -232,6 +219,90 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Kiểm tra và hiển thị toast từ localStorage
+        const toastMessage = localStorage.getItem('toast_message');
+        const toastType = localStorage.getItem('toast_type');
+        
+        if (toastMessage) {
+            localStorage.removeItem('toast_message');
+            localStorage.removeItem('toast_type');
+            
+            if (typeof Swal !== 'undefined') {
+                const iconMap = {
+                    'success': 'success',
+                    'error': 'error',
+                    'warning': 'warning',
+                    'info': 'info'
+                };
+                
+                const titleMap = {
+                    'success': 'Thành công!',
+                    'error': 'Lỗi!',
+                    'warning': 'Cảnh báo!',
+                    'info': 'Thông tin!'
+                };
+                
+                Swal.fire({
+                    icon: iconMap[toastType] || 'success',
+                    title: titleMap[toastType] || 'Thành công!',
+                    html: toastMessage,
+                    timer: 3000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }
+        }
+        
+        // Submit form qua AJAX
+        const form = document.getElementById('form-base-permissions');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('toast_message', data.message || 'Cập nhật quyền cơ bản thành công!');
+                    localStorage.setItem('toast_type', 'success');
+                    window.location.reload();
+                } else {
+                    throw new Error(data.message || 'Có lỗi xảy ra!');
+                }
+            })
+            .catch(error => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        html: error.message,
+                        timer: 5000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                } else {
+                    alert(error.message);
+                }
+            });
+        });
+
         const search = document.getElementById('permSearch');
         const container = document.getElementById('permContainer');
         const items = Array.from(container.querySelectorAll('.perm-item'));

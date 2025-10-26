@@ -156,17 +156,18 @@ class AuthController extends Controller
         if (empty($data['username'])) {
             $data['username'] = Str::slug($data['name'], '');
         }
+        $password = $data['password'].$salt;
         $user = User::create([
             'username' => $data['username'] ?? null,
             'phone' => $data['phone'],
             'address' => $data['address'],
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($password),
             'ward_id' => $data['ward'],
             'role_id' => 3,
             'status' => 1,
-            'avatar' => 'storage/avatars/default-avatar.png',
+            'avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($data['name']) . '&background=random&color=fff&size=40',
         ]);
         $user->assignRole('Khách hàng');
         // Generate 6-digit email verification code, store for 60s and send via email
