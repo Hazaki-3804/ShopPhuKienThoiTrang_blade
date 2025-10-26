@@ -157,10 +157,10 @@
                         <i class="fas fa-file-export mr-1"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
-                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel"></i> Excel</a>
-                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv"></i> CSV</a>
-                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf"></i> PDF</a>
-                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print"></i> Print</a>
+                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success"></i> Excel</a>
+                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv text-info"></i> CSV</a>
+                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf text-danger"></i> PDF</a>
+                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print text-primary"></i> Print</a>
                     </div>
                 </div>
             </div>

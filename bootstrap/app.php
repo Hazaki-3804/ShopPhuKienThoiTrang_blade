@@ -42,7 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 if ($request->is('admin') || $request->is('admin/*')) {
                     $isAdminRoute = true;
                 } else {
-                    $adminPaths = ['dashboard', 'orders', 'analytics', 'settings', 'customers', 'products', 'data'];
+                    $adminPaths = ['dashboard', 'orders','settings', 'customers', 'products', 'data'];
                     foreach ($adminPaths as $path) {
                         if ($request->is($path) || $request->is($path . '/*')) {
                             $isAdminRoute = true;
@@ -53,6 +53,9 @@ return Application::configure(basePath: dirname(__DIR__))
             }
             
             if ($isAdminRoute) {
+                if (!auth()->check()) {
+                    return redirect()->route('login'); 
+                }
                 // Handle 404 errors
                 if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
                     return response()->view('errors.admin.404', [], 404);

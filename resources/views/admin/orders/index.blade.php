@@ -437,7 +437,7 @@
             });
             
             // Set action cho form - sử dụng route helper
-            $('#editStatusForm').attr('action', '{{ url("admin/orders") }}/' + orderId);
+            $('#editStatusForm').attr('action', '{{ url("admin/orders") }}/' + orderId + '/update-status');
             
             // Hiển thị modal
             $('#editStatusModal').modal('show');

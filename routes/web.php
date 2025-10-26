@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\PromotionController as AdminPromotionController;
 use App\Http\Controllers\Admin\ShippingFeeController as AdminShippingFeeController;
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -113,7 +113,7 @@ Route::middleware('auth')->group(function () {
 
 
 // Admin routes
-Route::middleware(['auth', 'checkAdmin'])->group(function () {
+Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
     Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');   
@@ -153,26 +153,6 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->middleware('permission:view reports')->name('time');
         Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->middleware('permission:view reports')->name('time.data');
     });
- // Statistics module
- Route::name('admin.statistics.')->group(function () {
-    Route::get('/admin/statistics', [AdminStatisticsController::class, 'index'])->name('index');
-    
-    // Customer analytics
-    Route::get('/admin/statistics/customers', [AdminStatisticsController::class, 'customerAnalytics'])->name('customers');
-    Route::get('/admin/statistics/customers/data', [AdminStatisticsController::class, 'customerAnalyticsData'])->name('customers.data');
-    Route::get('/admin/statistics/customers/export/excel', [AdminStatisticsController::class, 'exportCustomersExcel'])->name('customers.export.excel');
-    Route::get('/admin/statistics/customers/export/pdf', [AdminStatisticsController::class, 'exportCustomersPdf'])->name('customers.export.pdf');
-    
-    // Product analytics
-    Route::get('/admin/statistics/products', [AdminStatisticsController::class, 'productAnalytics'])->name('products');
-    Route::get('/admin/statistics/products/data', [AdminStatisticsController::class, 'productAnalyticsData'])->name('products.data');
-    Route::get('/admin/statistics/products/chart-data', [AdminStatisticsController::class, 'productChartData'])->name('products.chart');
-    Route::get('/admin/statistics/products/export/excel', [AdminStatisticsController::class, 'exportProductsExcel'])->name('products.export.excel');
-    
-    // Time analytics
-    Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->name('time');
-    Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->name('time.data');
-});
     // Category management
     Route::name('admin.categories.')->group(function () {
         Route::get('/admin/categories/data', [AdminCategoryController::class, 'data'])->middleware('permission:view categories')->name('data');
@@ -199,41 +179,17 @@ Route::middleware(['auth', 'checkAdmin'])->group(function () {
         Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->middleware('permission:delete products')->name('destroy.multiple');
     });
 
-    // Promotion management
-    Route::name('admin.promotions.')->group(function () {
-        Route::get('/admin/promotions/data', [AdminPromotionController::class, 'data'])->name('data');
-        Route::get('/admin/promotions', [AdminPromotionController::class, 'index'])->name('index');
-        Route::get('/admin/promotions/create', [AdminPromotionController::class, 'create'])->name('create');
-        Route::post('/admin/promotions', [AdminPromotionController::class, 'store'])->name('store');
-        Route::get('/admin/promotions/{id}/edit', [AdminPromotionController::class, 'edit'])->name('edit');
-        Route::put('/admin/promotions/update', [AdminPromotionController::class, 'update'])->name('update');
-        Route::delete('/admin/promotions/delete', [AdminPromotionController::class, 'destroy'])->name('destroy');
-        Route::delete('/admin/promotions/delete-multiple', [AdminPromotionController::class, 'destroyMultiple'])->name('destroy.multiple');
-        Route::get('/admin/promotions/export/excel', [AdminPromotionController::class, 'exportExcel'])->name('export.excel');
-        Route::get('/admin/promotions/export/pdf', [AdminPromotionController::class, 'exportPdf'])->name('export.pdf');
-    });
-
-    // Shipping Fee management
-    Route::name('admin.shipping-fees.')->group(function () {
-        Route::get('/admin/shipping-fees/data', [AdminShippingFeeController::class, 'data'])->name('data');
-        Route::get('/admin/shipping-fees', [AdminShippingFeeController::class, 'index'])->name('index');
-        Route::post('/admin/shipping-fees', [AdminShippingFeeController::class, 'store'])->name('store');
-        Route::put('/admin/shipping-fees/update', [AdminShippingFeeController::class, 'update'])->name('update');
-        Route::delete('/admin/shipping-fees/delete', [AdminShippingFeeController::class, 'destroy'])->name('destroy');
-        Route::delete('/admin/shipping-fees/delete-multiple', [AdminShippingFeeController::class, 'destroyMultiple'])->name('destroy.multiple');
-    });
-
     // Order management
     Route::name('admin.orders.')->group(function () {
-        Route::patch('admin/orders/{order}', [OrderController::class, 'update'])->middleware('permission:edit orders')->name('update');
-        Route::get('/admin/orders/data', [OrderController::class, 'data'])->middleware('permission:view orders')->name('data');
-        Route::get('/admin/orders/stats', [OrderController::class, 'getStats'])->middleware('permission:view orders')->name('stats');
-        Route::get('/admin/orders', [OrderController::class, 'index'])->middleware('permission:view orders')->name('index');
-        Route::get('/admin/orders/{id}/detail', [OrderController::class, 'getDetail'])->middleware('permission:view orders')->name('detail');
-        Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->middleware('permission:view orders')->name('show');
-        Route::get('/admin/orders/{id}/print', [OrderController::class, 'print'])->middleware('permission:view orders')->name('print');
-        Route::post('/admin/orders/update-status', [OrderController::class, 'updateStatus'])->middleware('permission:edit orders')->name('update-status');
-        Route::delete('/admin/orders/delete', [OrderController::class, 'destroy'])->middleware('permission:delete orders')->name('destroy');
+        Route::patch('admin/orders/{order}/update-status', [AdminOrderController::class, 'update'])->middleware('permission:change status orders')->name('update');
+        Route::get('/admin/orders/data', [AdminOrderController::class, 'data'])->middleware('permission:view orders')->name('data');
+        Route::get('/admin/orders/stats', [AdminOrderController::class, 'getStats'])->middleware('permission:view orders')->name('stats');
+        Route::get('/admin/orders', [AdminOrderController::class, 'index'])->middleware('permission:view orders')->name('index');
+        Route::get('/admin/orders/{id}/detail', [AdminOrderController::class, 'getDetail'])->middleware('permission:view orders')->name('detail');
+        Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->middleware('permission:view orders')->name('show');
+        Route::get('/admin/orders/{id}/print', [AdminOrderController::class, 'print'])->middleware('permission:print orders')->name('print');
+        Route::post('/admin/orders/update-status', [AdminOrderController::class, 'updateStatus'])->middleware('permission:change status orders')->name('update-status');
+        Route::delete('/admin/orders/delete', [AdminOrderController::class, 'destroy'])->middleware('permission:delete orders')->name('destroy');
     });
 
     // Staff (users) management

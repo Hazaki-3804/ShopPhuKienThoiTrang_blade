@@ -6,35 +6,35 @@
 @stop
 
 @push('styles')
-<style>
-/* Smooth collapse for group bodies */
-.group-card .card-body.collapse {
-  display: block;            /* keep layout flow */
-  max-height: 0;             /* animate height */
-  overflow: hidden;          /* hide overflowing content */
-  opacity: 0;                /* fade */
-  transition: max-height 250ms ease, opacity 200ms ease;
-}
-.group-card .card-body.collapse.show {
-  max-height: 1200px;        /* large enough for content */
-  opacity: 1;
-}
+    <style>
+    /* Smooth collapse for group bodies */
+    .group-card .card-body.collapse {
+    display: block;            /* keep layout flow */
+    max-height: 0;             /* animate height */
+    overflow: hidden;          /* hide overflowing content */
+    opacity: 0;                /* fade */
+    transition: max-height 250ms ease, opacity 200ms ease;
+    }
+    .group-card .card-body.collapse.show {
+    max-height: 1200px;        /* large enough for content */
+    opacity: 1;
+    }
 
-/* Subtle icon animation */
-.btn-toggle i {
-  transition: transform 200ms ease;
-}
-.btn-toggle[aria-expanded="true"] i {
-  transform: rotate(180deg);
-}
-</style>
+    /* Subtle icon animation */
+    .btn-toggle i {
+    transition: transform 200ms ease;
+    }
+    .btn-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+    }
+    </style>
 @endpush
 
 @section('content')
 <div class="card shadow-sm">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="m-0"><i class="bi bi-shield-lock-fill"></i> Phân quyền: {{ $user->name }} (ID: {{ $user->id }})</h4>
+            <h4 class="m-0"><i class="bi bi-shield-lock-fill"></i> Phân quyền: {{ $user->name }} (Nhân viên)</h4>
             <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-secondary">
                 <i class="bi bi-arrow-left mr-1"></i> Quay lại danh sách
             </a>
@@ -133,19 +133,30 @@
             ];
         @endphp
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+            <div>
+                <i class="fas fa-check-circle mr-1"></i>{{ session('success') }}
+            </div>
+            <button type="button" style="background-color: transparent; border: none;" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         @endif
         @if($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
                 <ul class="mb-0">
                     @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                        <li><i class="fas fa-exclamation-circle mr-1"></i>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <button type="button" style="background-color: transparent; border: none;" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         @endif
 
-        <form action="{{ route('admin.users.permissions.update', ['id' => $user->id]) }}" method="POST">
+        <form action="{{ route('admin.users.permissions.update', ['id' => $user->id]) }}" id="form-staff-permissions" method="POST">
             @csrf
             @method('PUT')
 
@@ -406,6 +417,6 @@
         setupDeps('view reviews', ['hide reviews','delete reviews'], 'binh-luan');
         setupDeps('view staffs', ['create staffs','edit staffs','delete staffs'], 'nhan-vien');
     });
-
 </script>
+
 @endpush

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Shop Của Hào Anh - Phụ kiện thời trang')
+@section('title', 'Shop Nàng Thơ - Phụ kiện thời trang')
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
 <link rel="stylesheet" href="{{ asset('css/shop-index.css') }}">
