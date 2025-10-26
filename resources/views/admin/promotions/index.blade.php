@@ -137,7 +137,9 @@
                             <th>Trạng thái</th>
                             <th>Số sản phẩm</th>
                             <th>Số lượng</th>
-                            <th width="120px">Thao tác</th>
+                            @canany(['create promotions', 'edit promotions', 'delete promotions'])
+                            <th>Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                 </table>
@@ -179,6 +181,7 @@
 <script>
 $(document).ready(function() {
     // Initialize DataTable
+    let permissions = @canany(['create promotions', 'edit promotions', 'delete promotions']) true @else false @endcanany;
     window.promotionsTable = $('#promotionsTable').DataTable({
             processing: false,
             serverSide: true,
@@ -229,7 +232,7 @@ $(document).ready(function() {
             { data: 'status_badge', name: 'status_badge', orderable: false },
             { data: 'products_count', name: 'products_count', orderable: false },
             { data: 'quantity_display', name: 'quantity_display', orderable: false },
-            { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            { data: 'actions', name: 'actions', orderable: false, searchable: false, visible: permissions, width: '8%' }
         ],
             order: [
                 [2, 'asc']

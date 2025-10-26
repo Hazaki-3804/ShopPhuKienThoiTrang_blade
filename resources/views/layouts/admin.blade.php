@@ -31,13 +31,81 @@
         transition: all 0.2s ease;
     }
 
-    /* .btn-sm:hover {
-        transform: scale(1.1);
+    /* 🌟 Dropdown Actions Menu - Nút ba chấm */
+    .btn-light.border-0 {
+        padding: 8px 12px;
+        background: transparent !important;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .btn-light.border-0:hover {
+        background-color: #f1f3f5 !important;
+        transform: scale(1.05);
+    }
+    .btn-light.border-0:active {
+        background-color: #e9ecef !important;
     }
 
-    .btn-sm i {
-        font-size: 1rem;
-    } */
+    /* 🌈 Dropdown menu hiện đại */
+    .dropdown-menu {
+        min-width: 180px;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        background-color: #ffffff;
+        padding: 6px 0;
+        opacity: 0;
+        transform: translateY(8px);
+        visibility: hidden;
+        transition: all 0.25s ease;
+    }
+
+    /* 🎬 Hiệu ứng xuất hiện mượt */
+    .show > .dropdown-menu {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    /* ✨ Mục trong menu */
+    .dropdown-item {
+        padding: 8px 16px;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+        border-radius: 6px;
+        margin: 2px 6px;
+        border: none;
+        background: transparent;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+    }
+    .dropdown-item i {
+        width: 18px;
+        text-align: center;
+    }
+    .dropdown-item:hover {
+        background-color: #f1f3f5;
+        color: #212529 !important;
+        transform: translateX(2px);
+    }
+    
+    /* Fix form trong dropdown */
+    .dropdown-menu form {
+        margin: 0;
+    }
+    .dropdown-menu form button.dropdown-item {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    /* 🧩 Fix DataTables bị che dropdown */
+    table.dataTable td {
+        overflow: visible !important;
+    }
     
 /* Stats Cards Styling - Giống trang quản lý khuyến mãi */
     .card.bg-primary,

@@ -132,7 +132,9 @@
                             <th>Địa chỉ</th>
                             <th>Quyền</th>
                             <th>Trạng thái</th>
+                            @canany(['create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs'])
                             <th>Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                 </table>
@@ -260,6 +262,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        let permissions = @canany(['create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs']) true @else false @endcanany;
         window.table = $('#usersTable').DataTable({
             processing: false,
             serverSide: true,
@@ -346,7 +349,8 @@
                     name: 'actions',
                     width: '8%',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    visible: permissions
                 }
             ],
             order: [

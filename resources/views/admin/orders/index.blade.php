@@ -103,7 +103,9 @@
                             <th>Trạng thái</th>
                             <th>Tổng tiền</th>
                             <th>Ngày tạo</th>
+                            @canany(['change status orders', 'print orders', 'view order detail'])
                             <th class="text-end">Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -155,32 +157,40 @@
                             </td>
                             <td>{{ number_format($order->total_price,0,',','.') }}₫</td>
                             <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                            @canany(['change status orders', 'print orders', 'view order detail'])
                             <td class="text-end">
-                                <div class="btn-action">
-                                    @if(auth()->user()->can('change status orders'))
-                                    @if(!in_array($order->status, ['delivered', 'cancelled']))
-                                    <button type="button" class="btn btn-sm btn-outline-warning edit-status-btn" 
-                                            data-order-id="{{ $order->id }}" 
-                                            data-current-status="{{ $order->status }}"
-                                            title="Chỉnh sửa trạng thái">
-                                        <i class="bi bi-pencil"></i>
+                                <div class="dropdown text-center">
+                                    <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu{{ $order->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                                        <i class="fas fa-ellipsis-v text-secondary"></i>
                                     </button>
-                                    @endif
-                                    @endif
-                                    @if(auth()->user()->can('view order detail'))
-                                    <button type="button" class="btn btn-sm btn-outline-info view-order-detail" data-order-id="{{ $order->id }}" title="Xem chi tiết">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                    @endif
-                                    @if(auth()->user()->can('print orders'))
-                                    @if (Route::has('invoice.show'))
-                                    <a href="{{ route('invoice.show', $order->id) }}" class="btn btn-sm btn-outline-secondary" title="In hóa đơn" target="_blank">
-                                        <i class="bi bi-printer"></i>
-                                    </a>
-                                    @endif
-                                    @endif
+                                    <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu{{ $order->id }}">
+                                        
+                                        @if(auth()->user()->can('view order detail'))
+                                        <a class="dropdown-item view-order-detail" href="#" data-order-id="{{ $order->id }}">
+                                            <i class="bi bi-eye text-info mr-2"></i>Xem chi tiết
+                                        </a>
+                                        @endif
+
+                                        @if(auth()->user()->can('change status orders'))
+                                        @if(!in_array($order->status, ['delivered', 'cancelled']))
+                                        <a class="dropdown-item edit-status-btn" href="#" data-order-id="{{ $order->id }}" data-current-status="{{ $order->status }}">
+                                            <i class="bi bi-toggle-on text-warning mr-2"></i>Chỉnh sửa trạng thái
+                                        </a>
+                                        @endif
+                                        @endif
+
+                                        @if(auth()->user()->can('print orders'))
+                                        @if (Route::has('invoice.show'))
+                                        <a class="dropdown-item" href="{{ route('invoice.show', $order->id) }}" target="_blank">
+                                            <i class="bi bi-printer text-secondary mr-2"></i>In hóa đơn
+                                        </a>
+                                        @endif
+                                        @endif
+
+                                    </div>
                                 </div>
                             </td>
+                            @endcanany
                         </tr>
                         @empty
                         <tr>
@@ -387,6 +397,20 @@
         color: #ffffff;
         box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3);
     }
+
+    /* Fix dropdown trong table */
+    .table-responsive {
+        overflow: visible !important;
+    }
+    
+    table tbody tr td {
+        overflow: visible !important;
+    }
+    
+    /* Đảm bảo dropdown hiển thị đúng */
+    .dropdown-menu {
+        z-index: 1050 !important;
+    }
 </style>
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
@@ -399,6 +423,34 @@
             console.error('Bootstrap modal plugin not loaded!');
             return;
         }
+
+        // Khởi tạo dropdown thủ công cho tất cả các nút 3 chấm
+        $(document).on('click', '[data-toggle="dropdown"]', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const $button = $(this);
+            const $dropdown = $button.next('.dropdown-menu');
+            const isOpen = $dropdown.hasClass('show');
+            
+            // Đóng tất cả dropdown khác
+            $('.dropdown-menu').removeClass('show');
+            $('.dropdown').removeClass('show');
+            
+            // Toggle dropdown hiện tại
+            if (!isOpen) {
+                $dropdown.addClass('show');
+                $button.parent('.dropdown').addClass('show');
+            }
+        });
+        
+        // Đóng dropdown khi click ra ngoài
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('.dropdown-menu').removeClass('show');
+                $('.dropdown').removeClass('show');
+            }
+        });
 
         // Định nghĩa mapping trạng thái
         const statusMap = {
@@ -417,7 +469,8 @@
         };
 
         // Xử lý click vào nút chỉnh sửa trạng thái
-        $(document).on('click', '.edit-status-btn', function() {
+        $(document).on('click', '.edit-status-btn', function(e) {
+            e.preventDefault();
             const orderId = $(this).data('order-id');
             const currentStatus = $(this).data('current-status');
             
@@ -490,7 +543,8 @@
         });
         
         // Xử lý click vào nút xem chi tiết
-        $(document).on('click', '.view-order-detail', function() {
+        $(document).on('click', '.view-order-detail', function(e) {
+            e.preventDefault();
             const orderId = $(this).data('order-id');
             const modalContent = document.getElementById('orderDetailContent');
             

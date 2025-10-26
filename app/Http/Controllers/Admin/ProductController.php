@@ -187,7 +187,9 @@ class ProductController extends Controller
                         ' . $image . '
                         <div class="mr-2" style="text-align:left;">
                             <div class="fw-bold">
-                                <span style="display:inline-block; width:400px; word-wrap:break-word; white-space:normal;">' . htmlspecialchars($product->name) . '</span>
+                                <span class="d-inline-block text-truncate" style="max-width: 200px;">
+                                    ' . htmlspecialchars($product->name) . '
+                                </span>
                             </div>
                             <small class="text-muted">ID: ' . $product->id . '</small>
                         </div>
@@ -218,36 +220,52 @@ class ProductController extends Controller
                     return $product->created_at ? $product->created_at->format('d/m/Y') : 'N/A';
                 })
                 ->addColumn('actions', function ($product) {
-                    $viewButton = '<button type="button" class="btn btn-sm btn-outline-info view-product" data-toggle="modal" data-target="#viewProductModal" 
-                        data-id="' . $product->id . '" 
-                        data-name="' . htmlspecialchars($product->name) . '" 
-                        data-description="' . htmlspecialchars($product->description ?? '') . '"
-                        data-category="' . htmlspecialchars($product->category ? $product->category->name : 'Chưa phân loại') . '"
-                        data-category-id="' . $product->category_id . '"
-                        data-price="' . number_format($product->price, 0, ',', '.') . '"
-                        data-price-raw="' . $product->price . '"
-                        data-stock="' . $product->stock . '"
-                        data-status="' . ($product->status == 1 ? 'Đang bán' : 'Tạm dừng') . '"
-                        data-created="' . ($product->created_at ? $product->created_at->format('d/m/Y H:i') : 'N/A') . '"
-                        data-image="' . ($product->product_images->first() ? $product->product_images->first()->image_url : '') . '"
-                        title="Xem chi tiết">
-                        <i class="fas fa-eye"></i>
-                    </button>';
-                    $editButton = '';
+                    $buttons = '
+                    <div class="dropdown text-center">
+                        <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu' . $product->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                            <i class="fas fa-ellipsis-v text-secondary"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu' . $product->id . '">
+                    ';
+
+                    // Xem chi tiết
+                    $buttons .= '
+                        <a class="dropdown-item view-product" href="#" data-toggle="modal" data-target="#viewProductModal"
+                            data-id="' . $product->id . '" 
+                            data-name="' . htmlspecialchars($product->name) . '" 
+                            data-description="' . htmlspecialchars($product->description ?? '') . '"
+                            data-category="' . htmlspecialchars($product->category ? $product->category->name : 'Chưa phân loại') . '"
+                            data-category-id="' . $product->category_id . '"
+                            data-price="' . number_format($product->price, 0, ',', '.') . '"
+                            data-price-raw="' . $product->price . '"
+                            data-stock="' . $product->stock . '"
+                            data-status="' . ($product->status == 1 ? 'Đang bán' : 'Tạm dừng') . '"
+                            data-created="' . ($product->created_at ? $product->created_at->format('d/m/Y H:i') : 'N/A') . '"
+                            data-image="' . ($product->product_images->first() ? $product->product_images->first()->image_url : '') . '">
+                            <i class="fas fa-eye text-info mr-2"></i>Xem chi tiết
+                        </a>
+                    ';
+
+                    // Chỉnh sửa
                     if(auth()->user()->can('edit products')){
-                       $editButton = '<a href="' . route('admin.products.edit', $product->id) . '" class="btn btn-sm btn-outline-warning" title="Chỉnh sửa">
-                        <i class="fas fa-edit"></i>
-                    </a>'; 
-                    }
-                    
-                    $deleteButton = '';
-                    if(auth()->user()->can('delete products')){
-                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-product" data-toggle="modal" data-target="#deleteProductModal" data-id="' . $product->id . '" data-name="' . htmlspecialchars($product->name) . '" title="Xóa">
-                        <i class="fas fa-trash"></i>
-                    </button>';
+                        $buttons .= '
+                            <a class="dropdown-item" href="' . route('admin.products.edit', $product->id) . '">
+                                <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
+                            </a>
+                        ';
                     }
 
-                    return '<div class="btn-action">' . $viewButton . $editButton . $deleteButton . '</div>';
+                    // Xóa
+                    if(auth()->user()->can('delete products')){
+                        $buttons .= '
+                            <a class="dropdown-item delete-product text-danger" href="#" data-toggle="modal" data-target="#deleteProductModal" data-id="' . $product->id . '" data-name="' . htmlspecialchars($product->name) . '">
+                                <i class="fas fa-trash mr-2"></i>Xóa
+                            </a>
+                        ';
+                    }
+
+                    $buttons .= '</div></div>';
+                    return $buttons;
                 })
                 ->rawColumns(['checkbox', 'product_info', 'category_name', 'price_formatted', 'stock_badge', 'status_badge', 'actions'])
                 ->make(true);

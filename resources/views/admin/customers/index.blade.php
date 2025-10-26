@@ -62,7 +62,9 @@
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
                             <th>Trạng thái</th>
+                            @canany(['create customers', 'edit customers', 'delete customers', 'lock/unlock customers'])
                             <th>Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                 </table>
@@ -232,6 +234,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        let permissions = @canany(['create customers', 'edit customers', 'delete customers', 'lock/unlock customers']) true @else false @endcanany;
         window.table = $('#customersTable').DataTable({
             processing: false,
             serverSide: true,
@@ -302,7 +305,9 @@
                     data: 'actions',
                     name: 'actions',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: '8%',
+                    visible: permissions
                 }
             ],
             order: [

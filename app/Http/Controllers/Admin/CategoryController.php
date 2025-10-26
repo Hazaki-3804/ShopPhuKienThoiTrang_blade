@@ -41,19 +41,34 @@ class CategoryController extends Controller
                     return $category->created_at ? $category->created_at->format('d/m/Y') : 'N/A';
                 })
                 ->addColumn('actions', function ($category) {
-                    $editButton = '';
-                    $deleteButton = '';
+                    $buttons = '
+                    <div class="dropdown text-center">
+                        <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu' . $category->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                            <i class="fas fa-ellipsis-v text-secondary"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu' . $category->id . '">
+                    ';
+
+                    // Chỉnh sửa
                     if(auth()->user()->can('edit categories')){
-                        $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-category"data-toggle="modal" data-target="#editCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '" data-description="' . htmlspecialchars($category->description ?? '') . '">
-                            <i class="fas fa-edit"></i>
-                        </button>';
+                        $buttons .= '
+                            <a class="dropdown-item edit-category" href="#" data-toggle="modal" data-target="#editCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '" data-description="' . htmlspecialchars($category->description ?? '') . '">
+                                <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
+                            </a>
+                        ';
                     }
+
+                    // Xóa
                     if(auth()->user()->can('delete categories')){
-                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-category" data-toggle="modal" data-target="#deleteCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '">
-                            <i class="fas fa-trash"></i>
-                        </button>';
+                        $buttons .= '
+                            <a class="dropdown-item delete-category text-danger" href="#" data-toggle="modal" data-target="#deleteCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '">
+                                <i class="fas fa-trash mr-2"></i>Xóa
+                            </a>
+                        ';
                     }
-                    return '<div class="btn-action">' . $editButton . $deleteButton . '</div>';
+
+                    $buttons .= '</div></div>';
+                    return $buttons;
                 })
                 ->rawColumns(['checkbox', 'products_count', 'actions'])
                 ->make(true);

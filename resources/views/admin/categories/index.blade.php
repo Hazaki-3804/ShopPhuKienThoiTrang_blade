@@ -135,7 +135,9 @@
                             <th>Slug</th>
                             <th>Số sản phẩm</th>
                             <th>Ngày tạo</th>
-                            <th width="120px">Thao tác</th>
+                            @canany(['create categories', 'edit categories', 'delete categories'])
+                            <th>Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                 </table>
@@ -223,6 +225,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        let permissions = @canany(['create categories', 'edit categories', 'delete categories']) true @else false @endcanany;
         window.categoriesTable = $('#categoriesTable').DataTable({
             processing: false,
             serverSide: true,
@@ -319,7 +322,8 @@
                     name: 'actions',
                     orderable: false,
                     searchable: false,
-                    width: '120px'
+                    width: '8%',
+                    visible: permissions
                 }
             ],
             order: [

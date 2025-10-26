@@ -114,7 +114,9 @@
                             <th>Nội dung</th>
                             <th style="width: 120px;">Ngày tạo</th>
                             <th style="width: 100px;">Trạng thái</th>
-                            <th style="width: 200px;">Thao tác</th>
+                            @canany(['hide reviews', 'delete reviews'])
+                            <th style="width: 8%;">Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -169,32 +171,39 @@
                                 </span>
                                 @endif
                             </td>
+                           @canany(['hide reviews', 'delete reviews'])
                             <td>
-                                <div class="btn-action">
-                                    <!-- Toggle visibility -->
-                                    @if(auth()->user()->can('hide reviews'))
-                                    <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="d-inline toggle-form">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-sm {{ $review->is_hidden ? 'btn-info' : 'btn-warning' }}"
-                                            title="{{ $review->is_hidden ? 'Hiển thị' : 'Ẩn' }}"
-                                            data-action="{{ $review->is_hidden ? 'hiển thị' : 'ẩn' }}">
-                                            <i class="fas fa-eye{{ $review->is_hidden ? '' : '-slash' }}"></i>
-                                        </button>
-                                    </form>
-                                    @endif
-                                    <!-- Delete -->
-                                    @if(auth()->user()->can('delete reviews'))
-                                    <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="d-inline delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                    @endif         
+                                <div class="dropdown text-center">
+                                    <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu{{ $review->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                                        <i class="fas fa-ellipsis-v text-secondary"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu{{ $review->id }}">
+                                        
+                                        @if(auth()->user()->can('hide reviews'))
+                                        <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="toggle-form">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="dropdown-item" data-action="{{ $review->is_hidden ? 'hiển thị' : 'ẩn' }}">
+                                                <i class="fas fa-eye{{ $review->is_hidden ? '' : '-slash' }} {{ $review->is_hidden ? 'text-info' : 'text-warning' }} mr-2"></i>
+                                                {{ $review->is_hidden ? 'Hiển thị bình luận' : 'Ẩn bình luận' }}
+                                            </button>
+                                        </form>
+                                        @endif
+
+                                        @if(auth()->user()->can('delete reviews'))
+                                        <form method="POST" action="{{ route('admin.reviews.destroy', $review) }}" class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="fas fa-trash mr-2"></i>Xóa bình luận
+                                            </button>
+                                        </form>
+                                        @endif
+
+                                    </div>
                                 </div>
                             </td>
+                            @endcanany
                         </tr>
                         @empty
                         <tr>

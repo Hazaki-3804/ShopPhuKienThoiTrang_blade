@@ -182,7 +182,10 @@
                             <th>Giá (VNĐ)</th>
                             <th>Tồn kho</th>
                             <th>Trạng thái</th>
-                            <th width="120px">Thao tác</th>
+                            <th>Ngày tạo</th>
+                            @canany(['create products', 'edit products', 'delete products'])
+                            <th>Thao tác</th>
+                            @endcanany
                         </tr>
                     </thead>
                 </table>
@@ -348,6 +351,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        let permissions = @canany(['create products', 'edit products', 'delete products']) true @else false @endcanany;
         window.productsTable = $('#productsTable').DataTable({
             processing: false,
             serverSide: true,
@@ -425,15 +429,22 @@
                     searchable: false
                 },
                 {
+                    data: 'created_date',
+                    name: 'created_at',
+                    orderable: true,
+                    searchable: false
+                },
+                {
                     data: 'actions',
                     name: 'actions',
                     orderable: false,
                     searchable: false,
-                    width: '120px'
+                    width: '8%',
+                    visible: permissions
                 }
             ],
             order: [
-                [2, 'asc']
+                [7, 'desc']
             ],
             columnDefs: [
                 {

@@ -57,29 +57,51 @@ class CustomerController extends Controller
                     : '<span class="badge bg-danger text-white p-1"><i class="fas fa-ban mr-1"></i>Khóa tài khoản</span>';
             })
             ->addColumn('actions', function ($customer) {
-                $editButton = '';
+                $buttons = '
+                <div class="dropdown text-center">
+                    <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu' . $customer->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                        <i class="fas fa-ellipsis-v text-secondary"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu' . $customer->id . '">
+                ';
+
+                // Chỉnh sửa
                 if(auth()->user()->can('edit customers')) {
-                   $editButton = '<button type="button" class="btn btn-sm btn-outline-warning edit-customer" data-toggle="modal" data-target="#editCustomerModal" data-id="' . $customer->id . '">
-                    <i class="fas fa-edit"></i>
-                </button>'; 
+                    $buttons .= '
+                        <a class="dropdown-item edit-customer" href="#" data-toggle="modal" data-target="#editCustomerModal" data-id="' . $customer->id . '">
+                            <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
+                        </a>
+                    ';
                 }
-                $toggleButton = '';
+
+                // Khóa/Mở khóa
                 if(auth()->user()->can('lock/unlock customers')) {
-                $toggleButton = $customer->status == 1
-                    ? '<button type="button" class="btn btn-sm btn-outline-secondary toggle-status" data-id="' . $customer->id . '" data-status="0" title="Khóa tài khoản">
-                        <i class="fas fa-lock"></i>
-                    </button>'
-                    : '<button type="button" class="btn btn-sm btn-outline-success toggle-status" data-id="' . $customer->id . '" data-status="1" title="Mở khóa tài khoản">
-                        <i class="fas fa-unlock"></i>
-                    </button>';
+                    if ($customer->status == 1) {
+                        $buttons .= '
+                            <a class="dropdown-item toggle-status" href="#" data-id="' . $customer->id . '" data-status="0">
+                                <i class="fas fa-lock text-muted mr-2"></i>Khóa tài khoản
+                            </a>
+                        ';
+                    } else {
+                        $buttons .= '
+                            <a class="dropdown-item toggle-status" href="#" data-id="' . $customer->id . '" data-status="1">
+                                <i class="fas fa-unlock text-success mr-2"></i>Mở khóa
+                            </a>
+                        ';
+                    }
                 }
-                $deleteButton = '';
+
+                // Xóa
                 if(auth()->user()->can('delete customers')) {
-                    $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-customer" data-toggle="modal" data-target="#deleteCustomerModal" data-id="' . $customer->id . '">
-                        <i class="fas fa-trash"></i>
-                    </button>';
+                    $buttons .= '
+                        <a class="dropdown-item delete-customer text-danger" href="#" data-toggle="modal" data-target="#deleteCustomerModal" data-id="' . $customer->id . '">
+                            <i class="fas fa-trash mr-2"></i>Xóa
+                        </a>
+                    ';
                 }
-                return '<div class="btn-action">' . $editButton . ' ' . $toggleButton . ' ' . $deleteButton . '</div>';
+
+                $buttons .= '</div></div>';
+                return $buttons;
             })
             ->rawColumns(['customer_info', 'status_badge', 'actions']) // cho phép render HTML
             ->make(true);

@@ -74,20 +74,34 @@ class PromotionController extends Controller
                     return '<span class="badge ' . $badgeClass . '">' . $remaining . '/' . $promotion->quantity . '</span>';
                 })
                 ->addColumn('actions', function ($promotion) {
-                    $editButton = '';
+                    $buttons = '
+                    <div class="dropdown text-center">
+                        <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu' . $promotion->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
+                            <i class="fas fa-ellipsis-v text-secondary"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu' . $promotion->id . '">
+                    ';
+
+                    // Chỉnh sửa
                     if(auth()->user()->can('edit promotions')){
-                        $editButton = '<a href="' . route('admin.promotions.edit', $promotion->id) . '" class="btn btn-sm btn-outline-warning">
-                        <i class="fas fa-edit"></i>
-                    </a>';
-                    }
-                    $deleteButton = '';
-                    if(auth()->user()->can('delete promotions')){
-                        $deleteButton = '<button type="button" class="btn btn-sm btn-outline-danger delete-promotion-btn" data-id="' . $promotion->id . '">
-                        <i class="fas fa-trash"></i>
-                    </button>';
+                        $buttons .= '
+                            <a class="dropdown-item" href="' . route('admin.promotions.edit', $promotion->id) . '">
+                                <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
+                            </a>
+                        ';
                     }
 
-                    return '<div class="btn-action">' . $editButton . $deleteButton . '</div>';
+                    // Xóa
+                    if(auth()->user()->can('delete promotions')){
+                        $buttons .= '
+                            <a class="dropdown-item delete-promotion-btn text-danger" href="#" data-id="' . $promotion->id . '">
+                                <i class="fas fa-trash mr-2"></i>Xóa
+                            </a>
+                        ';
+                    }
+
+                    $buttons .= '</div></div>';
+                    return $buttons;
                 })
                 ->rawColumns(['checkbox', 'discount_display', 'status_badge', 'products_count', 'quantity_display', 'actions'])
                 ->make(true);
