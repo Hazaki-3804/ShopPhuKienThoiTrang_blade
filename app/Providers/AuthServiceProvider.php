@@ -29,15 +29,6 @@ class AuthServiceProvider extends ServiceProvider
             return null;
         });
 
-        // Định nghĩa Gate ở đây (giữ nếu đang dùng ở nơi khác)
-        Gate::define('access-admin', function ($user) {
-            return $user->role_id === 1;
-        });
-
-        Gate::define('manage-orders', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-
         // ===== Menu header composite gates =====
         // Hiển thị header SẢN PHẨM nếu có ÍT NHẤT 1 quyền liên quan
         Gate::define('menu.products', function ($user) {

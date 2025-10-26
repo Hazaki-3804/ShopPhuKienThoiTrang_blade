@@ -9,14 +9,15 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Discount;
 use App\Models\ShippingFee;
+use App\Models\Payment;
 use App\Services\MoMoService;
+use App\Services\PayosService;
 use App\Mail\OrderConfirmationMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use App\Models\Payment;
 
 class CheckoutController extends Controller
 {
@@ -284,7 +285,7 @@ class CheckoutController extends Controller
                     $calculatedFee = $rule->calculateFee($distance, $orderValue);
                     
                     // Log chi tiết quy tắc được áp dụng
-                    \Log::info('Shipping Rule Applied', [
+                    Log::info('Shipping Rule Applied', [
                         'rule_name' => $rule->name,
                         'area_type' => $rule->area_type,
                         'distance' => $distance,
@@ -303,7 +304,7 @@ class CheckoutController extends Controller
             return 0;
         } catch (\Exception $e) {
             // Nếu có lỗi, log và trả về 0
-            \Log::error('Calculate shipping fee error: ' . $e->getMessage());
+            Log::error('Calculate shipping fee error: ' . $e->getMessage());
             return 0;
         }
     }
@@ -398,7 +399,7 @@ class CheckoutController extends Controller
             // Ưu tiên tọa độ tỉnh/thành phố nếu địa chỉ thiếu chi tiết
             $provinceCoords = $this->getProvinceCoordinates($address);
             if ($provinceCoords && $this->shouldUseProvinceCoordinates($address)) {
-                \Log::info('Frontend: Using province coordinates', [
+                Log::info('Frontend: Using province coordinates', [
                     'address' => $address,
                     'coords' => $provinceCoords
                 ]);
@@ -450,7 +451,7 @@ class CheckoutController extends Controller
             
             // Fallback: Dùng tọa độ tỉnh/thành phố
             if ($provinceCoords) {
-                \Log::info('Frontend: Fallback to province coordinates', [
+                Log::info('Frontend: Fallback to province coordinates', [
                     'address' => $address,
                     'coords' => $provinceCoords
                 ]);
@@ -461,7 +462,7 @@ class CheckoutController extends Controller
             return null;
             
         } catch (\Exception $e) {
-            \Log::error('Get customer coordinates error: ' . $e->getMessage());
+            Log::error('Get customer coordinates error: ' . $e->getMessage());
             
             // Fallback: Dùng tọa độ tỉnh/thành phố
             $provinceCoords = $this->getProvinceCoordinates($address);
@@ -490,7 +491,7 @@ class CheckoutController extends Controller
         // Nếu không có số nhà VÀ không có tên đường
         // Thì địa chỉ quá chung chung, nên dùng tọa độ tỉnh
         if (!$hasStreetNumber && !$hasStreetName) {
-            \Log::info('Address lacks street details, should use province coordinates', [
+            Log::info('Address lacks street details, should use province coordinates', [
                 'address' => $address
             ]);
             return true;
@@ -507,7 +508,7 @@ class CheckoutController extends Controller
     {
         // Bounding box Vietnam: 8.18°N - 23.39°N, 102.14°E - 109.46°E
         if ($lat < 8.18 || $lat > 23.39 || $lng < 102.14 || $lng > 109.46) {
-            \Log::warning('Coordinates outside Vietnam bounding box', [
+            Log::warning('Coordinates outside Vietnam bounding box', [
                 'lat' => $lat,
                 'lng' => $lng
             ]);
@@ -527,7 +528,7 @@ class CheckoutController extends Controller
             // Nếu khoảng cách > 100km, có thể là sai
             // Ví dụ: Địa chỉ Tuyên Quang nhưng geocode ra Trà Vinh
             if ($distance > 100) {
-                \Log::warning('Geocoded coordinates too far from province center', [
+                Log::warning('Geocoded coordinates too far from province center', [
                     'distance_km' => $distance,
                     'geocoded' => ['lat' => $lat, 'lng' => $lng],
                     'province' => $provinceCoords
@@ -690,7 +691,7 @@ class CheckoutController extends Controller
         // Tìm kiếm tỉnh/thành phố trong địa chỉ
         foreach ($coordinates as $province => $coords) {
             if (strpos($addressLower, $province) !== false) {
-                \Log::info('Found province coordinates', [
+                Log::info('Found province coordinates', [
                     'province' => $province,
                     'coordinates' => $coords
                 ]);
@@ -775,7 +776,7 @@ class CheckoutController extends Controller
             return $b['score'] <=> $a['score'];
         });
         
-        \Log::info('Geocoding results scored', [
+        Log::info('Geocoding results scored', [
             'total_results' => count($results),
             'top_3_scores' => array_slice(array_map(function($r) {
                 return [
@@ -861,7 +862,7 @@ class CheckoutController extends Controller
             // Kiểm tra bảng tra cứu khoảng cách cố định trước
             $fixedDistance = $this->getFixedDistanceByAddress($customerAddress);
             if ($fixedDistance !== null) {
-                \Log::info('Using fixed distance for address', [
+                Log::info('Using fixed distance for address', [
                     'address' => $customerAddress,
                     'distance_km' => $fixedDistance
                 ]);
@@ -871,7 +872,7 @@ class CheckoutController extends Controller
             // Cải thiện địa chỉ tìm kiếm - Chuẩn hóa địa chỉ Việt Nam
             $searchAddress = $this->normalizeVietnameseAddress($customerAddress);
             
-            \Log::info('Normalized address for geocoding', [
+            Log::info('Normalized address for geocoding', [
                 'original' => $customerAddress,
                 'normalized' => $searchAddress
             ]);
@@ -880,7 +881,7 @@ class CheckoutController extends Controller
             // Nếu địa chỉ chỉ có phường/xã mà không đủ chi tiết
             $provinceCoords = $this->getProvinceCoordinates($customerAddress);
             if ($provinceCoords && $this->shouldUseProvinceCoordinates($customerAddress)) {
-                \Log::info('Address lacks detail, using province coordinates directly', [
+                Log::info('Address lacks detail, using province coordinates directly', [
                     'address' => $customerAddress,
                     'province_coords' => $provinceCoords
                 ]);
@@ -917,14 +918,14 @@ class CheckoutController extends Controller
             $geocodeResponse = @file_get_contents($geocodeUrl . '?' . http_build_query($geocodeParams), false, $context);
             
             if ($geocodeResponse === false) {
-                \Log::warning('Nominatim geocoding failed for address: ' . $customerAddress);
+                Log::warning('Nominatim geocoding failed for address: ' . $customerAddress);
                 return $this->estimateDistanceByArea($customerAddress);
             }
             
             $geocodeData = json_decode($geocodeResponse, true);
             
             if (empty($geocodeData)) {
-                \Log::warning('No geocoding results from Nominatim, trying province coordinates');
+                Log::warning('No geocoding results from Nominatim, trying province coordinates');
                 
                 // Fallback: Sử dụng tọa độ tỉnh/thành phố
                 $provinceCoords = $this->getProvinceCoordinates($customerAddress);
@@ -932,7 +933,7 @@ class CheckoutController extends Controller
                     $customerLat = $provinceCoords['lat'];
                     $customerLng = $provinceCoords['lng'];
                     
-                    \Log::info('Using province coordinates as fallback', [
+                    Log::info('Using province coordinates as fallback', [
                         'lat' => $customerLat,
                         'lng' => $customerLng
                     ]);
@@ -951,7 +952,7 @@ class CheckoutController extends Controller
             $bestResult = $this->selectBestGeocodingResult($geocodeData, $customerAddress);
             
             if (!$bestResult) {
-                \Log::warning('No suitable geocoding result found, trying province coordinates');
+                Log::warning('No suitable geocoding result found, trying province coordinates');
                 
                 // Fallback: Sử dụng tọa độ tỉnh/thành phố
                 $provinceCoords = $this->getProvinceCoordinates($customerAddress);
@@ -959,7 +960,7 @@ class CheckoutController extends Controller
                     $customerLat = $provinceCoords['lat'];
                     $customerLng = $provinceCoords['lng'];
                     
-                    \Log::info('Using province coordinates as fallback', [
+                    Log::info('Using province coordinates as fallback', [
                         'lat' => $customerLat,
                         'lng' => $customerLng
                     ]);
@@ -979,7 +980,7 @@ class CheckoutController extends Controller
             
             // Validate kết quả geocoding - kiểm tra xem có nằm trong Vietnam không
             if (!$this->isValidVietnamCoordinates($customerLat, $customerLng, $customerAddress)) {
-                \Log::warning('Geocoding result outside expected region, using province coordinates', [
+                Log::warning('Geocoding result outside expected region, using province coordinates', [
                     'geocoded_lat' => $customerLat,
                     'geocoded_lng' => $customerLng,
                     'address' => $customerAddress
@@ -991,14 +992,14 @@ class CheckoutController extends Controller
                     $customerLat = $provinceCoords['lat'];
                     $customerLng = $provinceCoords['lng'];
                     
-                    \Log::info('Using province coordinates instead', [
+                    Log::info('Using province coordinates instead', [
                         'lat' => $customerLat,
                         'lng' => $customerLng
                     ]);
                 }
             }
             
-            \Log::info('Selected geocoding result', [
+            Log::info('Selected geocoding result', [
                 'lat' => $customerLat,
                 'lng' => $customerLng,
                 'display_name' => $bestResult['display_name'] ?? 'N/A',
@@ -1012,7 +1013,7 @@ class CheckoutController extends Controller
             // Bước 3: Áp dụng hệ số đường bộ Việt Nam để tính khoảng cách thực tế
             $roadDistance = $this->applyVietnamRoadFactor($haversineDistance, $customerAddress);
             
-            \Log::info('Distance calculated with Vietnam road factor', [
+            Log::info('Distance calculated with Vietnam road factor', [
                 'address' => $customerAddress,
                 'haversine_km' => $haversineDistance,
                 'road_km' => $roadDistance,
@@ -1022,7 +1023,7 @@ class CheckoutController extends Controller
             return $roadDistance;
             
         } catch (\Exception $e) {
-            \Log::error('Calculate distance error: ' . $e->getMessage());
+            Log::error('Calculate distance error: ' . $e->getMessage());
             return $this->estimateDistanceByArea($customerAddress);
         }
     }
@@ -1303,7 +1304,7 @@ class CheckoutController extends Controller
         }
         
         // Mặc định cho các địa chỉ không xác định
-        \Log::warning('Could not determine distance for address: ' . $address . ', using default 100km');
+        Log::warning('Could not determine distance for address: ' . $address . ', using default 100km');
         return 100; // Tăng mặc định lên 100km thay vì 5km để an toàn
     }
 
@@ -1357,7 +1358,7 @@ class CheckoutController extends Controller
         $distance = $this->calculateDistance($customerAddress);
         
         // Log để debug
-        \Log::info('Checkout Payment - Distance Calculation', [
+        Log::info('Checkout Payment - Distance Calculation', [
             'address' => $customerAddress,
             'distance' => $distance,
             'area_type' => $areaType,
@@ -1367,7 +1368,7 @@ class CheckoutController extends Controller
         // Tính phí vận chuyển động từ database dựa trên khoảng cách thực tế
         $shippingFee = $this->calculateShippingFee($subtotal, $distance, $areaType);
         
-        \Log::info('Checkout Payment - Shipping Fee', [
+        Log::info('Checkout Payment - Shipping Fee', [
             'shipping_fee' => $shippingFee,
             'distance' => $distance,
             'subtotal' => $subtotal
@@ -1426,15 +1427,15 @@ class CheckoutController extends Controller
             $customerAddress = $addressData['customer_address'] ?? ($addressData['address'] ?? null);
             
             if ($customerAddress && !empty($customerAddress)) {
-                \Log::info('Getting coordinates for address: ' . $customerAddress);
+                Log::info('Getting coordinates for address: ' . $customerAddress);
                 $customerCoordinates = $this->getAccurateCustomerCoordinates($customerAddress);
-                \Log::info('Got coordinates: ' . json_encode($customerCoordinates));
+                Log::info('Got coordinates: ' . json_encode($customerCoordinates));
             } else {
-                \Log::warning('No customer address found in addressData');
+                Log::warning('No customer address found in addressData');
             }
         } catch (\Exception $e) {
-            \Log::error('Error getting customer coordinates: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Error getting customer coordinates: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
             $customerCoordinates = null;
         }
 
@@ -1506,17 +1507,17 @@ class CheckoutController extends Controller
         if (!$distance || !is_numeric($distance)) {
             // Fallback: Tính khoảng cách bằng backend
             $distance = $this->calculateDistance($addressData['customer_address']);
-            \Log::info('Using backend calculated distance', ['distance' => $distance]);
+            Log::info('Using backend calculated distance', ['distance' => $distance]);
         } else {
             $distance = floatval($distance);
-            \Log::info('Using OSRM distance from frontend', ['distance' => $distance]);
+            Log::info('Using OSRM distance from frontend', ['distance' => $distance]);
         }
         
         // Tính phí vận chuyển động từ database với khoảng cách thực tế
         $shippingFee = $this->calculateShippingFee($subtotal, $distance, $areaType);
         
         // Log để debug phí vận chuyển
-        \Log::info('Place Order - Shipping Fee Calculation', [
+        Log::info('Place Order - Shipping Fee Calculation', [
             'address' => $addressData['customer_address'],
             'distance' => $distance,
             'area_type' => $areaType,
@@ -1641,11 +1642,16 @@ class CheckoutController extends Controller
             ];
 
             try {
-                $response = $this->payOS->createPaymentLink($data);
-                return redirect($response['checkoutUrl']);
+                $payosService = new PayosService();
+                $response = $payosService->createPaymentLink($data);
+                if(isset($response['checkoutUrl'])) {
+                    return redirect($response['checkoutUrl']);
+                }else{
+                    return back()->with(['error' => 'Không thể tạo liên kết thanh toán PayOS. Vui lòng thử lại hoặc chọn phương thức thanh toán khác']);
+                }
             } catch (\Throwable $th) {
                 Log::error($th->getMessage());
-                return back()->withErrors(['payment' => 'Không thể tạo liên kết thanh toán PayOS: ' . $th->getMessage()]);
+                return back()->with(['error' => 'Không thể tạo liên kết thanh toán PayOS. Vui lòng thử lại hoặc chọn phương thức thanh toán khác']);
             }
         }
         if ($paymentMethod === 'vnpay') {
@@ -1768,7 +1774,7 @@ class CheckoutController extends Controller
             $areaType = $this->detectAreaType($customerAddress);
             $shippingFee = $this->calculateShippingFee($subtotal, $distance, $areaType);
 
-            \Log::info('AJAX Calculate Shipping Fee', [
+            Log::info('AJAX Calculate Shipping Fee', [
                 'distance' => $distance,
                 'subtotal' => $subtotal,
                 'area_type' => $areaType,
@@ -1783,7 +1789,7 @@ class CheckoutController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            \Log::error('AJAX Calculate Shipping Fee Error: ' . $e->getMessage());
+            Log::error('AJAX Calculate Shipping Fee Error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi tính phí vận chuyển: ' . $e->getMessage()

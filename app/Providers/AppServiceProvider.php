@@ -86,6 +86,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Use Bootstrap 5 pagination templates
         Paginator::useBootstrapFive();
+
+        // SendGrid mail driver
         Mail::extend('sendgrid', function (array $config = [], string $name = null) {
             $apiKey = $config['api_key'] ?? config('services.sendgrid.api_key');
             return new SendGridTransport($apiKey);

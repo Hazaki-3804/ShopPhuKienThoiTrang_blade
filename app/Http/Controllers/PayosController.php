@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
-use Illuminate\Support\Facades\Log;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CartItem;
@@ -106,54 +105,6 @@ class PayosController extends Controller
         }
 
         // Process webhook data -> Save payment when status is paid
-        try {
-            $data = $body['data'] ?? [];
-            $status = strtoupper((string)($data['status'] ?? ''));
-            $orderId = (int)($data['orderCode'] ?? 0);
-            $amount = (int)($data['amount'] ?? 0);
-            $transactionCode = (string)($data['transactionId'] ?? ($data['id'] ?? ($data['paymentLinkId'] ?? '')));
 
-            if ($status === 'PAID' && $orderId > 0 && $amount > 0) {
-                // Idempotent write: avoid duplicates if transaction already recorded
-                $exists = null;
-                if (!empty($transactionCode)) {
-                    $exists = Payment::where('transaction_code', $transactionCode)
-                        ->where('payment_method', 'payos')
-                        ->first();
-                }
-
-                if (!$exists) {
-                    Payment::create([
-                        'order_id' => $orderId,
-                        'amount' => $amount,
-                        'status' => 'completed',
-                        'payment_method' => 'payos',
-                        'transaction_code' => $transactionCode ?: null,
-                        'paid_at' => now(),
-                    ]);
-                }
-            } else {
-                Log::warning('PayOS webhook received non-paid status or invalid data', [
-                    'status' => $status,
-                    'order_id' => $orderId,
-                    'amount' => $amount,
-                    'transaction' => $transactionCode,
-                ]);
-            }
-
-            return response()->json([
-                "error" => 0,
-                "message" => "Ok",
-                "data" => $data
-            ]);
-        } catch (\Throwable $th) {
-            Log::error('PayOS webhook processing failed', [
-                'error' => $th->getMessage(),
-            ]);
-            return response()->json([
-                "error" => 1,
-                "message" => "Server error",
-            ], 500);
-        }
     }
 }

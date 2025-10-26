@@ -57,7 +57,11 @@ class VnpayController extends Controller
 
         // 🔹 Bước 4: Tạo URL redirect
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" . $queryString . '&vnp_SecureHash=' . $vnp_SecureHash;
-        return redirect($vnp_Url);
+        if(isset($vnp_Url)){
+            return redirect($vnp_Url);
+        }else{
+            return back()->with(['error' => 'Không thể tạo liên kết thanh toán VNPAY. Vui lòng thử lại hoặc chọn phương thức thanh toán khác']);
+        }
     }
     public function returnPayment(Request $request)
     {

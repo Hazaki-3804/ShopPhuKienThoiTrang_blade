@@ -55,7 +55,7 @@ class OrderController extends Controller
             });
         }
 
-        $orders = $ordersQuery->with(['user', 'order_items.product'])->paginate(15);
+        $orders = $ordersQuery->with(['user', 'order_items.product'])->paginate(10);
 
         // Thống kê cho dashboard (giữ lại cho tương thích)
         $stats = [

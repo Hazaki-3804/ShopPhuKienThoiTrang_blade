@@ -262,6 +262,13 @@ return [
                 [
                     'text' => 'Danh sách nhân viên',
                     'route' => 'admin.users.index',
+                    'active' => [ 
+                        'admin/users/*/permissions',
+                        'admin/users/update',
+                        'admin/users/toggle-status',
+                        'admin/users/update-role',
+                        'admin/users/delete',
+                    ],
                     'breadcrumb' => true,
                     'can' => 'view staffs',
                 ],

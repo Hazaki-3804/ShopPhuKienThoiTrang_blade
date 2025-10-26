@@ -428,7 +428,6 @@
     border-right: 0;
 }
 
-<style>
 .payment-page {
     min-height: 100vh;
     background: #f5f5f5;

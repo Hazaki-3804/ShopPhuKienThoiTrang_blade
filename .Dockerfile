@@ -38,6 +38,9 @@ RUN composer install --optimize-autoloader --no-interaction --no-scripts
 # Phân quyền cho Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+# Tạo link storage
+RUN php artisan storage:link
+
 # Mở port 8000 và chạy Laravel
 EXPOSE 8080
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]

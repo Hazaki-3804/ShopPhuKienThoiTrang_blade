@@ -47,7 +47,7 @@
                     <small class="text-muted">Cập nhật mật khẩu bảo mật</small>
                 </div>
             </a>
-            
+            @can('manage settings')
             <a href="{{ route('admin.profile.settings') }}" class="dropdown-item d-flex align-items-center py-1 hover-item">
                 <div class="icon-wrapper mr-2">
                     <i class="fas fa-cogs text-info"></i>
@@ -57,6 +57,7 @@
                     <small class="text-muted">Cấu hình hệ thống</small>
                 </div>
             </a>
+            @endcan
             
             <div class="dropdown-divider"></div>
             
