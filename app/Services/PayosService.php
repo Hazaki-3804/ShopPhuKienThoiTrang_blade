@@ -27,11 +27,6 @@ class PayosService
     }
     public function createPaymentLink($data)
     {
-       return $this->payOS->createPaymentLink([
-           "orderCode" => $data['orderCode'],
-           "amount" => $data['amount'],
-           "description" => $data['description'],
-           "returnUrl" => $data['returnUrl'],
-       ]);
+       return $this->payOS->createPaymentLink($data);
     }
 }
