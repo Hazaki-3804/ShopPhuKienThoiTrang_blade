@@ -71,7 +71,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                               id="price" name="price" value="{{ old('price') }}" min="0" step="1000" required>
+                                               id="price" name="price" value="{{ old('price') }}" min="0" required>
                                         <span class="input-group-text">VNĐ</span>
                                     </div>
                                     @error('price')
@@ -254,11 +254,11 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    let uploadedFiles = [];
+    let selectedFiles = []; // Lưu File objects, chưa upload
+    let uploadedFiles = []; // Lưu URLs sau khi upload
     
     // Theo dõi trạng thái form đã thay đổi
     let formChanged = false;
-    let uploadedTempImages = [];
     
     // Đánh dấu form đã thay đổi khi user nhập liệu
     $('#productForm input, #productForm select, #productForm textarea').on('change input', function() {
@@ -304,7 +304,7 @@ $(document).ready(function() {
         const files = e.target.files;
         if (files.length > 0) {
             for (let i = 0; i < files.length; i++) {
-                uploadFile(files[i]);
+                previewFile(files[i]); // Preview local, không upload
             }
         }
     });
@@ -329,7 +329,7 @@ $(document).ready(function() {
         const files = e.dataTransfer.files;
         if (files.length > 0) {
             for (let i = 0; i < files.length; i++) {
-                uploadFile(files[i]);
+                previewFile(files[i]); // Preview local, không upload
             }
         }
     });
@@ -339,7 +339,8 @@ $(document).ready(function() {
         $('#simpleImageInput').click();
     });
     
-    function uploadFile(file) {
+    // Preview file local bằng FileReader (KHÔNG upload)
+    function previewFile(file) {
         // Validate file
         if (!file.type.startsWith('image/')) {
             alert('Chỉ chấp nhận file hình ảnh!');
@@ -351,133 +352,201 @@ $(document).ready(function() {
             return;
         }
         
-        const formData = new FormData();
-        formData.append('image', file);
+        // Thêm file vào mảng
+        selectedFiles.push(file);
+        formChanged = true;
+        localStorage.setItem('product_form_changed', 'true');
         
-        // Debug URL - with fallback
-        let uploadUrl = '{{ route("admin.products.upload-image") }}';
+        // Preview bằng FileReader
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const index = selectedFiles.length - 1;
+            addImagePreview(index, e.target.result, file.name);
+        };
+        reader.readAsDataURL(file);
         
-        // Fallback URL if route doesn't work
-        if (!uploadUrl || uploadUrl.includes('route')) {
-            uploadUrl = '/admin/products/upload-image';
-        }
-        
-        console.log('Upload URL:', uploadUrl);
-        
-        // Show loading
-        const loadingHtml = '<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang upload...</div>';
         $('#imagePreviewContainer').show();
-        $('#imagePreviewList').append('<div class="col-12 loading-item">' + loadingHtml + '</div>');
+    }
+    
+    // Thêm preview vào UI
+    function addImagePreview(index, dataUrl, filename) {
+        const previewHtml = `
+            <div class="col-md-3 preview-image" data-index="${index}">
+                <img src="${dataUrl}" alt="${filename}">
+                <button type="button" class="remove-image" onclick="removePreview(${index})">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        $('#imagePreviewList').append(previewHtml);
+    }
+    
+    // Xóa preview
+    window.removePreview = function(index) {
+        selectedFiles.splice(index, 1);
+        renderPreviews();
         
-        $.ajax({
-            url: uploadUrl,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                $('.loading-item').remove();
+        if (selectedFiles.length === 0) {
+            $('#imagePreviewContainer').hide();
+            formChanged = false;
+        }
+    };
+    
+    // Render lại tất cả preview
+    function renderPreviews() {
+        $('#imagePreviewList').empty();
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                addImagePreview(index, e.target.result, file.name);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    
+    // Upload tất cả ảnh lên Cloudinary
+    async function uploadAllImages() {
+        const uploadedUrls = [];
+        
+        for (let i = 0; i < selectedFiles.length; i++) {
+            const file = selectedFiles[i];
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+            
+            try {
+                const response = await $.ajax({
+                    url: '{{ route("admin.products.upload-image") }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                });
                 
                 if (response.success) {
-                    uploadedFiles.push(response.filename);
-                    uploadedTempImages.push(response.filename); // Theo dõi ảnh tạm
-                    formChanged = true; // Đánh dấu form đã thay đổi
-                    localStorage.setItem('product_form_changed', 'true');
-                    updateUploadedImages();
-                    addImagePreview(response.filename, response.url);
+                    uploadedUrls.push(response.filename); // Cloudinary URL
                 } else {
-                    alert(response.message || 'Upload thất bại!');
+                    throw new Error(response.message || 'Upload thất bại');
                 }
-            },
-            error: function(xhr) {
-                $('.loading-item').remove();
-                
-                let message = 'Có lỗi xảy ra khi upload!';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    message = xhr.responseJSON.message;
-                }
-                alert(message);
+            } catch (error) {
+                throw error;
             }
-        });
+        }
+        
+        return uploadedUrls;
+    }
+    
+    // Legacy function (giữ để không bị lỗi)
+    function uploadFile(file) {
+        previewFile(file);
+    }
+    
+    function addOldImagePreview(filename, url) {
+        // Legacy function
     }
     
     function updateUploadedImages() {
         $('#uploadedImages').val(JSON.stringify(uploadedFiles));
     }
     
-    function addImagePreview(filename, url) {
-        const previewHtml = `
-            <div class="col-6 preview-image" data-filename="${filename}">
-                <img src="${url}" alt="Preview" class="img-fluid">
-                <button type="button" class="remove-image" onclick="removeImage('${filename}')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `;
-        
-        $('#imagePreviewList').append(previewHtml);
-        $('#imagePreviewContainer').show();
-    }
-    
-    // Global function to remove image
-    window.removeImage = function(filename) {
-        // Xóa ảnh tạm từ server
-        $.ajax({
-            url: '{{ route("admin.products.clear-temp-images") }}',
-            type: 'POST',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                filename: filename
-            },
-            success: function(response) {
-                console.log('Đã xóa ảnh tạm:', filename);
-            },
-            error: function() {
-                console.log('Lỗi khi xóa ảnh tạm:', filename);
-            }
-        });
-        
-        uploadedFiles = uploadedFiles.filter(f => f !== filename);
-        uploadedTempImages = uploadedTempImages.filter(f => f !== filename);
-        updateUploadedImages();
-        $(`.preview-image[data-filename="${filename}"]`).remove();
-        
-        if (uploadedFiles.length === 0) {
-            $('#imagePreviewContainer').hide();
-        }
-    };
-    
-    // Form validation
+    // Form validation và submit qua AJAX
     $('#productForm').on('submit', function(e) {
+        e.preventDefault();
+        
         const name = $('#name').val().trim();
         const price = $('#price').val();
         const stock = $('#stock').val();
         const categoryId = $('#category_id').val();
         
         if (!name || !price || !stock || !categoryId) {
-            e.preventDefault();
             alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
             return false;
         }
         
         if (parseFloat(price) < 0) {
-            e.preventDefault();
             alert('Giá sản phẩm phải lớn hơn 0!');
             return false;
         }
         
         if (parseInt(stock) < 0) {
-            e.preventDefault();
             alert('Số lượng tồn kho phải lớn hơn hoặc bằng 0!');
             return false;
         }
         
-        // Xóa cảnh báo khi submit thành công
+        // CHẶN BEACON khi submit
+        isSubmitting = true;
         formChanged = false;
         localStorage.removeItem('product_form_changed');
+        
+        const $submitBtn = $(this).find('button[type="submit"]');
+        const originalText = $submitBtn.html();
+        
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Đang lưu...');
+        
+        // Upload ảnh trước
+        if (selectedFiles.length > 0) {
+            $submitBtn.html('<i class="fas fa-spinner fa-spin me-1"></i> Đang upload ảnh...');
+            
+            uploadAllImages().then(function(urls) {
+                // Đã upload xong, lưu URLs
+                uploadedFiles = urls;
+                updateUploadedImages();
+                
+                // Submit form
+                $submitBtn.html('<i class="fas fa-spinner fa-spin me-1"></i> Đang lưu sản phẩm...');
+                submitForm();
+            }).catch(function(error) {
+                isSubmitting = false;
+                $submitBtn.prop('disabled', false).html(originalText);
+                alert('Có lỗi khi upload ảnh: ' + error.message);
+            });
+        } else {
+            // Không có ảnh, submit luôn
+            submitForm();
+        }
+        
+        function submitForm() {
+            const formData = new FormData($('#productForm')[0]);
+            
+            $.ajax({
+                url: $('#productForm').attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Lưu message vào localStorage
+                    localStorage.setItem('toast_message', response.message || 'Thêm sản phẩm mới thành công!');
+                    localStorage.setItem('toast_type', 'success');
+                    
+                    // Redirect ngay
+                    window.location.href = '{{ route("admin.products.index") }}';
+                },
+                error: function(xhr) {
+                isSubmitting = false;
+                $submitBtn.prop('disabled', false).html(originalText);
+                
+                let message = 'Có lỗi xảy ra!';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        html: message,
+                        timer: 5000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                } else {
+                    alert(message);
+                }
+                }
+            });
+        }
     });
     
     // Reset form
@@ -497,17 +566,24 @@ $(document).ready(function() {
         $('#simpleImageInput').val('');
     });
     
+    // Biến để chặn beacon khi submit
+    let isSubmitting = false;
+    
     // Cleanup khi rời khỏi trang mà chưa lưu
-    // $(window).on('beforeunload', function() {
-    //     if (uploadedFiles.length > 0) {
-    //         cleanupTempImages(uploadedFiles);
-    //     }
-    // });
     $(window).on('beforeunload', function() {
+        // KHÔNG chạy beacon nếu đang submit
+        if (isSubmitting) {
+            return;
+        }
+        
+        // Chỉ chạy beacon nếu có ảnh tạm và chưa submit
         if (uploadedFiles.length > 0) {
-            const url = '/admin/products/clear-temp-images';
-            const data = JSON.stringify({ files: uploadedFiles });
-            navigator.sendBeacon(url, data);
+            const url = '{{ route("admin.products.clear-temp-images-beacon") }}';
+            const fd = new FormData();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            if (token) fd.append('_token', token);
+            uploadedFiles.forEach(u => fd.append('files[]', u));
+            navigator.sendBeacon(url, fd);
         }
     });
 

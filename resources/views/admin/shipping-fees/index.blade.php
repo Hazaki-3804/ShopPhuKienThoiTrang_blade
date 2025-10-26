@@ -122,7 +122,7 @@
                             <th>Phí ship</th>
                             <th>Đơn tối thiểu</th>
                             <th>Trạng thái</th>
-                            <th width="120px">Hành động</th>
+                            <th width="120px">Thao tác</th>
                         </tr>
                     </thead>
                 </table>

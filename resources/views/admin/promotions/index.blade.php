@@ -137,7 +137,7 @@
                             <th>Trạng thái</th>
                             <th>Số sản phẩm</th>
                             <th>Số lượng</th>
-                            <th width="120px">Hành động</th>
+                            <th width="120px">Thao tác</th>
                         </tr>
                     </thead>
                 </table>
@@ -155,7 +155,7 @@
     method="DELETE">
     <input type="hidden" name="id" id="delete-promotion-id">
     <p>Bạn có chắc chắn muốn xóa chương trình khuyến mãi <strong id="delete-promotion-code"></strong>?</p>
-    <p class="text-danger"><i class="fas fa-exclamation-triangle"></i> Hành động này không thể hoàn tác!</p>
+    <p class="text-danger"><i class="fas fa-exclamation-triangle"></i> Thao tác này không thể hoàn tác!</p>
 </x-admin.modal>
 
 <!-- Bulk Delete Modal -->
@@ -167,7 +167,7 @@
     method="DELETE">
     <input type="hidden" name="ids" id="bulk-delete-ids">
     <p>Bạn có chắc chắn muốn xóa <strong><span id="bulk-count">0</span></strong> chương trình khuyến mãi đã chọn?</p>
-    <p class="text-danger"><i class="fas fa-exclamation-triangle"></i> Hành động này không thể hoàn tác!</p>
+    <p class="text-danger"><i class="fas fa-exclamation-triangle"></i> Thao tác này không thể hoàn tác!</p>
 </x-admin.modal>
 
 @endsection

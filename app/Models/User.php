@@ -99,18 +99,4 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return $this->belongsTo(Ward::class);
 	}
-
-	// Accessor: always return usable URL for avatar
-	public function getAvatarUrlAttribute(): string
-	{
-		$avatar = $this->avatar;
-		if (!$avatar) {
-			return asset('img/default-avatar.png');
-		}
-		if (str_starts_with($avatar, 'http://') || str_starts_with($avatar, 'https://')) {
-			return $avatar;
-		}
-		// Assume stored as 'storage/...'
-		return asset($avatar);
-	}
 }

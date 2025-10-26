@@ -135,7 +135,7 @@
                             <th>Slug</th>
                             <th>Số sản phẩm</th>
                             <th>Ngày tạo</th>
-                            <th width="120px">Hành động</th>
+                            <th width="120px">Thao tác</th>
                         </tr>
                     </thead>
                 </table>
@@ -338,7 +338,7 @@
                     className: 'text-center'
                 },
                 {
-                    targets: 7, // Cột hành động
+                    targets: 7, // Cột Thao tác
                     orderable: false,
                     searchable: false,
                     className: 'text-center'

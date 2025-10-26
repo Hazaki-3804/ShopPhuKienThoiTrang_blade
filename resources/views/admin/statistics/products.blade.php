@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Thống kê Sản phẩm')
 @section('content_header')
-<span class="fw-semibold">Thống kê Sản phẩm</span>
+<span class="fw-semibold"></span>
 @stop
 
 @section('content')

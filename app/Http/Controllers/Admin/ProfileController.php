@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Cloudinary\Cloudinary;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -21,9 +23,37 @@ class ProfileController extends Controller
 
     public function saveAvatar($file)
     {
-        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-        Storage::disk('public')->putFileAs('avatars', $file, $fileName);
-        return 'storage/avatars/' . $fileName;
+        try {
+            // Khởi tạo Cloudinary
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                    'api_key' => config('cloudinary.cloud.api_key'),
+                    'api_secret' => config('cloudinary.cloud.api_secret'),
+                ],
+                'url' => ['secure' => true]
+            ]);
+            
+            // Upload lên Cloudinary folder 'avatars'
+            $uploadResult = $cloudinary->uploadApi()->upload(
+                $file->getRealPath(),
+                [
+                    'folder' => 'avatars',
+                    'resource_type' => 'image',
+                    'transformation' => [
+                        'width' => 400,
+                        'height' => 400,
+                        'crop' => 'fill',
+                        'gravity' => 'face'
+                    ]
+                ]
+            );
+            
+            return $uploadResult['secure_url'];
+        } catch (\Exception $e) {
+            Log::error('Avatar upload error: ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function update(Request $request)
@@ -39,20 +69,50 @@ class ProfileController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
-            // Xóa avatar cũ
-            if (!empty($user->avatar) && str_starts_with($user->avatar, 'storage/')) {
+            // Xóa avatar cũ từ Cloudinary
+            if (!empty($user->avatar) && str_contains($user->avatar, 'cloudinary.com')) {
+                try {
+                    $cloudinary = new Cloudinary([
+                        'cloud' => [
+                            'cloud_name' => config('cloudinary.cloud.cloud_name'),
+                            'api_key' => config('cloudinary.cloud.api_key'),
+                            'api_secret' => config('cloudinary.cloud.api_secret'),
+                        ],
+                        'url' => ['secure' => true]
+                    ]);
+                    
+                    // Trích xuất public_id từ URL
+                    preg_match('/\/v\d+\/(.+)\.[a-z]+$/', $user->avatar, $matches);
+                    if (isset($matches[1])) {
+                        $publicId = $matches[1];
+                        $cloudinary->uploadApi()->destroy($publicId);
+                    }
+                } catch (\Exception $e) {
+                    Log::warning('Failed to delete old avatar: ' . $e->getMessage());
+                }
+            } elseif (!empty($user->avatar) && str_starts_with($user->avatar, 'storage/')) {
+                // Xóa avatar cũ từ storage local (nếu còn)
                 $oldPath = str_replace('storage/', '', $user->avatar);
                 if (Storage::disk('public')->exists($oldPath)) {
                     Storage::disk('public')->delete($oldPath);
                 }
             }
 
-            // Lưu avatar mới
+            // Lưu avatar mới lên Cloudinary
             $validated['avatar'] = $this->saveAvatar($request->file('avatar'));
         }
 
         $user->fill($validated);
         $user->save();
+
+        // Kiểm tra nếu là AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật thông tin thành công!',
+                'type' => 'success'
+            ]);
+        }
 
         return redirect()->route('admin.profile.index')->with('success', 'Cập nhật thông tin thành công');
     }

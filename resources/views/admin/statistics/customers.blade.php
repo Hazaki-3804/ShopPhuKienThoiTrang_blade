@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Thống kê Khách hàng')
 @section('content_header')
-<span class="fw-semibold">Thống kê Khách hàng</span>
+<span class="fw-semibold"></span>
 @stop
 
 @section('content')
@@ -102,13 +102,17 @@
 
     <!-- Customer Data Table -->
     <div class="card m-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Danh sách khách hàng</h5>
-            <div>
-                <input type="search" id="customerSearch" class="form-control form-control-sm" 
-                       placeholder="Tìm kiếm khách hàng..." style="width: 250px;">
+        <div class="card-header px-1">
+            <div class="d-flex justify-content-between align-items-center px-3">
+            <h5 class="mb-0">
+                <i class="fas fa-users text-primary mr-2"></i>Danh sách khách hàng
+            </h5>
+
+            <div class="input-group input-group-sm" style="width: 250px;">
+                <input type="search" id="customerSearch" class="form-control" placeholder="Tìm kiếm khách hàng...">
             </div>
         </div>
+    </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped align-middle" id="customersTable">

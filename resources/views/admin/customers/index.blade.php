@@ -27,8 +27,8 @@
                 <div class="mr-2">
                     <select id="statusFilter" class="form-control form-control-sm">
                         <option value="">-- Chọn trạng thái --</option>
-                        <option value="1">Active</option>
-                        <option value="0">Blocked</option>
+                        <option value="1">✅ Mở tài khoản</option>
+                        <option value="0">🚫 Khóa tài khoản</option>
                     </select>
                 </div>
                 <div class="mr-2">
@@ -62,7 +62,7 @@
                             <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
                             <th>Trạng thái</th>
-                            <th>Hành động</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                 </table>
@@ -123,8 +123,8 @@
         <div class="col-12 col-md-6">
             <label for="add_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
             <select class="form-control" id="add_status" name="status" required>
-                <option value="1">✅ Hoạt động</option>
-                <option value="0">🚫 Bị chặn</option>
+                <option value="1">✅ Mở tài khoản</option>
+                <option value="0">🚫 Khóa tài khoản</option>
             </select>
             <x-input-error name="status" />
             <div class="text-danger mt-1" id="add_status_error" style="font-size: 12px; display: none;"></div>
@@ -181,8 +181,8 @@
         <div class="col-12 col-md-6">
             <label for="edit_status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
             <select class="form-control" id="edit_status" name="status" required>
-                <option value="1">✅ Hoạt động</option>
-                <option value="0">🚫 Bị chặn</option>
+                <option value="1">✅ Mở tài khoản</option>
+                <option value="0">🚫 Khóa tài khoản</option>
             </select>
             <x-input-error name="status" />
             <div class="text-danger mt-1" id="edit_status_error" style="font-size: 12px; display: none;"></div>

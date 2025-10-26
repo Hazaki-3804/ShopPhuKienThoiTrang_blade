@@ -22,14 +22,14 @@
             @auth
             <div class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-person-circle fs-4"></i>
+                    <img src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->username) . '&background=random&color=fff&size=40' }}" alt="avatar" class="rounded-circle" width="32" height="32">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end user-menu" style="--bs-dropdown-link-hover-bg:#ffede7; --bs-dropdown-link-hover-color:#EE4D2D; --bs-dropdown-link-active-bg:#ffede7; --bs-dropdown-link-active-color:#EE4D2D;">
                     <li class="px-3 pt-2 pb-1">
                         <div class="d-flex align-items-center gap-2">
-                        <img src="{{ asset(auth()->user()->avatar ?? 'storage/avatars/default-avatar.png') }}" alt="avatar" class="rounded-circle" width="32" height="32">
+                        <img src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->username) . '&background=random&color=fff&size=40' }}" alt="avatar" class="rounded-circle" width="32" height="32">
                             <div class="lh-sm">
-                                <div class="fw-semibold">Xin chào ! {{ auth()->user()->name }}</div>
+                                <div class="fw-semibold">Xin chào ! {{ auth()->user()->username }}</div>
                                 <div class="text-muted small">{{ auth()->user()->email }}</div>
                             </div>
                         </div>
@@ -174,14 +174,14 @@
                 @auth
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown">
-                        <img src="{{asset(auth()->user()->avatar??'storage/avatars/default-avatar.png')}}" alt="" style="width: 36px; height: 36px;" class="rounded-circle object-fit-cover" /> {{ auth()->user()->name }}
+                        <img src="{{asset(auth()->user()->avatar??'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->username) . '&background=random&color=fff&size=40')}}" alt="" style="width: 36px; height: 36px;" class="rounded-circle object-fit-cover" /> {{ auth()->user()->username }}
                     </a>
                     <ul class=" dropdown-menu dropdown-menu-end user-menu" style="--bs-dropdown-link-hover-bg:#ffede7; --bs-dropdown-link-hover-color:#EE4D2D; --bs-dropdown-link-active-bg:#ffede7; --bs-dropdown-link-active-color:#EE4D2D;">
                         <li class="px-3 pt-2 pb-1">
                             <div class="d-flex align-items-center gap-2">
-                                <img src="{{ asset(auth()->user()->avatar??'storage/avatars/default-avatar.png') }}" alt="avatar" class="rounded-circle" width="32" height="32">
+                                <img src="{{ asset(auth()->user()->avatar??'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->username) . '&background=random&color=fff&size=40') }}" alt="avatar" class="rounded-circle" width="32" height="32">
                                 <div class="lh-sm">
-                                    <div class="fw-semibold">Xin chào, {{ auth()->user()->name }}</div>
+                                    <div class="fw-semibold">Xin chào, {{ auth()->user()->username }}</div>
                                     <div class="text-muted small">{{ auth()->user()->email }}</div>
                                 </div>
                             </div>

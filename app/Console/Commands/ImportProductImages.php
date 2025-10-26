@@ -4,13 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use App\Models\ProductImage;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 
 class ImportProductImages extends Command
 {
     protected $signature = 'products:import-images';
-    protected $description = 'Download product images from URLs and save them into storage/app/public/products';
+    protected $description = 'Upload product images from external URLs to Cloudinary and update database paths';
 
     public function handle()
     {
@@ -22,47 +23,83 @@ class ImportProductImages extends Command
             return;
         }
 
-        $this->info("🔄 Bắt đầu import {$images->count()} ảnh...");
+        // Khởi tạo cấu hình Cloudinary từ config
+        $cloudName = config('cloudinary.cloud.cloud_name');
+        $apiKey    = config('cloudinary.cloud.api_key');
+        $apiSecret = config('cloudinary.cloud.api_secret');
+
+        if (!$cloudName || !$apiKey || !$apiSecret) {
+            $this->error('❌ Thiếu cấu hình Cloudinary. Vui lòng thiết lập CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET trong .env');
+            return 1;
+        }
+
+        $cfg = Configuration::instance([
+            'cloud' => [
+                'cloud_name' => $cloudName,
+                'api_key'    => $apiKey,
+                'api_secret' => $apiSecret,
+            ],
+            'url' => [
+                'secure' => true,
+            ],
+        ]);
+
+        $this->info("🔄 Bắt đầu upload {$images->count()} ảnh lên Cloudinary...");
+
+        $cloudDisk = Storage::disk('cloudinary');
 
         foreach ($images as $image) {
             $url = $image->image_url;
             $this->line("➡️ Đang tải: {$url}");
 
             try {
-                // Lấy nội dung ảnh
+                // Tải nội dung ảnh từ URL
                 $contents = @file_get_contents($url);
-
                 if ($contents === false) {
                     $this->error("❌ Không tải được: {$url}");
                     continue;
                 }
 
-                // Lấy extension từ path (bỏ query string ?v=...)
+                // Lấy extension (nếu không có thì mặc định jpg)
                 $path = parse_url($url, PHP_URL_PATH);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-
-                // Nếu extension không hợp lệ -> fallback jpg
                 if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
                     $extension = 'jpg';
                 }
 
-                // Tạo tên file random
-                $filename = time() . '_' . uniqid() . '.' . $extension;
-                $storagePath = "products/{$filename}";
+                // Tạo tên file ngẫu nhiên
+                $filename = 'products/' . time() . '_' . uniqid() . '.' . $extension;
 
-                // Lưu vào storage/app/public/products
-                Storage::disk('public')->put($storagePath, $contents);
+                // Kiểm tra nội dung có phải ảnh hợp lệ
+                if (@getimagesizefromstring($contents) === false) {
+                    $this->error("❌ Nội dung không phải ảnh hợp lệ: {$url}");
+                    continue;
+                }
 
-                // Cập nhật DB: thay link ngoài thành link storage
-                $image->image_url = "storage/{$storagePath}";
+                // Upload lên Cloudinary bằng core SDK UploadApi để nhận secure URL
+                $temp = tmpfile();
+                fwrite($temp, $contents);
+                $meta = stream_get_meta_data($temp);
+                $filePath = $meta['uri'];
+                $uploader = new UploadApi();
+                $uploadResult = $uploader->upload($filePath, [
+                    'folder' => 'products',
+                    'public_id' => pathinfo($filename, PATHINFO_FILENAME),
+                    'resource_type' => 'image',
+                ]);
+                $cloudinaryUrl = $uploadResult['secure_url'] ?? ($uploadResult['url'] ?? null);
+                fclose($temp);
+
+                // Cập nhật DB với URL Cloudinary
+                $image->image_url = $cloudinaryUrl;
                 $image->save();
 
-                $this->info("✅ Lưu thành công: storage/{$storagePath}");
+                $this->info("✅ Upload thành công: {$cloudinaryUrl}");
             } catch (\Exception $e) {
-                $this->error("❌ Lỗi khi xử lý {$url} - " . $e->getMessage());
+                $this->error("❌ Lỗi khi xử lý {$url}: " . $e->getMessage());
             }
         }
 
-        $this->info("🎉 Hoàn tất import ảnh!");
+        $this->info("🎉 Hoàn tất upload tất cả ảnh lên Cloudinary!");
     }
 }

@@ -175,6 +175,7 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::put('/admin/products/update', [AdminProductController::class, 'update'])->middleware('permission:edit products')->name('update');
         Route::post('/admin/products/upload-image', [AdminProductController::class, 'uploadImage'])->middleware('permission:create products')->name('upload-image');
         Route::post('/admin/products/clear-temp-images', [AdminProductController::class, 'clearTempImages'])->middleware('permission:edit products')->name('clear-temp-images');
+        Route::post('/admin/products/clear-temp-images-beacon', [AdminProductController::class, 'clearTempImagesBeacon'])->middleware('permission:edit products')->name('clear-temp-images-beacon');
         Route::delete('/admin/products/delete', [AdminProductController::class, 'destroy'])->middleware('permission:delete products')->name('destroy');
         Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->middleware('permission:delete products')->name('destroy.multiple');
     });
@@ -206,7 +207,7 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::get('/admin/users/{id}/permissions', [AdminUserController::class, 'editPermissions'])->middleware('permission:manage permissions')->name('permissions.edit');
         Route::put('/admin/users/{id}/permissions', [AdminUserController::class, 'updatePermissions'])->middleware('permission:manage permissions')->name('permissions.update');
         Route::put('/admin/users/update', [AdminUserController::class, 'update'])->middleware('permission:edit staffs')->name('update');
-        Route::post('/admin/users/toggle-status', [AdminUserController::class, 'toggleStatus'])->middleware('permission:edit staffs')->name('toggle-status');
+        Route::post('/admin/users/toggle-status', [AdminUserController::class, 'toggleStatus'])->middleware('permission:lock/unlock staffs')->name('toggle-status');
         Route::post('/admin/users/update-role', [AdminUserController::class, 'updateRole'])->middleware('permission:edit staffs')->name('update-role');
         Route::delete('/admin/users/delete', [AdminUserController::class, 'destroy'])->middleware('permission:delete staffs')->name('destroy');
     });

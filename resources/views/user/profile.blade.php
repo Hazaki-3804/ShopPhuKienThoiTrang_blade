@@ -85,7 +85,7 @@
                             }
                         </style>
                         <div class="avatar-wrap mb-1">
-                            <img src="{{ asset($user->avatar??'storage/avatars/default-avatar.png') }}"
+                            <img src="{{ $user->avatar??'https://ui-avatars.com/api/?name=' . urlencode($user->username) . '&background=random&color=fff&size=40' }}"
                                 class="rounded-circle profile-avatar"
                                 width="130" height="130" alt="Avatar">
                             <button type="button" class="avatar-edit" id="btnEditAvatar" title="Đổi avatar">
@@ -101,7 +101,7 @@
                             @method('PUT')
                             <input type="file" name="avatar" id="avatarInput" accept="image/*">
                         </form>
-                        <h4 class="fw-bold py-2">{{ $user->name }}</h4>
+                        <h4 class="fw-bold py-2">{{ $user->username }}</h4>
                         <div class="profile-actions d-flex justify-content-center align-items-center gap-2 mb-2">
                             <button type="button" class="btn btn-outline-brand btn-sm px-3 py-2 profile-action-btn" data-bs-toggle="tab" data-bs-target="#settings">
                                 <i class="bi bi-pencil-square me-1"></i> Cập nhật info
@@ -154,6 +154,10 @@
                             <div class="tab-pane fade show active" id="info" role="tabpanel">
                                 <table class="table table-borderless">
                                     <tbody>
+                                        <tr>
+                                            <th>Họ tên:</th>
+                                            <td>{{ $user->name }}</td>
+                                        </tr>
                                         <tr>
                                             <th>Email:</th>
                                             <td>{{ $user->email }}</td>

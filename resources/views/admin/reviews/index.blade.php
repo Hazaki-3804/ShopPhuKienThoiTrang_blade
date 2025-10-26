@@ -114,7 +114,7 @@
                             <th>Nội dung</th>
                             <th style="width: 120px;">Ngày tạo</th>
                             <th style="width: 100px;">Trạng thái</th>
-                            <th style="width: 200px;">Hành động</th>
+                            <th style="width: 200px;">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>

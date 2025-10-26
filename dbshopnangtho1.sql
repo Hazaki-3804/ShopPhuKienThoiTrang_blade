@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 21, 2025 lúc 09:08 PM
+-- Thời gian đã tạo: Th10 24, 2025 lúc 05:03 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -60,7 +60,7 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:50:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:17:\"manage categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:13:\"manage orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:16:\"manage discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:20:\"manage shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:14:\"manage reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:14:\"view discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:16:\"create discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:14:\"edit discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:16:\"delete discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"create orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:11:\"edit orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"delete orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:37;a:4:{s:1:\"a\";i:38;s:1:\"b\";s:12:\"edit reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:38;a:4:{s:1:\"a\";i:39;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:39;a:4:{s:1:\"a\";i:40;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:40;a:4:{s:1:\"a\";i:41;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:41;a:4:{s:1:\"a\";i:42;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:42;a:4:{s:1:\"a\";i:43;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:43;a:4:{s:1:\"a\";i:44;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:44;a:4:{s:1:\"a\";i:45;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:45;a:4:{s:1:\"a\";i:46;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:46;a:4:{s:1:\"a\";i:47;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:47;a:4:{s:1:\"a\";i:48;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:48;a:4:{s:1:\"a\";i:49;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:49;a:4:{s:1:\"a\";i:50;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:11:\"Nhân viên\";s:1:\"c\";s:3:\"web\";}}}', 1761158683);
+('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:50:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:17:\"manage categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:13:\"manage orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:16:\"manage discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:20:\"manage shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:14:\"manage reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:14:\"view discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:16:\"create discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:14:\"edit discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:16:\"delete discounts\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:13:\"create orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:11:\"edit orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:13:\"delete orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:37;a:4:{s:1:\"a\";i:38;s:1:\"b\";s:12:\"edit reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:38;a:4:{s:1:\"a\";i:39;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:39;a:4:{s:1:\"a\";i:40;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:40;a:4:{s:1:\"a\";i:41;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:41;a:4:{s:1:\"a\";i:42;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:42;a:4:{s:1:\"a\";i:43;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:43;a:4:{s:1:\"a\";i:44;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:44;a:4:{s:1:\"a\";i:45;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:45;a:4:{s:1:\"a\";i:46;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:46;a:4:{s:1:\"a\";i:47;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:47;a:4:{s:1:\"a\";i:48;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:48;a:4:{s:1:\"a\";i:49;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:49;a:4:{s:1:\"a\";i:50;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:11:\"Nhân viên\";s:1:\"c\";s:3:\"web\";}}}', 1761343810);
 
 -- --------------------------------------------------------
 
@@ -92,8 +92,9 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 2, '2025-09-24 01:37:45', '2025-09-24 01:37:45'),
-(2, 9, '2025-10-09 07:02:37', '2025-10-09 07:02:37');
+(2, 9, '2025-10-09 07:02:37', '2025-10-09 07:02:37'),
+(4, 5, '2025-10-22 17:46:58', '2025-10-22 17:46:58'),
+(6, 2, '2025-10-24 00:22:06', '2025-10-24 00:22:06');
 
 -- --------------------------------------------------------
 
@@ -116,7 +117,8 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `voucher`, `created_at`, `updated_at`) VALUES
-(45, 1, 13, 1, NULL, '2025-10-20 05:49:58', '2025-10-20 05:49:58');
+(50, 4, 15, 1, NULL, '2025-10-22 17:46:58', '2025-10-22 17:46:58'),
+(54, 6, 133, 1, NULL, '2025-10-24 00:41:54', '2025-10-24 00:41:54');
 
 -- --------------------------------------------------------
 
@@ -138,7 +140,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', NULL, NULL),
+(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', '2025-10-01 06:43:02', '2025-10-02 06:43:06'),
 (2, 'Móng tay giả', 'Các loại móng giả', 'mong-tay', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (5, 'Túi xách', 'Túi xách, balo, ví nam nữ', 'tui_xach', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (10, 'Kẹp tóc', 'Kẹp tóc', 'kep-toc', '2025-09-20 00:33:39', '2025-09-20 01:18:54'),
@@ -171,7 +173,7 @@ CREATE TABLE `discounts` (
 --
 
 INSERT INTO `discounts` (`id`, `code`, `description`, `discount_type`, `discount_value`, `start_date`, `end_date`, `status`, `quantity`, `used_quantity`, `created_at`, `updated_at`) VALUES
-(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-13', 1, 1, 1, '2025-10-09 06:14:51', '2025-10-10 19:30:01');
+(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-31', 1, 100, 1, '2025-10-09 06:14:51', '2025-10-23 06:13:50');
 
 -- --------------------------------------------------------
 
@@ -285,17 +287,11 @@ CREATE TABLE `model_has_permissions` (
 --
 
 INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 5),
 (2, 'App\\Models\\User', 5),
-(3, 'App\\Models\\User', 5),
-(4, 'App\\Models\\User', 5),
-(33, 'App\\Models\\User', 5),
-(37, 'App\\Models\\User', 5),
+(21, 'App\\Models\\User', 13),
+(22, 'App\\Models\\User', 13),
 (39, 'App\\Models\\User', 5),
-(40, 'App\\Models\\User', 5),
-(41, 'App\\Models\\User', 5),
-(42, 'App\\Models\\User', 5),
-(43, 'App\\Models\\User', 5);
+(40, 'App\\Models\\User', 5);
 
 -- --------------------------------------------------------
 
@@ -308,6 +304,17 @@ CREATE TABLE `model_has_roles` (
   `model_type` varchar(255) NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\Models\\User', 2),
+(2, 'App\\Models\\User', 5),
+(2, 'App\\Models\\User', 9),
+(2, 'App\\Models\\User', 13),
+(2, 'App\\Models\\User', 14);
 
 -- --------------------------------------------------------
 
@@ -329,6 +336,7 @@ CREATE TABLE `orders` (
   `discount_code` varchar(50) DEFAULT NULL,
   `discount_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
   `insurance_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `shipping_fee` float DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -337,28 +345,17 @@ CREATE TABLE `orders` (
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 309000.00, 'processing', '259/28', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 00:47:36', '2025-10-21 15:17:38'),
-(2, 2, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 274000.00, 'pending', 'Phường 9', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
-(3, 2, 'Trương Minh Thư', 'minhthu@gmail.com', '03219313131', 340000.00, 'pending', 'Nhà Trọ Ngọc hân', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
-(4, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 649000.00, 'pending', '259/12, Phường Long Châu, Vĩnh Long', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(5, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 200050.00, 'pending', 'aaa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'SALE30K', 8950.00, 0.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
-(6, 9, 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '0932861734', 205000.00, 'delivered', 'aaa, Phường Nùng Trí Cao, Cao Bằng', 'cod', NULL, NULL, 0.00, 0.00, '2025-10-09 07:02:46', '2025-10-09 07:03:22'),
-(7, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 793750.00, 'pending', '259/29, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 41250.00, 0.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
-(8, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 770000.00, 'pending', '255, Xã Hiếu Phụng, Vĩnh Long', 'cod', 1, 'GIAM5%', 40000.00, 0.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
-(9, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 523950.00, 'processing', '259/28, Phường Long Châu, Vĩnh Long', 'cod', 1, 'GIAM5%', 26850.00, 1300.00, '2025-10-10 19:14:20', '2025-10-10 19:15:19'),
-(10, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 185800.00, 'pending', 'a, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 8200.00, 0.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
-(11, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 280800.00, 'delivered', 'aa, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', 1, 'GIAM5%', 13200.00, 0.00, '2025-10-10 19:30:01', '2025-10-10 19:31:03'),
-(12, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Thục Phán, Cao Bằng', 'vnpay', NULL, NULL, 0.00, 0.00, '2025-10-20 05:51:51', '2025-10-20 05:51:51'),
-(13, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:18:06', '2025-10-21 08:18:06'),
-(14, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:22:14', '2025-10-21 08:22:14'),
-(15, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:27:42', '2025-10-21 08:27:42'),
-(16, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:33:16', '2025-10-21 08:33:16'),
-(17, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:35:36', '2025-10-21 08:35:36'),
-(18, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:35:49', '2025-10-21 08:35:49'),
-(19, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:36:53', '2025-10-21 08:36:53'),
-(20, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:38:28', '2025-10-21 08:38:28'),
-(21, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, '2025-10-21 08:59:06', '2025-10-21 08:59:06');
+INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `shipping_fee`, `created_at`, `updated_at`) VALUES
+(33, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 183000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 15:32:02', '2025-10-22 15:32:02'),
+(34, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 16:23:04', '2025-10-22 16:23:04'),
+(35, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'delivered', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-09-22 16:23:23', '2025-09-22 16:23:23'),
+(36, 5, 'Minh Thư', 'le6168610@gmail.com', '0779089257', 170000.00, 'pending', '123, Phường Thục Phán, Cao Bằng', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-22 17:47:13', '2025-10-22 17:47:13'),
+(37, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Nùng Trí Cao, Cao Bằng', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-23 06:16:31', '2025-09-23 06:16:31'),
+(38, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Nùng Trí Cao, Cao Bằng', 'vnpay', NULL, NULL, 0.00, 0.00, 30000, '2025-09-23 06:21:14', '2025-09-23 06:21:14'),
+(39, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', '123, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-23 23:49:43', '2025-10-23 23:49:43'),
+(40, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', 'Định Thới B, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-24 00:08:51', '2025-10-24 00:08:51'),
+(41, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 129000.00, 'pending', 'Định Thới B, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-24 00:10:50', '2025-10-24 00:10:50'),
+(42, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 191500.00, 'pending', '123, Xã Cái Nhum, Vĩnh Long', 'payos', NULL, NULL, 0.00, 0.00, 12500, '2025-10-24 00:35:34', '2025-10-24 00:35:34');
 
 -- --------------------------------------------------------
 
@@ -381,33 +378,16 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 143, 1, 164000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
-(2, 1, 19, 1, 160000.00, '2025-10-07 00:47:36', '2025-10-07 00:47:36'),
-(3, 2, 25, 1, 159000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
-(4, 2, 26, 1, 130000.00, '2025-10-07 00:53:40', '2025-10-07 00:53:40'),
-(5, 3, 17, 1, 165000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
-(6, 3, 16, 1, 175000.00, '2025-10-07 04:00:40', '2025-10-07 04:00:40'),
-(7, 4, 32, 1, 175000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(8, 4, 19, 1, 160000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(9, 4, 143, 1, 164000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(10, 4, 21, 1, 150000.00, '2025-10-09 05:54:49', '2025-10-09 05:54:49'),
-(11, 5, 22, 1, 179000.00, '2025-10-09 06:35:46', '2025-10-09 06:35:46'),
-(12, 6, 32, 1, 175000.00, '2025-10-09 07:02:47', '2025-10-09 07:02:47'),
-(13, 7, 17, 5, 165000.00, '2025-10-09 08:49:58', '2025-10-09 08:49:58'),
-(14, 8, 19, 5, 160000.00, '2025-10-09 09:37:10', '2025-10-09 09:37:10'),
-(15, 9, 22, 3, 179000.00, '2025-10-10 19:14:20', '2025-10-10 19:14:20'),
-(16, 10, 143, 1, 164000.00, '2025-10-10 19:16:23', '2025-10-10 19:16:23'),
-(17, 11, 30, 4, 66000.00, '2025-10-10 19:30:01', '2025-10-10 19:30:01'),
-(18, 12, 13, 1, 130000.00, '2025-10-20 05:51:51', '2025-10-20 05:51:51'),
-(19, 13, 13, 1, 130000.00, '2025-10-21 08:18:06', '2025-10-21 08:18:06'),
-(20, 14, 13, 1, 130000.00, '2025-10-21 08:22:14', '2025-10-21 08:22:14'),
-(21, 15, 13, 1, 130000.00, '2025-10-21 08:27:42', '2025-10-21 08:27:42'),
-(22, 16, 13, 1, 130000.00, '2025-10-21 08:33:16', '2025-10-21 08:33:16'),
-(23, 17, 13, 1, 130000.00, '2025-10-21 08:35:36', '2025-10-21 08:35:36'),
-(24, 18, 13, 1, 130000.00, '2025-10-21 08:35:49', '2025-10-21 08:35:49'),
-(25, 19, 13, 1, 130000.00, '2025-10-21 08:36:53', '2025-10-21 08:36:53'),
-(26, 20, 13, 1, 130000.00, '2025-10-21 08:38:28', '2025-10-21 08:38:28'),
-(27, 21, 13, 1, 130000.00, '2025-10-21 08:59:07', '2025-10-21 08:59:07');
+(39, 33, 23, 1, 153000.00, '2025-10-22 15:32:02', '2025-10-22 15:32:02'),
+(40, 34, 13, 1, 130000.00, '2025-10-22 16:23:05', '2025-10-22 16:23:05'),
+(41, 35, 13, 1, 130000.00, '2025-10-22 16:23:23', '2025-10-22 16:23:23'),
+(42, 36, 15, 1, 140000.00, '2025-10-22 17:47:13', '2025-10-22 17:47:13'),
+(43, 37, 14, 1, 140000.00, '2025-10-23 06:16:31', '2025-10-23 06:16:31'),
+(44, 38, 14, 1, 140000.00, '2025-10-23 06:21:14', '2025-10-23 06:21:14'),
+(45, 39, 18, 1, 99000.00, '2025-10-23 23:49:43', '2025-10-23 23:49:43'),
+(46, 40, 18, 1, 99000.00, '2025-10-24 00:08:51', '2025-10-24 00:08:51'),
+(47, 41, 18, 1, 99000.00, '2025-10-24 00:10:50', '2025-10-24 00:10:50'),
+(48, 42, 22, 1, 179000.00, '2025-10-24 00:35:34', '2025-10-24 00:35:34');
 
 -- --------------------------------------------------------
 
@@ -438,6 +418,17 @@ CREATE TABLE `payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `payments`
+--
+
+INSERT INTO `payments` (`id`, `order_id`, `amount`, `payment_method`, `status`, `transaction_code`, `paid_at`, `created_at`, `updated_at`) VALUES
+(1, 33, 183000.00, 'vnpay', 'completed', '15214826', '2025-10-22 15:34:04', '2025-10-22 15:33:53', '2025-10-22 15:33:53'),
+(2, 35, 160000.00, 'cod', 'completed', '15214826', '2025-09-30 20:11:22', '2025-10-22 16:23:23', '2025-10-22 16:23:23'),
+(3, 38, 170000.00, 'vnpay', 'completed', '15215404', '2025-10-23 06:23:17', '2025-10-23 06:21:42', '2025-10-23 06:21:42'),
+(4, 41, 0.00, 'payos', 'completed', '9d72719e0e8e4876a43205d57c2eb85a', '2025-10-24 00:21:16', '2025-10-24 00:21:16', '2025-10-24 00:21:16'),
+(5, 42, 191500.00, 'payos', 'completed', '22e2137dc04c4abc873140fe4b29ab07', '2025-10-24 00:46:51', '2025-10-24 00:46:51', '2025-10-24 00:46:51');
 
 -- --------------------------------------------------------
 
@@ -532,17 +523,17 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `status`, `created_at`, `updated_at`) VALUES
-(13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 30, 1, '2025-09-23 12:45:45', '2025-10-21 08:59:07'),
-(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 10, 1, '2025-09-23 12:45:54', '2025-09-23 12:46:04'),
-(15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 5, 1, '2025-09-23 12:46:08', '2025-09-23 12:46:12'),
+(13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 28, 1, '2025-09-23 12:45:45', '2025-10-22 16:23:23'),
+(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 8, 1, '2025-09-23 12:45:54', '2025-10-23 06:21:14'),
+(15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 4, 1, '2025-09-23 12:46:08', '2025-10-22 17:47:13'),
 (16, 5, 'B.202 Túi đeo vải Basic Gentle Woman text dập nổi một màu 19x28', '✨ Túi đeo vải Basic với thiết kế tối giản, tinh tế.\r\n🖋️ Điểm nhấn độc đáo với dòng chữ Gentle Woman dập nổi trên nền một màu sang trọng.\r\n📏 Kích thước: 19 x 28 cm, vừa vặn để đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, phù hợp cho nhiều phong cách thời trang.\r\n🌸 Chất liệu vải cao cấp, bền đẹp, dễ phối đồ, mang lại sự thanh lịch cho người dùng.', 175000.00, 9, 1, '2025-09-23 12:46:17', '2025-10-07 04:00:40'),
 (17, 5, 'B.202 Túi đeo vải Gentle Woman text nổi quai lớn phối nơ hai bên 21x28', '✨ Túi đeo vải Gentle Woman với thiết kế hiện đại, tinh tế.\r\n🖋️ Điểm nhấn nổi bật với dòng chữ Gentle Woman dập nổi cùng quai bản lớn phối nơ hai bên duyên dáng.\r\n📏 Kích thước: 21 x 28 cm, thoải mái đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, dễ dàng kết hợp với nhiều phong cách thời trang.\r\n🌸 Chất liệu vải bền đẹp, mềm mại, mang lại sự thanh lịch và trẻ trung cho người dùng.', 165000.00, 24, 1, '2025-09-23 12:46:53', '2025-10-09 08:49:58'),
-(18, 5, 'B.202 Túi đeo vải Sanrio family Hello Kitty face phối quai màu 6x30x38', '✨ Túi đeo vải Sanrio Family với thiết kế đáng yêu, nổi bật hình Hello Kitty face xinh xắn.\r\n🖋️ Quai túi phối màu tinh tế, tạo điểm nhấn trẻ trung và dễ thương.\r\n📏 Kích thước: 6 x 30 x 38 cm, rộng rãi, có thể đựng sách vở, tài liệu, laptop mỏng, mỹ phẩm hoặc các vật dụng cá nhân.\r\n👜 Kiểu dáng đeo vai/đeo chéo tiện lợi, phù hợp cho đi học, đi làm hoặc dạo phố.\r\n🌸 Chất liệu vải bền đẹp, nhẹ nhàng, dễ phối đồ, đặc biệt phù hợp cho các bạn trẻ yêu thích phong cách cute – năng động.', 99000.00, 6, 1, '2025-09-23 12:47:00', '2025-09-23 12:47:04'),
+(18, 5, 'B.202 Túi đeo vải Sanrio family Hello Kitty face phối quai màu 6x30x38', '✨ Túi đeo vải Sanrio Family với thiết kế đáng yêu, nổi bật hình Hello Kitty face xinh xắn.\r\n🖋️ Quai túi phối màu tinh tế, tạo điểm nhấn trẻ trung và dễ thương.\r\n📏 Kích thước: 6 x 30 x 38 cm, rộng rãi, có thể đựng sách vở, tài liệu, laptop mỏng, mỹ phẩm hoặc các vật dụng cá nhân.\r\n👜 Kiểu dáng đeo vai/đeo chéo tiện lợi, phù hợp cho đi học, đi làm hoặc dạo phố.\r\n🌸 Chất liệu vải bền đẹp, nhẹ nhàng, dễ phối đồ, đặc biệt phù hợp cho các bạn trẻ yêu thích phong cách cute – năng động.', 99000.00, 3, 1, '2025-09-23 12:47:00', '2025-10-24 00:10:50'),
 (19, 5, 'B.23 Túi xách tay Butterfly dây rút phối dây xích ngọc trai 8x17x25', '✨ Túi xách tay Butterfly với thiết kế dây rút độc đáo, mang lại nét nữ tính và thời thượng.\r\n🖋️ Điểm nhấn ấn tượng với dây xích ngọc trai phối tinh tế, vừa sang trọng vừa trẻ trung.\r\n📏 Kích thước: 8 x 17 x 25 cm, gọn gàng nhưng đủ chỗ cho điện thoại, ví, son phấn và các vật dụng cần thiết.\r\n👜 Có thể sử dụng như túi xách tay hoặc đeo vai tùy phong cách.\r\n🌸 Chất liệu vải bền đẹp, dễ phối đồ, phù hợp cho đi chơi, dự tiệc hay hẹn hò.', 160000.00, 0, 1, '2025-09-23 12:47:07', '2025-10-09 09:37:10'),
-(20, 5, 'B.23 Túi xách tay Bow nơ nền màu viền dày 5x13x22', '✨ Túi xách tay Bow nơ với thiết kế nền màu tinh tế, điểm nhấn viền dày tạo sự chắc chắn và sang trọng.\r\n🎀 Phối nơ xinh xắn ở mặt trước, mang lại vẻ nữ tính, ngọt ngào cho người dùng.\r\n📏 Kích thước: 5 x 13 x 22 cm, nhỏ gọn, thích hợp để đựng điện thoại, ví mini, son phấn và một vài vật dụng cần thiết.\r\n👜 Kiểu dáng xách tay/đeo vai, dễ dàng phối hợp với nhiều phong cách thời trang khác nhau.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, phù hợp cho đi chơi, hẹn hò hoặc dạo phố.', 160000.00, 14, 1, '2025-09-23 12:47:15', '2025-09-23 12:47:18'),
+(20, 5, 'B.23 Túi xách tay Bow nơ nền màu viền dày 5x13x22', '✨ Túi xách tay Bow nơ với thiết kế nền màu tinh tế, điểm nhấn viền dày tạo sự chắc chắn và sang trọng.\r\n🎀 Phối nơ xinh xắn ở mặt trước, mang lại vẻ nữ tính, ngọt ngào cho người dùng.\r\n📏 Kích thước: 5 x 13 x 22 cm, nhỏ gọn, thích hợp để đựng điện thoại, ví mini, son phấn và một vài vật dụng cần thiết.\r\n👜 Kiểu dáng xách tay/đeo vai, dễ dàng phối hợp với nhiều phong cách thời trang khác nhau.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, phù hợp cho đi chơi, hẹn hò hoặc dạo phố.', 160000.00, 5, 1, '2025-09-23 12:47:15', '2025-10-22 12:06:16'),
 (21, 5, 'B.202 Túi xách tay Little bow nơ nền ô vuông 14x29x38', '✨ Túi xách tay Little bow với thiết kế nền ô vuông độc đáo, mang lại sự trẻ trung và hiện đại.\r\n🎀 Điểm nhấn là chi tiết nơ nhỏ xinh phía trước, tạo vẻ nữ tính và tinh tế cho người dùng.\r\n📏 Kích thước: 14 x 29 x 38 cm, không gian rộng rãi, đựng được nhiều vật dụng như điện thoại, ví, sổ tay, mỹ phẩm…\r\n👜 Kiểu dáng xách tay/đeo vai, dễ phối hợp với nhiều phong cách, từ thanh lịch đến năng động.\r\n🌸 Chất liệu vải bền đẹp, giữ form tốt, thích hợp sử dụng hàng ngày, đi học, đi làm hay dạo phố.', 150000.00, 24, 1, '2025-09-23 12:47:21', '2025-10-09 05:54:49'),
-(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 16, 1, '2025-09-23 12:47:29', '2025-10-10 19:14:20'),
-(23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 35, 1, '2025-09-23 12:47:35', '2025-09-23 12:47:38'),
+(22, 5, 'B.23 Túi xách tay Star ngôi sao đính đá ô vuông 8x23x32', '✨ Túi xách tay Star nổi bật với thiết kế nền ô vuông sang trọng, tạo cảm giác thanh lịch và hiện đại.\r\n⭐ Điểm nhấn đặc biệt là họa tiết ngôi sao đính đá lấp lánh, mang lại sự cuốn hút và nổi bật cho người dùng.\r\n📏 Kích thước: 8 x 23 x 32 cm, nhỏ gọn nhưng vẫn đủ chỗ để đựng điện thoại, ví, mỹ phẩm và các vật dụng cần thiết.\r\n👜 Thiết kế xách tay/đeo vai, dễ dàng phối hợp cùng nhiều trang phục, từ đi làm, dạo phố đến dự tiệc.\r\n🌸 Chất liệu bền đẹp, form cứng cáp, tạo nên phong cách thời trang tinh tế và sang chảnh.', 179000.00, 15, 1, '2025-09-23 12:47:29', '2025-10-24 00:35:34'),
+(23, 5, 'B.202 Túi đeo vai 2 mặt The only truth is music 2x30x40', '🎶 Túi đeo vai 2 mặt độc đáo với câu quote nổi bật “The Only Truth Is Music”, phù hợp cho những ai yêu thích sự tự do, nghệ thuật và cá tính.\r\n🔄 Thiết kế 2 mặt linh hoạt, có thể thay đổi tùy theo phong cách và sở thích mỗi ngày.\r\n📏 Kích thước: 2 x 30 x 40 cm, rộng rãi, thoải mái đựng sách vở, laptop, tài liệu, hay các vật dụng hằng ngày.\r\n👜 Quai vai chắc chắn, chất liệu vải canvas cao cấp, dày dặn, dễ giặt và tái sử dụng, thân thiện với môi trường.\r\n🌟 Phong cách tối giản nhưng vẫn ấn tượng, thích hợp mang đi học, đi làm, hoặc đi chơi.', 153000.00, 32, 1, '2025-09-23 12:47:35', '2025-10-22 15:32:02'),
 (24, 5, 'B.202 Túi đeo vai Little things denim style 11x24x36', '👖 Túi đeo vai denim style cá tính với thiết kế Little Things trẻ trung, năng động.\r\n👜 Form túi chữ nhật mềm mại, mang hơi hướng retro, dễ phối với nhiều outfit thường ngày.\r\n📏 Kích thước: 11 x 24 x 36 cm, đủ rộng để đựng điện thoại, ví, sổ tay, mỹ phẩm và các vật dụng cần thiết.\r\n🌟 Quai vai bản vừa, chắc chắn, tạo cảm giác thoải mái khi sử dụng cả ngày.\r\n✨ Chất liệu vải denim bền đẹp, giữ form tốt, mang lại phong cách vừa giản dị vừa hiện đại.\r\n💙 Phù hợp cho đi học, đi chơi, dạo phố hay du lịch nhẹ nhàng.', 180000.00, 10, 1, '2025-09-23 12:47:44', '2025-09-23 12:47:47'),
 (25, 5, 'B.23 Túi xách tay da lộn Basic color dây bện 9x18x23', '✨ Túi xách tay Basic Color được làm từ chất liệu da lộn mềm mại, mang lại cảm giác sang trọng và thời thượng.\r\n👜 Thiết kế nhỏ gọn với kích thước 9 x 18 x 23 cm, vừa vặn để đựng điện thoại, ví, son và các vật dụng cần thiết.\r\n🌸 Điểm nhấn tinh tế với dây bện độc đáo, tạo sự khác biệt cho phong cách tối giản.\r\n🎀 Form túi cứng cáp, giữ dáng tốt, dễ phối với nhiều outfit từ thanh lịch đến casual.\r\n💼 Phù hợp cho đi làm, đi chơi, hẹn hò hay những buổi gặp gỡ nhẹ nhàng.', 159000.00, 1, 1, '2025-09-23 12:47:51', '2025-10-07 00:53:40'),
 (26, 5, 'B.202 Túi xách tay vải nhung tăm Bow nơ ô vuông 8x14x22', '✨ Túi xách tay vải nhung tăm với chất liệu mềm mại, mang lại cảm giác ấm áp và sang trọng.\r\n🎀 Thiết kế nổi bật với nơ ô vuông tinh tế, tạo điểm nhấn nữ tính và dễ thương.\r\n📏 Kích thước 8 x 14 x 22 cm, nhỏ gọn nhưng đủ để đựng điện thoại, ví tiền, son và những vật dụng cần thiết hàng ngày.\r\n👜 Kiểu dáng thanh lịch, phù hợp mang đi chơi, dạo phố hay dự tiệc nhẹ.\r\n🌸 Dễ dàng kết hợp với nhiều phong cách thời trang, từ trẻ trung đến dịu dàng.', 130000.00, 2, 1, '2025-09-23 12:47:56', '2025-10-07 00:53:40'),
@@ -814,197 +805,197 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`id`, `product_id`, `image_url`, `type`, `created_at`, `updated_at`) VALUES
-(21, 13, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_FnWj6iPICb.jpeg?v=1756626688', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(22, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_ETxxn2IBdy.jpeg?v=1756626583', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(23, 15, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_mffOya1Ss5.jpeg?v=1756626487', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(24, 16, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_H45CDxXiTh.jpeg?v=1756626780', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(25, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_qocGQZlTn6.jpeg?v=1756626864', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(26, 18, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_tiSFxzXSZT.jpeg?v=1756529284', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(27, 19, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_bOEQtAIwgo.jpeg?v=1756529207', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(28, 20, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_9PIspS4SG1.jpeg?v=1756621371', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(29, 21, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_ii9p9VcAKB.jpeg?v=1756528622', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(30, 22, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_fu6s3KfkX0.jpeg?v=1756528549', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(31, 23, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Elp2hWI5WF.jpeg?v=1756621301', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(32, 24, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Z8mtsJSwfw.jpeg?v=1756621210', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(33, 25, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_USdgRkaU9a.jpeg?v=1756621107', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(34, 26, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_lEIss4gfdC.jpeg?v=1756621022', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(35, 27, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_vVxGpui4LJ.jpeg?v=1756528472', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(36, 28, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_y5tU71Mcmc.jpeg?v=1756528407', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(37, 29, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_gHhXClXB3T.jpeg?v=1756528348', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(38, 30, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_kO3TYYyAcj.jpeg?v=1756528283', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(39, 31, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_RiMHcp26N8.jpeg?v=1755223768', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(40, 32, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_pmaiUFoeWm.jpeg?v=1755223705', 'thumbnail', '2025-09-22 07:02:08', '2025-09-22 07:02:08'),
-(41, 33, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_PELdGNbYfG.jpeg?v=1757223065', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(42, 34, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_4IIP0a4CgU.jpeg?v=1757223018', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(43, 35, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_ITQwmTabaY.jpeg?v=1757222964', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(44, 36, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_Ql4jJMJ0tU.jpeg?v=1757222918', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(45, 37, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_iY62fCEQEM.jpeg?v=1757222860', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(46, 38, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_Wsm0Wkf5Az.jpeg?v=1757222796', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(47, 39, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_Z2ibDpyIPj.jpeg?v=1757222736', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(48, 40, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Lpa1hRgA2O.jpeg?v=1756628218', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(49, 41, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_MfoB9eaj7R.jpeg?v=1756628170', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(50, 42, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_XX5EFLTreY.jpeg?v=1756628081', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(51, 43, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_JAD2LIEnAl.jpeg?v=1756628128', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(52, 44, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_9HlRBeasC5.jpeg?v=1756628033', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(53, 45, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_G2hx4iCDZ3.jpeg?v=1756627946', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(54, 46, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_PNV8yW1RJI.jpeg?v=1756627875', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(55, 47, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_XlAaG3GOjX.jpeg?v=1756627823', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(56, 48, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_AplTEjnp38.jpeg?v=1756627761', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(57, 49, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_huPXR6n6xP.jpeg?v=1755598997', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(58, 50, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_IE2IKy98cN.jpeg?v=1755598949', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(59, 51, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_5DXT8kvpBB.jpeg?v=1755598894', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(60, 52, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_xezAfqMjvt.jpeg?v=1755598847', 'thumbnail', '2025-09-22 07:17:05', '2025-09-22 07:17:05'),
-(61, 53, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_1IZklSqivk.jpeg?v=1755224662', 'thumbnail', '2025-09-22 08:26:59', '2025-09-22 08:26:59'),
-(62, 54, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_HepLrlc7ti.jpeg?v=1754359799', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(63, 57, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_oRQFiucdvs.jpeg?v=1754359725', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(64, 58, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_le1dWfGMWd.jpeg?v=1753007033', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(65, 59, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_3iUNs2S1mi.jpeg?v=1753006978', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(66, 60, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_UA5mQBR9EG.jpeg?v=1753006915', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(67, 61, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_oWO5WXoiGt.jpeg?v=1753006870', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(68, 62, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_IER0eLpJNT.jpeg?v=1753006813', 'thumbnail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(69, 63, 'https://pos.nvncdn.com/cba2a3-7534/ps/Day-chuyen-ma-bac-Black-bow-no-ngoc-trai.jpg?v=1753367085', 'detail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(70, 64, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_vxpdG1lSTO.jpeg?v=1753006769', 'detail', '2025-09-22 08:28:40', '2025-09-22 08:28:40'),
-(71, 65, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_bRqmYkQpgD.jpeg?v=1753006724', 'thumbnail', '2025-09-22 08:35:18', '2025-09-22 08:35:18'),
-(72, 66, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_GnV8YnY3SK.jpeg?v=1753006683', 'thumbnail', '2025-09-22 08:35:18', '2025-09-22 08:35:18'),
-(73, 67, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_pckQARJPW6.jpeg?v=1753006637', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(74, 68, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_H0g5GfXOEt.jpeg?v=1753006594', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(75, 69, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_BcrtdtlTzu.jpeg?v=1753006548', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(76, 70, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_tdYDANQoij.jpeg?v=1753006495', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(77, 71, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250503_JMIukQYKpc.jpeg?v=1746283861', 'thumbnail', '2025-09-22 08:36:09', '2025-09-22 08:36:09'),
-(78, 72, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250304_65L9eiCfQ3.jpeg?v=1741095309', 'thumbnail', '2025-09-22 08:38:00', '2025-09-22 08:38:00'),
-(79, 73, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250228_i6wLL1CGnP.jpeg?v=1740716359', 'thumbnail', '2025-09-22 08:38:21', '2025-09-22 08:38:21'),
-(80, 94, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250917_bThBCJzcUF.jpeg?v=1758095923', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(81, 95, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_3PrVsKRA5L.jpeg?v=1757222678', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(82, 96, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_ilgz30nDf4.jpeg?v=1757222621', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(83, 97, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_IeokOng7ar.jpeg?v=1757222501', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(84, 98, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_sMnhxL2mRX.jpeg?v=1757222447', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(85, 99, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_BX1DCRcd21.jpeg?v=1757222386', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(86, 100, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_EKAyutcEHP.jpeg?v=1757222318', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(87, 101, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250911_qgn0qSQHcl.jpeg?v=1757605639', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(88, 102, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_p2DbzFBG5g.jpeg?v=1757222254', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(89, 103, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_GuyC6YKsVm.jpeg?v=1757221960', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(90, 104, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_ux3VBzk78J.jpeg?v=1757221903', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(91, 105, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250903_MwPuK2zq0q.jpeg?v=1756868549', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(92, 106, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250903_YZp0cRr4b4.jpeg?v=1756868477', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(93, 107, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_0m5bmG3E9J.jpeg?v=1755224610', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(94, 108, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_BVklbDSEoF.jpeg?v=1755224555', 'thumbnail', '2025-09-22 08:52:47', '2025-09-22 08:52:47'),
-(95, 109, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_OQNfTfRnwl.jpeg?v=1755224506', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(96, 110, 'https://pos.nvncdn.com/cba2a3-7534/ps/Gau-bong-vong-tay-Cute-dog-deo-kinh-17cm.jpg?v=1753105547', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(97, 111, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_pwRoecWLLX.jpeg?v=1753006269', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(98, 112, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_sPuHTs59Wk.jpeg?v=1753006218', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(99, 113, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_APXQs2J1Vm.jpeg?v=1753006175', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(100, 114, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_rUoexCnFVE.jpeg?v=1753006319', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(101, 115, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250919_QEyOey3KOY.jpeg?v=1758256011', 'thumbnail', '2025-09-22 08:58:56', '2025-09-22 08:58:56'),
-(102, 132, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8onk8ttat8n8e_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(103, 133, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4euheea0vw0d7_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(104, 134, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rd3n-lu8w01t3lqq4a8_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(105, 135, 'https://down-vn.img.susercontent.com/file/sg-11134201-7qvdu-ljt9w9tlt0cy74_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(106, 136, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m7akrq4d5h4sce_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(107, 137, 'https://down-vn.img.susercontent.com/file/1cd69764282e9d0c40b6512c768cd0e0_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(108, 138, 'https://down-vn.img.susercontent.com/file/cn-11134207-7r98o-lx9iw0r7vccl4f_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(109, 139, 'https://down-vn.img.susercontent.com/file/sg-11134253-7rdxy-mdh87mxsbf10ea_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(110, 140, 'https://down-vn.img.susercontent.com/file/75ceda60bfd27acff5374d2160428c5b_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(111, 141, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mb60olxz98ev1c_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(112, 142, 'https://down-vn.img.susercontent.com/file/sg-11134201-824hm-mei02vvvh6v705_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(113, 143, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1cj7se4xr2w90_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(114, 144, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rdy3-m06sfmjq8xd3c4_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(115, 145, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mcsmg5y0nt0cd7_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(116, 146, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m720q6a6waldcb_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(117, 147, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-md07b499di8s8a_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(118, 148, 'https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lfttzwegh6gn6d_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(119, 149, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-md15f4yham9rf4_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(120, 150, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rd55-lwp5kbu2p1ys40_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(121, 151, 'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lyc0p2d8va6lcc_tn.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-09-24 07:14:42'),
-(122, 152, 'https://down-vn.img.susercontent.com/file/sg-11134201-7ra1g-mbam5i6e9t61be', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(123, 153, 'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lzvoxkigky19a9', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(124, 154, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8efkezmnpmv99', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(125, 155, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8dl4n0vz88e1e_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(126, 156, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mbj0qevdx5c45d_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(127, 157, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mciy11ajbrfg38_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(128, 158, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mbrmyg8bdap687_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(129, 159, 'https://down-vn.img.susercontent.com/file/sg-11134253-7rdvo-mdp8f2423aw4fb_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(130, 160, 'https://down-vn.img.susercontent.com/file/310402d145388bca4464324a817d0675_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(131, 161, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rene-m8j69s8cljpx9a_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(132, 162, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m5r9e8zid0l2e5_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(133, 163, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rauu-magtfqqv93rke7_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(134, 164, 'https://down-vn.img.susercontent.com/file/sg-11134201-7renw-m8hr7viqpxkmcf_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(135, 165, 'https://down-vn.img.susercontent.com/file/sg-11134201-7ravh-mb6vtr6biqgm37_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(136, 166, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1cib73qc0gob1_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(137, 167, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rfhr-m9xv0johgi1ode_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(138, 168, 'https://down-vn.img.susercontent.com/file/sg-11134201-7repw-m2qlocafiugdf1_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(139, 169, 'https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mdj75x2al8z555_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(140, 170, 'https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lhm46hp5shol45_tn.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-09-24 07:27:08'),
-(141, 171, 'https://down-vn.img.susercontent.com/file/sg-11134201-7rd5n-m7xg7fjq5c7p83_tn.webp', 'thumbnail', '0000-00-00 00:00:00', '2025-09-24 07:27:08'),
-(143, 13, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_WbrkDHVjip.jpeg?v=1756626693', 'detail', '2025-09-29 16:35:28', '2025-09-29 16:35:28'),
-(144, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_hFhoOOuvRX.jpeg?v=1756626628', 'detail', '2025-09-29 16:37:16', '2025-09-29 16:37:16'),
-(145, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_wcECV7nu5x.jpeg?v=1756626590', 'detail', '2025-09-29 16:40:01', '2025-09-29 16:40:01'),
-(146, 14, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_udVLA2qPjV.jpeg?v=1756626652', 'detail', '2025-09-29 16:40:53', '2025-09-29 16:40:53'),
-(148, 15, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_ng2iko6I5t.jpeg?v=1756626516', 'detail', '2025-09-28 17:11:09', '2025-09-28 17:11:09'),
-(149, 15, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_32ig1Uaqs7.jpeg?v=1756626492', 'detail', '2025-09-29 17:12:11', '2025-09-29 17:12:11'),
-(150, 16, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_90lOfvm6wv.jpeg?v=1756626786', 'detail', '2025-09-29 17:13:37', '2025-09-29 17:13:37'),
-(151, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_TwPQ5ALsW7.jpeg?v=1756626903', 'detail', '2025-09-29 17:13:49', '2025-09-29 17:13:49'),
-(152, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_gqus9BpvRs.jpeg?v=1756626870', 'detail', '2025-09-29 17:13:49', '2025-09-29 17:13:49'),
-(153, 17, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_3JQS2auVkD.jpeg?v=1756626876', 'detail', '2025-09-29 17:16:14', '2025-09-29 17:16:14'),
-(154, 18, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_D3ngIpgLQo.jpeg?v=1756529289', 'detail', '2025-09-29 17:16:34', '2025-09-29 17:16:34'),
-(155, 19, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_39hsOTrQkZ.jpeg?v=1756529211', 'detail', '2025-09-29 17:20:15', '2025-09-29 17:20:15'),
-(156, 20, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_yE8wBbikvp.jpeg?v=1756621375', 'detail', '2025-09-29 17:20:44', '2025-09-29 17:20:44'),
-(157, 20, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Ru52y71y7w.jpeg?v=1756621379', 'detail', '2025-09-29 17:20:44', '2025-09-29 17:20:44'),
-(158, 21, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_Q5SML1C7iu.jpeg?v=1756528629', 'detail', '2025-09-29 17:47:35', '2025-09-29 17:47:35'),
-(159, 22, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_XK8Vz7Ruk6.jpeg?v=1756528558', 'detail', '2025-09-29 17:47:45', '2025-09-29 17:47:45'),
-(160, 22, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_CafBFMhMQf.jpeg?v=1756528562', 'detail', '2025-09-29 17:47:45', '2025-09-29 17:47:45'),
-(161, 23, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_1DYXs1Zszf.jpeg?v=1756621309', 'detail', '2025-09-29 18:20:53', '2025-09-29 18:20:53'),
-(162, 24, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_0uoZ5JtJnD.jpeg?v=1756621250', 'detail', '2025-09-29 18:24:05', '2025-09-29 18:24:05'),
-(163, 24, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_UN9A3QJUnx.jpeg?v=1756621216', 'detail', '2025-09-29 18:24:05', '2025-09-29 18:24:05'),
-(164, 25, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_AQbU1uCvtz.jpeg?v=1756621114', 'detail', '2025-09-29 18:29:44', '2025-09-29 18:29:44'),
-(165, 26, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Jqts6FwZdM.jpeg?v=1756621028', 'detail', '2025-09-29 18:32:16', '2025-09-29 18:32:16'),
-(166, 27, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_8K8qsruOqV.jpeg?v=1756528487', 'detail', '2025-09-29 18:33:46', '2025-09-29 18:33:46'),
-(167, 28, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_we1mYKMcQu.jpeg?v=1756528414', 'detail', '2025-09-29 18:37:51', '2025-09-29 18:37:51'),
-(168, 29, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_7t6TA98WxH.jpeg?v=1756528368', 'detail', '2025-09-29 18:40:03', '2025-09-29 18:40:03'),
-(169, 30, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250830_azEZhALwm6.jpeg?v=1756528311', 'detail', '2025-09-29 18:41:18', '2025-09-29 18:41:18'),
-(170, 36, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_eL4Hd4LNZf.jpeg?v=1757222933', 'detail', '2025-09-29 18:43:44', '2025-09-29 18:43:44'),
-(171, 37, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_znADoNq1pG.jpeg?v=1757222883', 'detail', '2025-09-29 18:48:55', '2025-09-29 18:48:55'),
-(172, 38, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_FtUgjWPcBd.jpeg?v=1757222817', 'detail', '2025-09-30 04:52:40', '2025-09-30 04:52:40'),
-(173, 39, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_C7b4S4Z8RT.jpeg?v=1757222761', 'detail', '2025-09-30 04:52:58', '2025-09-30 04:52:58'),
-(174, 40, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_wbVpZpuZ4K.jpeg?v=1756628243', 'detail', '2025-09-30 04:55:36', '2025-09-30 04:55:36'),
-(175, 41, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_5hGwYCi7n4.jpeg?v=1756628186', 'detail', '2025-09-30 05:23:48', '2025-09-30 05:23:48'),
-(176, 43, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_NFTzqdXO7V.jpeg?v=1756628144', 'detail', '2025-09-30 05:28:36', '2025-09-30 05:28:36'),
-(177, 44, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_gz1QWPk0L3.jpeg?v=1756628048', 'detail', '2025-09-30 06:01:36', '2025-09-30 06:01:36'),
-(178, 45, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Te1Or9lia9.jpeg?v=1756627962', 'detail', '2025-09-30 06:02:57', '2025-09-30 06:02:57'),
-(179, 45, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_QnSBZXvJRl.jpeg?v=1756627950', 'detail', '2025-09-30 06:02:57', '2025-09-30 06:02:57'),
-(180, 46, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_mYvRZleN3S.jpeg?v=1756627899', 'detail', '2025-09-30 06:04:39', '2025-09-30 06:04:39'),
-(181, 46, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_Wzizj6eSnn.jpeg?v=1756627883', 'detail', '2025-09-30 06:04:39', '2025-09-30 06:04:39'),
-(182, 47, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_NrPygDngWK.jpeg?v=1756627833', 'detail', '2025-09-30 06:07:01', '2025-09-30 06:07:01'),
-(183, 48, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_tg18ITjYPX.jpeg?v=1756627764', 'detail', '2025-09-30 06:08:03', '2025-09-30 06:08:03'),
-(184, 48, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250831_CCQt1bW2KM.jpeg?v=1756627786', 'detail', '2025-09-30 06:08:03', '2025-09-30 06:08:03'),
-(185, 49, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_tjQudPTwR8.jpeg?v=1755599014', 'detail', '2025-09-30 06:09:27', '2025-09-30 06:09:27'),
-(186, 50, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_9U7hJnyB2q.jpeg?v=1755598965', 'detail', '2025-09-30 06:10:23', '2025-09-30 06:10:23'),
-(187, 50, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_1ZTElSqKmc.jpeg?v=1755598955', 'detail', '2025-09-30 06:10:23', '2025-09-30 06:10:23'),
-(188, 51, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_L5PdXT0Nxv.jpeg?v=1755598910', 'detail', '2025-09-30 06:38:02', '2025-09-30 06:38:02'),
-(189, 52, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250819_Iw7TWiwtgB.jpeg?v=1755598863', 'detail', '2025-09-30 06:43:21', '2025-09-30 06:43:21'),
-(190, 53, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250815_lYWpWKckOu.jpeg?v=1755224664', 'detail', '2025-09-30 06:44:08', '2025-09-30 06:44:08'),
-(191, 54, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_TIgGkebq16.jpeg?v=1754359815', 'detail', '2025-09-30 06:45:18', '2025-09-30 06:45:18'),
-(192, 57, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250805_DEIclvuftY.jpeg?v=1754359736', 'detail', '2025-09-30 06:47:39', '2025-09-30 06:47:39'),
-(193, 60, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_JlUGqMfCB3.jpeg?v=1753006923', 'detail', '2025-09-30 06:48:31', '2025-09-30 06:48:31'),
-(194, 60, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_JlUGqMfCB3.jpeg?v=1753006923', 'detail', '2025-09-30 06:52:01', '2025-09-30 06:52:01'),
-(195, 61, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_6bTcD3szNc.jpeg?v=1753006880', 'detail', '2025-09-30 06:54:10', '2025-09-30 06:54:10'),
-(196, 62, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_28TMeiaoUp.jpeg?v=1753006822', 'detail', '2025-09-30 06:58:26', '2025-09-30 06:58:26'),
-(197, 69, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250720_qG3WEtxD1W.jpeg?v=1753006557', 'detail', '2025-09-30 07:05:52', '2025-09-30 07:05:52'),
-(198, 73, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250228_0cdqbr3q5v.jpeg?v=1740716375', 'detail', '2025-09-30 07:23:26', '2025-09-30 07:23:26'),
-(199, 73, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250228_tYoPuAnj3f.jpeg?v=1740716362', 'detail', '2025-09-30 07:23:26', '2025-09-30 07:23:26'),
-(200, 94, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250917_kTdJlXleak.jpeg?v=1758095930', 'detail', '2025-09-30 07:27:41', '2025-09-30 07:27:41'),
-(201, 95, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_f6MdYEKWVE.jpeg?v=1757222681', 'detail', '2025-09-30 07:28:56', '2025-09-30 07:28:56'),
-(202, 96, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_chQQEod8ET.jpeg?v=1757222641', 'detail', '2025-09-30 07:29:48', '2025-09-30 07:29:48'),
-(203, 98, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_tG39a4SvYc.jpeg?v=1757222451', 'detail', '2025-09-30 07:30:41', '2025-09-30 07:30:41'),
-(204, 98, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_D8AcrshHa0.jpeg?v=1757222455', 'detail', '2025-09-30 07:30:41', '2025-09-30 07:30:41'),
-(205, 99, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_SLrIv2mUz4.jpeg?v=1757222390', 'detail', '2025-09-30 07:32:43', '2025-09-30 07:32:43'),
-(206, 100, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_przejwckkY.jpeg?v=1757222321', 'detail', '2025-09-30 07:33:46', '2025-09-30 07:33:46'),
-(207, 101, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250911_zrDrvR7ogd.jpeg?v=1757605676', 'detail', '2025-09-30 07:34:46', '2025-09-30 07:34:46'),
-(208, 101, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250911_sB54rpYXYj.jpeg?v=1757605680', 'detail', '2025-09-30 07:34:46', '2025-09-30 07:34:46'),
-(209, 102, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_AGAshaEZmf.jpeg?v=1757222258', 'detail', '2025-09-30 07:36:13', '2025-09-30 07:36:13'),
-(210, 103, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250907_5CFjc9UlcH.jpeg?v=1757222227', 'detail', '2025-09-30 07:37:36', '2025-09-30 07:37:36'),
-(211, 110, 'https://pos.nvncdn.com/cba2a3-7534/ps/Gau-bong-vong-tay-Cute-dog-deo-kinh-17cm-1.jpg?v=1753105551', 'detail', '2025-09-30 07:40:14', '2025-09-30 07:40:14'),
-(212, 110, 'https://pos.nvncdn.com/cba2a3-7534/ps/Gau-bong-vong-tay-Cute-dog-deo-kinh-17cm-2.jpg?v=1753105555', 'detail', '2025-09-30 07:40:14', '2025-09-30 07:40:14'),
-(213, 115, 'https://pos.nvncdn.com/cba2a3-7534/ps/20250629_Mq8pfuKK5D.jpeg?v=1751211813', 'detail', '2025-09-30 07:47:41', '2025-09-30 07:47:41');
+(21, 13, 'storage/products/1761313662_68fb837ec4848.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:42'),
+(22, 14, 'storage/products/1761313663_68fb837f35dfb.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:43'),
+(23, 15, 'storage/products/1761313663_68fb837f96baf.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:43'),
+(24, 16, 'storage/products/1761313664_68fb838000b1f.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:44'),
+(25, 17, 'storage/products/1761313664_68fb838062b0e.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:44'),
+(26, 18, 'storage/products/1761313664_68fb8380bd7a4.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:44'),
+(27, 19, 'storage/products/1761313665_68fb838127a2b.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:45'),
+(28, 20, 'storage/products/1761313665_68fb838182c7c.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:45'),
+(29, 21, 'storage/products/1761313666_68fb838202c18.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:46'),
+(30, 22, 'storage/products/1761313666_68fb8382629e1.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:46'),
+(31, 23, 'storage/products/1761313666_68fb8382c44eb.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:46'),
+(32, 24, 'storage/products/1761313667_68fb83832a248.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:47'),
+(33, 25, 'storage/products/1761313667_68fb83838d0ac.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:47'),
+(34, 26, 'storage/products/1761313668_68fb83840ef03.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:48'),
+(35, 27, 'storage/products/1761313668_68fb83847424e.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:48'),
+(36, 28, 'storage/products/1761313668_68fb8384dbcd6.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:48'),
+(37, 29, 'storage/products/1761313669_68fb83855f302.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:49'),
+(38, 30, 'storage/products/1761313669_68fb8385c75d0.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:49'),
+(39, 31, 'storage/products/1761313670_68fb838635478.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:50'),
+(40, 32, 'storage/products/1761313670_68fb838693404.jpeg', 'thumbnail', '2025-09-22 07:02:08', '2025-10-24 13:47:50'),
+(41, 33, 'storage/products/1761313671_68fb8387038b9.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:51'),
+(42, 34, 'storage/products/1761313671_68fb838767ad9.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:51'),
+(43, 35, 'storage/products/1761313671_68fb8387c66a3.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:51'),
+(44, 36, 'storage/products/1761313672_68fb838835935.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:52'),
+(45, 37, 'storage/products/1761313672_68fb83888afee.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:52'),
+(46, 38, 'storage/products/1761313672_68fb8388ec0e7.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:52'),
+(47, 39, 'storage/products/1761313673_68fb83894f1e1.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:53'),
+(48, 40, 'storage/products/1761313673_68fb8389b313d.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:53'),
+(49, 41, 'storage/products/1761313674_68fb838a28265.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:54'),
+(50, 42, 'storage/products/1761313674_68fb838a889fd.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:54'),
+(51, 43, 'storage/products/1761313674_68fb838ae20ee.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:54'),
+(52, 44, 'storage/products/1761313675_68fb838b45dd3.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:55'),
+(53, 45, 'storage/products/1761313675_68fb838ba7616.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:55'),
+(54, 46, 'storage/products/1761313676_68fb838c1a550.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:56'),
+(55, 47, 'storage/products/1761313676_68fb838c6fc74.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:56'),
+(56, 48, 'storage/products/1761313676_68fb838cc1783.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:56'),
+(57, 49, 'storage/products/1761313677_68fb838d20bb6.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:57'),
+(58, 50, 'storage/products/1761313677_68fb838d90f69.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:57'),
+(59, 51, 'storage/products/1761313677_68fb838dea35b.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:57'),
+(60, 52, 'storage/products/1761313678_68fb838eabc99.jpeg', 'thumbnail', '2025-09-22 07:17:05', '2025-10-24 13:47:58'),
+(61, 53, 'storage/products/1761313679_68fb838f37165.jpeg', 'thumbnail', '2025-09-22 08:26:59', '2025-10-24 13:47:59'),
+(62, 54, 'storage/products/1761313679_68fb838fcdcf9.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:47:59'),
+(63, 57, 'storage/products/1761313680_68fb839064576.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:48:00'),
+(64, 58, 'storage/products/1761313680_68fb8390ea816.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:48:00'),
+(65, 59, 'storage/products/1761313681_68fb8391892d4.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:48:01'),
+(66, 60, 'storage/products/1761313682_68fb8392291f0.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:48:02'),
+(67, 61, 'storage/products/1761313682_68fb8392f2849.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:48:02'),
+(68, 62, 'storage/products/1761313683_68fb8393870ce.jpeg', 'thumbnail', '2025-09-22 08:28:40', '2025-10-24 13:48:03'),
+(69, 63, 'storage/products/1761313684_68fb83942bcda.jpg', 'detail', '2025-09-22 08:28:40', '2025-10-24 13:48:04'),
+(70, 64, 'storage/products/1761313684_68fb8394b9c09.jpeg', 'detail', '2025-09-22 08:28:40', '2025-10-24 13:48:04'),
+(71, 65, 'storage/products/1761313685_68fb83954e682.jpeg', 'thumbnail', '2025-09-22 08:35:18', '2025-10-24 13:48:05'),
+(72, 66, 'storage/products/1761313685_68fb8395db28a.jpeg', 'thumbnail', '2025-09-22 08:35:18', '2025-10-24 13:48:05'),
+(73, 67, 'storage/products/1761313686_68fb839682721.jpeg', 'thumbnail', '2025-09-22 08:36:09', '2025-10-24 13:48:06'),
+(74, 68, 'storage/products/1761313687_68fb83971cb19.jpeg', 'thumbnail', '2025-09-22 08:36:09', '2025-10-24 13:48:07'),
+(75, 69, 'storage/products/1761313687_68fb83979f0c0.jpeg', 'thumbnail', '2025-09-22 08:36:09', '2025-10-24 13:48:07'),
+(76, 70, 'storage/products/1761313688_68fb839831017.jpeg', 'thumbnail', '2025-09-22 08:36:09', '2025-10-24 13:48:08'),
+(77, 71, 'storage/products/1761313688_68fb8398b5b36.jpeg', 'thumbnail', '2025-09-22 08:36:09', '2025-10-24 13:48:08'),
+(78, 72, 'storage/products/1761313689_68fb83994af40.jpeg', 'thumbnail', '2025-09-22 08:38:00', '2025-10-24 13:48:09'),
+(79, 73, 'storage/products/1761313689_68fb8399d638c.jpeg', 'thumbnail', '2025-09-22 08:38:21', '2025-10-24 13:48:09'),
+(80, 94, 'storage/products/1761313690_68fb839a664c7.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:10'),
+(81, 95, 'storage/products/1761313690_68fb839af1ddd.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:10'),
+(82, 96, 'storage/products/1761313691_68fb839b78663.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:11'),
+(83, 97, 'storage/products/1761313692_68fb839c2553d.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:12'),
+(84, 98, 'storage/products/1761313692_68fb839ca965d.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:12'),
+(85, 99, 'storage/products/1761313693_68fb839d39237.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:13'),
+(86, 100, 'storage/products/1761313693_68fb839db9eaa.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:13'),
+(87, 101, 'storage/products/1761313694_68fb839e4eae8.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:14'),
+(88, 102, 'storage/products/1761313694_68fb839eebca5.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:14'),
+(89, 103, 'storage/products/1761313695_68fb839f830cd.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:15'),
+(90, 104, 'storage/products/1761313696_68fb83a012cfe.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:16'),
+(91, 105, 'storage/products/1761313696_68fb83a0bf7d6.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:16'),
+(92, 106, 'storage/products/1761313697_68fb83a15eb53.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:17'),
+(93, 107, 'storage/products/1761313697_68fb83a1e7cd0.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:17'),
+(94, 108, 'storage/products/1761313698_68fb83a271c1a.jpeg', 'thumbnail', '2025-09-22 08:52:47', '2025-10-24 13:48:18'),
+(95, 109, 'storage/products/1761313698_68fb83a2f3756.jpeg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:18'),
+(96, 110, 'storage/products/1761313699_68fb83a39021b.jpg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:19'),
+(97, 111, 'storage/products/1761313700_68fb83a41c805.jpeg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:20'),
+(98, 112, 'storage/products/1761313700_68fb83a49e437.jpeg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:20'),
+(99, 113, 'storage/products/1761313701_68fb83a5217ba.jpeg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:21'),
+(100, 114, 'storage/products/1761313701_68fb83a5aa911.jpeg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:21'),
+(101, 115, 'storage/products/1761313702_68fb83a627e13.jpeg', 'thumbnail', '2025-09-22 08:58:56', '2025-10-24 13:48:22'),
+(102, 132, 'storage/products/1761313702_68fb83a6807c6.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:22'),
+(103, 133, 'storage/products/1761313702_68fb83a6cb025.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:22'),
+(104, 134, 'storage/products/1761313703_68fb83a71bb88.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:23'),
+(105, 135, 'storage/products/1761313703_68fb83a770128.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:23'),
+(106, 136, 'storage/products/1761313703_68fb83a7cc75f.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:23'),
+(107, 137, 'storage/products/1761313704_68fb83a831967.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:24'),
+(108, 138, 'storage/products/1761313704_68fb83a887870.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:24'),
+(109, 139, 'storage/products/1761313704_68fb83a8d8e2f.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:24'),
+(110, 140, 'storage/products/1761313705_68fb83a93bd10.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:25'),
+(111, 141, 'storage/products/1761313705_68fb83a98df57.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:25'),
+(112, 142, 'storage/products/1761313705_68fb83a9dee32.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:25'),
+(113, 143, 'storage/products/1761313706_68fb83aa39d79.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:26'),
+(114, 144, 'storage/products/1761313706_68fb83aa90c51.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:26'),
+(115, 145, 'storage/products/1761313706_68fb83aad80fc.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:26'),
+(116, 146, 'storage/products/1761313707_68fb83ab32d3a.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:27'),
+(117, 147, 'storage/products/1761313707_68fb83ab7dba9.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:27'),
+(118, 148, 'storage/products/1761313707_68fb83abc0c1f.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:27'),
+(119, 149, 'storage/products/1761313708_68fb83ac11d2c.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:28'),
+(120, 150, 'storage/products/1761313708_68fb83ac5fb5f.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:28'),
+(121, 151, 'storage/products/1761313708_68fb83aca6fe6.webp', 'thumbnail', '2025-09-24 07:14:42', '2025-10-24 13:48:28'),
+(122, 152, 'storage/products/1761313709_68fb83ad07956.jpg', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:29'),
+(123, 153, 'storage/products/1761313709_68fb83ad69ac9.jpg', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:29'),
+(124, 154, 'storage/products/1761313709_68fb83adb9fca.jpg', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:29'),
+(125, 155, 'storage/products/1761313710_68fb83ae0be6e.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:30'),
+(126, 156, 'storage/products/1761313710_68fb83ae5dcf9.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:30'),
+(127, 157, 'storage/products/1761313710_68fb83aeb2952.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:30'),
+(128, 158, 'storage/products/1761313711_68fb83af10758.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:31'),
+(129, 159, 'storage/products/1761313711_68fb83af66a9f.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:31'),
+(130, 160, 'storage/products/1761313711_68fb83afc7992.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:31'),
+(131, 161, 'storage/products/1761313712_68fb83b022e59.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:32'),
+(132, 162, 'storage/products/1761313712_68fb83b074028.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:32'),
+(133, 163, 'storage/products/1761313712_68fb83b0c7489.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:32'),
+(134, 164, 'storage/products/1761313713_68fb83b11a8e8.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:33'),
+(135, 165, 'storage/products/1761313713_68fb83b166d81.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:33'),
+(136, 166, 'storage/products/1761313713_68fb83b1b78fb.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:33'),
+(137, 167, 'storage/products/1761313714_68fb83b2197f9.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:34'),
+(138, 168, 'storage/products/1761313714_68fb83b271f0d.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:34'),
+(139, 169, 'storage/products/1761313714_68fb83b2b94d2.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:34'),
+(140, 170, 'storage/products/1761313715_68fb83b316410.webp', 'thumbnail', '2025-09-24 07:27:08', '2025-10-24 13:48:35'),
+(141, 171, 'storage/products/1761313715_68fb83b3681aa.webp', 'thumbnail', '0000-00-00 00:00:00', '2025-10-24 13:48:35'),
+(143, 13, 'storage/products/1761313715_68fb83b3e771c.jpeg', 'detail', '2025-09-29 16:35:28', '2025-10-24 13:48:35'),
+(144, 14, 'storage/products/1761313716_68fb83b48e06a.jpeg', 'detail', '2025-09-29 16:37:16', '2025-10-24 13:48:36'),
+(145, 14, 'storage/products/1761313717_68fb83b52274c.jpeg', 'detail', '2025-09-29 16:40:01', '2025-10-24 13:48:37'),
+(146, 14, 'storage/products/1761313717_68fb83b5b0a09.jpeg', 'detail', '2025-09-29 16:40:53', '2025-10-24 13:48:37'),
+(148, 15, 'storage/products/1761313718_68fb83b648e4f.jpeg', 'detail', '2025-09-28 17:11:09', '2025-10-24 13:48:38'),
+(149, 15, 'storage/products/1761313718_68fb83b6f3ded.jpeg', 'detail', '2025-09-29 17:12:11', '2025-10-24 13:48:39'),
+(150, 16, 'storage/products/1761313719_68fb83b793303.jpeg', 'detail', '2025-09-29 17:13:37', '2025-10-24 13:48:39'),
+(151, 17, 'storage/products/1761313720_68fb83b8240f9.jpeg', 'detail', '2025-09-29 17:13:49', '2025-10-24 13:48:40'),
+(152, 17, 'storage/products/1761313720_68fb83b8d1fb4.jpeg', 'detail', '2025-09-29 17:13:49', '2025-10-24 13:48:40'),
+(153, 17, 'storage/products/1761313721_68fb83b9a39b7.jpeg', 'detail', '2025-09-29 17:16:14', '2025-10-24 13:48:41'),
+(154, 18, 'storage/products/1761313722_68fb83ba3abf1.jpeg', 'detail', '2025-09-29 17:16:34', '2025-10-24 13:48:42'),
+(155, 19, 'storage/products/1761313722_68fb83bac56a2.jpeg', 'detail', '2025-09-29 17:20:15', '2025-10-24 13:48:42'),
+(156, 20, 'storage/products/1761313723_68fb83bb5ef03.jpeg', 'detail', '2025-09-29 17:20:44', '2025-10-24 13:48:43'),
+(157, 20, 'storage/products/1761313723_68fb83bbdc4f1.jpeg', 'detail', '2025-09-29 17:20:44', '2025-10-24 13:48:43'),
+(158, 21, 'storage/products/1761313724_68fb83bc7283f.jpeg', 'detail', '2025-09-29 17:47:35', '2025-10-24 13:48:44'),
+(159, 22, 'storage/products/1761313725_68fb83bd04460.jpeg', 'detail', '2025-09-29 17:47:45', '2025-10-24 13:48:45'),
+(160, 22, 'storage/products/1761313725_68fb83bd8d37c.jpeg', 'detail', '2025-09-29 17:47:45', '2025-10-24 13:48:45'),
+(161, 23, 'storage/products/1761313726_68fb83be2acc8.jpeg', 'detail', '2025-09-29 18:20:53', '2025-10-24 13:48:46'),
+(162, 24, 'storage/products/1761313726_68fb83beb7494.jpeg', 'detail', '2025-09-29 18:24:05', '2025-10-24 13:48:46'),
+(163, 24, 'storage/products/1761313727_68fb83bf483ae.jpeg', 'detail', '2025-09-29 18:24:05', '2025-10-24 13:48:47'),
+(164, 25, 'storage/products/1761313727_68fb83bfc1e07.jpeg', 'detail', '2025-09-29 18:29:44', '2025-10-24 13:48:47'),
+(165, 26, 'storage/products/1761313728_68fb83c05eeaf.jpeg', 'detail', '2025-09-29 18:32:16', '2025-10-24 13:48:48'),
+(166, 27, 'storage/products/1761313729_68fb83c12c5ec.jpeg', 'detail', '2025-09-29 18:33:46', '2025-10-24 13:48:49'),
+(167, 28, 'storage/products/1761313729_68fb83c1e897e.jpeg', 'detail', '2025-09-29 18:37:51', '2025-10-24 13:48:49'),
+(168, 29, 'storage/products/1761313730_68fb83c2a8dc8.jpeg', 'detail', '2025-09-29 18:40:03', '2025-10-24 13:48:50'),
+(169, 30, 'storage/products/1761313731_68fb83c332856.jpeg', 'detail', '2025-09-29 18:41:18', '2025-10-24 13:48:51'),
+(170, 36, 'storage/products/1761313731_68fb83c3b0f8b.jpeg', 'detail', '2025-09-29 18:43:44', '2025-10-24 13:48:51'),
+(171, 37, 'storage/products/1761313732_68fb83c43c741.jpeg', 'detail', '2025-09-29 18:48:55', '2025-10-24 13:48:52'),
+(172, 38, 'storage/products/1761313732_68fb83c4e1d3d.jpeg', 'detail', '2025-09-30 04:52:40', '2025-10-24 13:48:52'),
+(173, 39, 'storage/products/1761313733_68fb83c5a6175.jpeg', 'detail', '2025-09-30 04:52:58', '2025-10-24 13:48:53'),
+(174, 40, 'storage/products/1761313734_68fb83c6667b9.jpeg', 'detail', '2025-09-30 04:55:36', '2025-10-24 13:48:54'),
+(175, 41, 'storage/products/1761313734_68fb83c6ef1a9.jpeg', 'detail', '2025-09-30 05:23:48', '2025-10-24 13:48:54'),
+(176, 43, 'storage/products/1761313735_68fb83c778b44.jpeg', 'detail', '2025-09-30 05:28:36', '2025-10-24 13:48:55'),
+(177, 44, 'storage/products/1761313736_68fb83c80816d.jpeg', 'detail', '2025-09-30 06:01:36', '2025-10-24 13:48:56'),
+(178, 45, 'storage/products/1761313736_68fb83c88c205.jpeg', 'detail', '2025-09-30 06:02:57', '2025-10-24 13:48:56'),
+(179, 45, 'storage/products/1761313737_68fb83c91ac91.jpeg', 'detail', '2025-09-30 06:02:57', '2025-10-24 13:48:57'),
+(180, 46, 'storage/products/1761313737_68fb83c9bac72.jpeg', 'detail', '2025-09-30 06:04:39', '2025-10-24 13:48:57'),
+(181, 46, 'storage/products/1761313738_68fb83ca6f32d.jpeg', 'detail', '2025-09-30 06:04:39', '2025-10-24 13:48:58'),
+(182, 47, 'storage/products/1761313738_68fb83cada217.jpeg', 'detail', '2025-09-30 06:07:01', '2025-10-24 13:48:58'),
+(183, 48, 'storage/products/1761313739_68fb83cb90fbd.jpeg', 'detail', '2025-09-30 06:08:03', '2025-10-24 13:48:59'),
+(184, 48, 'storage/products/1761313740_68fb83cc17372.jpeg', 'detail', '2025-09-30 06:08:03', '2025-10-24 13:49:00'),
+(185, 49, 'storage/products/1761313740_68fb83cc8a21e.jpeg', 'detail', '2025-09-30 06:09:27', '2025-10-24 13:49:00'),
+(186, 50, 'storage/products/1761313741_68fb83cd1bfde.jpeg', 'detail', '2025-09-30 06:10:23', '2025-10-24 13:49:01'),
+(187, 50, 'storage/products/1761313741_68fb83cda58ad.jpeg', 'detail', '2025-09-30 06:10:23', '2025-10-24 13:49:01'),
+(188, 51, 'storage/products/1761313742_68fb83ce4520a.jpeg', 'detail', '2025-09-30 06:38:02', '2025-10-24 13:49:02'),
+(189, 52, 'storage/products/1761313742_68fb83ceca49d.jpeg', 'detail', '2025-09-30 06:43:21', '2025-10-24 13:49:02'),
+(190, 53, 'storage/products/1761313743_68fb83cf7b9f8.jpeg', 'detail', '2025-09-30 06:44:08', '2025-10-24 13:49:03'),
+(191, 54, 'storage/products/1761313744_68fb83d017275.jpeg', 'detail', '2025-09-30 06:45:18', '2025-10-24 13:49:04'),
+(192, 57, 'storage/products/1761313744_68fb83d0cdf89.jpeg', 'detail', '2025-09-30 06:47:39', '2025-10-24 13:49:04'),
+(193, 60, 'storage/products/1761313745_68fb83d19c3dd.jpeg', 'detail', '2025-09-30 06:48:31', '2025-10-24 13:49:05'),
+(194, 60, 'storage/products/1761313746_68fb83d223bfb.jpeg', 'detail', '2025-09-30 06:52:01', '2025-10-24 13:49:06'),
+(195, 61, 'storage/products/1761313747_68fb83d3575ad.jpeg', 'detail', '2025-09-30 06:54:10', '2025-10-24 13:49:07'),
+(196, 62, 'storage/products/1761313748_68fb83d414860.jpeg', 'detail', '2025-09-30 06:58:26', '2025-10-24 13:49:08'),
+(197, 69, 'storage/products/1761313748_68fb83d4dfcec.jpeg', 'detail', '2025-09-30 07:05:52', '2025-10-24 13:49:08'),
+(198, 73, 'storage/products/1761313749_68fb83d59d0c4.jpeg', 'detail', '2025-09-30 07:23:26', '2025-10-24 13:49:09'),
+(199, 73, 'storage/products/1761313750_68fb83d65252a.jpeg', 'detail', '2025-09-30 07:23:26', '2025-10-24 13:49:10'),
+(200, 94, 'storage/products/1761313751_68fb83d72b8c2.jpeg', 'detail', '2025-09-30 07:27:41', '2025-10-24 13:49:11'),
+(201, 95, 'storage/products/1761313752_68fb83d819da7.jpeg', 'detail', '2025-09-30 07:28:56', '2025-10-24 13:49:12'),
+(202, 96, 'storage/products/1761313752_68fb83d891fc8.jpeg', 'detail', '2025-09-30 07:29:48', '2025-10-24 13:49:12'),
+(203, 98, 'storage/products/1761313753_68fb83d946d01.jpeg', 'detail', '2025-09-30 07:30:41', '2025-10-24 13:49:13'),
+(204, 98, 'storage/products/1761313753_68fb83d9bc229.jpeg', 'detail', '2025-09-30 07:30:41', '2025-10-24 13:49:13'),
+(205, 99, 'storage/products/1761313754_68fb83da3fe67.jpeg', 'detail', '2025-09-30 07:32:43', '2025-10-24 13:49:14'),
+(206, 100, 'storage/products/1761313754_68fb83dad0212.jpeg', 'detail', '2025-09-30 07:33:46', '2025-10-24 13:49:14'),
+(207, 101, 'storage/products/1761313755_68fb83db694ef.jpeg', 'detail', '2025-09-30 07:34:46', '2025-10-24 13:49:15'),
+(208, 101, 'storage/products/1761313756_68fb83dc07c78.jpeg', 'detail', '2025-09-30 07:34:46', '2025-10-24 13:49:16'),
+(209, 102, 'storage/products/1761313756_68fb83dc9286c.jpeg', 'detail', '2025-09-30 07:36:13', '2025-10-24 13:49:16'),
+(210, 103, 'storage/products/1761313757_68fb83dd1ba58.jpeg', 'detail', '2025-09-30 07:37:36', '2025-10-24 13:49:17'),
+(211, 110, 'storage/products/1761313757_68fb83ddd016f.jpg', 'detail', '2025-09-30 07:40:14', '2025-10-24 13:49:17'),
+(212, 110, 'storage/products/1761313758_68fb83de8af93.jpg', 'detail', '2025-09-30 07:40:14', '2025-10-24 13:49:18'),
+(213, 115, 'storage/products/1761313759_68fb83df12cfa.jpeg', 'detail', '2025-09-30 07:47:41', '2025-10-24 13:49:19');
 
 -- --------------------------------------------------------
 
@@ -1080,7 +1071,9 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_hidden`, `created_at`, `updated_at`) VALUES
-(1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-21 18:18:33');
+(1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-21 18:18:33'),
+(2, 30, 2, 5, 'Rất đẹp và vừa ý', 0, '2025-10-22 14:39:12', '2025-10-22 14:39:12'),
+(3, 13, 2, 5, 'Rất đẹp và rất hài lòng', 0, '2025-10-22 20:11:55', '2025-10-22 20:11:55');
 
 -- --------------------------------------------------------
 
@@ -1147,25 +1140,16 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
 (1, 2),
 (2, 1),
-(2, 2),
 (3, 1),
-(3, 2),
 (4, 1),
 (5, 1),
-(5, 2),
 (6, 1),
-(6, 2),
 (7, 1),
-(7, 2),
 (8, 1),
-(8, 2),
 (9, 1),
-(9, 2),
 (10, 1),
-(10, 2),
 (11, 1),
 (12, 1),
-(12, 2),
 (13, 1),
 (14, 1),
 (15, 1),
@@ -1179,13 +1163,13 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (21, 2),
 (22, 1),
 (23, 1),
-(23, 2),
 (24, 1),
 (25, 1),
 (26, 1),
 (27, 1),
 (28, 1),
 (29, 1),
+(29, 2),
 (30, 1),
 (31, 1),
 (32, 1),
@@ -1193,18 +1177,14 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (33, 2),
 (34, 1),
 (35, 1),
-(35, 2),
 (36, 1),
 (37, 1),
 (37, 2),
 (38, 1),
-(38, 2),
 (39, 1),
 (40, 1),
-(40, 2),
 (41, 1),
 (42, 1),
-(42, 2),
 (43, 1),
 (44, 1),
 (45, 1),
@@ -1234,8 +1214,13 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('C84VKi0PXBT9jvuub0gQcPrBJuVHAPYMtzIJ1koa', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieGN1ZE5kNVVSclhzMjJ3bkRVWk1zeWNkQXFybXdnakNRTlZPQ0l1byI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9vcmRlcnMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo1O30=', 1761072868),
-('i1665T7TdYQkcdiPzof3GNvAisgkGdWg2DGlB8Dw', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQm9wNVduZGRWd3BDeGpvVDlxc1IxVDFKaVUyV1dza1gzNVJnNUJxMiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hZG1pbi91c2Vycy81L3Blcm1pc3Npb25zIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1761073659);
+('Cqk8R0uO5lZYsnfyNvCEYCwxU9WYgmeHCvUL2gGU', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiR0JHSVp4d2ZtU1o5NzlZaFltM3hZaGxUS2JseXdtTU84SkhvVktubyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1761313799),
+('FJ2RZJFKhBKx5pXpHK5CQ1uNT8JmQ4Obs81hU0PD', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiS1IyWVJQTndSVEJDZ0h5WHhxakd0SElHd25aREtHM2Rld3FOWTZvNyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wLzEzMyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1761266515),
+('lAuaClBk1e7a0Po1SBK9zfnwcxJSpK084PVH5u77', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQVFpTkxiOGhsTDZkclFXTG1sa2ZHenZiSGg0MmRPR2QzTFNQTXpqbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1761279751),
+('oWWkjbdCVexUZqsKNUmdDing6ZgrpJgSTujUclmU', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiUGZZN0xsQldRNGMzcWhFR1k1QUlHdkVnNGNkQ1BsTmgwckJCcVRTUSI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyNjoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2hvbWUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE2OiJjaGVja291dF9hZGRyZXNzIjthOjY6e3M6MTM6ImN1c3RvbWVyX25hbWUiO3M6MTM6Ik5o4buxdCBLaOG6r2MiO3M6MTQ6ImN1c3RvbWVyX2VtYWlsIjtzOjI1OiJraGFjbmh1dDIwMDR2bGdAZ21haWwuY29tIjtzOjE0OiJjdXN0b21lcl9waG9uZSI7czoxMDoiMDk2NzUyMzQ1NiI7czoxNjoiY3VzdG9tZXJfYWRkcmVzcyI7czozMDoiMTIzLCBYw6MgQ8OhaSBOaHVtLCBWxKluaCBMb25nIjtzOjEzOiJwcm92aW5jZV9uYW1lIjtzOjEwOiJWxKluaCBMb25nIjtzOjk6IndhcmRfbmFtZSI7czoxMzoiWMOjIEPDoWkgTmh1bSI7fXM6MTc6ImNoZWNrb3V0X3NlbGVjdGVkIjthOjA6e319', 1761271568),
+('PRnyxbBjnoXSxMjLChf0FzqLziIvXbXJrXxmM4MW', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiT1pKMEZIbDM0cGhEOUpLdzlwWWp2RGNqSlF2SmRDSlVUaWFES0xJNSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1761318183),
+('vJwBtVLnirxX1iSYl9gQ7MX5B07na87OOrf20kjW', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQlp2aEZZNTFta3FPbk83M3MyYmpmNWFCbFhtd2ZVS3c1eG44R0JDVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9vcmRlcnMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo1O30=', 1761279707),
+('ZK3jPr6sgP79ijSoSE2FCdH1nBrKsHRwvSDp7ZYl', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOFVYbzdBR2dKOUZDaWt4elNOdHV5Yzd0SWVyTURKSHBOS09WTmV1RyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcGkvbG9naW4vZ29vZ2xlL3JlZGlyZWN0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1761263184);
 
 -- --------------------------------------------------------
 
@@ -1299,12 +1284,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `phone`, `ward_id`, `address`, `email_verified_at`, `role_id`, `status`, `social_id`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'storage/avatars/default-avatar.png', 'okjt7P6Dit5elqkxuXsHLZYxIBbllpE2ed6QM6GdXd6mz2zmtHZnMP89tBMf', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
-(5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, 'storage/avatars/default-avatar.png', NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
-(9, 'dat1', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$7RuGwSvf7MombGz1aUTc1O.eB/ekeR7c/EtyILMp.WvFIoPg1QLrW', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', 'ba3AEh0vqrx0oivdDilAgUOhQNww8QPasUkYp0dgPoIlyiXPDcOdxliV6RK2', '2025-10-09 07:00:12', '2025-10-09 07:00:12'),
-(10, 'dat1', 'Lê Nguyễn Gia Đạt', 'bachhoangdat9900@gmail.com', '$2y$12$i2VC69mVm4GhKKJugu5SneowV7PehVQWC3SkrcfEd7hIbdqVEoKwK', '0932861734', 28789, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-09 07:00:58', '2025-10-09 07:00:58'),
-(11, 'hn1', 'Lê Hạnh Nguyên', 'hanhnguyen22@gmail.com', '$2y$12$Ncvrv5nkTIJ743k0lm3S8eCT5LBGXrZzNAnD3rLHExGla7O9HXU.u', '09321322131', 28789, '259/28 An Phương', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-09 07:01:47', '2025-10-09 07:01:47'),
-(12, 'Hazaki', 'Khắc Nhựt', '22004294@st.vlute.edu.vn', '$2y$12$HUkk0VD6DA5LKOh3Lc9pveoOwJPEMp8HG7rGL1wgE5pWqZfTRRtTK', '0192920239', 29641, '123', NULL, 3, 1, NULL, 'storage/avatars/default-avatar.png', NULL, '2025-10-20 06:08:48', '2025-10-20 06:08:48');
+(2, 'Hazakii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, '', '9CnXeV3ncpl7Rbq5jVwdlG8m1aEbSrIOQtOJPDX1zWZblgLxXWmoyeoFZymn', '2025-09-18 11:28:33', '2025-10-01 11:44:59'),
+(5, 'Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$OxgBEGiAzT7jFKEcIL3Cr.EIx.fe42APCunC5zbZMXegWmTOu5H6y', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, '', NULL, '2025-09-28 06:12:54', '2025-09-28 06:12:54'),
+(9, 'dat1', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$7RuGwSvf7MombGz1aUTc1O.eB/ekeR7c/EtyILMp.WvFIoPg1QLrW', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', '2025-10-13 17:43:53', 2, 1, NULL, '', 'ba3AEh0vqrx0oivdDilAgUOhQNww8QPasUkYp0dgPoIlyiXPDcOdxliV6RK2', '2025-10-09 07:00:12', '2025-10-09 07:00:12'),
+(13, 'Hazaki', 'Nhựt Khắc', '22004294@st.vlute.edu.vn', '$2y$12$llFu2/WHiTH1FLs3INL8yO8vpUV182HFaHO4o5upWzFsB67oNNbjW', '0779089252', 29641, '123', '2025-10-22 17:32:01', 3, 1, NULL, '', NULL, '2025-10-22 17:31:42', '2025-10-22 17:32:01'),
+(14, 'nguyen-van-a', 'Nguyễn Văn A', 'a67429485@gmail.com', '$2y$12$BAC4A52cvUCKLVS2Hx6o7ej2YBZSVwFZLoBPcDuvGgAK52nCZX9w.', '0192920234', NULL, 'Vĩnh Long', '2025-10-23 22:15:26', 2, 1, NULL, '', NULL, '2025-10-23 22:15:26', '2025-10-23 22:15:26');
 
 -- --------------------------------------------------------
 
@@ -4880,13 +4864,13 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -4922,19 +4906,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `permissions`
@@ -4964,7 +4948,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -4988,7 +4972,7 @@ ALTER TABLE `shipping_fees`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
