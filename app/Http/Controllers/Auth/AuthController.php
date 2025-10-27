@@ -156,14 +156,13 @@ class AuthController extends Controller
         if (empty($data['username'])) {
             $data['username'] = Str::slug($data['name'], '');
         }
-        $password = $data['password'].$salt;
         $user = User::create([
             'username' => $data['username'] ?? null,
             'phone' => $data['phone'],
             'address' => $data['address'],
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($password),
+            'password' => Hash::make($data['password']),
             'ward_id' => $data['ward'],
             'role_id' => 3,
             'status' => 1,

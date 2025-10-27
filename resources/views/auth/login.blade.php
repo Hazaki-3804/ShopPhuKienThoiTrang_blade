@@ -30,7 +30,7 @@
                     <div class="alert alert-warning alert-dismissible fade show fs-6" role="alert" id="lockAlert">
                         <i class="bi bi-clock-fill"></i> 
                         <span id="lockMessage">{{ $errors->first('email') }}</span>
-                        <div class="mt-2">
+                        <div class="mt-2 d-none">
                             <div class="countdown-timer">
                                 <span class="countdown-text">Thời gian còn lại: </span>
                                 <span class="countdown-display" id="countdownDisplay">--:--</span>
