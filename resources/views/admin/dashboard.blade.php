@@ -413,6 +413,22 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Hiển thị welcome toast nếu có
+    @if(session('welcome_message'))
+        setTimeout(function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Chào mừng!',
+                text: '{!! addslashes(session('welcome_message')) !!}',
+                timer: 5000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }, 500);
+    @endif
+
     // Render charts with real data
     renderSalesChart();
     renderProductsChart();
