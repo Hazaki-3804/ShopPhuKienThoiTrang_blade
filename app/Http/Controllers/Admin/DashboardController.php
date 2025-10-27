@@ -32,6 +32,13 @@ class DashboardController extends Controller
             $productsData = $this->getTopProductsData();
             Log::info('Dashboard: Products data collected', $productsData);
 
+            // Kiểm tra xem user đã vào trang admin chưa (trong session hiện tại)
+            if (!session()->has('admin_dashboard_visited')) {
+                session()->put('admin_dashboard_visited', true);
+                $userName = auth()->user()->name ?? 'Admin';
+                session()->flash('welcome_message', "Chào mừng {$userName} đến với trang quản trị! 🎉");
+            }
+
             return view('admin.dashboard', compact(
                 'stats', 
                 'recentOrders', 
