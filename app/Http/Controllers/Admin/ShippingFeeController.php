@@ -88,7 +88,6 @@ class ShippingFeeController extends Controller
                                 data-per_km_fee="' . $fee->per_km_fee . '"
                                 data-max_fee="' . ($fee->max_fee ?? '') . '"
                                 data-is_free_shipping="' . ($fee->is_free_shipping ? '1' : '0') . '"
-                                data-priority="' . $fee->priority . '"
                                 data-status="' . ($fee->status ? '1' : '0') . '"
                                 data-description="' . htmlspecialchars($fee->description ?? '') . '">
                                 <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
@@ -135,10 +134,11 @@ class ShippingFeeController extends Controller
                 'per_km_fee' => 'required|numeric|min:0',
                 'max_fee' => 'nullable|numeric|min:0',
                 'is_free_shipping' => 'boolean',
-                'priority' => 'required|integer|min:0',
                 'status' => 'required|boolean',
                 'description' => 'nullable|string|max:1000',
             ]);
+
+            $validated['priority'] = 0;
 
             ShippingFee::create($validated);
 
@@ -181,10 +181,11 @@ class ShippingFeeController extends Controller
                 'per_km_fee' => 'required|numeric|min:0',
                 'max_fee' => 'nullable|numeric|min:0',
                 'is_free_shipping' => 'boolean',
-                'priority' => 'required|integer|min:0',
                 'status' => 'required|boolean',
                 'description' => 'nullable|string|max:1000',
             ]);
+
+            $validated['priority'] = 0;
 
             $shippingFee->update($validated);
 

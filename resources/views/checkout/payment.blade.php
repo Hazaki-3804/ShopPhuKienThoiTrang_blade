@@ -1383,8 +1383,15 @@ function updateShippingFeeWithOSRMDistance(distanceKm, customerAddress = null) {
             });
             
             // Cập nhật biến shippingFee và tổng tiền
-            shippingFee = data.shipping_fee;
-            window.currentShippingFee = data.shipping_fee;
+            // Đảm bảo convert sang số để tránh lỗi cộng chuỗi
+            shippingFee = parseFloat(data.shipping_fee) || 0;
+            window.currentShippingFee = shippingFee;
+            
+            console.log('💰 Cập nhật shippingFee:', {
+                raw: data.shipping_fee,
+                parsed: shippingFee,
+                type: typeof shippingFee
+            });
             
             // Gọi updateTotal để cập nhật tổng tiền
             if (typeof updateTotal === 'function') {
@@ -1731,12 +1738,14 @@ function submitCheckoutForm() {
     return true;
 }
 
+// Khai báo biến global để AJAX có thể cập nhật
+let shippingFee = {{ $shippingFee ?? 0 }};
+let currentDiscount = 0;
+let insuranceEnabled = false;
+
 document.addEventListener('DOMContentLoaded', function() {
     const subtotal = {{ $subtotal ?? 0 }};
-    let shippingFee = {{ $shippingFee ?? 0 }}; // Có thể thay đổi khi có OSRM
     const insuranceFee = 1300;
-    let currentDiscount = 0;
-    let insuranceEnabled = false;
     
     // Handle form submission to show loading state
     const checkoutForm = document.getElementById('checkout-form');
@@ -1767,11 +1776,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     window.updateTotal = function() {
-        const insuranceAmount = insuranceEnabled ? insuranceFee : 0;
-        const total = subtotal + shippingFee - currentDiscount + insuranceAmount;
+        // Đảm bảo tất cả các biến đều là số
+        const subtotalNum = parseFloat(subtotal) || 0;
+        const shippingFeeNum = parseFloat(shippingFee) || 0;
+        const currentDiscountNum = parseFloat(currentDiscount) || 0;
+        const insuranceAmount = insuranceEnabled ? parseFloat(insuranceFee) : 0;
+        
+        const total = subtotalNum + shippingFeeNum - currentDiscountNum + insuranceAmount;
+        
+        console.log('🧮 Tính tổng tiền:', {
+            subtotal: subtotalNum,
+            shippingFee: shippingFeeNum,
+            discount: currentDiscountNum,
+            insurance: insuranceAmount,
+            total: total
+        });
+        
         if (finalTotal) finalTotal.textContent = formatCurrency(total);
         if (footerTotal) footerTotal.textContent = formatCurrency(total);
-        if (discountAmount) discountAmount.textContent = '-' + formatCurrency(currentDiscount);
+        if (discountAmount) discountAmount.textContent = '-' + formatCurrency(currentDiscountNum);
         
         // Update insurance row visibility
         const insuranceRow = document.getElementById('insurance-row');
