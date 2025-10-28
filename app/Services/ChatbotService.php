@@ -22,6 +22,80 @@ class ChatbotService
         $this->productImageService = $productImageService;
     }
     /**
+     * Xử lý câu hỏi về danh mục sản phẩm
+     */
+    public function handleCategoryQuestions($message)
+    {
+        $categories = \App\Models\Category::all();
+        
+        if ($categories->isEmpty()) {
+            return "Hiện tại shop chưa có danh mục sản phẩm nào. Vui lòng quay lại sau!";
+        }
+
+        $response = "Các danh mục sản phẩm tại shop Nàng Thơ:\n\n";
+        foreach ($categories as $category) {
+            $productCount = \App\Models\Product::where('category_id', $category->id)
+                ->where('status', 1)
+                ->count();
+            $response .= "• {$category->name} ({$productCount} sản phẩm)\n";
+        }
+        
+        $response .= "\nBạn muốn xem sản phẩm nào? Hãy cho mình biết nhé!";
+        
+        return $response;
+    }
+
+    /**
+     * Xử lý câu hỏi về theo dõi đơn hàng
+     */
+    public function handleOrderTrackingQuestions($message)
+    {
+        $message = strtolower($message);
+        
+        // Tìm mã đơn hàng trong tin nhắn
+        if (preg_match('/#([A-Z0-9]+)/', $message, $matches)) {
+            $orderCode = $matches[1];
+            $order = Order::where('id', $orderCode)->first();
+            
+            if ($order) {
+                $response = "Thông tin đơn hàng #{$order->id}:\n\n";
+                $response .= "Khách hàng: {$order->customer_name}\n";
+                $response .= "SĐT: {$order->customer_phone}\n";
+                $response .= "Địa chỉ: {$order->shipping_address}\n";
+                $response .= "Tổng tiền: " . number_format($order->total_price, 0, ',', '.') . "đ\n";
+                $response .= "Trạng thái: {$order->status_text}\n";
+                $response .= "Ngày đặt: " . $order->created_at->format('d/m/Y H:i');
+                
+                return $response;
+            }
+            
+            return "Không tìm thấy đơn hàng với mã #{$orderCode}. Vui lòng kiểm tra lại!";
+        }
+        
+        // Nếu user đã đăng nhập, hiển thị đơn hàng gần nhất
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $recentOrder = Order::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                ->latest()
+                ->first();
+            
+            if ($recentOrder) {
+                return "Đơn hàng gần nhất của bạn:\n\n" .
+                       "Mã đơn: #{$recentOrder->id}\n" .
+                       "Trạng thái: {$recentOrder->status_text}\n" .
+                       "Tổng tiền: " . number_format($recentOrder->total_price, 0, ',', '.') . "đ\n" .
+                       "Ngày đặt: " . $recentOrder->created_at->format('d/m/Y H:i');
+            }
+            
+            return "Bạn chưa có đơn hàng nào. Hãy mua sắm ngay!";
+        }
+        
+        return "Để kiểm tra đơn hàng, bạn có thể:\n" .
+               "• Đăng nhập tài khoản\n" .
+               "• Cung cấp mã đơn hàng (VD: #A1234)\n" .
+               "• Gọi hotline: 0123.456.789";
+    }
+
+    /**
      * Xử lý câu hỏi về sản phẩm
      */
     public function handleProductQuestions($message)

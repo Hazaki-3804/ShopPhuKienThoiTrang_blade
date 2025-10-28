@@ -8,492 +8,314 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\Product;
-use App\Models\Category;
 use App\Services\ChatbotService;
-use App\Services\ChatNLPService;
-use App\Services\RetrievalService;
-use App\Services\PromptBuilder;
 
 class ChatbotController extends Controller
 {
     protected $chatbotService;
-    protected $nlp;
-    protected $retrieval;
-    protected $promptBuilder;
-    public function __construct(
-        ChatbotService $chatbotService,
-        ChatNLPService $nlp,
-        RetrievalService $retrieval,
-        PromptBuilder $promptBuilder
-    ) {
+
+    public function __construct(ChatbotService $chatbotService)
+    {
         $this->chatbotService = $chatbotService;
-        $this->nlp = $nlp;
-        $this->retrieval = $retrieval;
-        $this->promptBuilder = $promptBuilder;
     }
+
+    /**
+     * Xử lý tin nhắn từ người dùng
+     * Luồng: Detect Intent -> Generate Scenario Response -> Enhance with Gemini -> Return
+     */
     public function chat(Request $request)
     {
-        // Validate request
         $request->validate([
             'message' => 'required|string|max:500',
         ]);
 
-        $originalMessage = $request->input('message');
-        $userMessage = function_exists('mb_strtolower')
-            ? mb_strtolower(trim($originalMessage), 'UTF-8')
-            : strtolower(trim($originalMessage));
-        Log::info('Encoding check:', [
-                'encoding' => mb_detect_encoding($userMessage),
-                'message' => $userMessage,
-            ]);
+        $userMessage = trim($request->input('message'));
+        $userMessageLower = mb_strtolower($userMessage, 'UTF-8');
+
         try {
-            // Lấy API key từ config
+            // Bước 1: Phát hiện Intent từ tin nhắn người dùng
+            $intent = $this->detectIntent($userMessageLower);
+            
+            Log::info('Chatbot Intent Detected', [
+                'message' => $userMessage,
+                'intent' => $intent
+            ]);
+
+            // Bước 2: Tạo câu trả lời tình huống dựa trên intent
+            $scenarioResponse = $this->generateScenarioResponse($intent, $userMessage, $userMessageLower);
+
+            if (!$scenarioResponse) {
+                return response()->json([
+                    'message' => 'Xin lỗi, mình chưa hiểu câu hỏi của bạn. Bạn có thể hỏi về sản phẩm, giá cả, giao hàng, thanh toán, hoặc các dịch vụ khác nhé! 😊',
+                    'links' => []
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            }
+
+            // Bước 3: Đưa qua Gemini API để diễn đạt tự nhiên hơn
+            $enhancedResponse = $this->enhanceWithGemini($scenarioResponse, $userMessage, $intent);
+
+            // Lưu lịch sử chat
+            $this->saveChatHistory($userMessage, $enhancedResponse);
+
+            return response()->json([
+                'message' => $enhancedResponse,
+                'links' => []
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+
+        } catch (\Exception $e) {
+            Log::error('Chatbot Error', [
+                'message' => $userMessage,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'error' => 'Có lỗi xảy ra khi xử lý yêu cầu của bạn. Vui lòng thử lại!',
+                'links' => []
+            ], 500, [], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /**
+     * Phát hiện Intent từ tin nhắn người dùng
+     */
+    private function detectIntent($messageLower)
+    {
+        // Intent: Sản phẩm
+        $productKeywords = ['sản phẩm', 'mắt kính', 'kính', 'dây chuyền', 'kẹp tóc', 'túi xách', 'nhẫn', 'bông tai', 'vòng tay', 'móng tay giả', 'xem', 'có', 'bán'];
+        foreach ($productKeywords as $keyword) {
+            if (str_contains($messageLower, $keyword)) {
+                return 'product';
+            }
+        }
+
+        // Intent: Danh mục
+        if (str_contains($messageLower, 'danh mục') || str_contains($messageLower, 'loại')) {
+            return 'category';
+        }
+
+        // Intent: Giá cả & Tồn kho
+        if (str_contains($messageLower, 'giá') || str_contains($messageLower, 'bao nhiêu') || str_contains($messageLower, 'còn hàng') || str_contains($messageLower, 'tồn kho')) {
+            return 'price_stock';
+        }
+
+        // Intent: Phí ship
+        if (str_contains($messageLower, 'ship') || str_contains($messageLower, 'giao hàng') || str_contains($messageLower, 'phí vận chuyển') || str_contains($messageLower, 'phí giao')) {
+            return 'shipping';
+        }
+
+        // Intent: Thanh toán
+        if (str_contains($messageLower, 'thanh toán') || str_contains($messageLower, 'payment') || str_contains($messageLower, 'momo') || str_contains($messageLower, 'cod')) {
+            return 'payment';
+        }
+
+        // Intent: Đổi trả & Bảo hành
+        if (str_contains($messageLower, 'đổi') || str_contains($messageLower, 'trả') || str_contains($messageLower, 'bảo hành') || str_contains($messageLower, 'warranty')) {
+            return 'return_warranty';
+        }
+
+        // Intent: Khuyến mãi
+        if (str_contains($messageLower, 'khuyến mãi') || str_contains($messageLower, 'giảm giá') || str_contains($messageLower, 'sale') || str_contains($messageLower, 'voucher')) {
+            return 'promotion';
+        }
+
+        // Intent: Tư vấn
+        if (str_contains($messageLower, 'tư vấn') || str_contains($messageLower, 'gợi ý') || str_contains($messageLower, 'phù hợp') || str_contains($messageLower, 'tặng')) {
+            return 'consultation';
+        }
+
+        // Intent: Tài khoản & Hỗ trợ
+        if (str_contains($messageLower, 'đăng ký') || str_contains($messageLower, 'đăng nhập') || str_contains($messageLower, 'tài khoản') || str_contains($messageLower, 'quên mật khẩu') || str_contains($messageLower, 'hỗ trợ') || str_contains($messageLower, 'liên hệ')) {
+            return 'account_support';
+        }
+
+        // Intent: Đơn hàng
+        if (str_contains($messageLower, 'đơn hàng') || str_contains($messageLower, 'order') || preg_match('/#[A-Z0-9]+/', $messageLower)) {
+            return 'order_tracking';
+        }
+
+        // Intent: Chào hỏi
+        if (str_contains($messageLower, 'xin chào') || str_contains($messageLower, 'chào') || str_contains($messageLower, 'hello') || str_contains($messageLower, 'hi')) {
+            return 'greeting';
+        }
+
+        // Default: General
+        return 'general';
+    }
+
+    /**
+     * Tạo câu trả lời tình huống dựa trên intent
+     */
+    private function generateScenarioResponse($intent, $originalMessage, $messageLower)
+    {
+        switch ($intent) {
+            case 'product':
+                return $this->chatbotService->handleProductQuestions($originalMessage);
+
+            case 'category':
+                return $this->chatbotService->handleCategoryQuestions($originalMessage);
+
+            case 'price_stock':
+                return $this->chatbotService->handlePriceStockQuestions($originalMessage);
+
+            case 'shipping':
+                return $this->chatbotService->handleShippingQuestions($originalMessage);
+
+            case 'payment':
+                return $this->chatbotService->handlePaymentQuestions($originalMessage);
+
+            case 'return_warranty':
+                return $this->chatbotService->handleReturnWarrantyQuestions($originalMessage);
+
+            case 'promotion':
+                return $this->chatbotService->handlePromotionQuestions($originalMessage);
+
+            case 'consultation':
+                return $this->chatbotService->handleConsultationQuestions($originalMessage);
+
+            case 'account_support':
+                return $this->chatbotService->handleAccountSupportQuestions($originalMessage);
+
+            case 'order_tracking':
+                return $this->chatbotService->handleOrderTrackingQuestions($originalMessage);
+
+            case 'greeting':
+                return "Xin chào! Mình là trợ lý ảo của shop Nàng Thơ. Mình có thể giúp bạn về:\n- Thông tin sản phẩm\n- Giá cả và tồn kho\n- Phí giao hàng\n- Thanh toán\n- Khuyến mãi\n- Tư vấn sản phẩm\nBạn cần hỗ trợ gì ạ?";
+
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Đưa câu trả lời qua Gemini API để diễn đạt tự nhiên và hay hơn
+     */
+    private function enhanceWithGemini($scenarioResponse, $userMessage, $intent)
+    {
+        // Nếu không có scenario response, trả về null
+        if (!$scenarioResponse) {
+            return null;
+        }
+
+        try {
             $apiKey = Config::get('services.gemini.api_key');
             if (!$apiKey) {
-                Log::error('Gemini API key không được cấu hình');
-                return response()->json(
-                    ['error' => 'Khóa API không được cấu hình'],
-                    500,
-                    [],
-                    JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-                );
+                Log::warning('Gemini API key not configured, returning scenario response as-is');
+                return $scenarioResponse;
             }
 
-            // Từ khóa liên quan được mở rộng
-            $relevantKeywords = [
-                'xin chào', 'hello', 'hi',
-                'phụ kiện', 'thời trang', 'sản phẩm', 'danh mục',
-                'giá', 'bao nhiêu', 'tiền', 'cost', 'price',
-                'mua', 'đặt hàng', 'order', 'buy',
-                'đăng ký', 'đăng nhập', 'tài khoản', 'account',
-                'giỏ hàng', 'cart', 'khuyến mãi', 'giảm giá', 'sale',
-                'chính sách', 'policy', 'giao hàng', 'ship', 'delivery',
-                'trả hàng', 'đổi', 'return', 'exchange',
-                'liên hệ', 'contact', 'hỗ trợ', 'support',
-                'mắt kính', 'kính', 'dây chuyền', 'kẹp tóc',
-                'túi xách', 'nhẫn', 'bông tai', 'vòng tay',
-                'thanh toán', 'payment', 'momo', 'cod',
-                'bảo hành', 'warranty', 'tư vấn', 'consult',
-                'phí giao hàng', 'shipping', 'phí vận chuyển', 'shipping fee', 'shipping cost',
-            ];
-            // Kiểm tra câu hỏi có liên quan không
-            $isRelevant = false;
-            foreach ($relevantKeywords as $keyword) {
-                if (str_contains($userMessage, $keyword)) {
-                    $isRelevant = true;
-                    break;
-                }
-            }
-            $categories = Category::pluck('name')->toArray();
-            $products = Product::take(5)->get(['name', 'price'])->toArray();
-            $categoryList = count($categories) > 0 ? $categories : [];
-            $productList = count($products) > 0 ? collect($products)->map(function ($product) {
-                return "{$product['name']} - Giá: " . number_format($product['price'], 0, ',', '.') . " VNĐ";
-            })->implode("\n") : 'Chưa có sản phẩm nào.';
-            // Convert category list array to a comma-separated string for system prompt
-            $categoryNamesStr = is_array($categoryList) ? implode(', ', $categoryList) : (string)$categoryList;
-            // Sử dụng fallback cho Gemini API nếu không có response từ service
-            if (!$isRelevant) {
-                return response()->json(
-                    [
-                        'message' => 'Xin lỗi, mình chỉ trả lời các câu hỏi liên quan đến phụ kiện thời trang, sản phẩm, hoặc dịch vụ của shop. Bạn muốn hỏi về sản phẩm hay dịch vụ gì? 😊',
-                        'links' => []
-                    ],
-                    200,
-                    [],
-                    JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-                );
-            }
+            // Tạo system instruction để Gemini biết nhiệm vụ
+            $systemInstruction = <<<SYS
+Bạn là trợ lý AI thân thiện của shop phụ kiện thời trang Nàng Thơ.
 
-            // RAG: NLP parse intent/entities
-            $parsed = $this->nlp->parse($originalMessage);
-            $intent = $parsed['intent'] ?? 'general';
-            $entities = $parsed['entities'] ?? [];
+NHIỆM VỤ:
+- Nhận câu trả lời có sẵn (SCENARIO_RESPONSE) và diễn đạt lại cho tự nhiên, hay và thân thiện hơn
+- GIỮ NGUYÊN tất cả thông tin quan trọng: tên sản phẩm, giá, số lượng, địa chỉ, số điện thoại, link, v.v.
+- KHÔNG thêm thông tin không có trong SCENARIO_RESPONSE
+- KHÔNG bịa đặt hoặc thay đổi dữ liệu
+- Giữ nguyên format HTML nếu có (như <b>, <ul>, <li>, <img>)
+- Trả lời ngắn gọn, súc tích, dễ hiểu
+- Sử dụng emoji phù hợp để tạo cảm giác thân thiện
 
-            // RAG: Retrieve data from DB based on intent/entities
-            $context = ['intent' => $intent, 'entities' => $entities];
-            // Follow-up handling: if user refers to previous topic and no explicit query, reuse last query or recent products
-            if (empty($entities['product_query']) && !empty($entities['follow_up'])) {
-                $lastQuery = session('last_product_query');
-                if ($lastQuery) {
-                    $entities['product_query'] = $lastQuery;
-                    $context['entities'] = $entities;
-                } else {
-                    $recentIds = session('recent_products', []);
-                    if (!empty($recentIds)) {
-                        $context['products'] = $this->retrieval->getProductsByIds($recentIds);
-                    }
-                }
-            }
-            if (!empty($entities['product_query'])) {
-                if (!empty($entities['category_hint'])) {
-                    $context['products'] = $this->retrieval->findProductsByQueryAndCategory($entities['product_query'], $entities['category_hint'], 5);
-                } else {
-                    $context['products'] = $this->retrieval->findProducts($entities['product_query'], 5);
-                }
-                // Remember last product query for follow-up turns
-                session(['last_product_query' => $entities['product_query']]);
-            }
-            // If we have a category hint, try category-based retrieval (when no explicit products yet)
-            if ((empty($context['products']) || (is_countable($context['products']) && count($context['products']) === 0)) && !empty($entities['category_hint'])) {
-                $context['products'] = $this->retrieval->findProductsByCategoryHint($entities['category_hint'], 5);
-            }
-            // If still no products, add suggested products as fallback to help LLM suggest alternatives
-            if (empty($context['products']) || (is_countable($context['products']) && count($context['products']) === 0)) {
-                $context['suggested_products'] = $this->retrieval->getTopProducts(5);
-            }
-            if ($intent === 'order_tracking') {
-                $context['order'] = $this->retrieval->getOrder($entities['order_code'] ?? null);
-            }
-            if ($intent === 'shipping') {
-                $context['shipping_fees'] = $this->retrieval->getShippingFees();
-            }
-            if ($intent === 'categories') {
-                $context['categories'] = $this->retrieval->getCategories();
-                // thêm link để dẫn người dùng xem danh mục
-                $context['links'] = $this->retrieval->getShopLinks();
-            }
-            if (in_array($intent, ['auth', 'order_support'])) {
-                $context['auth'] = $this->retrieval->getAuthInfo();
-                $context['links'] = $this->retrieval->getShopLinks();
-            }
+NGUYÊN TẮC:
+- Nếu SCENARIO_RESPONSE có danh sách sản phẩm -> GIỮ NGUYÊN tất cả
+- Nếu có giá tiền -> GIỮ NGUYÊN số tiền chính xác
+- Nếu có thông tin liên hệ -> GIỮ NGUYÊN
+- Chỉ cải thiện cách diễn đạt, không thay đổi nội dung
+SYS;
 
-            // If product intent, ground response deterministically to avoid hallucinations
-            if (in_array($intent, ['product_info', 'price_stock'])) {
-                $products = $context['products'] ?? collect();
-                if ($products && (is_countable($products) ? count($products) : $products->count()) > 0) {
-                    // Build concise list with name/price/stock
-                    $lines = [];
-                    $count = 0;
-                    foreach ($products as $p) {
-                        $count++;
-                        $lines[] = "**{$p->name}**\nGiá: " . number_format($p->price, 0, ',', '.') . "đ\nCòn: " . (int)($p->stock ?? 0) . " sản phẩm";
-                        if ($count >= 5) break;
-                    }
-                    $msg = "Tìm thấy " . (is_countable($products) ? count($products) : $products->count()) . " sản phẩm phù hợp:\n\n" . implode("\n\n", $lines) . "\n\nBạn muốn xem chi tiết mẫu nào?";
-                    return response()->json(
-                        ['message' => $msg, 'links' => []],
-                        200,
-                        [],
-                        JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-                    );
-                } else {
-                    return response()->json(
-                        ['message' => 'Mình chưa tìm thấy sản phẩm phù hợp. Bạn có thể mô tả rõ hơn (ví dụ: chất liệu, màu, mức giá, thương hiệu)?', 'links' => []],
-                        200,
-                        [],
-                        JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-                    );
-                }
-            }
+            // Tạo prompt
+            $prompt = <<<PROMPT
+[USER_QUESTION]
+{$userMessage}
 
-            // Build prompt from context + history
-            $history = session('chat_messages', []);
-            $built = $this->promptBuilder->build($context, $history, $originalMessage);
-            $prompt = $built['content'];
-            $systemInstruction = $built['system'];
-            // Ensure proper UTF-8 encoding for the request
-            $ensureUtf8 = function ($text) {
-                if (!is_string($text)) {
-                    $text = (string)$text;
-                }
-                
-                // Remove any BOM and invalid UTF-8 characters
-                $text = preg_replace('/[\x00-\x1F\x7F\x80-\x9F\x{FEFF}]/u', '', $text);
-                
-                // Convert to UTF-8 if not already
-                if (!mb_check_encoding($text, 'UTF-8')) {
-                    $text = mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text, mb_detect_order(), true));
-                }
-                
-                // Normalize line endings and trim
-                return trim(preg_replace('/\R+/', ' ', $text));
-            };
+[INTENT]
+{$intent}
 
-            // Prepare the request payload
+[SCENARIO_RESPONSE]
+{$scenarioResponse}
+
+Hãy diễn đạt lại SCENARIO_RESPONSE cho tự nhiên và hay hơn, nhưng GIỮ NGUYÊN tất cả thông tin quan trọng.
+PROMPT;
+
+            // Chuẩn bị payload
             $payload = [
                 'contents' => [
                     [
                         'parts' => [
-                            ['text' => $ensureUtf8($prompt)]
+                            ['text' => $prompt]
                         ]
                     ]
                 ],
                 'systemInstruction' => [
                     'parts' => [
-                        ['text' => $ensureUtf8($systemInstruction)]
+                        ['text' => $systemInstruction]
                     ]
                 ],
                 'generationConfig' => [
-                    'maxOutputTokens' => 500,
-                    'temperature' => 0.8,
+                    'maxOutputTokens' => 800,
+                    'temperature' => 0.7,
                     'topP' => 0.9,
                     'topK' => 40,
-                    'candidateCount' => 1,
                 ],
             ];
 
-            // Encode to JSON with error handling
-            $jsonBody = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
-            
-            if ($jsonBody === false) {
-                throw new \RuntimeException('Failed to encode request data to JSON: ' . json_last_error_msg());
-            }
-
-            // Make the API request
+            // Gọi Gemini API
             $response = Http::withOptions([
-                'verify' => false, // Only if you're having SSL issues
+                'verify' => false,
                 'timeout' => 30,
             ])->withHeaders([
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-            ])->withBody($jsonBody, 'application/json')
-            ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}");
+            ])->post(
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key={$apiKey}",
+                $payload
+            );
 
-            // Kiểm tra lỗi API
             if ($response->failed()) {
-                Log::error('Yêu cầu Gemini API thất bại', [
-                    'status' => $response->status(),
-                    'response' => isset($ensureUtf8) ? $ensureUtf8($response->body()) : $response->body(),
-                    'user_message' => isset($ensureUtf8) ? $ensureUtf8($userMessage) : $userMessage,
+                Log::warning('Gemini API failed, returning scenario response', [
+                    'status' => $response->status()
                 ]);
-                return response()->json(
-                    ['error' => 'Xin lỗi, có lỗi xảy ra khi xử lý yêu cầu của bạn. Vui lòng thử lại sau.', 'links' => []],
-                    500,
-                    [],
-                    JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-                );
+                return $scenarioResponse;
             }
 
-            // Lấy phản hồi (chọn ngẫu nhiên 1 candidate hợp lệ)
             $responseData = $response->json();
-            if ($responseData === null) {
-                $raw = $response->body();
-                $responseData = json_decode($raw, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
-            }
-            $botMessage = null;
             $candidates = $responseData['candidates'] ?? [];
-            if (is_array($candidates) && !empty($candidates)) {
-                $valid = array_values(array_filter($candidates, function ($c) {
-                    return isset($c['content']['parts'][0]['text']) && is_string($c['content']['parts'][0]['text']);
-                }));
-                if (!empty($valid)) {
-                    $pick = $valid[array_rand($valid)];
-                    $botMessage = $pick['content']['parts'][0]['text'];
-                }
-            }
-            if (!$botMessage) {
-                // Fallback qua ChatbotService khi không có phản hồi hợp lệ
-                $fallback = $this->handleSpecialQuestions($userMessage, $originalMessage);
-                if ($fallback) return $fallback;
-                $botMessage = 'Mình chưa chắc về câu trả lời. Bạn có thể nói rõ hơn để mình giúp tốt hơn không?';
-            }
-            if (isset($ensureUtf8)) {
-                $botMessage = $ensureUtf8($botMessage);
+
+            if (!empty($candidates) && isset($candidates[0]['content']['parts'][0]['text'])) {
+                $enhancedText = $candidates[0]['content']['parts'][0]['text'];
+                return trim($enhancedText);
             }
 
-            // Lưu lịch sử
-            $messages = session('chat_messages', []);
-            $messages[] = ['role' => 'user', 'content' => isset($ensureUtf8) ? $ensureUtf8($userMessage) : $userMessage];
-            $messages[] = ['role' => 'bot', 'content' => $botMessage];
-            session([
-                'chat_messages' => $messages,
-                // Đánh dấu đã chào để tránh chào lại
-                'chatbot_greeted' => true,
-                'greet_last_at' => now()->toDateTimeString(),
-            ]);
+            // Fallback nếu không có response hợp lệ
+            return $scenarioResponse;
 
-            return response()->json(
-                ['message' => $botMessage, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
         } catch (\Exception $e) {
-            Log::error('Lỗi khi giao tiếp với Gemini API', [
-                'exception' => isset($ensureUtf8) ? $ensureUtf8($e->getMessage()) : $e->getMessage(),
-                'user_message' => isset($ensureUtf8) ? $ensureUtf8($userMessage) : $userMessage,
+            Log::error('Gemini Enhancement Error', [
+                'error' => $e->getMessage()
             ]);
-            return response()->json(
-                ['error' => 'Có lỗi xảy ra khi xử lý yêu cầu của bạn', 'links' => []],
-                500,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
+            // Trả về scenario response gốc nếu có lỗi
+            return $scenarioResponse;
         }
     }
 
     /**
-     * Xử lý các câu hỏi chuyên biệt bằng ChatbotService
+     * Lưu lịch sử chat vào session
      */
-    private function handleSpecialQuestions($userMessage, $originalMessage)
+    private function saveChatHistory($userMessage, $botResponse)
     {
-        // 1. Câu hỏi về sản phẩm
-        $productResponse = $this->chatbotService->handleProductQuestions($originalMessage);
-        if ($productResponse) {
-            // Lưu context sản phẩm vào session
-            $this->saveProductContext($originalMessage);
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($productResponse) : $productResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
+        $messages = session('chat_messages', []);
+        $messages[] = ['role' => 'user', 'content' => $userMessage];
+        $messages[] = ['role' => 'bot', 'content' => $botResponse];
+        
+        // Giới hạn lịch sử 20 tin nhắn gần nhất
+        if (count($messages) > 20) {
+            $messages = array_slice($messages, -20);
         }
-
-        // 2. Câu hỏi về giá & tồn kho
-        $priceResponse = $this->chatbotService->handlePriceStockQuestions($originalMessage);
-        if ($priceResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($priceResponse) : $priceResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // 3. Câu hỏi về giao hàng
-        $shippingResponse = $this->chatbotService->handleShippingQuestions($originalMessage);
-        if ($shippingResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($shippingResponse) : $shippingResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // 4. Câu hỏi về thanh toán
-        $paymentResponse = $this->chatbotService->handlePaymentQuestions($originalMessage);
-        if ($paymentResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($paymentResponse) : $paymentResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // 5. Câu hỏi về đổi trả & bảo hành
-        $returnResponse = $this->chatbotService->handleReturnWarrantyQuestions($originalMessage);
-        if ($returnResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($returnResponse) : $returnResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // 6. Câu hỏi về khuyến mãi
-        $promotionResponse = $this->chatbotService->handlePromotionQuestions($originalMessage);
-        if ($promotionResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($promotionResponse) : $promotionResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // 7. Câu hỏi tương tác & tư vấn
-        $consultationResponse = $this->chatbotService->handleConsultationQuestions($originalMessage);
-        if ($consultationResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($consultationResponse) : $consultationResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // 8. Câu hỏi về tài khoản & hỗ trợ
-        $accountResponse = $this->chatbotService->handleAccountSupportQuestions($originalMessage);
-        if ($accountResponse) {
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($accountResponse) : $accountResponse, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // Xử lý đăng ký/đăng nhập (giữ nguyên logic cũ)
-        if (str_contains($userMessage, 'đăng ký')) {
-            $responseMessage = "Để đăng ký tài khoản, vui lòng nhấn vào liên kết và điền thông tin. Nếu cần hỗ trợ, bạn cứ hỏi mình nhé!";
-            return response()->json(
-                [
-                    'message' => isset($ensureUtf8) ? $ensureUtf8($responseMessage) : $responseMessage,
-                    'links' => ['register' => route('register')]
-                ],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        // Xử lý danh mục sản phẩm (giữ nguyên logic cũ)
-        if (str_contains($userMessage, 'danh mục') || str_contains($userMessage, 'sản phẩm')) {
-            $categories = Category::pluck('name')->toArray();
-            $responseMessage = "Các danh mục sản phẩm mà shop đang bán:<ul>";
-            if (count($categories) > 0) {
-                foreach ($categories as $category) {
-                    $responseMessage .= "<li>{$category}</li>";
-                }
-            } else {
-                $responseMessage .= "<li>Chưa có danh mục nào.</li>";
-            }
-            $responseMessage .= "</ul>Bạn muốn xem chi tiết sản phẩm nào không?";
-            return response()->json(
-                ['message' => isset($ensureUtf8) ? $ensureUtf8($responseMessage) : $responseMessage, 'links' => []],
-                200,
-                [],
-                JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE
-            );
-        }
-
-        return null;
+        
+        session(['chat_messages' => $messages]);
     }
 
     /**
-     * Lưu context sản phẩm vào session
-     */
-    private function saveProductContext($message)
-    {
-        $productKeywords = [
-            'mắt kính' => ['mắt kính', 'kính'],
-            'dây chuyền' => ['dây chuyền', 'vòng cổ'],
-            'kẹp tóc' => ['kẹp tóc', 'kẹp'],
-            'túi xách' => ['túi xách', 'túi'],
-            'nhẫn' => ['nhẫn'],
-            'bông tai' => ['bông tai', 'khuyên tai'],
-            'vòng tay' => ['vòng tay'],
-            'móng tay giả' => ['móng tay giả', 'nail']
-        ];
-
-        $message = strtolower($message);
-        foreach ($productKeywords as $type => $keywords) {
-            foreach ($keywords as $keyword) {
-                if (str_contains($message, $keyword)) {
-                    // Tìm sản phẩm và lưu ID vào session
-                    $products = Product::where('name', 'LIKE', "%{$type}%")
-                        ->where('status', 1)
-                        ->pluck('id')
-                        ->toArray();
-                    
-                    if (!empty($products)) {
-                        session(['recent_products' => $products]);
-                    }
-                    return;
-                }
-            }
-        }
-    }
-
-    /**
-     * Greet user once per session with personalized message and suggestions
+     * Chào người dùng khi mở chatbot
      */
     public function greet(Request $request)
     {
@@ -505,6 +327,7 @@ class ChatbotController extends Controller
                 'skip' => true
             ]);
         }
+
         // Nếu đã chào trong session thì bỏ qua
         if (session()->has('chatbot_greeted') && session('chatbot_greeted') === true) {
             return response()->json([
@@ -513,12 +336,13 @@ class ChatbotController extends Controller
                 'skip' => true
             ]);
         }
-        // Cooldown theo thời gian: nếu đã chào trong 6 giờ gần đây, bỏ qua
+
+        // Cooldown 6 giờ
         $last = session('greet_last_at');
         if ($last) {
             try {
                 $diffMinutes = now()->diffInMinutes(\Carbon\Carbon::parse($last));
-                if ($diffMinutes < 360) { // 6 giờ
+                if ($diffMinutes < 360) {
                     return response()->json([
                         'message' => '',
                         'links' => [],
@@ -526,7 +350,7 @@ class ChatbotController extends Controller
                     ]);
                 }
             } catch (\Throwable $e) {
-                // ignore parse errors
+                // ignore
             }
         }
 
@@ -534,20 +358,20 @@ class ChatbotController extends Controller
 
         $name = Auth::check() ? (optional(Auth::user())->name ?? 'bạn') : 'bạn';
 
-        // Lời chào và gợi ý ngẫu nhiên
         $greetings = [
             "Chào {$name} 👋 Mình là Mia – trợ lý của Nàng Thơ. Mình có thể giúp gì cho bạn hôm nay?",
             "Xin chào {$name} 🌟 Mình có thể hỗ trợ bạn tìm phụ kiện phù hợp không?",
             "Hello {$name} 😊 Bạn đang tìm mẫu nào? Mình hỗ trợ ngay!",
         ];
+
         $allSuggestions = [
             'Xem kính chống tia UV',
             'Túi xách đang giảm giá',
             'Kiểm tra đơn hàng',
-            'Tư vấn quà tặng theo ngân sách',
-            'Xem phụ kiện đang hot',
-            'Gợi ý sản phẩm theo sở thích'
+            'Tư vấn quà tặng',
+            'Xem phụ kiện hot',
         ];
+
         shuffle($greetings);
         shuffle($allSuggestions);
         $selected = array_slice($allSuggestions, 0, 3);
@@ -556,6 +380,6 @@ class ChatbotController extends Controller
         return response()->json([
             'message' => $greet,
             'links' => []
-        ], 200, [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+        ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 }
