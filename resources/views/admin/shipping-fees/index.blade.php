@@ -367,7 +367,6 @@ $(document).ready(function() {
         $('#edit-per_km_fee').val(data.per_km_fee);
         $('#edit-max_fee').val(data.max_fee || '');
         $('#edit-is_free_shipping').prop('checked', data.is_free_shipping == 1);
-        $('#edit-priority').val(data.priority);
         $('#edit-status').val(data.status);
         $('#edit-description').val(data.description || '');
         

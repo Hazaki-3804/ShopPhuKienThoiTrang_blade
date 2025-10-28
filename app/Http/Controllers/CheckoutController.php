@@ -270,38 +270,102 @@ class CheckoutController extends Controller
                 return 0;
             }
 
-            // Tìm quy tắc phù hợp đầu tiên
+            // Tìm quy tắc phù hợp với 2 vòng lặp: vòng 1 tìm khớp chính xác, vòng 2 tìm fallback
+            Log::info('=== BẮT ĐẦU TÌM QUY TẮC PHÍ SHIP ===', [
+                'total_rules' => $shippingRules->count(),
+                'input_distance' => $distance,
+                'input_order_value' => $orderValue,
+                'input_area_type' => $areaType
+            ]);
+            
+            // VÒNG 1: Tìm quy tắc khớp chính xác với khu vực
             foreach ($shippingRules as $rule) {
-                // Kiểm tra khu vực - Cho phép quy tắc 'nearby' áp dụng cho cả 'nationwide'
-                if ($rule->area_type === 'local' && $areaType !== 'local') {
-                    continue; // Quy tắc local chỉ áp dụng cho local
+                Log::info("Vòng 1 - Kiểm tra quy tắc: {$rule->name}", [
+                    'rule_area_type' => $rule->area_type,
+                    'rule_min_distance' => $rule->min_distance,
+                    'rule_max_distance' => $rule->max_distance,
+                    'rule_min_order_value' => $rule->min_order_value
+                ]);
+                
+                // Chỉ kiểm tra quy tắc khớp chính xác với khu vực
+                if ($rule->area_type !== $areaType) {
+                    Log::info("  ⏭ Bỏ qua (không khớp chính xác khu vực)");
+                    continue;
                 }
-                if ($rule->area_type === 'nearby' && $areaType === 'local') {
-                    continue; // Quy tắc nearby không áp dụng cho local
-                }
+                
+                Log::info("  ✓ Khu vực khớp chính xác");
 
                 // Kiểm tra xem quy tắc có áp dụng được không
                 if ($rule->isApplicable($distance, $orderValue)) {
                     $calculatedFee = $rule->calculateFee($distance, $orderValue);
                     
-                    // Log chi tiết quy tắc được áp dụng
-                    Log::info('Shipping Rule Applied', [
+                    Log::info('✅ ÁP DỤNG QUY TẮC (Khớp chính xác)', [
                         'rule_name' => $rule->name,
-                        'area_type' => $rule->area_type,
-                        'distance' => $distance,
-                        'order_value' => $orderValue,
-                        'base_fee' => $rule->base_fee,
-                        'per_km_fee' => $rule->per_km_fee,
-                        'calculated_fee' => $calculatedFee,
-                        'calculation' => $rule->base_fee . ' + (' . $distance . ' × ' . $rule->per_km_fee . ') = ' . $calculatedFee
+                        'calculated_fee' => $calculatedFee
                     ]);
                     
                     return $calculatedFee;
+                } else {
+                    Log::info("  ✗ Quy tắc không áp dụng được (kiểm tra isApplicable)");
+                }
+            }
+            
+            // VÒNG 2: Nếu không tìm thấy, tìm quy tắc fallback (nearby cho nationwide, hoặc bất kỳ quy tắc nào)
+            Log::info('Vòng 1 không tìm thấy, bắt đầu vòng 2 (fallback)');
+            
+            foreach ($shippingRules as $rule) {
+                Log::info("Vòng 2 - Kiểm tra quy tắc: {$rule->name}", [
+                    'rule_area_type' => $rule->area_type
+                ]);
+                
+                // Cho phép quy tắc nearby áp dụng cho nationwide
+                // Cho phép quy tắc nationwide áp dụng cho mọi khu vực
+                // Cho phép quy tắc local áp dụng nếu không có gì khác (last resort)
+                $canApply = false;
+                
+                if ($rule->area_type === 'nationwide') {
+                    $canApply = true;
+                    Log::info("  ✓ Quy tắc nationwide (áp dụng cho mọi khu vực)");
+                } elseif ($rule->area_type === 'nearby') {
+                    // Quy tắc nearby có thể áp dụng cho nearby, nationwide, và local (fallback)
+                    $canApply = true;
+                    Log::info("  ✓ Quy tắc nearby (fallback cho {$areaType})");
+                } elseif ($rule->area_type === 'local' && in_array($areaType, ['nearby', 'nationwide'])) {
+                    // Quy tắc local có thể áp dụng cho nearby và nationwide (last resort)
+                    $canApply = true;
+                    Log::info("  ⚠ Quy tắc local (last resort cho {$areaType})");
+                }
+                
+                if (!$canApply) {
+                    Log::info("  ⏭ Bỏ qua");
+                    continue;
+                }
+
+                // Kiểm tra xem quy tắc có áp dụng được không
+                // Trong vòng fallback, bỏ qua kiểm tra đơn hàng tối thiểu
+                if ($rule->isApplicable($distance, $orderValue, true)) {
+                    $calculatedFee = $rule->calculateFee($distance, $orderValue);
+                    
+                    Log::info('✅ ÁP DỤNG QUY TẮC (Fallback - bỏ qua min order)', [
+                        'rule_name' => $rule->name,
+                        'calculated_fee' => $calculatedFee,
+                        'note' => 'Đã bỏ qua kiểm tra đơn hàng tối thiểu'
+                    ]);
+                    
+                    return $calculatedFee;
+                } else {
+                    Log::info("  ✗ Quy tắc không áp dụng được (khoảng cách không khớp)");
                 }
             }
 
-            // Nếu không có quy tắc nào phù hợp, trả về 0
-            return 0;
+            // Nếu vẫn không có quy tắc nào, sử dụng phí mặc định
+            Log::warning('❌ KHÔNG TÌM THẤY QUY TẮC PHÙ HỢP, dùng phí mặc định');
+            
+            // Phí mặc định: 15.000₫ + 2.000₫/km (giống quy tắc nearby)
+            $defaultFee = 15000 + ($distance * 2000);
+            Log::info('Sử dụng phí mặc định', ['fee' => $defaultFee]);
+            
+            return $defaultFee;
         } catch (\Exception $e) {
             // Nếu có lỗi, log và trả về 0
             Log::error('Calculate shipping fee error: ' . $e->getMessage());
@@ -1618,16 +1682,47 @@ class CheckoutController extends Controller
 
         // Nếu thanh toán MoMo, chuyển hướng đến MoMo
         if ($paymentMethod === 'momo') {
-            $momoService = new MoMoService();
-            $orderInfo = "Thanh toán đơn hàng #" . $order->id;
-            $result = $momoService->createPayment($order->id, $total, $orderInfo);
+            try {
+                $momoService = new MoMoService();
+                $orderInfo = "Thanh toán đơn hàng #" . $order->id;
+                
+                Log::info('Creating MoMo payment', [
+                    'order_id' => $order->id,
+                    'amount' => $total,
+                    'order_info' => $orderInfo
+                ]);
+                
+                $result = $momoService->createPayment($order->id, $total, $orderInfo);
+                
+                Log::info('MoMo payment response', [
+                    'result' => $result
+                ]);
 
-            if (isset($result['payUrl'])) {
-                // Lưu order ID vào session để xử lý callback
-                session(['momo_order_id' => $order->id]);
-                return redirect($result['payUrl']);
-            } else {
-                return back()->withErrors(['payment' => 'Không thể kết nối đến MoMo. Vui lòng thử lại.']);
+                if (isset($result['payUrl'])) {
+                    // Lưu order ID vào session để xử lý callback
+                    session(['momo_order_id' => $order->id]);
+                    Log::info('Redirecting to MoMo', ['payUrl' => $result['payUrl']]);
+                    return redirect($result['payUrl']);
+                } else {
+                    Log::error('MoMo payment failed - no payUrl', [
+                        'result' => $result,
+                        'order_id' => $order->id
+                    ]);
+                    
+                    $errorMessage = 'Không thể kết nối đến MoMo. Vui lòng thử lại.';
+                    if (isset($result['message'])) {
+                        $errorMessage .= ' Lỗi: ' . $result['message'];
+                    }
+                    
+                    return back()->withErrors(['payment' => $errorMessage]);
+                }
+            } catch (\Exception $e) {
+                Log::error('MoMo payment exception', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                    'order_id' => $order->id
+                ]);
+                return back()->withErrors(['payment' => 'Lỗi khi tạo thanh toán MoMo: ' . $e->getMessage()]);
             }
         }
         if ($paymentMethod === 'payos') {

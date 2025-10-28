@@ -62,20 +62,12 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <label for="{{ $prefix }}priority" class="form-label">Độ ưu tiên <span class="text-danger">*</span></label>
-        <input type="number" class="form-control" id="{{ $prefix }}priority" name="priority" min="0" value="0" required>
-        <small class="form-text text-muted">Số càng cao càng được ưu tiên áp dụng trước</small>
-    </div>
-
-    <div class="col-md-6 mb-3">
-        <label for="{{ $prefix }}status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
-        <select class="form-control" id="{{ $prefix }}status" name="status" required>
-            <option value="1">Kích hoạt</option>
-            <option value="0">Tắt</option>
-        </select>
-    </div>
+<div class="mb-3">
+    <label for="{{ $prefix }}status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+    <select class="form-control" id="{{ $prefix }}status" name="status" required>
+        <option value="1">Kích hoạt</option>
+        <option value="0">Tắt</option>
+    </select>
 </div>
 
 <div class="mb-3">
