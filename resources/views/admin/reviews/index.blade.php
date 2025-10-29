@@ -228,7 +228,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <style>
     /* Table styling */
     .table-warning {

@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top py-3">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4 d-flex align-items-center gap-2" href="{{ route('home') }}">
-            <img src="{{ asset('img/logo_shop.png') }}?v=2" alt="Logo Shop" class="logo-shop" width="40" height="40" loading="eager">
-            <span class="brand-text">Shop Nàng Thơ</span>
+            <img src="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}?v=2" alt="Logo Shop" class="logo-shop" width="40" height="40" loading="eager">
+            <span class="brand-text">{{ $site_settings['site_name']??'Shop Nàng Thơ' }}</span>
         </a>
 
         <div class="d-flex d-lg-none align-items-center gap-2">
@@ -116,7 +116,7 @@
                             @if(request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
                             @endif
-                            <button class="btn btn-shopee" style='max-width: 30px;' type="submit" aria-label="Tìm kiếm">
+                            <button class="btn btn-search" style='max-width: 30px;' type="submit" aria-label="Tìm kiếm">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -168,7 +168,7 @@
                             <span>Thành tiền</span>
                             <strong>{{ number_format(($sharedCartTotal ?? 0),0,',','.') }}₫</strong>
                         </div>
-                        <a href="{{ route('cart.index') }}" class="btn btn-shopee w-100 rounded-2 py-2 ">Xem giỏ hàng</a>
+                        <a href="{{ route('cart.index') }}" class="btn btn-brand w-100 rounded-2 py-2 ">Xem giỏ hàng</a>
                     </div>
                 </li>
                 @auth
@@ -235,7 +235,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-shopee rounded-pill px-3 fw-semibold" href="{{ route('login') }}">
+                    <a class="btn btn-brand rounded-pill px-3 fw-semibold" href="{{ route('login') }}">
                     Đăng nhập
                     </a>
                 </li>
@@ -251,7 +251,7 @@
                     type="search" style="width: 300px" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
                 @if(request('category'))
                 @endif
-                <button class="btn btn-shopee" style='max-width: 30px;' type="submit" aria-label="Tìm kiếm">
+                <button class="btn btn-search" style='max-width: 30px;' type="submit" aria-label="Tìm kiếm">
                     <i class="bi bi-search"></i>
                 </button>
             </div>

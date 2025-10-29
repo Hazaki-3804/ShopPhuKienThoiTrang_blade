@@ -41,7 +41,7 @@ class UserOrderController extends Controller
         if ($status && in_array($status, array_keys($statusMap))) {
             $ordersQuery->where('status', $status);
         }
-        $orders = $ordersQuery->with(['order_items.product.product_images'])->paginate(10);
+        $orders = $ordersQuery->with(['order_items.product.product_images'])->paginate(1);
         // dd($orders);
         return view('user_orders.index', [
             'orders' => $orders,

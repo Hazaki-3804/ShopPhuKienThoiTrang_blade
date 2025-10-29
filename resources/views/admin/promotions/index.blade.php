@@ -100,20 +100,20 @@
                 
                 @if(auth()->user()->can('create promotions'))
                 <a href="{{ route('admin.promotions.create') }}" class="btn btn-success btn-sm mr-2">
-                    <i class="fas fa-plus"></i> Thêm chương trình
+                    <i class="fas fa-plus mr-1"></i> Thêm chương trình
                 </a>
                 @endif
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-file-export"></i> Export
+                        <i class="fas fa-file-export mr-1"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
-                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel"></i> Excel</a>
-                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv"></i> CSV</a>
-                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf"></i> PDF</a>
-                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print"></i> Print</a>
+                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success"></i> Excel</a>
+                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv text-info"></i> CSV</a>
+                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf text-danger"></i> PDF</a>
+                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print text-primary"></i> Print</a>
                     </div>
                 </div>
             </div>
@@ -175,7 +175,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 @push('scripts')
 <script>
@@ -311,12 +310,11 @@ $(document).ready(function() {
     }
 
     // Delete single promotion
-    $(document).on('click', '.delete-promotion', function() {
+    $(document).on('click', '.delete-promotion-btn', function() {
         const id = $(this).data('id');
         const code = $(this).data('code');
         $('#delete-promotion-id').val(id);
         $('#delete-promotion-code').text(code);
-        $('#deletePromotionModal').modal('show');
     });
 
     // Bulk delete
@@ -354,10 +352,9 @@ $(document).ready(function() {
             table: 'promotionsTable',
             forms: ['#deletePromotionModal form', '#bulkDeleteModal form']
         });
-    }
-
-    // Handle form submissions manually if AjaxFormHandler is not available
-    $('#deletePromotionModal form, #bulkDeleteModal form').on('submit', function(e) {
+    } else {
+        // Handle form submissions manually if AjaxFormHandler is not available
+        $('#deletePromotionModal form, #bulkDeleteModal form').on('submit', function(e) {
         e.preventDefault();
         const $form = $(this);
         const url = $form.attr('action');
@@ -457,7 +454,8 @@ $(document).ready(function() {
                 }
             }
         });
-    });
+        });
+    }
 
     // Reload table after successful operations
     window.addEventListener('promotion-updated', function() {

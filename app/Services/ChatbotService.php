@@ -267,7 +267,7 @@ class ChatbotService
     {
         $message = strtolower($message);
 
-        if (str_contains($message, 'giao hàng') || str_contains($message, 'ship')) {
+        if (str_contains($message, 'giao hàng') || str_contains($message, 'ship')||str_contains($message, 'phí ship')||str_contains($message, 'phí vận chuyển')) {
             if (str_contains($message, 'bao lâu') || str_contains($message, 'thời gian')) {
                 return "Thời gian giao hàng:\n- Nội thành Vĩnh Long: 1-2 ngày\n- Lân cận: 2-3 ngày\n- Toàn quốc: 3-7 ngày\n\nShop sẽ gọi xác nhận trước khi giao hàng nhé!";
             }
@@ -292,25 +292,27 @@ class ChatbotService
 
         // Kiểm tra đơn hàng với mã cụ thể
         if (str_contains($message, 'kiểm tra đơn') || str_contains($message, 'đơn hàng') || preg_match('/#[A-Z0-9]+/', $message)) {
-            // Tìm mã đơn hàng trong tin nhắn
-            if (preg_match('/#([A-Z0-9]+)/', $message, $matches)) {
-                $orderCode = $matches[1];
-                $order = Order::where('id', $orderCode)->first();
+            // if(Auth::check()){
+            // // Tìm mã đơn hàng trong tin nhắn
+            // if (preg_match('/#([A-Z0-9]+)/', $message, $matches)) {
+            //     $orderCode = $matches[1];
+            //     $order = Order::where('id', $orderCode)->first();
                 
-                if ($order) {
-                    $response = "Thông tin đơn hàng #{$order->id}:\n";
-                    $response .= "Khách hàng: {$order->customer_name}\n";
-                    $response .= "SĐT: {$order->customer_phone}\n";
-                    $response .= "Địa chỉ: {$order->shipping_address}\n";
-                    $response .= " Tổng tiền: " . number_format($order->total_price, 0, ',', '.') . "đ\n";
-                    $response .= "Trạng thái: {$order->status_text}\n";
-                    $response .= "Ngày đặt: " . $order->created_at->format('d/m/Y H:i');
+            //     if ($order) {
+            //         $response = "Thông tin đơn hàng #{$order->id}:\n";
+            //         $response .= "Khách hàng: {$order->customer_name}\n";
+            //         $response .= "SĐT: {$order->customer_phone}\n";
+            //         $response .= "Địa chỉ: {$order->shipping_address}\n";
+            //         $response .= " Tổng tiền: " . number_format($order->total_price, 0, ',', '.') . "đ\n";
+            //         $response .= "Trạng thái: {$order->status_text}\n";
+            //         $response .= "Ngày đặt: " . $order->created_at->format('d/m/Y H:i');
                     
-                    return $response;
-                }
+            //         return $response;
+            //     }
                 
-                return "Không tìm thấy đơn hàng với mã #{$orderCode}. Vui lòng kiểm tra lại mã đơn hàng!";
-            }
+            //     return "Không tìm thấy đơn hàng với mã #{$orderCode}. Vui lòng kiểm tra lại mã đơn hàng!";
+            // }
+            // }
             
             if (Auth::check()) {
                 $recentOrder = Order::where('user_id', Auth::id())
@@ -322,14 +324,15 @@ class ChatbotService
                            "Mã đơn: #{$recentOrder->id}\n" .
                            "Trạng thái: {$recentOrder->status_text}\n" .
                            "Tổng tiền: " . number_format($recentOrder->total_price, 0, ',', '.') . "đ\n" .
-                           "Ngày đặt: " . $recentOrder->created_at->format('d/m/Y H:i');
+                           "Ngày đặt: " . $recentOrder->created_at->format('d/m/Y H:i')."\n".
+                           "Để biết thêm thông tin của các đơn hàng bạn có thể truy cập vào <a style='color:orange;' href=".route('users.order.index').">đây</a>";
                 }
             }
             
             return "Để kiểm tra đơn hàng, bạn có thể:\n" .
                    "Đăng nhập tài khoản\n" .
                    "Cung cấp mã đơn hàng (VD: #A1234)\n" .
-                   "Gọi hotline: 0123.456.789";
+                   "Gọi hotline: 0779089258";
         }
 
         return null;
@@ -432,7 +435,7 @@ class ChatbotService
                     $response .= "Giảm " . number_format($discount->discount_value, 0, ',', '.') . "đ\n";
                 }
                 
-                $response .= "Hết hạn: " . $discount->end_date->format('d/m/Y') . "\n\n";
+                $response .= "Hết hạn: " . $discount->end_date->format('d/m/Y') . "\n";
             }
 
             return $response;

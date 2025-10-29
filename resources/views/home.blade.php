@@ -70,7 +70,7 @@
                 <div class="banner-content">
                     <h5 class="fw-semibold mb-1">New Arrivals</h5>
                     <p class="small mb-2">Mẫu mới cập nhật hàng tuần</p>
-                    <a href="{{ route('shop.index', ['sort' => 'new']) }}" class="btn btn-shopee btn-sm">Khám phá</a>
+                    <a href="{{ route('shop.index', ['sort' => 'new']) }}" class="btn btn-brand btn-sm">Khám phá</a>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
                 <div class="banner-content">
                     <h5 class="fw-semibold mb-1">Best Sellers</h5>
                     <p class="small mb-2">Sản phẩm bán chạy nhất</p>
-                    <a href="{{ route('shop.index', ['sort' => 'best']) }}" class="btn btn-shopee btn-sm">Xem ngay</a>
+                    <a href="{{ route('shop.index', ['sort' => 'best']) }}" class="btn btn-brand btn-sm">Xem ngay</a>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                             <input type="email" class="form-control rounded-3" placeholder="Email của bạn...">
                         </div>
                         <div class="col-12 col-md-3 d-grid">
-                            <button class="btn btn-shopee text-white fw-semibold">
+                            <button class="btn btn-brand text-white fw-semibold">
                                 <i class="bi bi-send"></i> Đăng ký
                             </button>
                         </div>

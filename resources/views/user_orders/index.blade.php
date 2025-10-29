@@ -150,7 +150,7 @@
     @endforelse
 
     <div class="mt-3">
-        {{ $orders->withQueryString()->links() }}
+        <x-pagination :paginator="$orders->appends(request()->query())" />
     </div>
 </div>
 @endsection

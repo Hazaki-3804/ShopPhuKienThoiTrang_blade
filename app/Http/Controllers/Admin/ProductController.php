@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Cloudinary\Cloudinary;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -737,6 +741,350 @@ class ProductController extends Controller
                 'success' => false,
                 'message' => 'Có lỗi xảy ra khi lấy thống kê!'
             ], 500);
+        }
+    }
+
+    // ==================== IMPORT EXCEL METHODS ====================
+    
+    public function showImport()
+    {
+        $categories = Category::all();
+        return view('admin.products.import', compact('categories'));
+    }
+
+    public function previewImport(Request $request)
+    {
+        try {
+            $request->validate([
+                'excel_file' => 'required|file|mimes:xlsx,xls|max:2048'
+            ]);
+
+            $file = $request->file('excel_file');
+            $spreadsheet = IOFactory::load($file->getPathname());
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray();
+
+            if (empty($rows) || count($rows) < 2) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File Excel trống hoặc không có dữ liệu!'
+                ], 400);
+            }
+
+            $header = array_map('trim', $rows[0]);
+            $requiredColumns = ['Tên sản phẩm', 'Danh mục', 'Giá', 'Số lượng'];
+            $missingColumns = array_diff($requiredColumns, $header);
+
+            if (!empty($missingColumns)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File thiếu các cột bắt buộc: ' . implode(', ', $missingColumns)
+                ], 400);
+            }
+
+            $data = [];
+            $errors = [];
+            $existingProducts = Product::pluck('name')->map(function($name) {
+                return strtolower(trim($name));
+            })->toArray();
+            
+            $categories = Category::pluck('id', 'name')->map(function($id, $name) {
+                return ['id' => $id, 'name_lower' => strtolower(trim($name))];
+            })->toArray();
+
+            $namesInFile = [];
+
+            for ($i = 1; $i < count($rows); $i++) {
+                $row = $rows[$i];
+                $rowNumber = $i + 1;
+                
+                $name = trim($row[0] ?? '');
+                $categoryName = trim($row[1] ?? '');
+                $price = trim($row[2] ?? '');
+                $stock = trim($row[3] ?? '');
+                $description = trim($row[4] ?? '');
+                $imageUrl = trim($row[5] ?? '');
+
+                $rowErrors = [];
+                $nameLower = strtolower($name);
+
+                // Validate tên sản phẩm
+                if (empty($name)) {
+                    $rowErrors[] = 'Tên sản phẩm không được trống';
+                } elseif (mb_strlen($name) > 255) {
+                    $rowErrors[] = 'Tên sản phẩm tối đa 255 ký tự';
+                } elseif (in_array($nameLower, $existingProducts)) {
+                    $rowErrors[] = 'Tên sản phẩm đã tồn tại trong database';
+                } elseif (isset($namesInFile[$nameLower])) {
+                    $rowErrors[] = 'Tên sản phẩm trùng với dòng ' . $namesInFile[$nameLower];
+                }
+
+                // Validate danh mục
+                $categoryId = null;
+                if (empty($categoryName)) {
+                    $rowErrors[] = 'Danh mục không được trống';
+                } else {
+                    $categoryNameLower = strtolower($categoryName);
+                    $found = false;
+                    foreach ($categories as $catName => $catData) {
+                        if ($catData['name_lower'] === $categoryNameLower) {
+                            $categoryId = $catData['id'];
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        $rowErrors[] = 'Danh mục không tồn tại';
+                    }
+                }
+
+                // Validate giá
+                if (empty($price)) {
+                    $rowErrors[] = 'Giá không được trống';
+                } elseif (!is_numeric($price) || $price < 0) {
+                    $rowErrors[] = 'Giá phải là số dương';
+                }
+
+                // Validate số lượng
+                if (empty($stock) && $stock !== '0') {
+                    $rowErrors[] = 'Số lượng không được trống';
+                } elseif (!is_numeric($stock) || $stock < 0 || floor($stock) != $stock) {
+                    $rowErrors[] = 'Số lượng phải là số nguyên không âm';
+                }
+
+                // Validate URL ảnh (không bắt buộc)
+                if (!empty($imageUrl)) {
+                    if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+                        $rowErrors[] = 'URL ảnh không hợp lệ';
+                    } elseif (!preg_match('/^https?:\/\//i', $imageUrl)) {
+                        $rowErrors[] = 'URL ảnh phải bắt đầu bằng http:// hoặc https://';
+                    }
+                }
+
+                if (!empty($name)) {
+                    $namesInFile[$nameLower] = $rowNumber;
+                }
+
+                $data[] = [
+                    'row_number' => $rowNumber-1,
+                    'name' => $name,
+                    'category_name' => $categoryName,
+                    'category_id' => $categoryId,
+                    'price' => $price,
+                    'stock' => $stock,
+                    'description' => $description,
+                    'image_url' => $imageUrl,
+                    'slug' => !empty($name) ? Str::slug($name) : '',
+                    'errors' => $rowErrors,
+                    'has_error' => !empty($rowErrors)
+                ];
+            }
+
+            $validRows = count(array_filter($data, fn($row) => !$row['has_error']));
+            $errorRows = count($data) - $validRows;
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+                'total_rows' => count($data),
+                'valid_rows' => $validRows,
+                'error_rows' => $errorRows,
+                'errors' => $errors
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Preview import error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function processImport(Request $request)
+    {
+        try {
+            $data = $request->input('data', []);
+            
+            if (empty($data)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không có dữ liệu để import!'
+                ], 400);
+            }
+
+            $imported = 0;
+            $errors = [];
+
+            foreach ($data as $row) {
+                try {
+                    $product = Product::create([
+                        'name' => $row['name'],
+                        'slug' => $row['slug'],
+                        'category_id' => $row['category_id'],
+                        'price' => $row['price'],
+                        'stock' => $row['stock'],
+                        'description' => $row['description'] ?? null,
+                        'status' => 1
+                    ]);
+                    
+                    // Tạo product_image nếu có URL ảnh
+                    if (!empty($row['image_url'])) {
+                        $product->product_images()->create([
+                            'product_id' => $product->id,
+                            'image_url' => $row['image_url'],
+                            'type' => 'detail'
+                        ]);
+                    }
+                    
+                    $imported++;
+                } catch (\Exception $e) {
+                    $errors[] = "Dòng {$row['row_number']}: " . $e->getMessage();
+                }
+            }
+
+            if ($imported > 0) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "Đã import thành công {$imported} sản phẩm!",
+                    'imported' => $imported,
+                    'errors' => $errors
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không có sản phẩm nào được import!',
+                    'errors' => $errors
+                ], 400);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Process import error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi import!'
+            ], 500);
+        }
+    }
+
+    public function downloadTemplate()
+    {
+        try {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setTitle('Products');
+
+            // Headers với cột URL ảnh
+            $headers = ['Tên sản phẩm', 'Danh mục', 'Giá', 'Số lượng', 'Mô tả', 'URL Ảnh'];
+            $sheet->fromArray($headers, null, 'A1');
+
+            // Style header
+            $headerStyle = [
+                'font' => ['bold' => true, 'size' => 12],
+                'fill' => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['rgb' => '4472C4']],
+                'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER]
+            ];
+            $sheet->getStyle('A1:F1')->applyFromArray($headerStyle);
+            $sheet->getStyle('A1:F1')->getFont()->getColor()->setRGB('FFFFFF');
+
+            // Lấy tất cả danh mục
+            $categories = Category::orderBy('name')->pluck('name')->toArray();
+            
+            // Sample data với URL ảnh
+            $sampleData = [
+                ['Mắt kính thời trang', $categories[0] ?? 'Mắt kính', 150000, 50, 'Mắt kính chống tia UV', 'https://example.com/image1.jpg'],
+                ['Dây chuyền bạc', $categories[1] ?? 'Trang sức', 250000, 30, 'Dây chuyền bạc 925', 'https://example.com/image2.jpg'],
+                ['Túi xách da', $categories[2] ?? 'Túi xách', 350000, 20, 'Túi xách da cao cấp', 'https://example.com/image3.jpg']
+            ];
+            $sheet->fromArray($sampleData, null, 'A2');
+
+            // Tạo dropdown cho cột Danh mục (B2:B1000)
+            if (!empty($categories)) {
+                $validation = $sheet->getCell('B2')->getDataValidation();
+                $validation->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+                $validation->setErrorStyle(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::STYLE_INFORMATION);
+                $validation->setAllowBlank(false);
+                $validation->setShowInputMessage(true);
+                $validation->setShowErrorMessage(true);
+                $validation->setShowDropDown(true);
+                $validation->setErrorTitle('Lỗi danh mục');
+                $validation->setError('Vui lòng chọn danh mục từ danh sách.');
+                $validation->setPromptTitle('Chọn danh mục');
+                $validation->setPrompt('Chọn một danh mục từ danh sách dropdown.');
+                $validation->setFormula1('"' . implode(',', $categories) . '"');
+
+                // Apply validation cho nhiều dòng
+                for ($row = 2; $row <= 1000; $row++) {
+                    $sheet->getCell('B' . $row)->setDataValidation(clone $validation);
+                }
+            }
+
+            // Thêm ghi chú cho cột URL Ảnh
+            $sheet->getComment('F1')->getText()->createTextRun(
+                "Nhập URL ảnh sản phẩm.\nVí dụ: https://example.com/image.jpg\nHoặc để trống nếu không có ảnh."
+            );
+            $sheet->getComment('F1')->setWidth('300pt');
+            $sheet->getComment('F1')->setHeight('80pt');
+
+            // Auto width
+            foreach (range('A', 'F') as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+
+            // Tạo sheet hướng dẫn
+            $instructionSheet = $spreadsheet->createSheet();
+            $instructionSheet->setTitle('Hướng dẫn');
+            
+            $instructions = [
+                ['HƯỚNG DẪN IMPORT SẢN PHẨM'],
+                [''],
+                ['1. Tên sản phẩm:', 'Bắt buộc. Tối đa 255 ký tự.'],
+                ['2. Danh mục:', 'Bắt buộc. Chọn từ dropdown list.'],
+                ['3. Giá:', 'Bắt buộc. Nhập số, không có dấu phẩy hay chấm.'],
+                ['4. Số lượng:', 'Bắt buộc. Nhập số nguyên không âm.'],
+                ['5. Mô tả:', 'Không bắt buộc. Mô tả chi tiết sản phẩm.'],
+                ['6. URL Ảnh:', 'Không bắt buộc. Nhập URL đầy đủ của ảnh sản phẩm.'],
+                [''],
+                ['LƯU Ý:'],
+                ['- Không xóa dòng tiêu đề (dòng 1)'],
+                ['- Danh mục phải chọn từ dropdown, không được nhập tay'],
+                ['- Giá và số lượng phải là số hợp lệ'],
+                ['- URL ảnh phải là đường dẫn đầy đủ (bắt đầu bằng http:// hoặc https://)'],
+                ['- Có thể để trống URL ảnh nếu không có'],
+                ['- Xóa các dòng mẫu trước khi nhập dữ liệu thực'],
+                [''],
+                ['DANH SÁCH DANH MỤC:']
+            ];
+            
+            $instructionSheet->fromArray($instructions, null, 'A1');
+            
+            // Thêm danh sách danh mục
+            $rowStart = count($instructions) + 1;
+            foreach ($categories as $index => $category) {
+                $instructionSheet->setCellValue('A' . ($rowStart + $index), ($index + 1) . '. ' . $category);
+            }
+            
+            // Style cho sheet hướng dẫn
+            $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+            $instructionSheet->getStyle('A3:A8')->getFont()->setBold(true);
+            $instructionSheet->getStyle('A10')->getFont()->setBold(true);
+            $instructionSheet->getStyle('A' . ($rowStart - 1))->getFont()->setBold(true);
+            $instructionSheet->getColumnDimension('A')->setWidth(30);
+            $instructionSheet->getColumnDimension('B')->setWidth(50);
+
+            // Set active sheet về Products
+            $spreadsheet->setActiveSheetIndex(0);
+
+            $writer = new Xlsx($spreadsheet);
+            $fileName = 'template_import_products_' . date('YmdHis') . '.xlsx';
+            $tempFile = tempnam(sys_get_temp_dir(), $fileName);
+            $writer->save($tempFile);
+
+            return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
+
+        } catch (\Exception $e) {
+            Log::error('Download template error: ' . $e->getMessage());
+            return back()->with('error', 'Có lỗi xảy ra khi tải file mẫu!');
         }
     }
 }

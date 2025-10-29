@@ -324,39 +324,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    /**
-     * Greet user when opening chat
-     */
-    async function greetUser() {
-        try {
-            const res = await fetch('/api/chatbot/greet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            if (!res.ok) return;
-            
-            const data = await res.json();
-            
-            if (data.skip) return;
-            
-            chatHistory.push({
-                role: 'bot',
-                content: data.message,
-                timestamp: getCurrentTime()
-            });
-            
-            renderChat();
-            showQuickReplies();
-            
-        } catch (e) {
-            console.error('Greet error:', e);
-        }
-    }
-
     // ========================================
     // EVENT LISTENERS
     // ========================================
@@ -371,9 +338,15 @@ document.addEventListener('DOMContentLoaded', function () {
             chatBox.style.display = 'flex';
             chatInput.focus();
             
-            // Greet on first open
+            // Show default greeting on first open
             if (isFirstOpen && chatHistory.length === 0) {
-                greetUser();
+                chatHistory.push({
+                    role: 'bot',
+                    content: 'Xin chào! Mình là **Mia** - trợ lý ảo của shop. 👋\n\nMình có thể giúp bạn:\n\n• Tìm kiếm sản phẩm\n• Tư vấn phụ kiện phù hợp\n• Kiểm tra giá và tồn kho\n• Thông tin về giao hàng và thanh toán\n• Theo dõi đơn hàng\n\nBạn cần mình hỗ trợ gì nào? 😊',
+                    timestamp: getCurrentTime()
+                });
+                renderChat();
+                showQuickReplies();
                 isFirstOpen = false;
             }
             

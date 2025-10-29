@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="mt-3 d-grid">
-            <a href="{{ route('shop.index') }}" class="btn btn-shopee fw-semibold">
+            <a href="{{ route('shop.index') }}" class="btn btn-brand fw-semibold">
                 Sử dụng ngay
             </a>
         </div>

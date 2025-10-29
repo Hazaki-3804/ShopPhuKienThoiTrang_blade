@@ -89,7 +89,7 @@ class ChatbotController extends Controller
         }
 
         // Intent: Danh mục
-        if (str_contains($messageLower, 'danh mục') || str_contains($messageLower, 'loại')) {
+        if (str_contains($messageLower, 'danh mục') || str_contains($messageLower, 'loại sản phẩm')) {
             return 'category';
         }
 
@@ -99,12 +99,12 @@ class ChatbotController extends Controller
         }
 
         // Intent: Phí ship
-        if (str_contains($messageLower, 'ship') || str_contains($messageLower, 'giao hàng') || str_contains($messageLower, 'phí vận chuyển') || str_contains($messageLower, 'phí giao')) {
+        if (str_contains($messageLower, 'ship') || str_contains($messageLower, 'giao hàng') || str_contains($messageLower, 'phí vận chuyển') || str_contains($messageLower, 'phí giao hàng')) {
             return 'shipping';
         }
 
         // Intent: Thanh toán
-        if (str_contains($messageLower, 'thanh toán') || str_contains($messageLower, 'payment') || str_contains($messageLower, 'momo') || str_contains($messageLower, 'cod')) {
+        if (str_contains($messageLower, 'thanh toán') || str_contains($messageLower, 'payment') || str_contains($messageLower, 'momo') || str_contains($messageLower, 'cod') || str_contains($messageLower, 'payos') || str_contains($messageLower, 'vnpay')|| str_contains($messageLower, 'sepay')) {
             return 'payment';
         }
 
@@ -205,37 +205,41 @@ class ChatbotController extends Controller
 
             // Tạo system instruction để Gemini biết nhiệm vụ
             $systemInstruction = <<<SYS
-Bạn là trợ lý AI thân thiện của shop phụ kiện thời trang Nàng Thơ.
+            Bạn là trợ lý AI thân thiện của shop phụ kiện thời trang Nàng Thơ.
 
-NHIỆM VỤ:
-- Nhận câu trả lời có sẵn (SCENARIO_RESPONSE) và diễn đạt lại cho tự nhiên, hay và thân thiện hơn
-- GIỮ NGUYÊN tất cả thông tin quan trọng: tên sản phẩm, giá, số lượng, địa chỉ, số điện thoại, link, v.v.
-- KHÔNG thêm thông tin không có trong SCENARIO_RESPONSE
-- KHÔNG bịa đặt hoặc thay đổi dữ liệu
-- Giữ nguyên format HTML nếu có (như <b>, <ul>, <li>, <img>)
-- Trả lời ngắn gọn, súc tích, dễ hiểu
-- Sử dụng emoji phù hợp để tạo cảm giác thân thiện
+            NHIỆM VỤ:
+            - Nhận câu trả lời có sẵn (SCENARIO_RESPONSE) và diễn đạt lại cho tự nhiên, hay và thân thiện nhưng chuyên nghiệp
+            - GIỮ NGUYÊN tất cả thông tin quan trọng: tên sản phẩm, giá, số lượng, địa chỉ, số điện thoại, link, v.v.
+            - KHÔNG thêm thông tin không có trong SCENARIO_RESPONSE
+            - KHÔNG bịa đặt hoặc thay đổi dữ liệu
+            - Giữ nguyên format HTML nếu có (như <b>, <ul>, <li>, <img>)
+            - Trả lời ngắn gọn, súc tích, dễ hiểu
+            - Sử dụng emoji phù hợp để tạo cảm giác thân thiện
+            - Không sử dụng emoji
+            - Không chào khi trả lời
 
-NGUYÊN TẮC:
-- Nếu SCENARIO_RESPONSE có danh sách sản phẩm -> GIỮ NGUYÊN tất cả
-- Nếu có giá tiền -> GIỮ NGUYÊN số tiền chính xác
-- Nếu có thông tin liên hệ -> GIỮ NGUYÊN
-- Chỉ cải thiện cách diễn đạt, không thay đổi nội dung
-SYS;
+            NGUYÊN TẮC:
+            - Nếu SCENARIO_RESPONSE có danh sách sản phẩm -> GIỮ NGUYÊN tất cả
+            - Nếu có giá tiền -> GIỮ NGUYÊN số tiền chính xác
+            - Nếu có thông tin liên hệ -> GIỮ NGUYÊN
+            - Chỉ cải thiện cách diễn đạt, không thay đổi nội dung
+            - Chỉ trả lời bằng tiếng Việt
+            - Nếu có nhiều mục thì phải liệt kê từng mục thành từng dòng
+            SYS;
 
             // Tạo prompt
             $prompt = <<<PROMPT
-[USER_QUESTION]
-{$userMessage}
+            [USER_QUESTION]
+            {$userMessage}
 
-[INTENT]
-{$intent}
+            [INTENT]
+            {$intent}
 
-[SCENARIO_RESPONSE]
-{$scenarioResponse}
+            [SCENARIO_RESPONSE]
+            {$scenarioResponse}
 
-Hãy diễn đạt lại SCENARIO_RESPONSE cho tự nhiên và hay hơn, nhưng GIỮ NGUYÊN tất cả thông tin quan trọng.
-PROMPT;
+            Hãy diễn đạt lại SCENARIO_RESPONSE cho tự nhiên và hay hơn, nhưng GIỮ NGUYÊN tất cả thông tin quan trọng.
+            PROMPT;
 
             // Chuẩn bị payload
             $payload = [
@@ -319,23 +323,23 @@ PROMPT;
      */
     public function greet(Request $request)
     {
-        // Nếu đã có lịch sử chat thì không chào lại
-        if (!empty(session('chat_messages', []))) {
-            return response()->json([
-                'message' => '',
-                'links' => [],
-                'skip' => true
-            ]);
-        }
+        // // Nếu đã có lịch sử chat thì không chào lại
+        // if (!empty(session('chat_messages', []))) {
+        //     return response()->json([
+        //         'message' => '',
+        //         'links' => [],
+        //         'skip' => true
+        //     ]);
+        // }
 
-        // Nếu đã chào trong session thì bỏ qua
-        if (session()->has('chatbot_greeted') && session('chatbot_greeted') === true) {
-            return response()->json([
-                'message' => '',
-                'links' => [],
-                'skip' => true
-            ]);
-        }
+        // // Nếu đã chào trong session thì bỏ qua
+        // if (session()->has('chatbot_greeted') && session('chatbot_greeted') === true) {
+        //     return response()->json([
+        //         'message' => '',
+        //         'links' => [],
+        //         'skip' => true
+        //     ]);
+        // }
 
         // Cooldown 6 giờ
         $last = session('greet_last_at');

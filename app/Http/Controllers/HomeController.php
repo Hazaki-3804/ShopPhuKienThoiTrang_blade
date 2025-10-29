@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Discount;
 use Illuminate\Support\Str;
+use App\Models\Setting;
 
 class HomeController extends Controller
 {
@@ -79,8 +80,7 @@ class HomeController extends Controller
                   ->orWhereColumn('used_quantity', '<', 'quantity');
             })
             ->orderByDesc('id')
-            ->first();
-
+            ->first();        
         return view('home', compact('products', 'newBannerImage', 'bestBannerImage', 'activeDiscount'));
     }
 }

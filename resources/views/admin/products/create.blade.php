@@ -17,9 +17,9 @@
     </div>
 
     <div class="card m-3">
-        <div class="card-header">
-            <h5 class="mb-0">
-                Thông tin sản phẩm
+        <div class="card-header bg-primary">
+            <h5 class="mb-0 text-white">
+                <i class="fas fa-info-circle"></i> Thông tin sản phẩm
             </h5>
         </div>
         <div class="card-body">
@@ -70,8 +70,9 @@
                                         Giá bán <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                               id="price" name="price" value="{{ old('price') }}" min="0" required>
+                                        <input type="text" class="form-control @error('price') is-invalid @enderror" 
+                                               id="price" name="price" value="{{ old('price') }}" required 
+                                               inputmode="numeric" pattern="[0-9.]*">
                                         <span class="input-group-text">VNĐ</span>
                                     </div>
                                     @error('price')
@@ -167,11 +168,11 @@
                                 <i class="fas fa-arrow-left me-1"></i> Quay lại
                             </a>
                             <div>
-                                <button type="reset" class="btn btn-outline-secondary me-2">
-                                    <i class="fas fa-undo me-1"></i> Đặt lại
+                                <button type="reset" class="btn btn-outline-secondary mr-2">
+                                    <i class="fas fa-undo mr-1"></i> Đặt lại
                                 </button>
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save me-1"></i> Lưu sản phẩm
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save mr-1"></i> Lưu sản phẩm
                                 </button>
                             </div>
                         </div>
@@ -256,6 +257,32 @@
 $(document).ready(function() {
     let selectedFiles = []; // Lưu File objects, chưa upload
     let uploadedFiles = []; // Lưu URLs sau khi upload
+    
+    // ============================================
+    // FORMAT NUMBER WITH THOUSAND SEPARATOR
+    // ============================================
+    
+    // Format number với dấu phân cách hàng nghìn
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    
+    // Remove format để lấy số thuần
+    function unformatNumber(str) {
+        return str.replace(/\./g, '');
+    }
+    
+    // Format input price khi user nhập
+    const priceInput = $('#price');
+    priceInput.on('input', function() {
+        let value = $(this).val();
+        // Xóa tất cả ký tự không phải số
+        value = value.replace(/[^\d]/g, '');
+        // Format lại với dấu chấm
+        if (value) {
+            $(this).val(formatNumber(value));
+        }
+    });
     
     // Theo dõi trạng thái form đã thay đổi
     let formChanged = false;
@@ -453,8 +480,13 @@ $(document).ready(function() {
     $('#productForm').on('submit', function(e) {
         e.preventDefault();
         
+        // Unformat price trước khi validate và submit
+        const priceValue = priceInput.val();
+        const unformattedPrice = unformatNumber(priceValue);
+        priceInput.val(unformattedPrice);
+        
         const name = $('#name').val().trim();
-        const price = $('#price').val();
+        const price = unformattedPrice;
         const stock = $('#stock').val();
         const categoryId = $('#category_id').val();
         

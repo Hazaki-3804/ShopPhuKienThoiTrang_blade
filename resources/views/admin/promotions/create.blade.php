@@ -115,10 +115,10 @@
                                 <label>Chọn sản phẩm</label>
                                 <div class="mb-2">
                                     <button type="button" class="btn btn-sm btn-outline-primary" id="selectAllProducts">
-                                        <i class="fas fa-check-double"></i> Chọn tất cả
+                                        <i class="fas fa-check-double mr-1"></i> Chọn tất cả
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary" id="deselectAllProducts">
-                                        <i class="fas fa-times"></i> Bỏ chọn tất cả
+                                        <i class="fas fa-times mr-1"></i> Bỏ chọn tất cả
                                     </button>
                                 </div>
                                 <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
@@ -217,6 +217,10 @@ $(document).ready(function() {
             url: form.attr('action'),
             method: form.attr('method'),
             data: form.serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             success: function(response) {
                 if (response.success) {
                     // Show success message
@@ -248,28 +252,40 @@ $(document).ready(function() {
     });
 
     function showToast(type, message) {
-        const toast = `
-            <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            </div>
-        `;
+        const iconMap = {
+            'success': 'success',
+            'danger': 'error',
+            'warning': 'warning',
+            'info': 'info'
+        };
         
-        $('.toast-container').append(toast);
-        const toastElement = $('.toast-container .toast').last();
-        const bsToast = new bootstrap.Toast(toastElement[0]);
-        bsToast.show();
+        const titleMap = {
+            'success': 'Thành công!',
+            'danger': 'Lỗi!',
+            'warning': 'Cảnh báo!',
+            'info': 'Thông tin!'
+        };
         
-        setTimeout(() => toastElement.remove(), 5000);
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: iconMap[type] || 'success',
+                title: titleMap[type] || 'Thành công!',
+                html: message,
+                timer: 3000,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        } else {
+            alert(message);
+        }
     }
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
     $('#start_date').attr('min', today);
+    // Get today for input
+    $('#start_date').val(today);
     
     // Update end date minimum when start date changes
     $('#start_date').on('change', function() {

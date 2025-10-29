@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
   const provinceEl = document.getElementById('province');
   const wardEl = document.getElementById('ward');
+  const addressEl = document.getElementById('address');
+  let provinceName=document.getElementById('province').textContent;
+  let wardName=document.getElementById('ward').textContent;
 
   // Init Choices.js (gõ trực tiếp để lọc, không ô tìm riêng trong dropdown)
   const provinceChoices = new Choices(provinceEl, {
@@ -55,4 +58,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     btn_loading('registerForm', 'registerBtn');
+    addressEl.addEventListener('blur', function () {
+    provinceName = provinceEl.options[provinceEl.selectedIndex].textContent;
+    wardName = wardEl.options[wardEl.selectedIndex].textContent;
+    let addressValue = addressEl.value; // Dùng 'let' để có thể thay đổi giá trị
+
+    if (provinceName && wardName && addressValue) {
+        // 1. Loại bỏ wardName và provinceName khỏi addressValue (để tránh lặp lại)
+        // Đây là regex để thoát các ký tự đặc biệt trong tên để dùng trong RegExp
+        const escapedProvinceName = provinceName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const escapedWardName = wardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        
+        // Tạo RegExp để tìm và xóa không phân biệt chữ hoa/thường (case-insensitive)
+        const provinceRegex = new RegExp(escapedProvinceName, 'gi');
+        const wardRegex = new RegExp(escapedWardName, 'gi');
+
+        // Xóa ward và province nếu đã có trong addressValue
+        addressValue = addressValue.replace(provinceRegex, '');
+        addressValue = addressValue.replace(wardRegex, '');
+
+        // Chuẩn hóa và cắt bỏ khoảng trắng thừa
+        addressValue = addressValue.replace(/\s+/g, ' ').trim();
+
+        // 2. Thêm wardName và provinceName vào cuối addressValue
+        // Sử dụng dấu phẩy và khoảng trắng để phân tách
+        addressEl.value = `${addressValue}, ${wardName}, ${provinceName}`;
+    }
+});
+      
 });

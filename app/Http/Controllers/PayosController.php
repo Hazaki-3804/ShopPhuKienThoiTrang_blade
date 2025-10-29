@@ -68,6 +68,10 @@ class PayosController extends Controller
                 }
             }
         }
+        
+        // Xóa session buy_now_item nếu có
+        session()->forget('buy_now_item');
+        
         return redirect()->route('shop.index')->with(['success'=>true, 'message'=>'Thanh toán qua PayOS thành công']);
     }
     public function paymentCancel()

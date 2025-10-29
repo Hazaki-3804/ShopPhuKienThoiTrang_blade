@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ReviewsController as AdminReviewsController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Chatbot\ChatbotController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InvoiceController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\PayosController;
 use App\Http\Controllers\SePayController;
 use App\Http\Controllers\MomoController;
+
 
 Route::get('/', fn() => redirect()->route('home'));
 
@@ -116,8 +118,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
-    Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');   
-    Route::get('/settings', fn() => view('admin.settings'))->name('settings');
+    Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts'); 
+    Route::get('/settings', [AdminSettingController::class, 'settings'])->name('settings');
+    Route::put('/settings', [AdminSettingController::class, 'updateSettings'])->name('settings.update');  
     // Reviews management
     Route::get('/admin/reviews', [AdminReviewsController::class, 'index'])->middleware('permission:view reviews')->name('admin.reviews.index');
     Route::patch('/admin/reviews/{review}/toggle', [AdminReviewsController::class, 'toggleVisibility'])->middleware('permission:hide reviews')->name('admin.reviews.toggle');
@@ -162,6 +165,12 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::put('/admin/categories/update', [AdminCategoryController::class, 'update'])->middleware('permission:edit categories')->name('update');
         Route::delete('/admin/categories/delete', [AdminCategoryController::class, 'destroy'])->middleware('permission:delete categories')->name('destroy');
         Route::delete('/admin/categories/delete-multiple', [AdminCategoryController::class, 'destroyMultiple'])->middleware('permission:delete categories')->name('destroy.multiple');
+        
+        // Import Excel routes
+        Route::get('/admin/categories/import', [AdminCategoryController::class, 'showImport'])->middleware('permission:create categories')->name('import');
+        Route::post('/admin/categories/import/preview', [AdminCategoryController::class, 'previewImport'])->middleware('permission:create categories')->name('import.preview');
+        Route::post('/admin/categories/import/process', [AdminCategoryController::class, 'processImport'])->middleware('permission:create categories')->name('import.process');
+        Route::get('/admin/categories/import/template', [AdminCategoryController::class, 'downloadTemplate'])->middleware('permission:view categories')->name('import.template');
     });
     // Product management
     Route::name('admin.products.')->group(function () {
@@ -170,7 +179,7 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::get('/admin/products', [AdminProductController::class, 'index'])->middleware('permission:view products')->name('index');
         Route::get('/admin/products/create', [AdminProductController::class, 'create'])->middleware('permission:create products')->name('create');
         Route::post('/admin/products', [AdminProductController::class, 'store'])->middleware('permission:create products')->name('store');
-        Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->middleware('permission:view products')->name('show');
+        // Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->middleware('permission:view products')->name('show');
         Route::get('/admin/products/{id}/edit', [AdminProductController::class, 'edit'])->middleware('permission:edit products')->name('edit');
         Route::put('/admin/products/update', [AdminProductController::class, 'update'])->middleware('permission:edit products')->name('update');
         Route::post('/admin/products/upload-image', [AdminProductController::class, 'uploadImage'])->middleware('permission:create products')->name('upload-image');
@@ -178,6 +187,12 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::post('/admin/products/clear-temp-images-beacon', [AdminProductController::class, 'clearTempImagesBeacon'])->middleware('permission:edit products')->name('clear-temp-images-beacon');
         Route::delete('/admin/products/delete', [AdminProductController::class, 'destroy'])->middleware('permission:delete products')->name('destroy');
         Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->middleware('permission:delete products')->name('destroy.multiple');
+        
+        // Import Excel routes
+        Route::get('/admin/products/import', [AdminProductController::class, 'showImport'])->middleware('permission:create products')->name('import');
+        Route::post('/admin/products/import/preview', [AdminProductController::class, 'previewImport'])->middleware('permission:create products')->name('import.preview');
+        Route::post('/admin/products/import/process', [AdminProductController::class, 'processImport'])->middleware('permission:create products')->name('import.process');
+        Route::get('/admin/products/import/template', [AdminProductController::class, 'downloadTemplate'])->middleware('permission:view products')->name('import.template');
     });
 
     // Order management
@@ -198,11 +213,15 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::get('/admin/users/data', [AdminUserController::class, 'data'])->middleware('permission:view staffs')->name('data');
         Route::get('/admin/users/stats', [AdminUserController::class, 'getStats'])->middleware('permission:view staffs')->name('stats');
         Route::get('/admin/users', [AdminUserController::class, 'index'])->middleware('permission:view staffs')->name('index');
-        
+        // Import Excel routes
+        Route::get('/admin/users/import', [AdminUserController::class, 'showImport'])->middleware('permission:create staffs')->name('import');
+        Route::post('/admin/users/import/preview', [AdminUserController::class, 'previewImport'])->middleware('permission:create staffs')->name('import.preview');
+        Route::post('/admin/users/import/process', [AdminUserController::class, 'processImport'])->middleware('permission:create staffs')->name('import.process');
+        Route::get('/admin/users/import/template', [AdminUserController::class, 'downloadTemplate'])->middleware('permission:view staffs')->name('import.template');
         // Base permissions applied to all staff via Role "Nhân viên"
         Route::get('/admin/users/base-permissions', [AdminUserController::class, 'editBasePermissions'])->middleware('permission:manage permissions')->name('base-permissions.edit');
         Route::put('/admin/users/base-permissions', [AdminUserController::class, 'updateBasePermissions'])->middleware('permission:manage permissions')->name('base-permissions.update');
-        Route::post('/admin/users', [AdminUserController::class, 'store'])->middleware('permission:create staffs')->name('store');
+        Route::post('/admin/users/create', [AdminUserController::class, 'store'])->middleware('permission:create staffs')->name('store');
         Route::get('/admin/users/{id}', [AdminUserController::class, 'show'])->middleware('permission:view staffs')->name('show');
         Route::get('/admin/users/{id}/permissions', [AdminUserController::class, 'editPermissions'])->middleware('permission:manage permissions')->name('permissions.edit');
         Route::put('/admin/users/{id}/permissions', [AdminUserController::class, 'updatePermissions'])->middleware('permission:manage permissions')->name('permissions.update');
@@ -218,8 +237,6 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::put('/admin/profile', [AdminProfileController::class, 'update'])->name('update');
         Route::get('/admin/profile/change-password', [AdminProfileController::class, 'changePasswordForm'])->name('change-password');
         Route::put('/admin/profile/change-password', [AdminProfileController::class, 'changePassword'])->name('change-password.update');
-        Route::get('/admin/profile/settings', [AdminProfileController::class, 'settings'])->name('settings');
-        Route::put('/admin/profile/settings', [AdminProfileController::class, 'updateSettings'])->name('settings.update');
     });
         // Promotion management
     Route::name('admin.promotions.')->group(function () {

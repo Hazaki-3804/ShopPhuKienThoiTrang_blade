@@ -161,7 +161,7 @@
                                 @csrf
                                 <input type="hidden" name="qty" value="1">
                                 <input type="hidden" name="voucher" value="">
-                                <button class="btn btn-shopee  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
+                                <button class="btn btn-brand  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
                                     <i class="bi bi-bag-plus me-1"></i> Thêm vào giỏ
                                 </button>
                             </form>
@@ -172,7 +172,7 @@
                                 @csrf
                                 <input type="hidden" name="qty" value="1">
                                 <input type="hidden" name="voucher" value="">
-                                <button class="btn btn-shopee  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
+                                <button class="btn btn-brand  text-nowrap" {{ $product->stock < 1 ? 'disabled' : '' }}>
                                     <i class="bi bi-lightning-charge"></i> Mua ngay
                                 </button>
                             </form>

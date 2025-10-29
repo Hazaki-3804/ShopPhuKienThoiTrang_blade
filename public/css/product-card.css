@@ -1,10 +1,11 @@
 .product-thumb-wrap {
     height         : 220px;
-    background     : #fff;
+    background     : linear-gradient(180deg, #ffffff 0%, #faf7f5 100%);
     display        : flex;
     align-items    : center;
     justify-content: center;
     overflow       : hidden;
+    border-radius  : 12px 12px 0 0;
 }
 
 .product-thumb {
@@ -19,22 +20,90 @@
     }
 }
 
+@media (max-width: 576px) {
+    .product-thumb-wrap { height: 200px; }
+}
+
 /* Title color black inside product card */
 .product-title-link {
-    color: #2c2c2c;
+    color: var(--text, #2c2c2c);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    min-height: 2.4em;
 }
 
 .product-title-link:hover {
-    color          :#ff6f3c;
+    color          : var(--accent, #EE4D2D);
     text-decoration: underline;
 }
 
 .img-zoom {
     transition: transform 0.3s ease;
-    /* hiệu ứng mượt */
 }
 
 .img-zoom:hover {
     transform: scale(1.1);
-    /* phóng to 10% */
+}
+
+.card.card-hover {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--card-border, #efe9e6);
+    background: var(--bg, #ffffff);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow, 0 10px 20px rgba(0,0,0,.08));
+    border-color: #e5ddd8;
+}
+
+.btn-outline-shopee {
+    color: var(--accent, #EE4D2D);
+    border-color: var(--accent, #EE4D2D);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all .25s ease;
+}
+
+.btn-outline-shopee:hover,
+.btn-outline-shopee:focus {
+    color: #fff;
+    background: var(--accent, #EE4D2D);
+    border-color: var(--accent, #EE4D2D);
+    box-shadow: 0 6px 16px rgba(var(--accent-rgb, 238, 77, 45), 0.22);
+    transform: translateY(-1px);
+}
+
+.card .mt-auto .fw-semibold {
+    color: var(--text, #2c2c2c);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.card.card-hover .card-body {
+    padding: 1rem 1.1rem;
+}
+
+.card.card-hover .text-muted.small {
+    color: var(--muted, #6b6b6b);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 576px) {
+    .card.card-hover .card-body {
+        padding: 0.9rem 1rem;
+    }
+    .card .mt-auto .fw-semibold {
+        font-size: 1rem;
+    }
+    .btn-outline-shopee {
+        padding: 5px 12px;
+        font-size: 0.85rem;
+    }
 }

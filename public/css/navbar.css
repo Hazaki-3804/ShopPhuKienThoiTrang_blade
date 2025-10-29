@@ -84,6 +84,25 @@
     letter-spacing: 1.2px;
     color         : var(--accent);
 }
+/* Button search */
+.btn-search {
+    background: #EE4D2D;
+    color     : #fff;
+    border    : none;
+}
+
+.btn-search:hover {
+    background: #d43f1f;
+    /* đậm hơn #EE4D2D */
+    color     : #fff;
+
+}
+.btn-search:disabled {
+    opacity: 0.8 !important;
+    cursor: not-allowed;
+    background: #d43f1f;
+    color: #fff !important;
+}
 
 /* Cart icon accent color (peach) */
 .icon-cart-shopee {
@@ -99,22 +118,6 @@
     background-color: var(--accent) !important;
 }
 
-/* Nút cam đào chủ đạo */
-.btn-shopee {
-    background-color: var(--accent);
-    border-color    : var(--accent);
-    color           : white;
-    font-weight     : 600;
-    transition      : all 0.3s ease;
-}
-
-.btn-shopee:hover {
-    background-color: var(--accent-hover);
-    border-color    : var(--accent-hover);
-    color           : white;
-    transform       : translateY(-1px);
-    box-shadow      : 0 4px 8px rgba(var(--accent-rgb), 0.3);
-}
 
 .btn-outline-shopee {
     background-color: transparent;
