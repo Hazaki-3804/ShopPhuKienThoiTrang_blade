@@ -16,22 +16,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'Shop Nàng Thơ - Phụ kiện thời trang nữ tính')">
-    <meta property="og:description" content="@yield('description', 'Shop Nàng Thơ chuyên cung cấp phụ kiện thời trang, túi xách, kẹp tóc, dây chuyền, và nhiều sản phẩm nữ tính giúp bạn tỏa sáng mỗi ngày.')">
-    <meta property="og:image" content="{{ asset('img/logo_shop.png') }}">
+    <meta property="og:description" content="@yield('description', $site_settings['site_description']??'Shop Nàng Thơ chuyên cung cấp phụ kiện thời trang, túi xách, kẹp tóc, dây chuyền, và nhiều sản phẩm nữ tính giúp bạn tỏa sáng mỗi ngày.')">
+    <meta property="og:image" content="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
     <meta property="og:site_name" content="Shop Nàng Thơ">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', 'Shop Nàng Thơ - Phụ kiện thời trang nữ tính')">
-    <meta name="twitter:description" content="@yield('description', 'Phụ kiện thời trang dành cho phái đẹp – sang trọng và tinh tế.')">
-    <meta name="twitter:image" content="{{ asset('img/logo_shop.png') }}">
+    <meta name="twitter:description" content="@yield('description', $site_settings['site_description']??'Phụ kiện thời trang dành cho phái đẹp – sang trọng và tinh tế.')">
+    <meta name="twitter:image" content="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
     <!-- Favicon: ensure consistent logo on browser tab -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=3">
-    <link rel="icon" type="image/png" href="{{ asset('img/logo_shop.png') }}">
-    <link rel="icon" sizes="32x32" type="image/png" href="{{ asset('img/logo_shop.png') }}">
-    <link rel="icon" sizes="16x16" type="image/png" href="{{ asset('img/logo_shop.png') }}">
-    <link rel="shortcut icon" href="{{ asset('img/logo_shop.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('img/logo_shop.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset($site_settings['site_favicon']??'favicon.ico') }}?v=3">
+    <link rel="icon" type="image/png" href="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
+    <link rel="icon" sizes="32x32" type="image/png" href="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
+    <link rel="icon" sizes="16x16" type="image/png" href="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
+    <link rel="shortcut icon" href="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}">
     <!-- Google Fonts: Nunito for body, Playfair Display for brand -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 -->
@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v=20251003">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
     @stack('styles')
 </head>
 

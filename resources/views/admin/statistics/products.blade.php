@@ -175,7 +175,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 @endpush
 

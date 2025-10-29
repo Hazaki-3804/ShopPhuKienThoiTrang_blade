@@ -150,6 +150,9 @@
                     <i class="fas fa-plus mr-1"></i> Thêm sản phẩm mới
                 </a>
                 @endif
+                <a href="{{ route('admin.products.import') }}" class="btn btn-info btn-sm mr-2" title="Import sản phẩm">
+                    <i class="fas fa-file-import mr-1"></i> Import sản phẩm
+                </a>
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
@@ -345,7 +348,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 
 @push('scripts')

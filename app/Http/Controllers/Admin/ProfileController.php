@@ -148,37 +148,4 @@ class ProfileController extends Controller
 
         return redirect()->route('login');
     }
-
-    public function settings()
-    {
-        $settings = [
-            'site_name' => config('app.name', 'Shop Nàng Thơ'),
-            'site_description' => 'Phụ kiện thời trang cao cấp',
-            'contact_email' => 'info@shopnangTho.com',
-            'contact_phone' => '0123.456.789',
-            'contact_address' => '123 Đường ABC, Quận XYZ, TP.HCM',
-            'maintenance_mode' => false,
-            'allow_registration' => true,
-        ];
-        
-        return view('admin.profile.settings', compact('settings'));
-    }
-
-    public function updateSettings(Request $request)
-    {
-        $request->validate([
-            'site_name' => 'required|string|max:255',
-            'site_description' => 'nullable|string|max:500',
-            'contact_email' => 'required|email',
-            'contact_phone' => 'nullable|string|max:20',
-            'contact_address' => 'nullable|string|max:255',
-            'maintenance_mode' => 'boolean',
-            'allow_registration' => 'boolean',
-        ]);
-
-        // Lưu settings vào cache hoặc config
-        // Đây chỉ là demo, trong thực tế bạn có thể lưu vào database
-        
-        return redirect()->route('admin.profile.settings')->with('success', 'Cập nhật cài đặt thành công!');
-    }
 }

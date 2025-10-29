@@ -23,9 +23,6 @@
                 </div>
                 <div>
                     <h6 class="mb-0 fw-bold">Mia - Trợ lý ảo</h6>
-                    <small class="text-white-50">
-                        <span class="status-dot"></span> Đang hoạt động
-                    </small>
                 </div>
             </div>
             <div class="d-flex gap-2">

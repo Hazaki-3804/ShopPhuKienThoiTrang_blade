@@ -94,8 +94,8 @@
                 <div class="mr-2">
                     <select id="statusFilter" class="form-control form-control-sm mr-2">
                         <option value="">-- Chọn trạng thái --</option>
-                        <option value="1">Active</option>
-                        <option value="0">Blocked</option>
+                        <option value="1">Mở tài khoản</option>
+                        <option value="0">Khóa tài khoản</option>
                     </select>
                 </div>
 
@@ -103,6 +103,12 @@
                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addUserModal">
                         <i class="fas fa-user-plus mr-1"></i>Thêm nhân viên
                     </button>
+                </div>
+
+                <div class="mr-2">
+                    <a href="{{ route('admin.users.import') }}" class="btn btn-info btn-sm">
+                        <i class="fas fa-file-import mr-1"></i>Import Excel
+                    </a>
                 </div>
 
                 <div class="dropdown">
@@ -256,7 +262,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 
 @push('scripts')

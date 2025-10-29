@@ -376,6 +376,45 @@ class CheckoutController extends Controller
     public function index(Request $request)
     {
         if (!Auth::check()) return redirect()->route('login');
+        
+        // Kiểm tra nếu là "Mua ngay" từ session
+        $buyNowItem = session('buy_now_item');
+        if ($request->query('buy_now') == 1 && $buyNowItem) {
+            $product = Product::with('product_images')
+                ->where('status', 1)
+                ->find($buyNowItem['product_id']);
+            
+            if (!$product) {
+                session()->forget('buy_now_item');
+                return redirect()->route('shop.index')->withErrors(['product' => 'Sản phẩm không tồn tại']);
+            }
+            
+            if ($product->stock < $buyNowItem['qty']) {
+                session()->forget('buy_now_item');
+                return redirect()->back()->withErrors(['qty' => 'Số lượng vượt quá tồn kho']);
+            }
+            
+            $price = (int) $product->price;
+            $qty = (int) $buyNowItem['qty'];
+            
+            $items = collect([[
+                'product' => $product,
+                'qty' => $qty,
+                'price' => $price,
+                'subtotal' => $price * $qty,
+            ]]);
+            
+            $total = (int) $items->sum('subtotal');
+            
+            return view('checkout.index', [
+                'items' => $items,
+                'total' => $total,
+                'selected' => [],
+                'is_buy_now' => true,
+            ]);
+        }
+        
+        // Logic cũ cho checkout từ giỏ hàng
         $cart = $this->currentCart();
         if (!$cart) return redirect()->route('shop.index')->withErrors(['cart' => 'Giỏ hàng trống']);
 
@@ -417,6 +456,7 @@ class CheckoutController extends Controller
             'items' => $items,
             'total' => $total,
             'selected' => $selected->all(),
+            'is_buy_now' => false,
         ]);
     }
 
@@ -1764,7 +1804,7 @@ class CheckoutController extends Controller
                 'status' => 'pending', 
             ]);
             // Xóa session và cart items cho COD
-            session()->forget(['checkout_address', 'checkout_selected']);
+            session()->forget(['checkout_address', 'checkout_selected', 'buy_now_item']);
             if ($cart) {
                 // Xóa các sản phẩm đã đặt hàng khỏi giỏ hàng
                 if ($selected->isNotEmpty()) {
@@ -1812,7 +1852,7 @@ class CheckoutController extends Controller
             }
 
             // Xóa session và cart items
-            session()->forget(['checkout_address', 'checkout_selected', 'momo_order_id']);
+            session()->forget(['checkout_address', 'checkout_selected', 'momo_order_id', 'buy_now_item']);
             $cart = $this->currentCart();
             if ($cart) {
                 // Xóa toàn bộ giỏ hàng sau khi thanh toán MoMo thành công

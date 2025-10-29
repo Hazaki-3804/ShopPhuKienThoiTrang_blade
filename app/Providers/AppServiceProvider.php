@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Blade; 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
@@ -92,5 +93,9 @@ class AppServiceProvider extends ServiceProvider
             $apiKey = $config['api_key'] ?? config('services.sendgrid.api_key');
             return new SendGridTransport($apiKey);
         });
+        // Lấy tất cả các cài đặt từ bảng settings
+        $site_settings = Setting::all()->pluck('value', 'key_name')->toArray();
+        // Chia sẻ cho tất cả view
+        View::share('site_settings', $site_settings);
     }
 }

@@ -181,7 +181,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 
 @push('scripts')

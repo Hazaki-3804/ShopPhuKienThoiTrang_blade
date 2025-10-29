@@ -15,7 +15,7 @@
     data-backdrop="static"
     data-keyboard="false">
 
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
@@ -30,7 +30,7 @@
                 @if(strtoupper($method) !== 'POST')
                 @method($method)
                 @endif
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
                     {{ $slot }}
                 </div>
                 <div class="modal-footer">

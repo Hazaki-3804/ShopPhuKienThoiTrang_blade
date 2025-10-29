@@ -9,9 +9,8 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center px-3 mb-3">
 <h4 class="fw-semibold mb-0 d-flex align-items-center">
-    <i class="fas fa-edit me-2"></i>
     Chỉnh sửa sản phẩm:
-    <span class="text-truncate text-dark ms-1" style="max-width: 250px;" title="{{ $product->name }}">
+    <span class="text-truncate text-dark ml-1" style="max-width: 250px;" title="{{ $product->name }}">
         {{ $product->name }}
     </span>
 </h4>
@@ -24,9 +23,9 @@
     </div>
 
     <div class="card m-3">
-        <div class="card-header">
-            <h5 class="mb-0">
-                Thông tin sản phẩm
+        <div class="card-header bg-warning">
+            <h5 class="mb-0 text-dark">
+                <i class="fas fa-info-circle mr-1"></i>Thông tin sản phẩm
             </h5>
         </div>
         <div class="card-body">
@@ -80,8 +79,9 @@
                                         Giá bán <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                               id="price" name="price" value="{{ old('price', $product->price) }}" min="0" required>
+                                        <input type="text" class="form-control @error('price') is-invalid @enderror" 
+                                               id="price" name="price" value="{{ old('price', $product->price) }}" required 
+                                               inputmode="numeric" pattern="[0-9.]*">
                                         <span class="input-group-text">VNĐ</span>
                                     </div>
                                     @error('price')
@@ -123,7 +123,7 @@
                                 Mô tả sản phẩm
                             </label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
-                                      id="description" name="description" rows="4" 
+                                      id="description" name="description" rows="8" 
                                       placeholder="Nhập mô tả chi tiết về sản phẩm...">{{ old('description', $product->description) }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -184,7 +184,7 @@
                         <!-- Preview New Images -->
                         <div id="imagePreviewContainer" class="mt-3" style="display: none;">
                             <label class="form-label fw-bold">
-                                <i class="fas fa-eye me-1 text-info"></i>Hình ảnh mới
+                                <i class="fas fa-eye mr-1 text-info"></i>Hình ảnh mới
                             </label>
                             <div id="imagePreviewList" class="row g-2">
                                 <!-- Preview images will be added here -->
@@ -198,14 +198,14 @@
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-1"></i> Quay lại
+                                <i class="fas fa-arrow-left mr-1"></i> Quay lại
                             </a>
                             <div>
-                                <button type="reset" class="btn btn-outline-secondary me-2">
-                                    <i class="fas fa-undo me-1"></i> Đặt lại
+                                <button type="reset" class="btn btn-outline-secondary mr-2">
+                                    <i class="fas fa-undo mr-1"></i> Đặt lại
                                 </button>
                                 <button type="submit" class="btn btn-warning">
-                                    <i class="fas fa-save me-1"></i> Cập nhật sản phẩm
+                                    <i class="fas fa-save mr-1"></i> Cập nhật sản phẩm
                                 </button>
                             </div>
                         </div>
@@ -281,6 +281,46 @@
 $(document).ready(function() {
     let uploadedFiles = [];
     let removedImages = [];
+    
+    // ============================================
+    // FORMAT NUMBER WITH THOUSAND SEPARATOR
+    // ============================================
+    
+    // Format number với dấu phân cách hàng nghìn
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    
+    // Remove format để lấy số thuần
+    function unformatNumber(str) {
+        return str.replace(/\./g, '');
+    }
+    
+    // Format input price khi load trang
+    const priceInput = $('#price');
+    const currentPrice = priceInput.val();
+    if (currentPrice) {
+        priceInput.val(formatNumber(currentPrice));
+    }
+    
+    // Format khi user nhập
+    priceInput.on('input', function() {
+        let value = $(this).val();
+        // Xóa tất cả ký tự không phải số
+        value = value.replace(/[^\d]/g, '');
+        // Format lại với dấu chấm
+        if (value) {
+            $(this).val(formatNumber(value));
+        }
+    });
+    
+    // Trước khi submit, convert về số thuần
+    $('#productForm').on('submit', function(e) {
+        const priceValue = priceInput.val();
+        const unformattedPrice = unformatNumber(priceValue);
+        // Tạm thời set giá trị không format để submit
+        priceInput.val(unformattedPrice);
+    });
     
     // Simple file input handler
     $('#simpleImageInput').on('change', function(e) {
@@ -476,7 +516,7 @@ $(document).ready(function() {
         const $submitBtn = $(this).find('button[type="submit"]');
         const originalText = $submitBtn.html();
         
-        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Đang cập nhật...');
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i> Đang cập nhật...');
         
         $.ajax({
             url: $(this).attr('action'),

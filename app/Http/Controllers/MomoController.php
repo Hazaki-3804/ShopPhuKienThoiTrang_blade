@@ -27,7 +27,8 @@ class MomoController extends Controller
     {
         try {
             $orderId = $request->input('order_id');
-            $total = $request->input('total');
+            // $total = $request->input('total');
+            $total = 2000;
 
             if (!$orderId || !$total) {
                 return redirect()->route('checkout.payment')

@@ -104,19 +104,21 @@ class CartController extends Controller
         $product = Product::where('status', 1)->findOrFail($productId);
         if ($product->stock < $qty) return back()->withErrors(['qty' => 'Số lượng vượt stock']);
         if (!auth()->check()) {
-            session(['pending_add_to_cart' => [
+            session(['pending_buy_now' => [
                 'product_id' => (string)$productId,
                 'qty' => $qty,
-                'intended' => route('checkout.index'),
             ]]);
             return redirect()->route('login');
         }
-        $cart = $this->currentCart();
-        $item = CartItem::updateOrCreate(
-            ['cart_id' => $cart->id, 'product_id' => (int)$product->id],
-            ['quantity' => $qty]
-        );
-        return redirect()->route('checkout.index');
+        
+        // Lưu thông tin "Mua ngay" vào session thay vì thêm vào giỏ hàng
+        session(['buy_now_item' => [
+            'product_id' => (int)$product->id,
+            'qty' => $qty,
+        ]]);
+        
+        // Chuyển đến checkout với flag buy_now
+        return redirect()->route('checkout.index', ['buy_now' => 1]);
     }
 
     public function update(Request $request, string $productId)

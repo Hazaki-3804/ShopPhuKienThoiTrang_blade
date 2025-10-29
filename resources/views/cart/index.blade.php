@@ -66,7 +66,7 @@
                         <span>Tạm tính</span>
                         <strong id="selectedTotalValue">{{ number_format($total,0,',','.') }}₫</strong>
                     </div>
-                    <button type="submit" form="cartSelectForm" class="btn btn-shopee w-100 mt-3">Thanh toán</button>
+                    <button type="submit" form="cartSelectForm" class="btn btn-brand w-100 mt-3">Thanh toán</button>
                 </div>
             </div>
         </div>

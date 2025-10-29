@@ -30,6 +30,9 @@
         justify-content: center;
         transition: all 0.2s ease;
     }
+    .btn:hover{
+        transform: scale(1.05);
+    }
 
     /* 🌟 Dropdown Actions Menu - Nút ba chấm */
     .btn-light.border-0 {
@@ -60,7 +63,7 @@
         transition: all 0.25s ease;
     }
 
-    /* 🎬 Hiệu ứng xuất hiện mượt */
+    /* Hiệu ứng xuất hiện mượt */
     .show > .dropdown-menu {
         opacity: 1;
         transform: translateY(0);
@@ -107,7 +110,7 @@
         overflow: visible !important;
     }
     
-/* Stats Cards Styling - Giống trang quản lý khuyến mãi */
+    /* Stats Cards Styling - Giống trang quản lý khuyến mãi */
     .card.bg-primary,
     .card.bg-success,
     .card.bg-warning,
@@ -141,6 +144,7 @@
     }
     
 </style>
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @stack('styles')
 @endsection
 @section('js')

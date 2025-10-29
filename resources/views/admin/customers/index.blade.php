@@ -208,7 +208,6 @@
 </x-admin.modal>
 @endsection
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <style>
 /* Validation error styles */
 .form-control.is-invalid {

@@ -94,7 +94,7 @@ class PromotionController extends Controller
                     // Xóa
                     if(auth()->user()->can('delete promotions')){
                         $buttons .= '
-                            <a class="dropdown-item delete-promotion-btn text-danger" href="#" data-id="' . $promotion->id . '">
+                            <a class="dropdown-item delete-promotion-btn text-danger" href="#" data-toggle="modal" data-target="#deletePromotionModal" data-id="' . $promotion->id . '" data-code="' . $promotion->code . '">
                                 <i class="fas fa-trash mr-2"></i>Xóa
                             </a>
                         ';

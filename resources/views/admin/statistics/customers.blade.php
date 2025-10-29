@@ -164,7 +164,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <style>
   /* Đồng bộ kích thước 4 card tổng quan */
   #summaryCards .card .summary-card { min-height: 96px; }

@@ -123,10 +123,10 @@
                                 <label>Chọn sản phẩm</label>
                                 <div class="mb-2">
                                     <button type="button" class="btn btn-sm btn-outline-primary" id="selectAllProducts">
-                                        <i class="fas fa-check-double"></i> Chọn tất cả
+                                        <i class="fas fa-check-double mr-1"></i> Chọn tất cả
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary" id="deselectAllProducts">
-                                        <i class="fas fa-times"></i> Bỏ chọn tất cả
+                                        <i class="fas fa-times mr-1"></i> Bỏ chọn tất cả
                                     </button>
                                 </div>
                                 <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">

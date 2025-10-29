@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Shop Nàng Thơ - Phụ kiện thời trang')
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
 <link rel="stylesheet" href="{{ asset('css/shop-index.css') }}">
 @endpush
 @section('content')

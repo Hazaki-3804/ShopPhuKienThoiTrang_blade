@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class UserController extends Controller
 {
@@ -516,6 +519,390 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi xảy ra khi lấy thống kê!'
+            ], 500);
+        }
+    }
+
+    // ==================== IMPORT EXCEL METHODS ====================
+    
+    /**
+     * Hiển thị trang import
+     */
+    public function showImport()
+    {
+        return view('admin.users.import');
+    }
+
+    /**
+     * Tải file Excel mẫu
+     */
+    public function downloadTemplate()
+    {
+        try {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setTitle('Nhân viên');
+
+            // Headers
+            $headers = ['Họ và tên', 'Email', 'Số điện thoại', 'Địa chỉ', 'Mật khẩu', 'Trạng thái'];
+            $sheet->fromArray($headers, null, 'A1');
+
+            // Style header
+            $headerStyle = [
+                'font' => ['bold' => true, 'size' => 12, 'color' => ['rgb' => 'FFFFFF']],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => '4472C4']
+                ],
+                'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER]
+            ];
+            $sheet->getStyle('A1:F1')->applyFromArray($headerStyle);
+
+            // Sample data
+            $sampleData = [
+                ['Nguyễn Văn A', 'nguyenvana@example.com', '0901234567', '123 Đường ABC, Quận 1, TP.HCM', 'Password@123', 'Hoạt động'],
+                ['Trần Thị B', 'tranthib@example.com', '0912345678', '456 Đường XYZ, Quận 2, TP.HCM', 'Password@456', 'Hoạt động'],
+                ['Lê Văn C', 'levanc@example.com', '0923456789', '789 Đường DEF, Quận 3, TP.HCM', 'Password@789', 'Khóa']
+            ];
+            $sheet->fromArray($sampleData, null, 'A2');
+
+            // Tạo dropdown cho cột Trạng thái (F2:F1000)
+            $validation = $sheet->getCell('F2')->getDataValidation();
+            $validation->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+            $validation->setErrorStyle(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::STYLE_INFORMATION);
+            $validation->setAllowBlank(false);
+            $validation->setShowInputMessage(true);
+            $validation->setShowErrorMessage(true);
+            $validation->setShowDropDown(true);
+            $validation->setErrorTitle('Lỗi trạng thái');
+            $validation->setError('Vui lòng chọn trạng thái từ danh sách.');
+            $validation->setPromptTitle('Chọn trạng thái');
+            $validation->setPrompt('Chọn "Hoạt động" hoặc "Khóa".');
+            $validation->setFormula1('"Hoạt động,Khóa"');
+
+            // Apply validation cho nhiều dòng
+            for ($row = 2; $row <= 1000; $row++) {
+                $sheet->getCell('F' . $row)->setDataValidation(clone $validation);
+            }
+
+            // Thêm ghi chú cho các cột
+            $sheet->getComment('E1')->getText()->createTextRun(
+                "Mật khẩu phải:\n- Tối thiểu 8 ký tự\n- Có ít nhất 1 chữ hoa\n- Có ít nhất 1 chữ thường\n- Có ít nhất 1 số\n- Có ít nhất 1 ký tự đặc biệt"
+            );
+            $sheet->getComment('E1')->setWidth('300pt');
+            $sheet->getComment('E1')->setHeight('100pt');
+
+            $sheet->getComment('F1')->getText()->createTextRun(
+                "Trạng thái tài khoản:\n- Hoạt động: Tài khoản có thể đăng nhập\n- Khóa: Tài khoản bị khóa, không thể đăng nhập"
+            );
+            $sheet->getComment('F1')->setWidth('300pt');
+            $sheet->getComment('F1')->setHeight('80pt');
+
+            // Auto width
+            foreach (range('A', 'F') as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+
+            // Tạo sheet hướng dẫn
+            $instructionSheet = $spreadsheet->createSheet();
+            $instructionSheet->setTitle('Hướng dẫn');
+            
+            $instructions = [
+                ['HƯỚNG DẪN IMPORT NHÂN VIÊN'],
+                [''],
+                ['1. Họ và tên:', 'Bắt buộc. Tối đa 120 ký tự. Chỉ chứa chữ cái và khoảng trắng.'],
+                ['2. Email:', 'Bắt buộc. Phải là email hợp lệ và chưa tồn tại trong hệ thống.'],
+                ['3. Số điện thoại:', 'Bắt buộc. Tối đa 15 ký tự.'],
+                ['4. Địa chỉ:', 'Bắt buộc. Tối đa 255 ký tự.'],
+                ['5. Mật khẩu:', 'Bắt buộc. Tối thiểu 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.'],
+                ['6. Trạng thái:', 'Bắt buộc. Chọn "Hoạt động" hoặc "Khóa" từ dropdown.'],
+                [''],
+                ['LƯU Ý:'],
+                ['- Không xóa dòng tiêu đề (dòng 1)'],
+                ['- Email không được trùng với nhân viên đã có'],
+                ['- Email không được trùng trong file'],
+                ['- Mật khẩu phải đủ mạnh theo yêu cầu'],
+                ['- Trạng thái phải chọn từ dropdown'],
+                ['- Xóa các dòng mẫu trước khi nhập dữ liệu thực'],
+                ['- Tất cả nhân viên được import sẽ có vai trò "Nhân viên"'],
+                ['- Có thể phân quyền chi tiết sau khi import'],
+                [''],
+                ['VÍ DỤ MẬT KHẨU HỢP LỆ:'],
+                ['- Password@123'],
+                ['- Admin@2024'],
+                ['- Staff#456'],
+                [''],
+                ['VÍ DỤ MẬT KHẨU KHÔNG HỢP LỆ:'],
+                ['- password (thiếu chữ hoa, số, ký tự đặc biệt)'],
+                ['- PASSWORD123 (thiếu chữ thường, ký tự đặc biệt)'],
+                ['- Pass@1 (quá ngắn, dưới 8 ký tự)']
+            ];
+            
+            $instructionSheet->fromArray($instructions, null, 'A1');
+            
+            // Style cho sheet hướng dẫn
+            $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+            $instructionSheet->getStyle('A3:A8')->getFont()->setBold(true);
+            $instructionSheet->getStyle('A10')->getFont()->setBold(true);
+            $instructionSheet->getStyle('A19')->getFont()->setBold(true);
+            $instructionSheet->getStyle('A24')->getFont()->setBold(true);
+            $instructionSheet->getColumnDimension('A')->setWidth(30);
+            $instructionSheet->getColumnDimension('B')->setWidth(70);
+
+            // Set active sheet về Nhân viên
+            $spreadsheet->setActiveSheetIndex(0);
+
+            $writer = new Xlsx($spreadsheet);
+            $fileName = 'template_import_staff_' . date('YmdHis') . '.xlsx';
+            $tempFile = tempnam(sys_get_temp_dir(), $fileName);
+            $writer->save($tempFile);
+
+            return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
+
+        } catch (\Exception $e) {
+            Log::error('Download template error: ' . $e->getMessage());
+            return back()->with('error', 'Có lỗi xảy ra khi tải file mẫu!');
+        }
+    }
+
+    /**
+     * Preview dữ liệu từ file Excel
+     */
+    public function previewImport(Request $request)
+    {
+        try {
+            $request->validate([
+                'excel_file' => 'required|file|mimes:xlsx,xls|max:2048'
+            ]);
+
+            $file = $request->file('excel_file');
+            $spreadsheet = IOFactory::load($file->getPathname());
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray();
+
+            if (empty($rows) || count($rows) < 2) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File Excel trống hoặc không có dữ liệu!'
+                ], 400);
+            }
+
+            // Lấy header
+            $header = array_map('trim', $rows[0]);
+            
+            // Kiểm tra các cột bắt buộc
+            $requiredColumns = ['Họ và tên', 'Email', 'Số điện thoại', 'Địa chỉ', 'Mật khẩu', 'Trạng thái'];
+            $missingColumns = array_diff($requiredColumns, $header);
+            
+            if (!empty($missingColumns)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File Excel thiếu các cột: ' . implode(', ', $missingColumns)
+                ], 400);
+            }
+
+            // Lấy dữ liệu (bỏ dòng header)
+            $data = array_slice($rows, 1);
+            
+            // Validate và chuẩn bị dữ liệu preview
+            $previewData = [];
+            $errors = [];
+            $existingEmails = User::pluck('email')->map(function($email) {
+                return strtolower(trim($email));
+            })->toArray();
+            $emailsInFile = [];
+
+            foreach ($data as $index => $row) {
+                $rowNumber = $index + 2; // +2 vì bắt đầu từ dòng 2
+                
+                // Bỏ qua dòng trống
+                if (empty(array_filter($row))) {
+                    continue;
+                }
+
+                $name = trim($row[0] ?? '');
+                $email = trim($row[1] ?? '');
+                $phone = trim($row[2] ?? '');
+                $address = trim($row[3] ?? '');
+                $password = trim($row[4] ?? '');
+                $statusText = trim($row[5] ?? '');
+
+                $rowErrors = [];
+                $emailLower = strtolower($email);
+
+                // Validate họ tên
+                if (empty($name)) {
+                    $rowErrors[] = 'Họ và tên không được để trống';
+                } elseif (strlen($name) > 120) {
+                    $rowErrors[] = 'Họ và tên không được vượt quá 120 ký tự';
+                } elseif (!preg_match('/^[\pL\s]+$/u', $name)) {
+                    $rowErrors[] = 'Họ và tên chỉ được chứa chữ cái và khoảng trắng';
+                }
+
+                // Validate email
+                if (empty($email)) {
+                    $rowErrors[] = 'Email không được để trống';
+                } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $rowErrors[] = 'Email không hợp lệ';
+                } elseif (in_array($emailLower, $existingEmails)) {
+                    $rowErrors[] = 'Email đã tồn tại trong hệ thống';
+                } elseif (in_array($emailLower, $emailsInFile)) {
+                    $rowErrors[] = 'Email bị trùng trong file';
+                } else {
+                    $emailsInFile[] = $emailLower;
+                }
+
+                // Validate số điện thoại
+                if (empty($phone)) {
+                    $rowErrors[] = 'Số điện thoại không được để trống';
+                } elseif (strlen($phone) > 15) {
+                    $rowErrors[] = 'Số điện thoại không được vượt quá 15 ký tự';
+                }
+
+                // Validate địa chỉ
+                if (empty($address)) {
+                    $rowErrors[] = 'Địa chỉ không được để trống';
+                } elseif (strlen($address) > 255) {
+                    $rowErrors[] = 'Địa chỉ không được vượt quá 255 ký tự';
+                }
+
+                // Validate mật khẩu
+                if (empty($password)) {
+                    $rowErrors[] = 'Mật khẩu không được để trống';
+                } elseif (strlen($password) < 8) {
+                    $rowErrors[] = 'Mật khẩu phải có tối thiểu 8 ký tự';
+                } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/', $password)) {
+                    $rowErrors[] = 'Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt';
+                }
+
+                // Validate trạng thái
+                $status = null;
+                if (empty($statusText)) {
+                    $rowErrors[] = 'Trạng thái không được để trống';
+                } elseif ($statusText === 'Hoạt động') {
+                    $status = 1;
+                } elseif ($statusText === 'Khóa') {
+                    $status = 0;
+                } else {
+                    $rowErrors[] = 'Trạng thái phải là "Hoạt động" hoặc "Khóa"';
+                }
+
+                $previewData[] = [
+                    'row_number' => $rowNumber - 1,
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'address' => $address,
+                    'password' => $password,
+                    'status' => $status,
+                    'status_text' => $statusText,
+                    'username' => Str::slug($name),
+                    'errors' => $rowErrors,
+                    'has_error' => !empty($rowErrors)
+                ];
+
+                if (!empty($rowErrors)) {
+                    $errors[] = "Dòng {$rowNumber}: " . implode(', ', $rowErrors);
+                }
+            }
+
+            // Kiểm tra có dữ liệu hợp lệ không
+            if (empty($previewData)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'File Excel không có dữ liệu hợp lệ!'
+                ], 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $previewData,
+                'total_rows' => count($previewData),
+                'valid_rows' => count(array_filter($previewData, fn($item) => !$item['has_error'])),
+                'error_rows' => count(array_filter($previewData, fn($item) => $item['has_error'])),
+                'errors' => $errors
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Preview import error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi xử lý file: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Xử lý import dữ liệu vào database
+     */
+    public function processImport(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'data' => 'required|array',
+                'data.*.name' => 'required|string|max:120',
+                'data.*.email' => 'required|email|max:255',
+                'data.*.phone' => 'required|string|max:15',
+                'data.*.address' => 'required|string|max:255',
+                'data.*.password' => 'required|string|min:8',
+                'data.*.status' => 'required|integer|in:0,1',
+                'data.*.username' => 'required|string|max:255'
+            ]);
+
+            $importedCount = 0;
+            $errors = [];
+
+            foreach ($validated['data'] as $item) {
+                try {
+                    // Kiểm tra trùng email một lần nữa
+                    if (User::where('email', $item['email'])->exists()) {
+                        $errors[] = "Email '{$item['email']}' đã tồn tại";
+                        continue;
+                    }
+
+                    $user = User::create([
+                        'username' => $item['username'],
+                        'name' => $item['name'],
+                        'email' => $item['email'],
+                        'password' => Hash::make($item['password']),
+                        'phone' => $item['phone'],
+                        'address' => $item['address'],
+                        'role_id' => 2, // Nhân viên
+                        'status' => $item['status'],
+                        'email_verified_at' => now(),
+                        'avatar' => '',
+                    ]);
+
+                    // Gán role "Nhân viên"
+                    $user->assignRole('Nhân viên');
+
+                    $importedCount++;
+                } catch (\Exception $e) {
+                    $errors[] = "Lỗi khi thêm '{$item['name']}': " . $e->getMessage();
+                }
+            }
+
+            if ($importedCount === 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không có nhân viên nào được import!',
+                    'errors' => $errors
+                ], 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => "Đã import thành công {$importedCount} nhân viên!" . 
+                            (!empty($errors) ? " Có " . count($errors) . " lỗi." : ""),
+                'imported_count' => $importedCount,
+                'errors' => $errors
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Process import error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi import: ' . $e->getMessage()
             ], 500);
         }
     }

@@ -6,14 +6,14 @@
 @stop
 
 @push('styles')
-    <style>
+<style>
     /* Smooth collapse for group bodies */
     .group-card .card-body.collapse {
     display: block;            /* keep layout flow */
     max-height: 0;             /* animate height */
     overflow: hidden;          /* hide overflowing content */
     opacity: 0;                /* fade */
-    transition: max-height 250ms ease, opacity 200ms ease;
+    transition: max-height 0.2s ease, opacity 0.2s ease;
     }
     .group-card .card-body.collapse.show {
     max-height: 1200px;        /* large enough for content */
@@ -22,14 +22,14 @@
 
     /* Subtle icon animation */
     .btn-toggle i {
-    transition: transform 200ms ease;
+        transition: transform 0.45s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
-    .btn-toggle[aria-expanded="true"] i {
-    transform: rotate(180deg);
-    }
-    </style>
-@endpush
 
+    .btn-toggle[aria-expanded="true"] i {
+        transform: rotate(180deg);
+    }
+</style>
+@endpush
 @section('content')
 <div class="card shadow-sm">
     <div class="card-header">

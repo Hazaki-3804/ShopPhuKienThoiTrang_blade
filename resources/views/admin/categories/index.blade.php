@@ -93,8 +93,8 @@
             <div class="btn-group">
                 <!-- Bulk delete button (hidden by default) -->
                 @if(auth()->user()->can('delete categories'))
-                <button type="button" class="btn btn-danger btn-sm" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
-                    <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
+                <button type="button" class="btn btn-danger btn-sm mr-2 rounded" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
+                    <i class="fas fa-trash mr-1"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
                 @endif
 
@@ -102,6 +102,9 @@
                 <button type="button" class="btn btn-success btn-sm mr-2 rounded" data-toggle="modal" data-target="#addCategoryModal">
                     <i class="fas fa-plus mr-1"></i> Thêm danh mục
                 </button>
+                <a href="{{ route('admin.categories.import') }}" class="btn btn-info btn-sm mr-2 rounded">
+                    <i class="fas fa-file-excel mr-1"></i> Import Excel
+                </a>
                 @endif
 
                 <div class="dropdown">
@@ -110,10 +113,10 @@
                         <i class="fas fa-file-export mr-1"></i> Export
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
-                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success"></i> Excel</a>
-                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv text-info"></i> CSV</a>
-                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf text-danger"></i> PDF</a>
-                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print text-primary"></i> Print</a>
+                        <a class="dropdown-item" href="#" id="btn-excel"><i class="fas fa-file-excel text-success mr-1"></i> Excel</a>
+                        <a class="dropdown-item" href="#" id="btn-csv"><i class="fas fa-file-csv text-info mr-1"></i> CSV</a>
+                        <a class="dropdown-item" href="#" id="btn-pdf"><i class="fas fa-file-pdf text-danger mr-1"></i> PDF</a>
+                        <a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print text-primary mr-1"></i> Print</a>
                     </div>
                 </div>
             </div>
@@ -219,7 +222,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 
 @push('scripts')

@@ -268,7 +268,6 @@
 </div>
 @endsection
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <style>
     /* Modern Stats Cards */
     .stats-card {
@@ -412,7 +411,6 @@
         z-index: 1050 !important;
     }
 </style>
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @endpush
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
