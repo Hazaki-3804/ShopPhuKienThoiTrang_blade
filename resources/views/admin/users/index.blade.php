@@ -82,34 +82,28 @@
     <div class="card m-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <!-- Trái -->
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 mr-2">
                 <input type="search" id="userSearch"
                     class="form-control form-control-sm"
                     placeholder="Tìm kiếm nhân viên..."
-                    style="max-width: 220px;">
+                    style="max-width: 200px;">
             </div>
 
             <!-- Phải -->
-            <div class="d-flex align-items-center">
-                <div class="mr-2">
-                    <select id="statusFilter" class="form-control form-control-sm mr-2">
-                        <option value="">-- Chọn trạng thái --</option>
-                        <option value="1">Mở tài khoản</option>
-                        <option value="0">Khóa tài khoản</option>
-                    </select>
-                </div>
+            <div class="btn-group">
+                <select id="statusFilter" class="form-control form-control-sm mr-2 d-none d-sm-inline" style="max-width: 170px;">
+                    <option value="">-- Chọn trạng thái --</option>
+                    <option value="1">Mở tài khoản</option>
+                    <option value="0">Khóa tài khoản</option>
+                </select>
 
-                <div class="mr-2">
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addUserModal">
-                        <i class="fas fa-user-plus mr-1"></i>Thêm nhân viên
-                    </button>
-                </div>
+                <button type="button" class="btn btn-success btn-sm rounded mr-2" data-toggle="modal" data-target="#addUserModal">
+                    <i class="fas fa-user-plus mr-1"></i><span class="d-none d-sm-inline">Thêm nhân viên</span>
+                </button>
 
-                <div class="mr-2">
-                    <a href="{{ route('admin.users.import') }}" class="btn btn-info btn-sm">
-                        <i class="fas fa-file-import mr-1"></i>Import Excel
-                    </a>
-                </div>
+                <a href="{{ route('admin.users.import') }}" class="btn btn-info btn-sm rounded mr-2">
+                    <i class="fas fa-file-import mr-1"></i><span class="d-none d-sm-inline">Import Excel</span>
+                </a>
 
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"

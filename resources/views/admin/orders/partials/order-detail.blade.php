@@ -3,9 +3,9 @@
     <div class="col-lg-8">
         <!-- Order Info -->
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header" style="background: #007bff;">
                 <h6 class="mb-0">
-                    <i class="fas fa-info-circle me-2 text-primary"></i> Thông tin đơn hàng
+                    <i class="fas fa-info-circle mr-1"></i> Thông tin đơn hàng
                 </h6>
             </div>
             <div class="card-body">
@@ -52,20 +52,20 @@
                                 <td class="fw-bold">Thanh toán:</td>
                                 <td>
                                     @switch($order->payment_method)
-                                        @case('cod')
-                                            <span class="badge bg-warning"><i class="fas fa-money-bill"></i> COD</span>
-                                            @break
-                                        @case('bank')
-                                            <span class="badge bg-info"><i class="fas fa-university"></i> Chuyển khoản</span>
-                                            @break
-                                        @case('momo')
-                                            <span class="badge bg-primary"><i class="fas fa-credit-card"></i> Ví điện tử Momo</span>
-                                            @break
-                                        @case('paypal')
-                                            <span class="badge bg-success"><i class="fas fa-wallet"></i> PayPal</span>
-                                            @break
-                                        @default
-                                            <span class="badge bg-secondary">{{ ucfirst($order->payment_method) }}</span>
+                                    @case('cod')
+                                    <span class="badge bg-warning"><i class="fas fa-money-bill"></i> COD</span>
+                                    @break
+                                    @case('bank')
+                                    <span class="badge bg-info"><i class="fas fa-university"></i> Chuyển khoản</span>
+                                    @break
+                                    @case('momo')
+                                    <span class="badge bg-primary"><i class="fas fa-credit-card"></i> Ví điện tử Momo</span>
+                                    @break
+                                    @case('paypal')
+                                    <span class="badge bg-success"><i class="fas fa-wallet"></i> PayPal</span>
+                                    @break
+                                    @default
+                                    <span class="badge bg-secondary">{{ ucfirst($order->payment_method) }}</span>
                                     @endswitch
                                 </td>
                             </tr>
@@ -79,7 +79,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="fas fa-map-marker-alt me-2 text-success"></i>Địa chỉ giao hàng
+                    <i class="fas fa-map-marker-alt mr-1 text-success"></i>Địa chỉ giao hàng
                 </h6>
             </div>
             <div class="card-body">
@@ -111,20 +111,20 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         @if($item->product && $item->product->product_images->count() > 0)
-                                            <img src="{{ $item->product->product_images->first()->image_url }}" 
-                                                 alt="{{ $item->product->name }}" 
-                                                 class="rounded me-2" 
-                                                 style="width: 40px; height: 40px; object-fit: cover;">
+                                        <img src="{{ $item->product->product_images->first()->image_url }}"
+                                            alt="{{ $item->product->name }}"
+                                            class="rounded mr-1"
+                                            style="width: 40px; height: 40px; object-fit: cover;">
                                         @else
-                                            <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
-                                                 style="width: 40px; height: 40px;">
-                                                <i class="fas fa-image text-muted"></i>
-                                            </div>
+                                        <div class="bg-light rounded mr-1 d-flex align-items-center justify-content-center"
+                                            style="width: 40px; height: 40px;">
+                                            <i class="fas fa-image text-muted"></i>
+                                        </div>
                                         @endif
                                         <div>
                                             <div class="fw-bold">{{ $item->product ? $item->product->name : 'Sản phẩm đã xóa' }}</div>
                                             @if($item->product)
-                                                <small class="text-muted">ID: {{ $item->product->id }}</small>
+                                            <small class="text-muted">ID: {{ $item->product->id }}</small>
                                             @endif
                                         </div>
                                     </div>
@@ -159,26 +159,26 @@
         <div class="card">
             <div class="card-header">
                 <h6 class="mb-0">
-                    <i class="fas fa-history me-2 text-primary"></i>Lịch sử đơn hàng
+                    <i class="fas fa-history mr-1 text-primary"></i>Lịch sử đơn hàng
                 </h6>
             </div>
             <div class="card-body">
                 <div class="timeline">
                     @foreach($timeline as $item)
-                        <div class="timeline-item {{ $item['completed'] ? 'completed' : '' }} {{ $item['current'] ?? false ? 'current' : '' }}">
-                            <div class="timeline-icon bg-{{ $item['color'] }} text-white">
-                                <i class="{{ $item['icon'] }}"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <h6 class="mb-1">{{ $item['title'] }}</h6>
-                                <p class="mb-1 text-muted small">{{ $item['description'] }}</p>
-                                @if(isset($item['date']))
-                                    <small class="text-primary fw-bold">
-                                        <i class="fas fa-clock me-1"></i>{{ $item['date'] }}
-                                    </small>
-                                @endif
-                            </div>
+                    <div class="timeline-item {{ $item['completed'] ? 'completed' : '' }} {{ $item['current'] ?? false ? 'current' : '' }}">
+                        <div class="timeline-icon bg-{{ $item['color'] }} text-white">
+                            <i class="{{ $item['icon'] }}"></i>
                         </div>
+                        <div class="timeline-content">
+                            <h6 class="mb-1">{{ $item['title'] }}</h6>
+                            <p class="mb-1 text-muted small">{{ $item['description'] }}</p>
+                            @if(isset($item['date']))
+                            <small class="text-primary fw-bold">
+                                <i class="fas fa-clock me-1"></i>{{ $item['date'] }}
+                            </small>
+                            @endif
+                        </div>
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -187,83 +187,85 @@
 </div>
 
 <style>
-.timeline {
-    position: relative;
-}
-
-.timeline-item {
-    position: relative;
-    padding-left: 40px;
-    margin-bottom: 20px;
-}
-
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 25px;
-    bottom: -20px;
-    width: 2px;
-    background: #dee2e6;
-}
-
-.timeline-item:last-child::before {
-    display: none;
-}
-
-.timeline-icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    z-index: 1;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.timeline-content {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 12px;
-    border-left: 3px solid #dee2e6;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.timeline-item.completed .timeline-content {
-    border-left-color: #28a745;
-    background: #f8fff9;
-}
-
-.timeline-item.current .timeline-content {
-    border-left-color: #007bff;
-    background: #e3f2fd;
-    box-shadow: 0 4px 8px rgba(0,123,255,0.1);
-}
-
-.timeline-item.completed .timeline-icon {
-    background: #28a745;
-}
-
-.timeline-item.current .timeline-icon {
-    background: #007bff;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    .timeline {
+        position: relative;
     }
-    70% {
-        box-shadow: 0 0 0 8px rgba(0, 123, 255, 0);
+
+    .timeline-item {
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 20px;
     }
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 25px;
+        bottom: -20px;
+        width: 2px;
+        background: #dee2e6;
     }
-}
+
+    .timeline-item:last-child::before {
+        display: none;
+    }
+
+    .timeline-icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        z-index: 1;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .timeline-content {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        border-left: 3px solid #dee2e6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .timeline-item.completed .timeline-content {
+        border-left-color: #28a745;
+        background: #f8fff9;
+    }
+
+    .timeline-item.current .timeline-content {
+        border-left-color: #007bff;
+        background: #e3f2fd;
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+    }
+
+    .timeline-item.completed .timeline-icon {
+        background: #28a745;
+    }
+
+    .timeline-item.current .timeline-icon {
+        background: #007bff;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 8px rgba(0, 123, 255, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+        }
+    }
 </style>

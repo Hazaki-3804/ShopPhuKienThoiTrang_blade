@@ -109,10 +109,10 @@
 
             <ul class="navbar-nav ms-auto align-items-center d-none d-lg-flex">
                 <li class="nav-item me-3">
-                    <form class="d-flex" action="{{ route('shop.index') }}" method="GET">
-                        <div class="input-group input-group-sm shadow-sm rounded-start-3">
+                    <form class="d-flex w-100" action="{{ route('shop.index') }}" method="GET">
+                        <div class="input-group input-group-sm shadow-sm rounded-start-3 w-100" style="min-width: 300px;">
                             <input class="form-control border-end-0 p-2 rounded-start-3"
-                                type="search" style="width: 300px" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
+                                type="search" name="q" value="{{ request('q') }}" placeholder="Tìm sản phẩm theo tên hoặc mô tả..." aria-label="Tìm kiếm">
                             @if(request('category'))
                             <input type="hidden" name="category" value="{{ request('category') }}">
                             @endif

@@ -8,7 +8,7 @@
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center px-4">
-        <h4 class="fw-semibold m-0">Dashboard Thống kê</h4>
+        <h4 class="fw-semibold m-0">Thống kê</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Thống kê']]" />
     </div>
 
@@ -85,7 +85,7 @@
             <div class="card card-hover h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-user-friends fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">Thống kê Khách hàng</h5>
+                    <h5 class="card-title">Thống kê khách hàng</h5>
                     <p class="card-text">Phân tích hành vi mua hàng, tần suất và giá trị khách hàng</p>
                     <a href="{{ route('admin.statistics.customers') }}" class="btn btn-primary">
                         <i class="fas fa-chart-bar"></i> Xem chi tiết
@@ -98,7 +98,7 @@
             <div class="card card-hover h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-box fa-3x text-success mb-3"></i>
-                    <h5 class="card-title">Thống kê Sản phẩm</h5>
+                    <h5 class="card-title">Thống kê sản phẩm</h5>
                     <p class="card-text">Doanh số bán hàng, sản phẩm bán chạy và phân tích danh mục</p>
                     <a href="{{ route('admin.statistics.products') }}" class="btn btn-success">
                         <i class="fas fa-chart-pie"></i> Xem chi tiết
@@ -111,7 +111,7 @@
             <div class="card card-hover h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-calendar-alt fa-3x text-info mb-3"></i>
-                    <h5 class="card-title">Thống kê Thời gian</h5>
+                    <h5 class="card-title">Thống kê thời gian</h5>
                     <p class="card-text">Xu hướng doanh thu theo ngày, tháng, quý và tỷ lệ tăng trưởng</p>
                     <a href="{{ route('admin.statistics.time') }}" class="btn btn-info">
                         <i class="fas fa-chart-line"></i> Xem chi tiết

@@ -8,15 +8,24 @@ use Illuminate\Support\Str;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
 class VnpayController extends Controller
 {
     public function createPayment(Request $request)
     {
         $vnp_TmnCode = config('services.vnpay.tmn_code');
         $vnp_HashSecret = config('services.vnpay.hash_secret');
-        $vnp_Url = config('services.vnpay.url');
         $vnp_ReturnUrl = config('services.vnpay.return_url');
+
+        // Kiểm tra config VNPAY
+        if (empty($vnp_TmnCode) || empty($vnp_HashSecret) || empty($vnp_ReturnUrl)) {
+            Log::error('VNPAY config is missing', [
+                'tmn_code' => $vnp_TmnCode ? 'OK' : 'MISSING',
+                'hash_secret' => $vnp_HashSecret ? 'OK' : 'MISSING',
+                'return_url' => $vnp_ReturnUrl ? 'OK' : 'MISSING',
+            ]);
+            return back()->with(['error' => 'Cấu hình thanh toán VNPAY chưa đầy đủ. Vui lòng liên hệ quản trị viên.']);
+        }
 
         $vnp_TxnRef = $request->input('order_id').'_'.time(); // Mã đơn hàng
         $vnp_OrderInfo = "Thanh toán đơn hàng tại Nàng Thơ Shop";   
@@ -56,12 +65,15 @@ class VnpayController extends Controller
         $vnp_SecureHash = hash_hmac('sha512', $queryString, $vnp_HashSecret);
 
         // 🔹 Bước 4: Tạo URL redirect
-        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" . $queryString . '&vnp_SecureHash=' . $vnp_SecureHash;
-        if(isset($vnp_Url)){
-            return redirect($vnp_Url);
-        }else{
-            return back()->with(['error' => 'Không thể tạo liên kết thanh toán VNPAY. Vui lòng thử lại hoặc chọn phương thức thanh toán khác']);
-        }
+        $paymentUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" . $queryString . '&vnp_SecureHash=' . $vnp_SecureHash;
+        
+        Log::info('VNPAY Payment URL created', [
+            'order_id' => $request->input('order_id'),
+            'amount' => $vnp_Amount,
+            'url' => $paymentUrl
+        ]);
+
+        return redirect($paymentUrl);
     }
     public function returnPayment(Request $request)
     {

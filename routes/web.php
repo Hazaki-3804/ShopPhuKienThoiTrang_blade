@@ -120,8 +120,8 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
     Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');
-    Route::get('/admin/settings', [AdminSettingController::class, 'settings'])->name('settings');
-    Route::put('/admin/settings', [AdminSettingController::class, 'updateSettings'])->name('settings.update');
+    Route::get('/admin/settings', [AdminSettingController::class, 'settings'])->middleware('permission:manage settings')->name('settings');
+    Route::put('/admin/settings', [AdminSettingController::class, 'updateSettings'])->middleware('permission:manage settings')->name('settings.update');
     // Reviews management
     Route::get('/admin/reviews', [AdminReviewsController::class, 'index'])->middleware('permission:view reviews')->name('admin.reviews.index');
     Route::patch('/admin/reviews/{review}/toggle', [AdminReviewsController::class, 'toggleVisibility'])->middleware('permission:hide reviews')->name('admin.reviews.toggle');
@@ -220,8 +220,8 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::post('/admin/users/import/process', [AdminUserController::class, 'processImport'])->middleware('permission:create staffs')->name('import.process');
         Route::get('/admin/users/import/template', [AdminUserController::class, 'downloadTemplate'])->middleware('permission:view staffs')->name('import.template');
         // Base permissions applied to all staff via Role "Nhân viên"
-        Route::get('/admin/users/base-permissions', [AdminUserController::class, 'editBasePermissions'])->middleware('permission:manage permissions')->name('base-permissions.edit');
-        Route::put('/admin/users/base-permissions', [AdminUserController::class, 'updateBasePermissions'])->middleware('permission:manage permissions')->name('base-permissions.update');
+        Route::get('/admin/users/base-permissions', [AdminUserController::class, 'editBasePermissions'])->middleware('permission:manage roles')->name('base-permissions.edit');
+        Route::put('/admin/users/base-permissions', [AdminUserController::class, 'updateBasePermissions'])->middleware('permission:manage roles')->name('base-permissions.update');
         Route::post('/admin/users/create', [AdminUserController::class, 'store'])->middleware('permission:create staffs')->name('store');
         Route::get('/admin/users/{id}', [AdminUserController::class, 'show'])->middleware('permission:view staffs')->name('show');
         Route::get('/admin/users/{id}/permissions', [AdminUserController::class, 'editPermissions'])->middleware('permission:manage permissions')->name('permissions.edit');

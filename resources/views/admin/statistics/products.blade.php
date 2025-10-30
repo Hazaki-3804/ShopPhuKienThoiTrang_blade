@@ -8,7 +8,7 @@
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center px-3">
-        <h4 class="fw-semibold m-0">Phân tích Sản phẩm</h4>
+        <h4 class="fw-semibold m-0">Phân tích sản phẩm</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Thống kê'], ['name' => 'Sản phẩm']]" />
     </div>
 

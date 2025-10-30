@@ -1,0 +1,389 @@
+/* ========================================
+    CONTACT WIDGET STYLES (UPDATED)
+    ======================================== */
+
+:root {
+    --contact-primary: #EE4D2D;
+    --contact-primary-dark: #D73211;
+    --contact-primary-light: #ff6347;
+    --contact-zalo: #0068FF;
+    --contact-phone: #10b981;
+    --contact-messenger: #0084FF;
+    --contact-email: #8b5cf6;
+    --contact-shadow: 0 8px 32px rgba(238, 77, 45, 0.25);
+    --contact-shadow-lg: 0 12px 48px rgba(238, 77, 45, 0.35);
+}
+
+/* ========================================
+    WRAPPER
+    ======================================== */
+.contact-widget-wrapper {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    z-index: 1999;
+}
+
+/* ========================================
+    MAIN TOGGLE BUTTON
+    ======================================== */
+.contact-main-btn {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--contact-primary) 0%, var(--contact-primary-dark) 100%);
+    border: none;
+    box-shadow: var(--contact-shadow);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.contact-main-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--contact-shadow-lg);
+}
+
+.contact-main-btn:active {
+    transform: scale(0.95);
+}
+
+/* Icons */
+.contact-main-btn .contact-icon,
+.contact-main-btn .close-icon {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.contact-main-btn .contact-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.contact-main-btn .close-icon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0);
+}
+
+/* Active State */
+.contact-widget-wrapper.active .contact-main-btn {
+    transform: rotate(0deg);
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.contact-widget-wrapper.active .contact-main-btn:hover {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.contact-widget-wrapper.active .contact-main-btn .contact-icon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0);
+}
+
+.contact-widget-wrapper.active .contact-main-btn .close-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* Pulse Animation */
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+.contact-main-btn::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--contact-primary);
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    z-index: -1;
+}
+
+.contact-widget-wrapper.active .contact-main-btn::before {
+    animation: none;
+}
+
+/* ========================================
+    CONTACT OPTIONS (ARC LAYOUT)
+    ======================================== */
+.contact-options {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.contact-option-btn {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #fff;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    transform: scale(0) translate(0, 0);
+    pointer-events: none;
+    bottom: 4px;
+    right: 4px;
+}
+
+.contact-option-btn svg {
+    width: 26px;
+    height: 26px;
+    transition: transform 0.3s ease;
+}
+
+/* Show options when active */
+.contact-widget-wrapper.active .contact-option-btn {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Vertical positioning - buttons stack up vertically */
+.contact-widget-wrapper.active .contact-option-btn[data-index="1"] {
+    transform: scale(1) translate(0, -80px);
+    transition-delay: 0.05s;
+}
+
+.contact-widget-wrapper.active .contact-option-btn[data-index="2"] {
+    transform: scale(1) translate(0, -150px);
+    transition-delay: 0.1s;
+}
+
+.contact-widget-wrapper.active .contact-option-btn[data-index="3"] {
+    transform: scale(1) translate(0, -220px);
+    transition-delay: 0.15s;
+}
+
+.contact-widget-wrapper.active .contact-option-btn[data-index="4"] {
+    transform: scale(1) translate(0, -290px);
+    transition-delay: 0.2s;
+}
+
+/* Hover effects - keep button position, only animate icon and shadow */
+.contact-option-btn:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.contact-option-btn:hover svg {
+    transform: scale(1.25);
+}
+.contact-option-btn:hover i {
+    transform: scale(1.25);
+}
+
+/* Individual button colors */
+.contact-option-btn.zalo {
+    background: linear-gradient(135deg, #4485e7 0%, #1060d6 100%);
+}
+
+.contact-option-btn.zalo svg {
+    color: white;
+}
+
+.contact-option-btn.phone {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.contact-option-btn.phone svg {
+    color: white;
+}
+
+.contact-option-btn.messenger {
+    background: linear-gradient(135deg, #1988f0 0%, #e41591 100%);
+}
+
+.contact-option-btn.messenger svg {
+    color: white;
+}
+
+.contact-option-btn.email {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.contact-option-btn.email svg {
+    color: white;
+}
+
+
+/* ========================================
+    LABELS (TOOLTIP)
+    ======================================== */
+.contact-label {
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.contact-label::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid rgba(0, 0, 0, 0.85);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+}
+
+.contact-option-btn:hover .contact-label {
+    opacity: 1;
+    right: calc(100% + 16px);
+}
+
+/* ========================================
+    BACKDROP OVERLAY (OPTIONAL)
+    ======================================== */
+.contact-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1998;
+}
+
+.contact-widget-wrapper.active ~ .contact-backdrop {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ========================================
+    RESPONSIVE (UPDATED ARC)
+    ======================================== */
+@media (max-width: 768px) {
+    .contact-widget-wrapper {
+        bottom: 90px;
+        right: 15px;
+    }
+
+    .contact-main-btn {
+        width: 56px;
+        height: 56px;
+    }
+
+    .contact-main-btn .contact-icon,
+    .contact-main-btn .close-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .contact-option-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contact-option-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Vertical layout for mobile */
+    .contact-widget-wrapper.active .contact-option-btn[data-index="1"] {
+        transform: scale(1) translate(0, -70px);
+    }
+
+    .contact-widget-wrapper.active .contact-option-btn[data-index="2"] {
+        transform: scale(1) translate(0, -130px);
+    }
+
+    .contact-widget-wrapper.active .contact-option-btn[data-index="3"] {
+        transform: scale(1) translate(0, -190px);
+    }
+
+    .contact-widget-wrapper.active .contact-option-btn[data-index="4"] {
+        transform: scale(1) translate(0, -250px);
+    }
+
+    /* Hide labels on mobile */
+    .contact-label {
+        display: none;
+    }
+}
+
+/* ========================================
+    ANIMATIONS
+    ======================================== */
+@keyframes bounce-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Entrance animation */
+.contact-widget-wrapper {
+    animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ========================================
+    ACCESSIBILITY
+    ======================================== */
+.contact-main-btn:focus,
+.contact-option-btn:focus {
+    outline: 3px solid rgba(238, 77, 45, 0.5);
+    outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .contact-main-btn,
+    .contact-option-btn,
+    .contact-label {
+        transition: none;
+        animation: none;
+    }
+
+    .contact-main-btn::before {
+        animation: none;
+    }
+}

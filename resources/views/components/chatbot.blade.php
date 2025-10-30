@@ -5,7 +5,7 @@
 <!-- Chatbot Container -->
 <div class="chatbot-wrapper position-fixed" style="z-index: 2000; right: 20px; bottom: 20px;">
     <!-- Toggle Button with Notification Badge -->
-    <button id="toggle-chat" class="chatbot-toggle-btn" aria-label="Open Chat">
+    <button id="toggle-chat" class="chatbot-toggle-btn  pulse-heart" aria-label="Open Chat">
         <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>

@@ -18,9 +18,9 @@
 <ol class="breadcrumb fs-5">
     @foreach($items as $item)
     @if($loop->last)
-    <li class="breadcrumb-item active">{{ $item['name'] }}</li>
+    <li class="breadcrumb-item active d-none d-md-inline">{{ $item['name'] }}</li>
     @else
-    <li class="breadcrumb-item">{{ $item['name'] }}</li>
+    <li class="breadcrumb-item d-none d-md-inline">{{ $item['name'] }}</li>
     @endif
     @endforeach
 </ol>

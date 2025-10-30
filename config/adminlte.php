@@ -15,8 +15,8 @@ return [
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_alt' => 'Admin Shop',
-    'preloader'=>[
-        'enabled'=>false,
+    'preloader' => [
+        'enabled' => false,
     ],
 
     /*
@@ -248,17 +248,17 @@ return [
             'text' => 'Quản lý nhân viên',
             'route' => 'admin.users.index',
             'icon' => 'fas fa-user',
-            'can' => 'view staffs',
+            'can' => ['view staffs', 'manage roles'],
             'submenu' => [
                 [
                     'text' => 'Danh sách nhân viên',
                     'route' => 'admin.users.index',
-                    'active' => [ 
+                    'active' => [
                         'admin/users/*/permissions',
                         'admin/users/update',
                         'admin/users/toggle-status',
                         'admin/users/update-role',
-                        'admin/users/delete',   
+                        'admin/users/delete',
                         'admin/users/import',
                     ],
                     'breadcrumb' => true,
@@ -268,11 +268,11 @@ return [
                     'text' => 'Phân quyền chung',
                     'route' => 'admin.users.base-permissions.edit',
                     'breadcrumb' => true,
-                    'can' => 'manage permissions',
+                    'can' => 'manage roles',
                 ],
             ]
         ],
-        ['header' => 'HỆ THỐNG', 'can' => 'menu.system'],
+        ['header' => 'HỆ THỐNG', 'can' => 'manage settings'],
         [
             'text' => 'Cài đặt',
             'route' => 'settings',
@@ -297,7 +297,6 @@ return [
             'active' => true,
             'files' => [
                 ['type' => 'css', 'asset' => false, 'location' => 'https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css'],
-                ['type' => 'js',  'asset' => false, 'location' => 'https://code.jquery.com/jquery-3.6.0.min.js'],
                 ['type' => 'js',  'asset' => false, 'location' => 'https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js'],
                 ['type' => 'js',  'asset' => false, 'location' => 'https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js'],
 

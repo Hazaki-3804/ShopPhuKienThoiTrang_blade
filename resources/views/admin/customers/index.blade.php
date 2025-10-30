@@ -15,29 +15,25 @@
     <div class="card m-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <!-- Trái -->
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 mr-2">
                 <input type="search" id="customerSearch"
                     class="form-control form-control-sm"
                     placeholder="Tìm kiếm khách hàng..."
-                    style="max-width: 220px;">
+                    style="max-width: 200px;">
             </div>
 
             <!-- Phải -->
-            <div class="d-flex align-items-center">
-                <div class="mr-2">
-                    <select id="statusFilter" class="form-control form-control-sm">
-                        <option value="">-- Chọn trạng thái --</option>
-                        <option value="1">✅ Mở tài khoản</option>
-                        <option value="0">🚫 Khóa tài khoản</option>
-                    </select>
-                </div>
-                <div class="mr-2">
-                    @if(auth()->user()->can('create customers'))
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCustomerModal">
-                        <i class="fas fa-user-plus mr-1"></i> Thêm khách hàng
-                    </button>
-                    @endif
-                </div>
+            <div class="btn-group">
+                <select id="statusFilter" class="form-control form-control-sm mr-2 d-none d-sm-inline" style="max-width: 170px;">
+                    <option value="">-- Chọn trạng thái --</option>
+                    <option value="1">✅ Mở tài khoản</option>
+                    <option value="0">🚫 Khóa tài khoản</option>
+                </select>
+                @if(auth()->user()->can('create customers'))
+                <button type="button" class="btn btn-sm btn-success rounded mr-2 " data-toggle="modal" data-target="#addCustomerModal">
+                    <i class="fas fa-user-plus mr-1"></i><span class="d-none d-sm-inline">Thêm khách hàng</span>
+                </button>
+                @endif
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="exportDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

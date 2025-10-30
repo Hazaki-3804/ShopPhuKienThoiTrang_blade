@@ -8,15 +8,15 @@
 @section('content')
 @php $map = $statusMap ?? []; @endphp
 <div class="shadow-sm rounded bg-white py-2">
-    <div class="col-4 col-sm-6 col-lg">
-        <div class="d-flex justify-content-between align-items-center px-3">
+    <div class="col-12 col-sm-6 col-lg">
+        <div class="d-flex justify-content-between align-items-center px-3 py-2">
             <h4 class="fw-semibold m-0">Quản lý đơn hàng</h4>
             <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý đơn hàng']]" />
         </div>
     </div>
     <!-- Stats Cards -->
     <div class="row mb-4 px-4">
-        <div class="col-8 col-sm-6 col-lg">
+        <div class="col-12 col-sm-6 col-lg mb-1">
             <div class="stats-card stats-pending">
                 <div class="stats-content">
                     <div class="stats-number">{{ $counts['pending'] ?? 0 }}</div>
@@ -413,42 +413,9 @@
 </style>
 @endpush
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Đảm bảo Bootstrap modal plugin có sẵn
-        if (typeof $.fn.modal === 'undefined') {
-            console.error('Bootstrap modal plugin not loaded!');
-            return;
-        }
-
-        // Khởi tạo dropdown thủ công cho tất cả các nút 3 chấm
-        $(document).on('click', '[data-toggle="dropdown"]', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const $button = $(this);
-            const $dropdown = $button.next('.dropdown-menu');
-            const isOpen = $dropdown.hasClass('show');
-
-            // Đóng tất cả dropdown khác
-            $('.dropdown-menu').removeClass('show');
-            $('.dropdown').removeClass('show');
-
-            // Toggle dropdown hiện tại
-            if (!isOpen) {
-                $dropdown.addClass('show');
-                $button.parent('.dropdown').addClass('show');
-            }
-        });
-
-        // Đóng dropdown khi click ra ngoài
-        $(document).on('click', function(e) {
-            if (!$(e.target).closest('.dropdown').length) {
-                $('.dropdown-menu').removeClass('show');
-                $('.dropdown').removeClass('show');
-            }
-        });
+        // Dropdown sẽ tự động hoạt động với Bootstrap 4.6.1 đã được AdminLTE import
 
         // Định nghĩa mapping trạng thái
         const statusMap = {
@@ -490,7 +457,7 @@
             // Set action cho form - sử dụng route helper
             $('#editStatusForm').attr('action', '{{ url("admin/orders") }}/' + orderId + '/update-status');
 
-            // Hiển thị modal
+            // Hiển thị modal - Sử dụng Bootstrap 4.6.1
             $('#editStatusModal').modal('show');
         });
 
@@ -516,7 +483,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Đóng modal
+                        // Đóng modal - Sử dụng Bootstrap 4.6.1
                         $('#editStatusModal').modal('hide');
 
                         // Hiển thị thông báo thành công
@@ -555,14 +522,8 @@
                 </div>
             `;
 
-            // Hiển thị modal
-            try {
-                $('#orderDetailModal').modal('show');
-            } catch (e) {
-                console.error('Error showing modal:', e);
-                alert('Không thể mở modal. Vui lòng tải lại trang.');
-                return;
-            }
+            // Hiển thị modal - Sử dụng Bootstrap 4.6.1
+            $('#orderDetailModal').modal('show');
 
             // Gọi API để lấy chi tiết đơn hàng
             fetch('/admin/orders/' + orderId + '/detail')

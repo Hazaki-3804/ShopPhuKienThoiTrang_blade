@@ -8,7 +8,7 @@
                             <img src="{{ asset($site_settings['site_logo']??'img/logo_shop.png') }}" alt="Logo" class="footer-logo">
                             <span class="h4 fw-bold brand-name mb-0">{{ $site_settings['site_name']??'Shop Nàng Thơ' }}</span>
                         </a>
-                        <p class="footer-desc mb-3">Phụ kiện thời trang nữ tính - Tỏa sáng phong cách riêng của bạn với những món đồ tinh tế và sang trọng.'</p>
+                        <p class="footer-desc mb-3">{{ $site_settings['site_description']??'Phụ kiện thời trang cao cấp' }}</p>
                         <div class="footer-contact">
                             <div class="contact-item">
                                 <i class="bi bi-geo-alt-fill"></i>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="mb-0">
-                        <small class="text-muted">Designed with <i class="bi bi-heart-fill text-danger pulse-heart"></i> by Nàng Thơ Team</small>
+                        <small class="text-muted">Thiết kế bởi <i class="bi bi-heart-fill text-danger pulse-heart"></i> Team Shop Nàng Thơ</small>
                     </p>
                 </div>
             </div>
