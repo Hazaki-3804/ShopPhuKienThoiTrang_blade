@@ -27,11 +27,6 @@ class PayosService
     }
     public function createPaymentLink($data)
     {
-        try {
-            return $this->payOS->createPaymentLink($data);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return $this->handleException($th);
-        }
+        return $this->payOS->createPaymentLink($data);
     }
 }

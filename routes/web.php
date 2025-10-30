@@ -66,7 +66,7 @@ Route::post('/checkout/momo/notify', [MomoController::class, 'notifyPayment'])->
 Route::get('/api/payment/check/{orderId}', [SePayController::class, 'checkPaymentStatus'])->name('payment.check');
 
 // Profile routes with maintenance mode check
-Route::middleware(['auth', 'maintain_mode'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Cart and Checkout routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
