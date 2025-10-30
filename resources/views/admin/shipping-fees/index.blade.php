@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý phí vận chuyển')
+@section('title', 'Danh sách phí vận chuyển')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-3 col-md-6">
             <div class="card bg-success text-white">
                 <div class="card-body">
@@ -93,13 +93,13 @@
             <div class="d-flex align-items-center">
                 @if(auth()->user()->can('delete shipping fees'))
                 <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
-                    <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
+                    <i class="fas fa-trash mr-1"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
                 @endif
 
                 @if(auth()->user()->can('create shipping fees'))
                 <button type="button" class="btn btn-success btn-sm mr-2" data-toggle="modal" data-target="#addShippingFeeModal">
-                    <i class="fas fa-plus"></i> Thêm quy tắc
+                    <i class="fas fa-plus mr-1"></i> Thêm quy tắc
                 </button>
                 @endif
             </div>
@@ -185,384 +185,430 @@
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    let permissions = @canany(['create shipping fees', 'edit shipping fees', 'delete shipping fees']) true @else false @endcanany;
-     window.shippingFeesTable = $('#shippingFeesTable').DataTable({
-        processing: false,
-        serverSide: true,
-        ajax: {
-            url: '{{ route("admin.shipping-fees.data") }}',
-            type: 'GET'
-        },
-        columns: [
-            { data: 'checkbox', name: 'checkbox', orderable: false, searchable: false },
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'name', name: 'name' },
-            { data: 'area_type_badge', name: 'area_type_badge', orderable: false },
-            { data: 'distance_range', name: 'distance_range', orderable: false },
-            { data: 'fee_display', name: 'fee_display', orderable: false },
-            { data: 'min_order_display', name: 'min_order_display', orderable: false },
-            { data: 'status_badge', name: 'status_badge', orderable: false },
-            { data: 'actions', name: 'actions', orderable: false, searchable: false, visible: permissions, width: '8%' }
-        ],
-        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-            "t" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        buttons: [{
-                extend: 'excelHtml5',
-                name: 'excel-custom',
-                bom: true,
-                charset: 'utf-8',
-                title: 'Danh sách quy tắc phí vận chuyển',
-                filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
-                className: 'buttons-excel',
-                exportOptions: {
-                    columns: ':visible:not(:first-child):not(:last-child)'
+    $(document).ready(function() {
+        let permissions = @canany(['create shipping fees', 'edit shipping fees', 'delete shipping fees']) true @else false @endcanany;
+        window.shippingFeesTable = $('#shippingFeesTable').DataTable({
+            processing: false,
+            serverSide: true,
+            ajax: {
+                url: '{{ route("admin.shipping-fees.data") }}',
+                type: 'GET'
+            },
+            columns: [{
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'area_type_badge',
+                    name: 'area_type_badge',
+                    orderable: false
+                },
+                {
+                    data: 'distance_range',
+                    name: 'distance_range',
+                    orderable: false
+                },
+                {
+                    data: 'fee_display',
+                    name: 'fee_display',
+                    orderable: false
+                },
+                {
+                    data: 'min_order_display',
+                    name: 'min_order_display',
+                    orderable: false
+                },
+                {
+                    data: 'status_badge',
+                    name: 'status_badge',
+                    orderable: false
+                },
+                {
+                    data: 'actions',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false,
+                    visible: permissions,
+                    width: '8%'
+                }
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+                "t" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            buttons: [{
+                    extend: 'excelHtml5',
+                    name: 'excel-custom',
+                    bom: true,
+                    charset: 'utf-8',
+                    title: 'Danh sách quy tắc phí vận chuyển',
+                    filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
+                    className: 'buttons-excel',
+                    exportOptions: {
+                        columns: ':visible:not(:first-child):not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    className: 'buttons-csv',
+                    bom: true,
+                    charset: 'utf-8',
+                    filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
+                    exportOptions: {
+                        columns: ':visible:not(:first-child):not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'buttons-pdf',
+                    title: 'Danh sách quy tắc phí vận chuyển',
+                    filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
+                    exportOptions: {
+                        columns: ':visible:not(:first-child):not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'print',
+                    className: 'buttons-print',
+                    title: 'Danh sách quy tắc phí vận chuyển',
+                    exportOptions: {
+                        columns: ':visible:not(:first-child):not(:last-child)'
+                    }
+                }
+            ],
+
+            order: [
+                [2, 'asc']
+            ],
+            columnDefs: [{
+                    targets: 0, // Cột checkbox
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+                {
+                    targets: 1, // Cột STT
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+                {
+                    targets: 7, // Cột hành động
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+            ],
+            responsive: true,
+            language: {
+                search: 'Tìm kiếm:',
+                lengthMenu: 'Hiển thị _MENU_ quy tắc',
+                info: 'Hiển thị _START_ đến _END_ trong tổng _TOTAL_ quy tắc',
+                infoEmpty: 'Không có dữ liệu',
+                zeroRecords: '🔍 Không tìm thấy quy tắc',
+                infoFiltered: '(lọc từ tổng _MAX_ quy tắc)',
+                loadingRecords: '<i class="fas fa-spinner fa-spin"></i> Đang tải...',
+                emptyTable: 'Không có quy tắc nào để hiển thị.',
+                processing: '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...',
+                paginate: {
+                    previous: 'Trước',
+                    next: 'Sau'
                 }
             },
-            {
-                extend: 'csvHtml5', 
-                className: 'buttons-csv',
-                bom: true,
-                charset: 'utf-8',
-                filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
-                exportOptions: {
-                    columns: ':visible:not(:first-child):not(:last-child)'
-                }
+            drawCallback: function() {
+                $('.dataTables_paginate').addClass('justify-content-end');
             },
-            {
-                extend: 'pdfHtml5',
-                className: 'buttons-pdf',
-                title: 'Danh sách quy tắc phí vận chuyển',
-                filename: 'Quy_tac_phi_van_chuyen_' + moment().format('DD-MM-YYYY_HHmmss'),
-                exportOptions: {
-                    columns: ':visible:not(:first-child):not(:last-child)'
-                }
-            },
-            {
-                extend: 'print',
-                className: 'buttons-print',
-                title: 'Danh sách quy tắc phí vận chuyển',
-                exportOptions: {
-                    columns: ':visible:not(:first-child):not(:last-child)'
-                }
+            searching: true
+        });
+
+        // Search functionality
+        let typingTimer;
+        const typingDelay = 500;
+
+        $('#shippingFeeSearch').on('keyup', function() {
+            clearTimeout(typingTimer);
+            const value = this.value;
+
+            typingTimer = setTimeout(function() {
+                shippingFeesTable.search(value).draw();
+            }, typingDelay);
+        });
+
+        // Export buttons
+        $('#btn-excel').on('click', function(e) {
+            e.preventDefault();
+            shippingFeesTable.button('.buttons-excel').trigger();
+        });
+        $('#btn-csv').on('click', function(e) {
+            e.preventDefault();
+            shippingFeesTable.button('.buttons-csv').trigger();
+        });
+        $('#btn-pdf').on('click', function(e) {
+            e.preventDefault();
+            shippingFeesTable.button('.buttons-pdf').trigger();
+        });
+        $('#btn-print').on('click', function(e) {
+            e.preventDefault();
+            shippingFeesTable.button('.buttons-print').trigger();
+        });
+
+        // Select all checkbox
+        $('#selectAll').on('click', function() {
+            const isChecked = $(this).prop('checked');
+            $('.shipping-fee-checkbox').prop('checked', isChecked);
+            updateBulkDeleteButton();
+        });
+
+        // Individual checkbox
+        $(document).on('change', '.shipping-fee-checkbox', function() {
+            updateBulkDeleteButton();
+            const totalCheckboxes = $('.shipping-fee-checkbox').length;
+            const checkedCheckboxes = $('.shipping-fee-checkbox:checked').length;
+            $('#selectAll').prop('checked', totalCheckboxes === checkedCheckboxes);
+        });
+
+        function updateBulkDeleteButton() {
+            const checkedCount = $('.shipping-fee-checkbox:checked').length;
+            if (checkedCount > 0) {
+                $('#bulkDeleteBtn').show();
+                $('#selectedCount').text(checkedCount);
+            } else {
+                $('#bulkDeleteBtn').hide();
             }
-        ],
-        
-        order: [
-            [2, 'asc']
-        ],
-        columnDefs: [{
-                targets: 0, // Cột checkbox
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-            {
-                targets: 1, // Cột STT
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-            {
-                targets: 7, // Cột hành động
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            }
-        ],
-        responsive: true,
-        language: {
-            search: 'Tìm kiếm:',
-            lengthMenu: 'Hiển thị _MENU_ quy tắc',
-            info: 'Hiển thị _START_ đến _END_ trong tổng _TOTAL_ quy tắc',
-            infoEmpty: 'Không có dữ liệu',
-            zeroRecords: '🔍 Không tìm thấy quy tắc',
-            infoFiltered: '(lọc từ tổng _MAX_ quy tắc)',
-            loadingRecords: '<i class="fas fa-spinner fa-spin"></i> Đang tải...',
-            emptyTable: 'Không có quy tắc nào để hiển thị.',
-            processing: '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...',
-            paginate: {
-                previous: 'Trước',
-                next: 'Sau'
-            }
-        },
-        drawCallback: function() {
-            $('.dataTables_paginate').addClass('justify-content-end');
-        },
-        searching: true
-    });
-
-    // Search functionality
-    let typingTimer;
-    const typingDelay = 500;
-
-    $('#shippingFeeSearch').on('keyup', function() {
-        clearTimeout(typingTimer);
-        const value = this.value;
-
-        typingTimer = setTimeout(function() {
-            shippingFeesTable.search(value).draw();
-        }, typingDelay);
-    });
-
-    // Export buttons
-    $('#btn-excel').on('click', function(e) {
-        e.preventDefault();
-        shippingFeesTable.button('.buttons-excel').trigger();
-    });
-    $('#btn-csv').on('click', function(e) {
-        e.preventDefault();
-        shippingFeesTable.button('.buttons-csv').trigger();
-    });
-    $('#btn-pdf').on('click', function(e) {
-        e.preventDefault();
-        shippingFeesTable.button('.buttons-pdf').trigger();
-    });
-    $('#btn-print').on('click', function(e) {
-        e.preventDefault();
-        shippingFeesTable.button('.buttons-print').trigger();
-    });
-
-    // Select all checkbox
-    $('#selectAll').on('click', function() {
-        const isChecked = $(this).prop('checked');
-        $('.shipping-fee-checkbox').prop('checked', isChecked);
-        updateBulkDeleteButton();
-    });
-
-    // Individual checkbox
-    $(document).on('change', '.shipping-fee-checkbox', function() {
-        updateBulkDeleteButton();
-        const totalCheckboxes = $('.shipping-fee-checkbox').length;
-        const checkedCheckboxes = $('.shipping-fee-checkbox:checked').length;
-        $('#selectAll').prop('checked', totalCheckboxes === checkedCheckboxes);
-    });
-
-    function updateBulkDeleteButton() {
-        const checkedCount = $('.shipping-fee-checkbox:checked').length;
-        if (checkedCount > 0) {
-            $('#bulkDeleteBtn').show();
-            $('#selectedCount').text(checkedCount);
-        } else {
-            $('#bulkDeleteBtn').hide();
         }
-    }
 
-    // Edit shipping fee - Click event (primary method)
-    $(document).on('click', '.edit-shipping-fee', function(e) {
-        e.preventDefault();
-        const data = $(this).data();
-        
-        console.log('Edit button clicked', data); // Debug
-        
-        $('#edit-shipping-fee-id').val(data.id);
-        $('#edit-name').val(data.name);
-        $('#edit-area_type').val(data.area_type);
-        $('#edit-min_distance').val(data.min_distance);
-        $('#edit-max_distance').val(data.max_distance || '');
-        $('#edit-min_order_value').val(data.min_order_value);
-        $('#edit-base_fee').val(data.base_fee);
-        $('#edit-per_km_fee').val(data.per_km_fee);
-        $('#edit-max_fee').val(data.max_fee || '');
-        $('#edit-is_free_shipping').prop('checked', data.is_free_shipping == 1);
-        $('#edit-status').val(data.status);
-        $('#edit-description').val(data.description || '');
-        
+        // Edit shipping fee - Click event (primary method)
+        $(document).on('click', '.edit-shipping-fee', function(e) {
+            e.preventDefault();
+            const data = $(this).data();
+
+            console.log('Edit button clicked', data); // Debug
+
+            $('#edit-shipping-fee-id').val(data.id);
+            $('#edit-name').val(data.name);
+            $('#edit-area_type').val(data.area_type);
+            $('#edit-min_distance').val(data.min_distance);
+            $('#edit-max_distance').val(data.max_distance || '');
+            $('#edit-min_order_value').val(data.min_order_value);
+            $('#edit-base_fee').val(data.base_fee);
+            $('#edit-per_km_fee').val(data.per_km_fee);
+            $('#edit-max_fee').val(data.max_fee || '');
+            $('#edit-is_free_shipping').prop('checked', data.is_free_shipping == 1);
+            $('#edit-status').val(data.status);
+            $('#edit-description').val(data.description || '');
+
+            toggleFreeShipping('edit');
+
+            // Show modal - Compatible with both Bootstrap 4 and 5
+            const editModal = document.getElementById('editShippingFeeModal');
+            if (editModal) {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const bsModal = new bootstrap.Modal(editModal);
+                    bsModal.show();
+                } else {
+                    $('#editShippingFeeModal').modal('show');
+                }
+            }
+        });
+
+        // Delete shipping fee - Click event (primary method)
+        $(document).on('click', '.delete-shipping-fee', function(e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+
+            console.log('Delete button clicked', {
+                id,
+                name
+            }); // Debug
+
+            $('#delete-shipping-fee-id').val(id);
+            $('#delete-shipping-fee-name').text(name);
+
+            // Show modal - Compatible with both Bootstrap 4 and 5
+            const deleteModal = document.getElementById('deleteShippingFeeModal');
+            if (deleteModal) {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const bsModal = new bootstrap.Modal(deleteModal);
+                    bsModal.show();
+                } else {
+                    $('#deleteShippingFeeModal').modal('show');
+                }
+            }
+        });
+
+        // Bulk delete
+        $('#bulkDeleteBtn').on('click', function() {
+            const selectedIds = [];
+            $('.shipping-fee-checkbox:checked').each(function() {
+                selectedIds.push($(this).val());
+            });
+            $('#bulk-delete-ids').val(JSON.stringify(selectedIds));
+            $('#bulk-count').text(selectedIds.length);
+        });
+
+        // Toggle free shipping fields
+        function toggleFreeShipping(prefix = '') {
+            const checkbox = $(`#${prefix ? prefix + '-' : ''}is_free_shipping`);
+            const isChecked = checkbox.is(':checked');
+
+            $(`#${prefix ? prefix + '-' : ''}base_fee`).prop('disabled', isChecked);
+            $(`#${prefix ? prefix + '-' : ''}per_km_fee`).prop('disabled', isChecked);
+            $(`#${prefix ? prefix + '-' : ''}max_fee`).prop('disabled', isChecked);
+        }
+
+        $('#is_free_shipping, #edit-is_free_shipping').on('change', function() {
+            const prefix = $(this).attr('id').includes('edit') ? 'edit' : '';
+            toggleFreeShipping(prefix);
+        });
+
+        // Initialize on page load
+        toggleFreeShipping();
         toggleFreeShipping('edit');
-        
-        // Show modal - Compatible with both Bootstrap 4 and 5
-        const editModal = document.getElementById('editShippingFeeModal');
-        if (editModal) {
-            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                const bsModal = new bootstrap.Modal(editModal);
-                bsModal.show();
-            } else {
-                $('#editShippingFeeModal').modal('show');
-            }
-        }
-    });
 
-    // Delete shipping fee - Click event (primary method)
-    $(document).on('click', '.delete-shipping-fee', function(e) {
-        e.preventDefault();
-        const id = $(this).data('id');
-        const name = $(this).data('name');
-        
-        console.log('Delete button clicked', {id, name}); // Debug
-        
-        $('#delete-shipping-fee-id').val(id);
-        $('#delete-shipping-fee-name').text(name);
-        
-        // Show modal - Compatible with both Bootstrap 4 and 5
-        const deleteModal = document.getElementById('deleteShippingFeeModal');
-        if (deleteModal) {
-            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                const bsModal = new bootstrap.Modal(deleteModal);
-                bsModal.show();
-            } else {
-                $('#deleteShippingFeeModal').modal('show');
-            }
-        }
-    });
+        // Handle form submissions - Using event delegation for better compatibility
+        $(document).on('submit', '#addShippingFeeModal form, #editShippingFeeModal form, #deleteShippingFeeModal form, #bulkDeleteModal form', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-    // Bulk delete
-    $('#bulkDeleteBtn').on('click', function() {
-        const selectedIds = [];
-        $('.shipping-fee-checkbox:checked').each(function() {
-            selectedIds.push($(this).val());
+            const $form = $(this);
+            const url = $form.attr('action');
+            const formData = $form.serialize();
+            const modalId = $form.closest('.modal').attr('id');
+
+            console.log('🚀 Form submitted:', {
+                url,
+                modalId,
+                formData
+            }); // Debug
+
+            // Disable submit button to prevent double submission
+            const $submitBtn = $form.find('button[type="submit"]');
+            $submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Đang xử lý...');
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log('✅ Success response:', response); // Debug
+
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    if (modalId === 'editShippingFeeModal') {
+                        $submitBtn.html('Cập nhật');
+                    } else if (modalId === 'deleteShippingFeeModal' || modalId === 'bulkDeleteModal') {
+                        $submitBtn.html('Xóa');
+                    } else {
+                        $submitBtn.html('Lưu');
+                    }
+
+                    // Close modal - Simple approach
+                    $(`#${modalId}`).hide();
+                    $('.modal-backdrop').remove();
+                    $('body').removeClass('modal-open').css('padding-right', '');
+
+                    // Reload table
+                    window.shippingFeesTable.ajax.reload(null, false);
+
+                    // Reset checkboxes
+                    $('.shipping-fee-checkbox').prop('checked', false);
+                    $('#selectAll').prop('checked', false);
+                    updateBulkDeleteButton();
+
+                    // Reset form
+                    $form[0].reset();
+
+                    // Show success Toast notification
+                    if (typeof Swal !== 'undefined') {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: response.message || 'Thao tác thành công!'
+                        });
+                    } else {
+                        console.warn('SweetAlert2 not loaded');
+                    }
+                },
+                error: function(xhr) {
+                    console.error('❌ Error response:', xhr); // Debug
+
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    if (modalId === 'editShippingFeeModal') {
+                        $submitBtn.html('Cập nhật');
+                    } else if (modalId === 'deleteShippingFeeModal' || modalId === 'bulkDeleteModal') {
+                        $submitBtn.html('Xóa');
+                    } else {
+                        $submitBtn.html('Lưu');
+                    }
+
+                    let message = 'Có lỗi xảy ra!';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        const errors = Object.values(xhr.responseJSON.errors).flat();
+                        message = errors.join('<br>');
+                    }
+
+                    // Show error Toast notification
+                    if (typeof Swal !== 'undefined') {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 4000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            html: message
+                        });
+                    } else {
+                        alert(message);
+                    }
+                }
+            });
         });
-        $('#bulk-delete-ids').val(JSON.stringify(selectedIds));
-        $('#bulk-count').text(selectedIds.length);
-    });
 
-    // Toggle free shipping fields
-    function toggleFreeShipping(prefix = '') {
-        const checkbox = $(`#${prefix ? prefix + '-' : ''}is_free_shipping`);
-        const isChecked = checkbox.is(':checked');
-        
-        $(`#${prefix ? prefix + '-' : ''}base_fee`).prop('disabled', isChecked);
-        $(`#${prefix ? prefix + '-' : ''}per_km_fee`).prop('disabled', isChecked);
-        $(`#${prefix ? prefix + '-' : ''}max_fee`).prop('disabled', isChecked);
-    }
-
-    $('#is_free_shipping, #edit-is_free_shipping').on('change', function() {
-        const prefix = $(this).attr('id').includes('edit') ? 'edit' : '';
-        toggleFreeShipping(prefix);
-    });
-
-    // Initialize on page load
-    toggleFreeShipping();
-    toggleFreeShipping('edit');
-
-    // Handle form submissions - Using event delegation for better compatibility
-    $(document).on('submit', '#addShippingFeeModal form, #editShippingFeeModal form, #deleteShippingFeeModal form, #bulkDeleteModal form', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const $form = $(this);
-        const url = $form.attr('action');
-        const formData = $form.serialize();
-        const modalId = $form.closest('.modal').attr('id');
-        
-        console.log('🚀 Form submitted:', {url, modalId, formData}); // Debug
-        
-        // Disable submit button to prevent double submission
-        const $submitBtn = $form.find('button[type="submit"]');
-        $submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Đang xử lý...');
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                console.log('✅ Success response:', response); // Debug
-                
-                // Re-enable submit button
-                $submitBtn.prop('disabled', false);
-                if (modalId === 'editShippingFeeModal') {
-                    $submitBtn.html('Cập nhật');
-                } else if (modalId === 'deleteShippingFeeModal' || modalId === 'bulkDeleteModal') {
-                    $submitBtn.html('Xóa');
-                } else {
-                    $submitBtn.html('Lưu');
-                }
-                
-                // Close modal - Simple approach
-                $(`#${modalId}`).hide();
-                $('.modal-backdrop').remove();
-                $('body').removeClass('modal-open').css('padding-right', '');
-                
-                // Reload table
-                window.shippingFeesTable.ajax.reload(null, false);
-                
-                // Reset checkboxes
-                $('.shipping-fee-checkbox').prop('checked', false);
-                $('#selectAll').prop('checked', false);
-                updateBulkDeleteButton();
-                
-                // Reset form
-                $form[0].reset();
-                
-                // Show success Toast notification
-                if (typeof Swal !== 'undefined') {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    });
-                    
-                    Toast.fire({
-                        icon: 'success',
-                        title: response.message || 'Thao tác thành công!'
-                    });
-                } else {
-                    console.warn('SweetAlert2 not loaded');
-                }
-            },
-            error: function(xhr) {
-                console.error('❌ Error response:', xhr); // Debug
-                
-                // Re-enable submit button
-                $submitBtn.prop('disabled', false);
-                if (modalId === 'editShippingFeeModal') {
-                    $submitBtn.html('Cập nhật');
-                } else if (modalId === 'deleteShippingFeeModal' || modalId === 'bulkDeleteModal') {
-                    $submitBtn.html('Xóa');
-                } else {
-                    $submitBtn.html('Lưu');
-                }
-                
-                let message = 'Có lỗi xảy ra!';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    message = xhr.responseJSON.message;
-                } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    const errors = Object.values(xhr.responseJSON.errors).flat();
-                    message = errors.join('<br>');
-                }
-                
-                // Show error Toast notification
-                if (typeof Swal !== 'undefined') {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    });
-                    
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        html: message
-                    });
-                } else {
-                    alert(message);
-                }
-            }
+        // Reload table after operations
+        window.addEventListener('shipping-fee-updated', function() {
+            window.shippingFeesTable.ajax.reload(null, false);
+            $('.shipping-fee-checkbox').prop('checked', false);
+            $('#selectAll').prop('checked', false);
+            updateBulkDeleteButton();
         });
     });
-
-    // Reload table after operations
-    window.addEventListener('shipping-fee-updated', function() {
-        window.shippingFeesTable.ajax.reload(null, false);
-        $('.shipping-fee-checkbox').prop('checked', false);
-        $('#selectAll').prop('checked', false);
-        updateBulkDeleteButton();
-    });
-});
 </script>
 @endpush

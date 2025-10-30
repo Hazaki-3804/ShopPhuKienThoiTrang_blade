@@ -54,7 +54,7 @@ class CategoryController extends Controller
                     ';
 
                     // Chỉnh sửa
-                    if(auth()->user()->can('edit categories')){
+                    if (auth()->user()->can('edit categories')) {
                         $buttons .= '
                             <a class="dropdown-item edit-category" href="#" data-toggle="modal" data-target="#editCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '" data-description="' . htmlspecialchars($category->description ?? '') . '">
                                 <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
@@ -63,7 +63,7 @@ class CategoryController extends Controller
                     }
 
                     // Xóa
-                    if(auth()->user()->can('delete categories')){
+                    if (auth()->user()->can('delete categories')) {
                         $buttons .= '
                             <a class="dropdown-item delete-category text-danger" href="#" data-toggle="modal" data-target="#deleteCategoryModal" data-id="' . $category->id . '" data-name="' . htmlspecialchars($category->name) . '">
                                 <i class="fas fa-trash mr-2"></i>Xóa
@@ -122,7 +122,7 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail($request->id);
-            
+
             $validated = $request->validate([
                 'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
                 'description' => 'nullable|string|max:1000',
@@ -156,7 +156,7 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail($request->id);
-            
+
             // Kiểm tra xem danh mục có sản phẩm không
             if ($category->products()->count() > 0) {
                 if ($request->ajax()) {
@@ -201,7 +201,7 @@ class CategoryController extends Controller
             ]);
 
             $categoryIds = $validated['ids'];
-            
+
             // Kiểm tra danh mục nào có sản phẩm
             $categoriesWithProducts = Category::whereIn('id', $categoryIds)
                 ->has('products')
@@ -299,11 +299,11 @@ class CategoryController extends Controller
 
             // Lấy header (dòng đầu tiên)
             $header = array_map('trim', $rows[0]);
-            
+
             // Kiểm tra các cột bắt buộc
             $requiredColumns = ['Tên danh mục', 'Mô tả'];
             $missingColumns = array_diff($requiredColumns, $header);
-            
+
             if (!empty($missingColumns)) {
                 return response()->json([
                     'success' => false,
@@ -313,7 +313,7 @@ class CategoryController extends Controller
 
             // Lấy dữ liệu (bỏ dòng header)
             $data = array_slice($rows, 1);
-            
+
             // Validate và chuẩn bị dữ liệu preview
             $previewData = [];
             $errors = [];
@@ -322,7 +322,7 @@ class CategoryController extends Controller
 
             foreach ($data as $index => $row) {
                 $rowNumber = $index + 2; // +2 vì bắt đầu từ dòng 2 (dòng 1 là header)
-                
+
                 // Bỏ qua dòng trống
                 if (empty(array_filter($row))) {
                     continue;
@@ -352,7 +352,7 @@ class CategoryController extends Controller
                 }
 
                 $previewData[] = [
-                    'row_number' => $rowNumber-1,
+                    'row_number' => $rowNumber - 1,
                     'name' => $name,
                     'description' => $description,
                     'slug' => Str::slug($name),
@@ -381,7 +381,6 @@ class CategoryController extends Controller
                 'error_rows' => count(array_filter($previewData, fn($item) => $item['has_error'])),
                 'errors' => $errors
             ]);
-
         } catch (\Exception $e) {
             Log::error('Preview import error: ' . $e->getMessage());
             return response()->json([
@@ -437,12 +436,11 @@ class CategoryController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Đã import thành công {$importedCount} danh mục!" . 
-                            (!empty($errors) ? " Có " . count($errors) . " lỗi." : ""),
+                'message' => "Đã import thành công {$importedCount} danh mục!" .
+                    (!empty($errors) ? " Có " . count($errors) . " lỗi." : ""),
                 'imported_count' => $importedCount,
                 'errors' => $errors
             ]);
-
         } catch (\Exception $e) {
             Log::error('Process import error: ' . $e->getMessage());
             return response()->json([
@@ -480,26 +478,25 @@ class CategoryController extends Controller
             // Add sample data
             $sheet->setCellValue('A2', 'Mắt kính thời trang');
             $sheet->setCellValue('B2', 'Các loại mắt kính thời trang cao cấp');
-            
+
             $sheet->setCellValue('A3', 'Dây chuyền');
             $sheet->setCellValue('B3', 'Dây chuyền và vòng cổ đẹp');
-            
+
             $sheet->setCellValue('A4', 'Túi xách');
             $sheet->setCellValue('B4', 'Túi xách nữ thời trang');
 
             // Create writer
             $writer = new Xlsx($spreadsheet);
-            
+
             // Set headers for download
             $fileName = 'mau_import_danh_muc_' . date('Y-m-d_His') . '.xlsx';
-            
+
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $fileName . '"');
             header('Cache-Control: max-age=0');
-            
+
             $writer->save('php://output');
             exit;
-
         } catch (\Exception $e) {
             Log::error('Download template error: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tải file mẫu!');

@@ -8,7 +8,7 @@
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <form class="row g-3" method="POST" action="{{ route('checkout.saveAddress') }}">
+                    <form class="row g-3" id="checkoutForm" method="POST" action="{{ route('checkout.saveAddress') }}">
                         @csrf
                         @foreach(($selected ?? []) as $pid)
                         <input type="hidden" name="selected[]" value="{{ $pid }}">
@@ -53,11 +53,11 @@
                             <input type="hidden" name="ward_name" id="ward_name">
                             <div class="input-group mt-2">
                                 <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                                <textarea name="customer_address" class="form-control" rows="2" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>{{ old('customer_address') }}</textarea>
+                                <textarea name="customer_address" id="customer_address_area" class="form-control customer_address" rows="2" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>{{ old('customer_address') }}</textarea>
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-end">
-                            <button class="btn btn-brand w-100">Lưu địa chỉ</button>
+                            <button class="btn btn-brand w-100" id="checkoutBtn">Lưu địa chỉ</button>
                         </div>
                     </form>
                 </div>
@@ -91,25 +91,6 @@
         </div>
     </div>
 </div>
-@push('styles')
-<style>
-    .checkout-thumb {
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-    }
-
-    .checkout-name {
-        max-width: 210px;
-    }
-
-    @media (min-width: 992px) {
-        .checkout-name {
-            max-width: 240px;
-        }
-    }
-</style>
-@endpush
 @push('styles')
 <!-- Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -170,6 +151,21 @@
     .input-group .input-group-text:not(:last-child) {
         border-right: 0;
     }
+        .checkout-thumb {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+    }
+
+    .checkout-name {
+        max-width: 210px;
+    }
+
+    @media (min-width: 992px) {
+        .checkout-name {
+            max-width: 240px;
+        }
+    }
 </style>
 @endpush
 @push('scripts')
@@ -224,22 +220,44 @@
             const wardText = $ward.find('option:selected').text();
             document.getElementById('ward_name').value = wardText && wardText.indexOf('Chọn') === -1 ? wardText.trim() : '';
         });
-
-        // Merge selected province/ward text into address on submit
-        const form = document.querySelector('form[action="{{ route('checkout.saveAddress') }}"]');
-        if (form) {
-            form.addEventListener('submit', function() {
-                const addrEl = form.querySelector('textarea[name="customer_address"]');
-                const provText = document.getElementById('province_name').value || $prov.find('option:selected').text();
-                const wardText = document.getElementById('ward_name').value || $ward.find('option:selected').text();
-                const parts = [];
-                if (addrEl && addrEl.value) parts.push(addrEl.value.trim());
-                if (wardText && wardText.indexOf('Chọn') === -1) parts.push(wardText.trim());
-                if (provText && provText.indexOf('Chọn') === -1) parts.push(provText.trim());
-                if (addrEl) addrEl.value = parts.join(', ');
+        document.getElementById('customer_address_area').addEventListener('blur', function() {
+            const addrEl = this;
+            const provText = document.getElementById('province_name').value || $prov.find('option:selected').text();
+            const wardText = document.getElementById('ward_name').value || $ward.find('option:selected').text();
+            const parts = [];
+            if (addrEl && addrEl.value) parts.push(addrEl.value.trim());
+            if (wardText && wardText.indexOf('Chọn') === -1) parts.push(wardText.trim());
+            if (provText && provText.indexOf('Chọn') === -1) parts.push(provText.trim());
+            if (addrEl) addrEl.value = parts.join(', ');
+        });
+        // // Merge selected province/ward text into address on submit
+        // const form = document.querySelector('form[action="{{ route('checkout.saveAddress') }}"]');
+        // if (form) {
+        //     form.addEventListener('submit', function() {
+        //         const addrEl = form.querySelector('textarea[name="customer_address"]');
+        //         const provText = document.getElementById('province_name').value || $prov.find('option:selected').text();
+        //         const wardText = document.getElementById('ward_name').value || $ward.find('option:selected').text();
+        //         const parts = [];
+        //         if (addrEl && addrEl.value) parts.push(addrEl.value.trim());
+        //         if (wardText && wardText.indexOf('Chọn') === -1) parts.push(wardText.trim());
+        //         if (provText && provText.indexOf('Chọn') === -1) parts.push(provText.trim());
+        //         if (addrEl) addrEl.value = parts.join(', ');
+        //     });
+        // }
+    });
+</script>
+<script>
+    function btn_loading(formId, btnId) {
+        const form = document.getElementById(formId);
+        const btn = document.getElementById(btnId);
+        if (form && btn) {
+            form.addEventListener('submit', function () {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Lưu địa chỉ';
             });
         }
-    });
+    }
+    btn_loading('checkoutForm', 'checkoutBtn');
 </script>
 @endpush
 @endsection

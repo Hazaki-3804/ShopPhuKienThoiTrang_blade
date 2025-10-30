@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý chương trình khuyến mãi')
+@section('title', 'Danh sách chương trình khuyến mãi')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-3 col-md-6">
             <div class="card bg-success text-white">
                 <div class="card-body">
@@ -94,10 +94,10 @@
                 <!-- Bulk delete button (hidden by default) -->
                 @if(auth()->user()->can('delete promotions'))
                 <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
-                    <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
+                    <i class="fas fa-trash mr-1"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
                 @endif
-                
+
                 @if(auth()->user()->can('create promotions'))
                 <a href="{{ route('admin.promotions.create') }}" class="btn btn-success btn-sm mr-2">
                     <i class="fas fa-plus mr-1"></i> Thêm chương trình
@@ -178,10 +178,10 @@
 @endpush
 @push('scripts')
 <script>
-$(document).ready(function() {
-    // Initialize DataTable
-    let permissions = @canany(['create promotions', 'edit promotions', 'delete promotions']) true @else false @endcanany;
-    window.promotionsTable = $('#promotionsTable').DataTable({
+    $(document).ready(function() {
+        // Initialize DataTable
+        let permissions = @canany(['create promotions', 'edit promotions', 'delete promotions']) true @else false @endcanany;
+        window.promotionsTable = $('#promotionsTable').DataTable({
             processing: false,
             serverSide: true,
             ajax: {
@@ -221,23 +221,64 @@ $(document).ready(function() {
                     }
                 },
             ],
-             columns: [
-            { data: 'checkbox', name: 'checkbox', orderable: false, searchable: false },
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'code', name: 'code' },
-            { data: 'description', name: 'description' },
-            { data: 'discount_display', name: 'discount_display', orderable: false },
-            { data: 'date_range', name: 'date_range', orderable: false },
-            { data: 'status_badge', name: 'status_badge', orderable: false },
-            { data: 'products_count', name: 'products_count', orderable: false },
-            { data: 'quantity_display', name: 'quantity_display', orderable: false },
-            { data: 'actions', name: 'actions', orderable: false, searchable: false, visible: permissions, width: '8%' }
-        ],
+            columns: [{
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'code',
+                    name: 'code'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'discount_display',
+                    name: 'discount_display',
+                    orderable: false
+                },
+                {
+                    data: 'date_range',
+                    name: 'date_range',
+                    orderable: false
+                },
+                {
+                    data: 'status_badge',
+                    name: 'status_badge',
+                    orderable: false
+                },
+                {
+                    data: 'products_count',
+                    name: 'products_count',
+                    orderable: false
+                },
+                {
+                    data: 'quantity_display',
+                    name: 'quantity_display',
+                    orderable: false
+                },
+                {
+                    data: 'actions',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false,
+                    visible: permissions,
+                    width: '8%'
+                }
+            ],
             order: [
                 [2, 'asc']
             ],
-            columnDefs: [
-                {
+            columnDefs: [{
                     targets: 0, // Cột checkbox
                     orderable: false,
                     searchable: false,
@@ -270,200 +311,200 @@ $(document).ready(function() {
                 $('.dataTables_paginate').addClass('justify-content-end');
             },
             searching: true
-    });
-    let typingTimer;
-    const typingDelay = 500;
-    // Custom search
-    $('#promotionSearch').on('keyup', function() {
-        clearTimeout(typingTimer);
-        const value = this.value;
-
-        typingTimer = setTimeout(function() {
-            promotionsTable.search(value).draw();
-        }, typingDelay);
-    });
-
-    // Select all checkbox
-    $('#selectAll').on('click', function() {
-        const isChecked = $(this).prop('checked');
-        $('.promotion-checkbox').prop('checked', isChecked);
-        updateBulkDeleteButton();
-    });
-
-    // Individual checkbox
-    $(document).on('change', '.promotion-checkbox', function() {
-        updateBulkDeleteButton();
-        
-        const totalCheckboxes = $('.promotion-checkbox').length;
-        const checkedCheckboxes = $('.promotion-checkbox:checked').length;
-        $('#selectAll').prop('checked', totalCheckboxes === checkedCheckboxes);
-    });
-
-    function updateBulkDeleteButton() {
-        const checkedCount = $('.promotion-checkbox:checked').length;
-        if (checkedCount > 0) {
-            $('#bulkDeleteBtn').show();
-            $('#selectedCount').text(checkedCount);
-        } else {
-            $('#bulkDeleteBtn').hide();
-        }
-    }
-
-    // Delete single promotion
-    $(document).on('click', '.delete-promotion-btn', function() {
-        const id = $(this).data('id');
-        const code = $(this).data('code');
-        $('#delete-promotion-id').val(id);
-        $('#delete-promotion-code').text(code);
-    });
-
-    // Bulk delete
-    $('#bulkDeleteBtn').on('click', function() {
-        const selectedIds = [];
-        $('.promotion-checkbox:checked').each(function() {
-            selectedIds.push($(this).val());
         });
-        $('#bulk-delete-ids').val(JSON.stringify(selectedIds));
-        $('#bulk-count').text(selectedIds.length);
-    });
+        let typingTimer;
+        const typingDelay = 500;
+        // Custom search
+        $('#promotionSearch').on('keyup', function() {
+            clearTimeout(typingTimer);
+            const value = this.value;
 
-    // Export buttons - Direct download
-       // Export buttons
-    $('#btn-excel').on('click', function(e) {
-        e.preventDefault();
-        promotionsTable.button('.buttons-excel').trigger();
-    });
-    $('#btn-csv').on('click', function(e) {
-        e.preventDefault();
-        promotionsTable.button('.buttons-csv').trigger();
-    });
-    $('#btn-pdf').on('click', function(e) {
-        e.preventDefault();
-        categoriesTable.button('.buttons-pdf').trigger();
-    });
-    $('#btn-print').on('click', function(e) {
-        e.preventDefault();
-        categoriesTable.button('.buttons-print').trigger();
-    });
-
-    // Initialize AJAX Form Handler for modals
-    if (typeof AjaxFormHandler !== 'undefined') {
-        AjaxFormHandler.init({
-            table: 'promotionsTable',
-            forms: ['#deletePromotionModal form', '#bulkDeleteModal form']
+            typingTimer = setTimeout(function() {
+                promotionsTable.search(value).draw();
+            }, typingDelay);
         });
-    } else {
-        // Handle form submissions manually if AjaxFormHandler is not available
-        $('#deletePromotionModal form, #bulkDeleteModal form').on('submit', function(e) {
-        e.preventDefault();
-        const $form = $(this);
-        const url = $form.attr('action');
-        const modalId = $form.closest('.modal').attr('id');
-        
-        // Prepare form data
-        const formData = new FormData($form[0]);
-        
-        // Convert FormData to object for jQuery
-        const dataObject = {};
-        formData.forEach((value, key) => {
-            dataObject[key] = value;
-        });
-        
-        // Add _method for Laravel to recognize DELETE request
-        dataObject['_method'] = 'DELETE';
-        
-        console.log('Sending data:', dataObject); // Debug log
 
-        $.ajax({
-            url: url,
-            type: 'POST', // Always use POST for jQuery AJAX
-            data: dataObject,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                // Close modal - Force close all modals
-                $(`#${modalId}`).modal('hide');
-                $('.modal-backdrop').remove();
-                $('body').removeClass('modal-open').css('padding-right', '');
-                
-                // Reload table
-                promotionsTable.ajax.reload(null, false);
-                
-                // Reset checkboxes
-                $('.promotion-checkbox').prop('checked', false);
-                $('#selectAll').prop('checked', false);
-                updateBulkDeleteButton();
-                
-                // Show success Toast notification
-                if (typeof Swal !== 'undefined') {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    });
-                    
-                    Toast.fire({
-                        icon: 'success',
-                        title: response.message || 'Thao tác thành công!'
-                    }).then(() => {
-                        // Force reload page to update statistics
-                        location.reload();
-                    });
-                } else {
-                    alert(response.message);
-                    location.reload();
-                }
-            },
-            error: function(xhr) {
-                let message = 'Có lỗi xảy ra!';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    message = xhr.responseJSON.message;
-                } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    const errors = Object.values(xhr.responseJSON.errors).flat();
-                    message = errors.join('<br>');
-                }
-                
-                // Show error Toast notification
-                if (typeof Swal !== 'undefined') {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    });
-                    
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        html: message
-                    });
-                } else {
-                    alert(message);
-                }
+        // Select all checkbox
+        $('#selectAll').on('click', function() {
+            const isChecked = $(this).prop('checked');
+            $('.promotion-checkbox').prop('checked', isChecked);
+            updateBulkDeleteButton();
+        });
+
+        // Individual checkbox
+        $(document).on('change', '.promotion-checkbox', function() {
+            updateBulkDeleteButton();
+
+            const totalCheckboxes = $('.promotion-checkbox').length;
+            const checkedCheckboxes = $('.promotion-checkbox:checked').length;
+            $('#selectAll').prop('checked', totalCheckboxes === checkedCheckboxes);
+        });
+
+        function updateBulkDeleteButton() {
+            const checkedCount = $('.promotion-checkbox:checked').length;
+            if (checkedCount > 0) {
+                $('#bulkDeleteBtn').show();
+                $('#selectedCount').text(checkedCount);
+            } else {
+                $('#bulkDeleteBtn').hide();
             }
-        });
-        });
-    }
+        }
 
-    // Reload table after successful operations
-    window.addEventListener('promotion-updated', function() {
-        promotionsTable.ajax.reload(null, false);
-        $('.promotion-checkbox').prop('checked', false);
-        $('#selectAll').prop('checked', false);
-        updateBulkDeleteButton();
+        // Delete single promotion
+        $(document).on('click', '.delete-promotion-btn', function() {
+            const id = $(this).data('id');
+            const code = $(this).data('code');
+            $('#delete-promotion-id').val(id);
+            $('#delete-promotion-code').text(code);
+        });
+
+        // Bulk delete
+        $('#bulkDeleteBtn').on('click', function() {
+            const selectedIds = [];
+            $('.promotion-checkbox:checked').each(function() {
+                selectedIds.push($(this).val());
+            });
+            $('#bulk-delete-ids').val(JSON.stringify(selectedIds));
+            $('#bulk-count').text(selectedIds.length);
+        });
+
+        // Export buttons - Direct download
+        // Export buttons
+        $('#btn-excel').on('click', function(e) {
+            e.preventDefault();
+            promotionsTable.button('.buttons-excel').trigger();
+        });
+        $('#btn-csv').on('click', function(e) {
+            e.preventDefault();
+            promotionsTable.button('.buttons-csv').trigger();
+        });
+        $('#btn-pdf').on('click', function(e) {
+            e.preventDefault();
+            categoriesTable.button('.buttons-pdf').trigger();
+        });
+        $('#btn-print').on('click', function(e) {
+            e.preventDefault();
+            categoriesTable.button('.buttons-print').trigger();
+        });
+
+        // Initialize AJAX Form Handler for modals
+        if (typeof AjaxFormHandler !== 'undefined') {
+            AjaxFormHandler.init({
+                table: 'promotionsTable',
+                forms: ['#deletePromotionModal form', '#bulkDeleteModal form']
+            });
+        } else {
+            // Handle form submissions manually if AjaxFormHandler is not available
+            $('#deletePromotionModal form, #bulkDeleteModal form').on('submit', function(e) {
+                e.preventDefault();
+                const $form = $(this);
+                const url = $form.attr('action');
+                const modalId = $form.closest('.modal').attr('id');
+
+                // Prepare form data
+                const formData = new FormData($form[0]);
+
+                // Convert FormData to object for jQuery
+                const dataObject = {};
+                formData.forEach((value, key) => {
+                    dataObject[key] = value;
+                });
+
+                // Add _method for Laravel to recognize DELETE request
+                dataObject['_method'] = 'DELETE';
+
+                console.log('Sending data:', dataObject); // Debug log
+
+                $.ajax({
+                    url: url,
+                    type: 'POST', // Always use POST for jQuery AJAX
+                    data: dataObject,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        // Close modal - Force close all modals
+                        $(`#${modalId}`).modal('hide');
+                        $('.modal-backdrop').remove();
+                        $('body').removeClass('modal-open').css('padding-right', '');
+
+                        // Reload table
+                        promotionsTable.ajax.reload(null, false);
+
+                        // Reset checkboxes
+                        $('.promotion-checkbox').prop('checked', false);
+                        $('#selectAll').prop('checked', false);
+                        updateBulkDeleteButton();
+
+                        // Show success Toast notification
+                        if (typeof Swal !== 'undefined') {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            });
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message || 'Thao tác thành công!'
+                            }).then(() => {
+                                // Force reload page to update statistics
+                                location.reload();
+                            });
+                        } else {
+                            alert(response.message);
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr) {
+                        let message = 'Có lỗi xảy ra!';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            message = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            const errors = Object.values(xhr.responseJSON.errors).flat();
+                            message = errors.join('<br>');
+                        }
+
+                        // Show error Toast notification
+                        if (typeof Swal !== 'undefined') {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 4000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            });
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                html: message
+                            });
+                        } else {
+                            alert(message);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Reload table after successful operations
+        window.addEventListener('promotion-updated', function() {
+            promotionsTable.ajax.reload(null, false);
+            $('.promotion-checkbox').prop('checked', false);
+            $('#selectAll').prop('checked', false);
+            updateBulkDeleteButton();
+        });
     });
-});
 </script>
 @endpush

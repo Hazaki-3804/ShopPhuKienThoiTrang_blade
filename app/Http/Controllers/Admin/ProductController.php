@@ -63,7 +63,7 @@ class ProductController extends Controller
             ]);
 
             $product = Product::findOrFail($request->id);
-            
+
             // Update basic product info
             $product->update([
                 'name' => $request->name,
@@ -87,7 +87,7 @@ class ProductController extends Controller
                         ],
                         'url' => ['secure' => true]
                     ]);
-                    
+
                     // Delete from database and Cloudinary
                     $imagesToDelete = $product->product_images()->whereIn('id', $removedImageIds)->get();
                     foreach ($imagesToDelete as $image) {
@@ -118,7 +118,7 @@ class ProductController extends Controller
                             'type' => 'detail'
                         ]);
                     }
-                    
+
                     // Xóa danh sách ảnh temp khỏi session
                     session()->forget('temp_product_images');
                 }
@@ -134,7 +134,6 @@ class ProductController extends Controller
             }
 
             return redirect()->route('admin.products.index')->with('success', 'Sản phẩm đã được cập nhật thành công!');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             if (request()->ajax()) {
                 return response()->json([
@@ -147,7 +146,7 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error('ProductController update error: ' . $e->getMessage());
-            
+
             if (request()->ajax()) {
                 return response()->json([
                     'success' => false,
@@ -156,7 +155,7 @@ class ProductController extends Controller
                     'type' => 'danger'
                 ], 422);
             }
-            
+
             return redirect()->back()->withInput()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
         }
     }
@@ -182,10 +181,10 @@ class ProductController extends Controller
                     return '<input type="checkbox" class="product-checkbox" value="' . $product->id . '">';
                 })
                 ->addColumn('product_info', function ($product) {
-                    $image = $product->product_images->first() 
-                    ? '<img src="' . asset($product->product_images->first()->image_url) . '" width="72" height="72" style="object-fit: cover; margin-right:10px; border-radius:10px">'
-                    : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
-                    
+                    $image = $product->product_images->first()
+                        ? '<img src="' . asset($product->product_images->first()->image_url) . '" width="72" height="72" style="object-fit: cover; margin-right:10px; border-radius:10px">'
+                        : '<div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;  margin-right:10px;"><i class="fas fa-image text-muted"></i></div>';
+
                     return '
                     <div class="d-flex align-items-center">
                         ' . $image . '
@@ -198,7 +197,6 @@ class ProductController extends Controller
                             <small class="text-muted">ID: ' . $product->id . '</small>
                         </div>
                     </div>';
-
                 })
                 ->addColumn('category_name', function ($product) {
                     return $product->category ? $product->category->name : '<em class="text-muted">Chưa phân loại</em>';
@@ -251,7 +249,7 @@ class ProductController extends Controller
                     ';
 
                     // Chỉnh sửa
-                    if(auth()->user()->can('edit products')){
+                    if (auth()->user()->can('edit products')) {
                         $buttons .= '
                             <a class="dropdown-item" href="' . route('admin.products.edit', $product->id) . '">
                                 <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa
@@ -260,7 +258,7 @@ class ProductController extends Controller
                     }
 
                     // Xóa
-                    if(auth()->user()->can('delete products')){
+                    if (auth()->user()->can('delete products')) {
                         $buttons .= '
                             <a class="dropdown-item delete-product text-danger" href="#" data-toggle="modal" data-target="#deleteProductModal" data-id="' . $product->id . '" data-name="' . htmlspecialchars($product->name) . '">
                                 <i class="fas fa-trash mr-2"></i>Xóa
@@ -308,7 +306,7 @@ class ProductController extends Controller
                             'type' => 'detail'
                         ]);
                     }
-                    
+
                     // Xóa danh sách ảnh temp khỏi session
                     session()->forget('temp_product_images');
                 }
@@ -323,9 +321,8 @@ class ProductController extends Controller
                 ]);
             }
 
-            
-            return redirect()->route('admin.products.index')->with('success', 'Thêm sản phẩm mới thành công!');
 
+            return redirect()->route('admin.products.index')->with('success', 'Thêm sản phẩm mới thành công!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             if (request()->ajax()) {
                 return response()->json([
@@ -338,7 +335,7 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error('ProductController store error: ' . $e->getMessage());
-            
+
             if (request()->ajax()) {
                 return response()->json([
                     'success' => false,
@@ -347,7 +344,7 @@ class ProductController extends Controller
                     'type' => 'danger'
                 ], 422);
             }
-            
+
             return redirect()->back()->withInput()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
         }
     }
@@ -357,7 +354,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::findOrFail($request->id);
-            
+
             // Kiểm tra xem sản phẩm có trong giỏ hàng hoặc đơn hàng không
             if ($product->cart_items()->count() > 0 || $product->order_items()->count() > 0) {
                 if ($request->ajax()) {
@@ -379,7 +376,7 @@ class ProductController extends Controller
                 ],
                 'url' => ['secure' => true]
             ]);
-            
+
             // Xóa tất cả ảnh của sản phẩm trước khi xóa sản phẩm
             foreach ($product->product_images as $image) {
                 // Xóa từ Cloudinary nếu là URL Cloudinary
@@ -429,10 +426,10 @@ class ProductController extends Controller
             ]);
 
             $productIds = $validated['ids'];
-            
+
             // Kiểm tra sản phẩm nào có trong giỏ hàng hoặc đơn hàng
             $productsWithOrders = Product::whereIn('id', $productIds)
-                ->where(function($query) {
+                ->where(function ($query) {
                     $query->has('cart_items')->orHas('order_items');
                 })
                 ->pluck('name')
@@ -458,10 +455,10 @@ class ProductController extends Controller
                 ],
                 'url' => ['secure' => true]
             ]);
-            
+
             // Xóa các sản phẩm an toàn
             $products = Product::with('product_images')->whereIn('id', $productIds)->get();
-            
+
             // Xóa ảnh của từng sản phẩm trước
             foreach ($products as $product) {
                 foreach ($product->product_images as $image) {
@@ -479,7 +476,7 @@ class ProductController extends Controller
                     $image->delete();
                 }
             }
-            
+
             $deletedCount = Product::whereIn('id', $productIds)->delete();
 
             if ($request->ajax()) {
@@ -520,9 +517,9 @@ class ProductController extends Controller
                 ],
                 'url' => ['secure' => true]
             ]);
-            
+
             $image = $request->file('image');
-            
+
             // Upload lên Cloudinary vào folder 'products'
             $uploadResult = $cloudinary->uploadApi()->upload(
                 $image->getRealPath(),
@@ -535,7 +532,7 @@ class ProductController extends Controller
                     ]
                 ]
             );
-            
+
             // Lưu URL vào session để theo dõi
             $tempImages = session()->get('temp_product_images', []);
             $tempImages[] = $uploadResult['secure_url'];
@@ -548,7 +545,6 @@ class ProductController extends Controller
                 'public_id' => $uploadResult['public_id'],
                 'message' => 'Upload ảnh thành công!'
             ]);
-
         } catch (\Exception $e) {
             Log::error('ProductController uploadImage error: ' . $e->getMessage());
             return response()->json([
@@ -566,11 +562,11 @@ class ProductController extends Controller
         if (!file_exists($path)) {
             mkdir($path, 0755, true);
         }
-        
+
         if (!is_writable($path)) {
             chmod($path, 0755);
         }
-        
+
         return is_dir($path) && is_writable($path);
     }
 
@@ -586,44 +582,43 @@ class ProductController extends Controller
                 ],
                 'url' => ['secure' => true]
             ]);
-            
+
             $tempImages = session()->get('temp_product_images', []);
-            
+
             // Nếu có filename cụ thể (URL), chỉ xóa ảnh đó
             if ($request->has('filename')) {
                 $url = $request->filename;
-                
+
                 if ($this->isCloudinaryUrl($url)) {
                     $this->deleteCloudinaryByUrl($url, $cloudinary);
                 }
-                
+
                 // Xóa khỏi session
-                $tempImages = array_filter($tempImages, function($img) use ($url) {
+                $tempImages = array_filter($tempImages, function ($img) use ($url) {
                     return $img !== $url;
                 });
                 session()->put('temp_product_images', $tempImages);
-                
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Đã xóa ảnh tạm thời!'
                 ]);
             }
-            
+
             // Xóa tất cả ảnh tạm từ Cloudinary
             foreach ($tempImages as $url) {
                 if ($this->isCloudinaryUrl($url)) {
                     $this->deleteCloudinaryByUrl($url, $cloudinary);
                 }
             }
-            
+
             // Xóa khỏi session
             session()->forget('temp_product_images');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Đã xóa ' . count($tempImages) . ' ảnh tạm thời!'
             ]);
-
         } catch (\Exception $e) {
             Log::error('ProductController clearTempImages error: ' . $e->getMessage());
             return response()->json([
@@ -648,7 +643,7 @@ class ProductController extends Controller
                 ],
                 'url' => ['secure' => true]
             ]);
-            
+
             $files = $request->input('files');
             if (is_array($files) && !empty($files)) {
                 foreach ($files as $url) {
@@ -705,10 +700,10 @@ class ProductController extends Controller
             }
 
             $pathAfterUpload = $parts[1];
-            
+
             // Bỏ version nếu có (vXXXXXXXXXX/)
             $pathAfterUpload = preg_replace('/^v\d+\//', '', $pathAfterUpload);
-            
+
             // Bỏ extension
             $publicId = preg_replace('/\.[^.]+$/', '', $pathAfterUpload);
 
@@ -745,7 +740,7 @@ class ProductController extends Controller
     }
 
     // ==================== IMPORT EXCEL METHODS ====================
-    
+
     public function showImport()
     {
         $categories = Category::all();
@@ -784,11 +779,11 @@ class ProductController extends Controller
 
             $data = [];
             $errors = [];
-            $existingProducts = Product::pluck('name')->map(function($name) {
+            $existingProducts = Product::pluck('name')->map(function ($name) {
                 return strtolower(trim($name));
             })->toArray();
-            
-            $categories = Category::pluck('id', 'name')->map(function($id, $name) {
+
+            $categories = Category::pluck('id', 'name')->map(function ($id, $name) {
                 return ['id' => $id, 'name_lower' => strtolower(trim($name))];
             })->toArray();
 
@@ -797,7 +792,7 @@ class ProductController extends Controller
             for ($i = 1; $i < count($rows); $i++) {
                 $row = $rows[$i];
                 $rowNumber = $i + 1;
-                
+
                 $name = trim($row[0] ?? '');
                 $categoryName = trim($row[1] ?? '');
                 $price = trim($row[2] ?? '');
@@ -866,7 +861,7 @@ class ProductController extends Controller
                 }
 
                 $data[] = [
-                    'row_number' => $rowNumber-1,
+                    'row_number' => $rowNumber - 1,
                     'name' => $name,
                     'category_name' => $categoryName,
                     'category_id' => $categoryId,
@@ -891,7 +886,6 @@ class ProductController extends Controller
                 'error_rows' => $errorRows,
                 'errors' => $errors
             ]);
-
         } catch (\Exception $e) {
             Log::error('Preview import error: ' . $e->getMessage());
             return response()->json([
@@ -905,7 +899,7 @@ class ProductController extends Controller
     {
         try {
             $data = $request->input('data', []);
-            
+
             if (empty($data)) {
                 return response()->json([
                     'success' => false,
@@ -927,7 +921,7 @@ class ProductController extends Controller
                         'description' => $row['description'] ?? null,
                         'status' => 1
                     ]);
-                    
+
                     // Tạo product_image nếu có URL ảnh
                     if (!empty($row['image_url'])) {
                         $product->product_images()->create([
@@ -936,7 +930,7 @@ class ProductController extends Controller
                             'type' => 'detail'
                         ]);
                     }
-                    
+
                     $imported++;
                 } catch (\Exception $e) {
                     $errors[] = "Dòng {$row['row_number']}: " . $e->getMessage();
@@ -957,7 +951,6 @@ class ProductController extends Controller
                     'errors' => $errors
                 ], 400);
             }
-
         } catch (\Exception $e) {
             Log::error('Process import error: ' . $e->getMessage());
             return response()->json([
@@ -989,7 +982,7 @@ class ProductController extends Controller
 
             // Lấy tất cả danh mục
             $categories = Category::orderBy('name')->pluck('name')->toArray();
-            
+
             // Sample data với URL ảnh
             $sampleData = [
                 ['Mắt kính thời trang', $categories[0] ?? 'Mắt kính', 150000, 50, 'Mắt kính chống tia UV', 'https://example.com/image1.jpg'],
@@ -1034,7 +1027,7 @@ class ProductController extends Controller
             // Tạo sheet hướng dẫn
             $instructionSheet = $spreadsheet->createSheet();
             $instructionSheet->setTitle('Hướng dẫn');
-            
+
             $instructions = [
                 ['HƯỚNG DẪN IMPORT SẢN PHẨM'],
                 [''],
@@ -1055,15 +1048,15 @@ class ProductController extends Controller
                 [''],
                 ['DANH SÁCH DANH MỤC:']
             ];
-            
+
             $instructionSheet->fromArray($instructions, null, 'A1');
-            
+
             // Thêm danh sách danh mục
             $rowStart = count($instructions) + 1;
             foreach ($categories as $index => $category) {
                 $instructionSheet->setCellValue('A' . ($rowStart + $index), ($index + 1) . '. ' . $category);
             }
-            
+
             // Style cho sheet hướng dẫn
             $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
             $instructionSheet->getStyle('A3:A8')->getFont()->setBold(true);
@@ -1081,7 +1074,6 @@ class ProductController extends Controller
             $writer->save($tempFile);
 
             return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
-
         } catch (\Exception $e) {
             Log::error('Download template error: ' . $e->getMessage());
             return back()->with('error', 'Có lỗi xảy ra khi tải file mẫu!');

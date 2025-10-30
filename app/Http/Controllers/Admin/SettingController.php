@@ -48,8 +48,8 @@ class SettingController extends Controller
                 break;
             case 'appearance':
                 $rules = [
-                    'logo_file' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
-                    'favicon_file' => 'nullable|mimes:jpeg,png,jpg,ico|max:1024',
+                    'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+                    'site_favicon' => 'nullable|mimes:jpeg,png,jpg,ico|max:1024',
                 ];
                 break;
             case 'system':

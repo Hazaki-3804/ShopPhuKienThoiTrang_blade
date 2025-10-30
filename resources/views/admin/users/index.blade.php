@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý nhân viên')
+@section('title', 'Danh sách nhân viên')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="card bg-success text-white">
                 <div class="card-body">
@@ -296,14 +296,14 @@
                     bom: true,
                     charset: 'utf-8',
                     exportOptions: {
-                        columns: ':visible:not(:first-child):not(:last-child)'  
+                        columns: ':visible:not(:first-child):not(:last-child)'
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     className: 'buttons-pdf',
                     exportOptions: {
-                        columns: ':visible:not(:first-child):not(:last-child)'                      
+                        columns: ':visible:not(:first-child):not(:last-child)'
                     }
                 },
             ],
@@ -385,7 +385,7 @@
             },
             searching: true
         });
-        
+
         let typingTimer;
         const typingDelay = 500; // 500ms delay
 
@@ -397,11 +397,11 @@
                 table.search(value).draw();
             }, typingDelay);
         });
-        
+
         $('#statusFilter').on('change', function() {
             table.ajax.reload();
         });
-        
+
         // Gán click dropdown -> gọi DataTables button
         $('#btn-excel').on('click', function(e) {
             e.preventDefault();
@@ -419,7 +419,7 @@
             e.preventDefault();
             table.button('.buttons-print').trigger();
         });
-        
+
         // Function to update statistics (make it global)
         window.updateUserStats = function() {
             $.ajax({
@@ -428,7 +428,7 @@
                 success: function(response) {
                     if (response.success) {
                         const stats = response.stats;
-                        
+
                         // Update each statistic card with animation
                         $('.card.bg-primary .card-body h3').fadeOut(200, function() {
                             $(this).text(stats.total_users).fadeIn(200);
@@ -537,7 +537,7 @@
                 }
             });
         });
-        
+
         $(document).on('click', '.delete-user', function() {
             let userId = $(this).data('id');
             $('#del_user_id').val(userId);

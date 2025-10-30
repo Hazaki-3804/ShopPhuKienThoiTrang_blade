@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Thống kê Sản phẩm')
+@section('title', 'Thống kê sản phẩm')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -14,27 +14,27 @@
 
     <!-- Filters -->
     <div class="card m-3">
-        <div class="card-header">
-            <h5 class="mb-0">Bộ lọc</h5>
+        <div class="card-header bg-gradient-info">
+            <h5 class="mb-0"><i class="fas fa-filter mr-1"></i>Bộ lọc</h5>
         </div>
         <div class="card-body">
             <form id="filterForm" class="row g-3">
                 <div class="col-md-3">
                     <label for="start_date" class="form-label">Từ ngày</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date" 
-                           value="{{ date('Y-m-d', strtotime('-30 days')) }}">
+                    <input type="date" class="form-control" id="start_date" name="start_date"
+                        value="{{ date('Y-m-d', strtotime('-30 days')) }}">
                 </div>
                 <div class="col-md-3">
                     <label for="end_date" class="form-label">Đến ngày</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" 
-                           value="{{ date('Y-m-d') }}">
+                    <input type="date" class="form-control" id="end_date" name="end_date"
+                        value="{{ date('Y-m-d') }}">
                 </div>
                 <div class="col-md-3">
                     <label for="category_id" class="form-label">Danh mục</label>
                     <select class="form-control" id="category_id" name="category_id">
                         <option value="">-- Tất cả danh mục --</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -105,8 +105,8 @@
     <div class="row m-3">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Top 10 sản phẩm bán chạy</h5>
+                <div class="card-header bg-gradient-warning">
+                    <h5 class="mb-0"><i class="fas fa-crown mr-1"></i>Top 10 sản phẩm bán chạy</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="topProductsChart" height="300"></canvas>
@@ -115,8 +115,8 @@
         </div>
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Doanh thu theo danh mục</h5>
+                <div class="card-header bg-gradient-success">
+                    <h5 class="mb-0"><i class="fas fa-dollar-sign mr-1"></i>Doanh thu theo danh mục</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="categoryRevenueChart" height="300"></canvas>
@@ -128,10 +128,10 @@
     <!-- Product Data Table -->
     <div class="card m-3">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Chi tiết sản phẩm</h5>
-            <div>
-                <input type="search" id="productSearch" class="form-control form-control-sm" 
-                       placeholder="Tìm kiếm sản phẩm..." style="width: 250px;">
+            <h5 class="mb-0"><i class="fas fa-info-circle mr-1"></i>Chi tiết sản phẩm</h5>
+            <div class="input-group input-group-sm" style="width: 250px;">
+                <input type="search" id="productSearch" class="form-control form-control-sm"
+                    placeholder="Tìm kiếm sản phẩm..." style="width: 250px;">
             </div>
         </div>
         <div class="card-body">
@@ -163,7 +163,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Phân tích hiệu suất sản phẩm</h5>
+                    <h5 class="mb-0"><i class="fas fa-chart-area mr-1"></i>Phân tích hiệu suất sản phẩm</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="performanceChart" height="200"></canvas>
@@ -185,87 +185,87 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-let productsData = [];
-let chartData = {};
-let productsDT = null;
+    let productsData = [];
+    let chartData = {};
+    let productsDT = null;
 
-$(document).ready(function() {
-    loadProductData();
-    loadChartData();
-    
-    $('#filterForm').on('submit', function(e) {
-        e.preventDefault();
+    $(document).ready(function() {
         loadProductData();
         loadChartData();
+
+        $('#filterForm').on('submit', function(e) {
+            e.preventDefault();
+            loadProductData();
+            loadChartData();
+        });
+
+        $('#productSearch').on('keyup', function() {
+            filterTable();
+        });
+
+        $('#exportExcel').on('click', function() {
+            exportData();
+        });
     });
 
-    $('#productSearch').on('keyup', function() {
-        filterTable();
-    });
+    function loadProductData() {
+        const formData = {
+            start_date: $('#start_date').val(),
+            end_date: $('#end_date').val(),
+            category_id: $('#category_id').val()
+        };
 
-    $('#exportExcel').on('click', function() {
-        exportData();
-    });
-});
-
-function loadProductData() {
-    const formData = {
-        start_date: $('#start_date').val(),
-        end_date: $('#end_date').val(),
-        category_id: $('#category_id').val()
-    };
-
-    $.ajax({
-        url: '/admin/statistics/products/data',
-        data: formData,
-        beforeSend: function() {
-            $('#productsTableBody').html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>');
-        },
-        success: function(response) {
-            if (response.success) {
-                productsData = response.data;
-                updateSummaryCards(response.summary);
-                renderProductsTable(response.data);
-                createPerformanceChart(response.data);
+        $.ajax({
+            url: '/admin/statistics/products/data',
+            data: formData,
+            beforeSend: function() {
+                $('#productsTableBody').html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>');
+            },
+            success: function(response) {
+                if (response.success) {
+                    productsData = response.data;
+                    updateSummaryCards(response.summary);
+                    renderProductsTable(response.data);
+                    createPerformanceChart(response.data);
+                }
+            },
+            error: function() {
+                $('#productsTableBody').html('<tr><td colspan="9" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu</td></tr>');
             }
-        },
-        error: function() {
-            $('#productsTableBody').html('<tr><td colspan="9" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu</td></tr>');
-        }
-    });
-}
+        });
+    }
 
-function loadChartData() {
-    const formData = {
-        start_date: $('#start_date').val(),
-        end_date: $('#end_date').val(),
-        limit: 10
-    };
+    function loadChartData() {
+        const formData = {
+            start_date: $('#start_date').val(),
+            end_date: $('#end_date').val(),
+            limit: 10
+        };
 
-    $.ajax({
-        url: '/admin/statistics/products/chart-data',
-        data: formData,
-        success: function(response) {
-            if (response.success) {
-                chartData = response;
-                createTopProductsChart(response.topProducts);
-                createCategoryRevenueChart(response.categoryRevenue);
+        $.ajax({
+            url: '/admin/statistics/products/chart-data',
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    chartData = response;
+                    createTopProductsChart(response.topProducts);
+                    createCategoryRevenueChart(response.categoryRevenue);
+                }
             }
-        }
-    });
-}
+        });
+    }
 
-function updateSummaryCards(summary) {
-    $('#totalProducts').text(summary.total_products.toLocaleString());
-    $('#productsSold').text(summary.products_sold.toLocaleString());
-    $('#totalRevenue').text(formatCurrency(summary.total_revenue));
-    $('#totalQuantitySold').text(summary.total_quantity_sold.toLocaleString());
-}
+    function updateSummaryCards(summary) {
+        $('#totalProducts').text(summary.total_products.toLocaleString());
+        $('#productsSold').text(summary.products_sold.toLocaleString());
+        $('#totalRevenue').text(formatCurrency(summary.total_revenue));
+        $('#totalQuantitySold').text(summary.total_quantity_sold.toLocaleString());
+    }
 
-function renderProductsTable(data) {
-    let html = '';
-    data.forEach(function(product) {
-        html += `
+    function renderProductsTable(data) {
+        let html = '';
+        data.forEach(function(product) {
+            html += `
             <tr>
                 <td></td>
                 <td>${product.name}</td>
@@ -278,196 +278,205 @@ function renderProductsTable(data) {
                 <td class="text-center">${product.stock}</td>
             </tr>
         `;
-    });
-    $('#productsTableBody').html(html);
-
-    // (Re)init DataTable with page length selector
-    if (productsDT) {
-        productsDT.destroy();
-    }
-    productsDT = $('#productsTable').DataTable({
-        pageLength: 10,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Tất cả']],
-        order: [],
-        language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json' },
-        columnDefs: [
-            { targets: 0, orderable: false, searchable: false }
-        ]
-    });
-
-    // Đánh số thứ tự theo trang hiện tại
-    productsDT.on('draw.dt', function() {
-        const info = productsDT.page.info();
-        productsDT.column(0, { page: 'current' }).nodes().each(function(cell, i) {
-            cell.innerHTML = info.start + i + 1;
-            cell.classList.add('text-center');
         });
-    }).draw(false);
+        $('#productsTableBody').html(html);
 
-    // Bind custom search input to DataTables search
-    $('#productSearch').off('keyup').on('keyup', function() {
-        productsDT.search(this.value).draw();
-    });
-}
+        // (Re)init DataTable with page length selector
+        if (productsDT) {
+            productsDT.destroy();
+        }
+        productsDT = $('#productsTable').DataTable({
+            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, 'Tất cả']
+            ],
+            order: [],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json'
+            },
+            columnDefs: [{
+                targets: 0,
+                orderable: false,
+                searchable: false
+            }]
+        });
 
-function filterTable() {
-    const searchTerm = $('#productSearch').val().toLowerCase();
-    
-    if (searchTerm === '') {
-        renderProductsTable(productsData);
-        return;
+        // Đánh số thứ tự theo trang hiện tại
+        productsDT.on('draw.dt', function() {
+            const info = productsDT.page.info();
+            productsDT.column(0, {
+                page: 'current'
+            }).nodes().each(function(cell, i) {
+                cell.innerHTML = info.start + i + 1;
+                cell.classList.add('text-center');
+            });
+        }).draw(false);
+
+        // Bind custom search input to DataTables search
+        $('#productSearch').off('keyup').on('keyup', function() {
+            productsDT.search(this.value).draw();
+        });
     }
-    
-    const filteredData = productsData.filter(product => 
-        product.name.toLowerCase().includes(searchTerm) ||
-        product.category_name.toLowerCase().includes(searchTerm)
-    );
-    
-    renderProductsTable(filteredData);
-}
 
-function createTopProductsChart(data) {
-    const ctx = document.getElementById('topProductsChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data.map(item => item.name.length > 20 ? item.name.substring(0, 20) + '...' : item.name),
-            datasets: [{
-                label: 'Số lượng bán',
-                data: data.map(item => item.total_sold),
-                backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    function filterTable() {
+        const searchTerm = $('#productSearch').val().toLowerCase();
+
+        if (searchTerm === '') {
+            renderProductsTable(productsData);
+            return;
+        }
+
+        const filteredData = productsData.filter(product =>
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.category_name.toLowerCase().includes(searchTerm)
+        );
+
+        renderProductsTable(filteredData);
+    }
+
+    function createTopProductsChart(data) {
+        const ctx = document.getElementById('topProductsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => item.name.length > 20 ? item.name.substring(0, 20) + '...' : item.name),
+                datasets: [{
+                    label: 'Số lượng bán',
+                    data: data.map(item => item.total_sold),
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
             },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        afterLabel: function(context) {
-                            const item = data[context.dataIndex];
-                            return 'Doanh thu: ' + formatCurrency(item.revenue);
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const item = data[context.dataIndex];
+                                return 'Doanh thu: ' + formatCurrency(item.revenue);
+                            }
                         }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
-function createCategoryRevenueChart(data) {
-    const ctx = document.getElementById('categoryRevenueChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: data.map(item => item.name),
-            datasets: [{
-                data: data.map(item => item.revenue),
-                backgroundColor: [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-                    '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.label + ': ' + formatCurrency(context.parsed);
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function createPerformanceChart(data) {
-    // Create scatter plot: Revenue vs Quantity Sold
-    const ctx = document.getElementById('performanceChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Sản phẩm',
-                data: data.map(product => ({
-                    x: product.total_sold,
-                    y: product.total_revenue,
-                    label: product.name
-                })),
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderColor: 'rgba(255, 99, 132, 1)'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Số lượng bán'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Doanh thu'
+    function createCategoryRevenueChart(data) {
+        const ctx = document.getElementById('categoryRevenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.map(item => item.name),
+                datasets: [{
+                    data: data.map(item => item.revenue),
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                        '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
                     },
-                    ticks: {
-                        callback: function(value) {
-                            return formatCurrency(value);
-                        }
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: function(context) {
-                            return context[0].raw.label;
-                        },
-                        label: function(context) {
-                            return [
-                                'Số lượng: ' + context.parsed.x,
-                                'Doanh thu: ' + formatCurrency(context.parsed.y)
-                            ];
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + formatCurrency(context.parsed);
+                            }
                         }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
-function exportData() {
-    const formData = new URLSearchParams({
-        start_date: $('#start_date').val(),
-        end_date: $('#end_date').val(),
-        category_id: $('#category_id').val() || ''
-    });
-    
-    window.open('/admin/statistics/products/export/excel?' + formData.toString(), '_blank');
-}
+    function createPerformanceChart(data) {
+        // Create scatter plot: Revenue vs Quantity Sold
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Sản phẩm',
+                    data: data.map(product => ({
+                        x: product.total_sold,
+                        y: product.total_revenue,
+                        label: product.name
+                    })),
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Số lượng bán'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Doanh thu'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return formatCurrency(value);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return context[0].raw.label;
+                            },
+                            label: function(context) {
+                                return [
+                                    'Số lượng: ' + context.parsed.x,
+                                    'Doanh thu: ' + formatCurrency(context.parsed.y)
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    }).format(amount);
-}
+    function exportData() {
+        const formData = new URLSearchParams({
+            start_date: $('#start_date').val(),
+            end_date: $('#end_date').val(),
+            category_id: $('#category_id').val() || ''
+        });
+
+        window.open('/admin/statistics/products/export/excel?' + formData.toString(), '_blank');
+    }
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    }
 </script>
 @endpush

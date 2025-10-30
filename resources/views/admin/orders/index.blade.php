@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý đơn hàng')
+@section('title', 'Danh sách đơn hàng')
 
 @section('content_header')
 <h1></h1>
@@ -9,7 +9,7 @@
 @php $map = $statusMap ?? []; @endphp
 <div class="shadow-sm rounded bg-white py-2">
     <div class="col-4 col-sm-6 col-lg">
-            <div class="d-flex justify-content-between align-items-center px-3">
+        <div class="d-flex justify-content-between align-items-center px-3">
             <h4 class="fw-semibold m-0">Quản lý đơn hàng</h4>
             <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Quản lý đơn hàng']]" />
         </div>
@@ -144,14 +144,14 @@
                             </td>
                             <td>
                                 @php
-                                    $statusColors = [
-                                        'pending' => 'warning',
-                                        'processing' => 'info',
-                                        'shipped' => 'primary',
-                                        'delivered' => 'success',
-                                        'cancelled' => 'danger'
-                                    ];
-                                    $color = $statusColors[$order->status] ?? 'secondary';
+                                $statusColors = [
+                                'pending' => 'warning',
+                                'processing' => 'info',
+                                'shipped' => 'primary',
+                                'delivered' => 'success',
+                                'cancelled' => 'danger'
+                                ];
+                                $color = $statusColors[$order->status] ?? 'secondary';
                                 @endphp
                                 <span class="badge badge-{{ $color }}">{{ $map[$order->status] ?? $order->status }}</span>
                             </td>
@@ -164,7 +164,7 @@
                                         <i class="fas fa-ellipsis-v text-secondary"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu{{ $order->id }}">
-                                        
+
                                         @if(auth()->user()->can('view order detail'))
                                         <a class="dropdown-item view-order-detail" href="#" data-order-id="{{ $order->id }}">
                                             <i class="bi bi-eye text-info mr-2"></i>Xem chi tiết
@@ -401,11 +401,11 @@
     .table-responsive {
         overflow: visible !important;
     }
-    
+
     table tbody tr td {
         overflow: visible !important;
     }
-    
+
     /* Đảm bảo dropdown hiển thị đúng */
     .dropdown-menu {
         z-index: 1050 !important;
@@ -426,22 +426,22 @@
         $(document).on('click', '[data-toggle="dropdown"]', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const $button = $(this);
             const $dropdown = $button.next('.dropdown-menu');
             const isOpen = $dropdown.hasClass('show');
-            
+
             // Đóng tất cả dropdown khác
             $('.dropdown-menu').removeClass('show');
             $('.dropdown').removeClass('show');
-            
+
             // Toggle dropdown hiện tại
             if (!isOpen) {
                 $dropdown.addClass('show');
                 $button.parent('.dropdown').addClass('show');
             }
         });
-        
+
         // Đóng dropdown khi click ra ngoài
         $(document).on('click', function(e) {
             if (!$(e.target).closest('.dropdown').length) {
@@ -471,25 +471,25 @@
             e.preventDefault();
             const orderId = $(this).data('order-id');
             const currentStatus = $(this).data('current-status');
-            
+
             // Hiển thị trạng thái hiện tại
             $('#currentStatusText').html('<span class="badge badge-info">' + statusMap[currentStatus] + '</span>');
-            
+
             // Lấy danh sách trạng thái có thể chuyển
             const availableStatuses = statusFlow[currentStatus] || [];
-            
+
             // Xóa các option cũ và thêm option mới
             const selectElement = $('#newStatus');
             selectElement.empty();
             selectElement.append('<option value="">-- Chọn trạng thái --</option>');
-            
+
             availableStatuses.forEach(function(status) {
                 selectElement.append('<option value="' + status + '">' + statusMap[status] + '</option>');
             });
-            
+
             // Set action cho form - sử dụng route helper
             $('#editStatusForm').attr('action', '{{ url("admin/orders") }}/' + orderId + '/update-status');
-            
+
             // Hiển thị modal
             $('#editStatusModal').modal('show');
         });
@@ -497,55 +497,55 @@
         // Xử lý submit form chỉnh sửa trạng thái
         $('#editStatusForm').on('submit', function(e) {
             e.preventDefault();
-            
+
             const form = $(this);
             const url = form.attr('action');
             const formData = new FormData(this);
-            
+
             // Disable submit button
             const submitBtn = form.find('button[type="submit"]');
             submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Đang cập nhật...');
-            
+
             fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Đóng modal
-                    $('#editStatusModal').modal('hide');
-                    
-                    // Hiển thị thông báo thành công
-                    if (typeof AjaxFormHandler !== 'undefined') {
-                        AjaxFormHandler.showToast('Cập nhật trạng thái đơn hàng thành công!', 'success');
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
-                    
-                    // Reload trang
-                    window.location.reload();
-                } else {
-                    if (typeof AjaxFormHandler !== 'undefined') {
-                        AjaxFormHandler.showToast(data.message || 'Có lỗi xảy ra, vui lòng thử lại', 'danger');
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Đóng modal
+                        $('#editStatusModal').modal('hide');
+
+                        // Hiển thị thông báo thành công
+                        if (typeof AjaxFormHandler !== 'undefined') {
+                            AjaxFormHandler.showToast('Cập nhật trạng thái đơn hàng thành công!', 'success');
+                        }
+
+                        // Reload trang
+                        window.location.reload();
+                    } else {
+                        if (typeof AjaxFormHandler !== 'undefined') {
+                            AjaxFormHandler.showToast(data.message || 'Có lỗi xảy ra, vui lòng thử lại', 'danger');
+                        }
+                        submitBtn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i>Cập nhật');
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại');
                     submitBtn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i>Cập nhật');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra, vui lòng thử lại');
-                submitBtn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i>Cập nhật');
-            });
+                });
         });
-        
+
         // Xử lý click vào nút xem chi tiết
         $(document).on('click', '.view-order-detail', function(e) {
             e.preventDefault();
             const orderId = $(this).data('order-id');
             const modalContent = document.getElementById('orderDetailContent');
-            
+
             // Hiển thị loading
             modalContent.innerHTML = `
                 <div class="text-center py-5">
@@ -554,16 +554,16 @@
                     </div>
                 </div>
             `;
-            
+
             // Hiển thị modal
             try {
                 $('#orderDetailModal').modal('show');
-            } catch(e) {
+            } catch (e) {
                 console.error('Error showing modal:', e);
                 alert('Không thể mở modal. Vui lòng tải lại trang.');
                 return;
             }
-            
+
             // Gọi API để lấy chi tiết đơn hàng
             fetch('/admin/orders/' + orderId + '/detail')
                 .then(response => response.json())

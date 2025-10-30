@@ -73,7 +73,7 @@ class ShippingFeeController extends Controller
                     ';
 
                     // Chỉnh sửa
-                    if(auth()->user()->can('edit shipping fees')){
+                    if (auth()->user()->can('edit shipping fees')) {
                         $buttons .= '
                             <a class="dropdown-item edit-shipping-fee" href="#" 
                                 data-toggle="modal" 
@@ -96,7 +96,7 @@ class ShippingFeeController extends Controller
                     }
 
                     // Xóa
-                    if(auth()->user()->can('delete shipping fees')){
+                    if (auth()->user()->can('delete shipping fees')) {
                         $buttons .= '
                             <a class="dropdown-item delete-shipping-fee text-danger" href="#" 
                                 data-toggle="modal" 
@@ -244,9 +244,13 @@ class ShippingFeeController extends Controller
     public function destroyMultiple(Request $request)
     {
         try {
+            // Parse JSON string nếu ids được gửi dưới dạng JSON
             $ids = $request->ids;
-
-            if (empty($ids)) {
+            if (is_string($ids)) {
+                $ids = json_decode($ids, true);
+            }
+            
+            if (empty($ids) || !is_array($ids)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Vui lòng chọn ít nhất một quy tắc để xóa!',

@@ -125,8 +125,8 @@
     <div class="row m-3">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Doanh thu 7 ngày gần đây</h5>
+                <div class="card-header bg-gradient-success">
+                    <h5 class="mb-0"><i class="fas fa-chart-line mr-1"></i>Doanh thu 7 ngày gần đây</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="revenueChart" height="200"></canvas>
@@ -136,8 +136,8 @@
 
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Top 5 sản phẩm bán chạy</h5>
+                <div class="card-header bg-gradient-warning">
+                    <h5 class="mb-0"><i class="fas fa-crown mr-1"></i>Top 5 sản phẩm bán chạy</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="topProductsChart" height="200"></canvas>
@@ -150,158 +150,159 @@
 
 @push('styles')
 <style>
-.card-hover {
-    transition: transform 0.2s;
-}
-.card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    .card-hover {
+        transition: transform 0.2s;
+    }
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-$(document).ready(function() {
-    loadDashboardData();
-    loadQuickCharts();
-});
-
-function loadDashboardData() {
-    // Load summary statistics
-    $.ajax({
-        url: '/admin/statistics/time/data',
-        data: {
-            period: 'month',
-            start_date: moment().subtract(30, 'days').format('YYYY-MM-DD'),
-            end_date: moment().format('YYYY-MM-DD')
-        },
-        success: function(response) {
-            if (response.success) {
-                $('#total-orders').text(response.summary.total_orders.toLocaleString());
-                $('#total-revenue').text(formatCurrency(response.summary.total_revenue));
-                $('#total-customers').text(response.summary.unique_customers.toLocaleString());
-                $('#avg-order-value').text(formatCurrency(response.summary.avg_order_value));
-            }
-        }
-    });
-}
-
-function loadQuickCharts() {
-    // Revenue chart for last 7 days
-    $.ajax({
-        url: '/admin/statistics/time/data',
-        data: {
-            period: 'day',
-            start_date: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-            end_date: moment().format('YYYY-MM-DD')
-        },
-        success: function(response) {
-            if (response.success) {
-                createRevenueChart(response.data);
-            }
-        }
+    $(document).ready(function() {
+        loadDashboardData();
+        loadQuickCharts();
     });
 
-    // Top products chart
-    $.ajax({
-        url: '/admin/statistics/products/chart-data',
-        data: {
-            start_date: moment().subtract(30, 'days').format('YYYY-MM-DD'),
-            end_date: moment().format('YYYY-MM-DD'),
-            limit: 5
-        },
-        success: function(response) {
-            if (response.success) {
-                createTopProductsChart(response.topProducts);
-            }
-        }
-    });
-}
-
-function createRevenueChart(data) {
-    const ctx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.map(item => moment(item.period).format('DD/MM')),
-            datasets: [{
-                label: 'Doanh thu',
-                data: data.map(item => item.total_revenue),
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return formatCurrency(value);
-                        }
-                    }
-                }
+    function loadDashboardData() {
+        // Load summary statistics
+        $.ajax({
+            url: '/admin/statistics/time/data',
+            data: {
+                period: 'month',
+                start_date: moment().subtract(30, 'days').format('YYYY-MM-DD'),
+                end_date: moment().format('YYYY-MM-DD')
             },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return 'Doanh thu: ' + formatCurrency(context.parsed.y);
-                        }
-                    }
+            success: function(response) {
+                if (response.success) {
+                    $('#total-orders').text(response.summary.total_orders.toLocaleString());
+                    $('#total-revenue').text(formatCurrency(response.summary.total_revenue));
+                    $('#total-customers').text(response.summary.unique_customers.toLocaleString());
+                    $('#avg-order-value').text(formatCurrency(response.summary.avg_order_value));
                 }
             }
-        }
-    });
-}
+        });
+    }
 
-function createTopProductsChart(data) {
-    const ctx = document.getElementById('topProductsChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: data.map(item => item.name),
-            datasets: [{
-                data: data.map(item => item.total_sold),
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
+    function loadQuickCharts() {
+        // Revenue chart for last 7 days
+        $.ajax({
+            url: '/admin/statistics/time/data',
+            data: {
+                period: 'day',
+                start_date: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+                end_date: moment().format('YYYY-MM-DD')
+            },
+            success: function(response) {
+                if (response.success) {
+                    createRevenueChart(response.data);
+                }
+            }
+        });
+
+        // Top products chart
+        $.ajax({
+            url: '/admin/statistics/products/chart-data',
+            data: {
+                start_date: moment().subtract(30, 'days').format('YYYY-MM-DD'),
+                end_date: moment().format('YYYY-MM-DD'),
+                limit: 5
+            },
+            success: function(response) {
+                if (response.success) {
+                    createTopProductsChart(response.topProducts);
+                }
+            }
+        });
+    }
+
+    function createRevenueChart(data) {
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => moment(item.period).format('DD/MM')),
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: data.map(item => item.total_revenue),
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return formatCurrency(value);
+                            }
+                        }
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.label + ': ' + context.parsed + ' sản phẩm';
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Doanh thu: ' + formatCurrency(context.parsed.y);
+                            }
                         }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    }).format(amount);
-}
+    function createTopProductsChart(data) {
+        const ctx = document.getElementById('topProductsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.map(item => item.name),
+                datasets: [{
+                    data: data.map(item => item.total_sold),
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#4BC0C0',
+                        '#9966FF'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + ' sản phẩm';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 @endpush

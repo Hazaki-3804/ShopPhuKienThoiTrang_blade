@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý bình luận')
+@section('title', 'Danh sách bình luận')
 
 @section('content_header')
 <h1></h1>
@@ -66,11 +66,13 @@
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
             <form method="GET" class="form-row align-items-center">
-                
+
                 <div class="col-lg-5 col-md-6 col-sm-12 mb-3 mb-md-0">
-                    <label class="sr-only" for="search-input">Tìm kiếm</label> <div class="input-group">
+                    <label class="sr-only" for="search-input">Tìm kiếm</label>
+                    <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span> </div>
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        </div>
                         <input type="text" id="search-input" name="q" value="{{ request('q') }}" class="form-control" placeholder="Tìm theo nội dung, khách hàng, sản phẩm...">
                     </div>
                 </div>
@@ -92,7 +94,7 @@
                         <i class="fas fa-redo mr-1"></i> Làm mới
                     </a>
                 </div>
-                
+
             </form>
         </div>
     </div>
@@ -171,14 +173,14 @@
                                 </span>
                                 @endif
                             </td>
-                           @canany(['hide reviews', 'delete reviews'])
+                            @canany(['hide reviews', 'delete reviews'])
                             <td>
                                 <div class="dropdown text-center">
                                     <button class="btn btn-sm btn-light border-0" type="button" id="actionsMenu{{ $review->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow:none;">
                                         <i class="fas fa-ellipsis-v text-secondary"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded" aria-labelledby="actionsMenu{{ $review->id }}">
-                                        
+
                                         @if(auth()->user()->can('hide reviews'))
                                         <form method="POST" action="{{ route('admin.reviews.toggle', $review) }}" class="toggle-form">
                                             @csrf
@@ -233,7 +235,8 @@
     .table-warning {
         background-color: #fff3cd !important;
     }
-    .table-info{
+
+    .table-info {
         background-color: #cfe2ff !important;
     }
 
@@ -243,7 +246,6 @@
         border-color: #667eea;
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
     }
-
 </style>
 @endpush
 

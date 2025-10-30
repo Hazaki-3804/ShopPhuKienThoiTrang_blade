@@ -29,43 +29,44 @@ use App\Http\Controllers\PayosController;
 use App\Http\Controllers\SePayController;
 use App\Http\Controllers\MomoController;
 
+// Public routes with maintenance mode check
+Route::middleware(['maintain_mode'])->group(function () {
+    Route::get('/', fn() => redirect()->route('home'));
 
-Route::get('/', fn() => redirect()->route('home'));
+    // Sitemap (public, exclude admin by design)
+    Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
-// Sitemap (public, exclude admin by design)
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+    //Home routes
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-//Home routes
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Shop routes
+    Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+    Route::get('/shop/{id}', [ShopController::class, 'show'])->name('shop.show');
 
-// Shop routes
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/shop/{id}', [ShopController::class, 'show'])->name('shop.show');
+    // Invoice routes
+    Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
 
+    // Product reviews routes
+    Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
 
-// Invoice routes
-Route::get('/invoice/{orderId}', [InvoiceController::class, 'show'])->name('invoice.show');
+    // Static pages
+    Route::get('/about', fn() => view('pages.about'))->name('about');
+    Route::get('/contact', fn() => view('pages.contact'))->name('contact');
 
-// Product reviews routes
-Route::post('/reviews/{productId}', [ReviewController::class, 'store'])->name('reviews.store');
+    // Chatbot
+    Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
+    Route::post('/api/chatbot/greet', [ChatbotController::class, 'greet'])->name('chatbot.greet');
+});
 
-// Static pages
-Route::get('/about', fn() => view('pages.about'))->name('about');
-Route::get('/contact', fn() => view('pages.contact'))->name('contact');
-
-// Chatbot
-Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->name('chatbot.chat');
-Route::post('/api/chatbot/greet', [ChatbotController::class, 'greet'])->name('chatbot.greet');
-
-// Payment webhooks (không cần auth)
+// Payment webhooks (không cần auth và không cần maintenance check)
 Route::post('/sepay/callback', [SePayController::class, 'callback'])->name('sepay.callback');
 Route::post('/checkout/momo/notify', [MomoController::class, 'notifyPayment'])->name('momo.notify');
 
 // API kiểm tra trạng thái thanh toán
 Route::get('/api/payment/check/{orderId}', [SePayController::class, 'checkPaymentStatus'])->name('payment.check');
 
-// Profile routes
-Route::middleware('auth')->group(function () {
+// Profile routes with maintenance mode check
+Route::middleware(['auth', 'maintain_mode'])->group(function () {
     // Cart and Checkout routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
@@ -116,11 +117,11 @@ Route::middleware('auth')->group(function () {
 
 // Admin routes
 Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/api/dashboard/stats', [AdminDashboardController::class, 'getStatsApi'])->name('dashboard.stats');
-    Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts'); 
-    Route::get('/settings', [AdminSettingController::class, 'settings'])->name('settings');
-    Route::put('/settings', [AdminSettingController::class, 'updateSettings'])->name('settings.update');  
+    Route::get('/api/dashboard/charts', [AdminDashboardController::class, 'getChartsApi'])->name('dashboard.charts');
+    Route::get('/admin/settings', [AdminSettingController::class, 'settings'])->name('settings');
+    Route::put('/admin/settings', [AdminSettingController::class, 'updateSettings'])->name('settings.update');
     // Reviews management
     Route::get('/admin/reviews', [AdminReviewsController::class, 'index'])->middleware('permission:view reviews')->name('admin.reviews.index');
     Route::patch('/admin/reviews/{review}/toggle', [AdminReviewsController::class, 'toggleVisibility'])->middleware('permission:hide reviews')->name('admin.reviews.toggle');
@@ -139,19 +140,19 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
     // Statistics module
     Route::name('admin.statistics.')->group(function () {
         Route::get('/admin/statistics', [AdminStatisticsController::class, 'index'])->middleware('permission:view reports')->name('index');
-        
+
         // Customer analytics
         Route::get('/admin/statistics/customers', [AdminStatisticsController::class, 'customerAnalytics'])->middleware('permission:view reports')->name('customers');
         Route::get('/admin/statistics/customers/data', [AdminStatisticsController::class, 'customerAnalyticsData'])->middleware('permission:view reports')->name('customers.data');
         Route::get('/admin/statistics/customers/export/excel', [AdminStatisticsController::class, 'exportCustomersExcel'])->middleware('permission:view reports')->name('customers.export.excel');
         Route::get('/admin/statistics/customers/export/pdf', [AdminStatisticsController::class, 'exportCustomersPdf'])->middleware('permission:view reports')->name('customers.export.pdf');
-        
+
         // Product analytics
         Route::get('/admin/statistics/products', [AdminStatisticsController::class, 'productAnalytics'])->middleware('permission:view reports')->name('products');
         Route::get('/admin/statistics/products/data', [AdminStatisticsController::class, 'productAnalyticsData'])->middleware('permission:view reports')->name('products.data');
         Route::get('/admin/statistics/products/chart-data', [AdminStatisticsController::class, 'productChartData'])->middleware('permission:view reports')->name('products.chart');
         Route::get('/admin/statistics/products/export/excel', [AdminStatisticsController::class, 'exportProductsExcel'])->middleware('permission:view reports')->name('products.export.excel');
-        
+
         // Time analytics
         Route::get('/admin/statistics/time', [AdminStatisticsController::class, 'timeAnalytics'])->middleware('permission:view reports')->name('time');
         Route::get('/admin/statistics/time/data', [AdminStatisticsController::class, 'timeAnalyticsData'])->middleware('permission:view reports')->name('time.data');
@@ -165,7 +166,7 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::put('/admin/categories/update', [AdminCategoryController::class, 'update'])->middleware('permission:edit categories')->name('update');
         Route::delete('/admin/categories/delete', [AdminCategoryController::class, 'destroy'])->middleware('permission:delete categories')->name('destroy');
         Route::delete('/admin/categories/delete-multiple', [AdminCategoryController::class, 'destroyMultiple'])->middleware('permission:delete categories')->name('destroy.multiple');
-        
+
         // Import Excel routes
         Route::get('/admin/categories/import', [AdminCategoryController::class, 'showImport'])->middleware('permission:create categories')->name('import');
         Route::post('/admin/categories/import/preview', [AdminCategoryController::class, 'previewImport'])->middleware('permission:create categories')->name('import.preview');
@@ -187,7 +188,7 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::post('/admin/products/clear-temp-images-beacon', [AdminProductController::class, 'clearTempImagesBeacon'])->middleware('permission:edit products')->name('clear-temp-images-beacon');
         Route::delete('/admin/products/delete', [AdminProductController::class, 'destroy'])->middleware('permission:delete products')->name('destroy');
         Route::delete('/admin/products/delete-multiple', [AdminProductController::class, 'destroyMultiple'])->middleware('permission:delete products')->name('destroy.multiple');
-        
+
         // Import Excel routes
         Route::get('/admin/products/import', [AdminProductController::class, 'showImport'])->middleware('permission:create products')->name('import');
         Route::post('/admin/products/import/preview', [AdminProductController::class, 'previewImport'])->middleware('permission:create products')->name('import.preview');
@@ -238,7 +239,7 @@ Route::middleware(['auth:web', 'checkAdmin'])->group(function () {
         Route::get('/admin/profile/change-password', [AdminProfileController::class, 'changePasswordForm'])->name('change-password');
         Route::put('/admin/profile/change-password', [AdminProfileController::class, 'changePassword'])->name('change-password.update');
     });
-        // Promotion management
+    // Promotion management
     Route::name('admin.promotions.')->group(function () {
         Route::get('/admin/promotions/data', [AdminPromotionController::class, 'data'])->middleware('permission:view promotions')->name('data');
         Route::get('/admin/promotions', [AdminPromotionController::class, 'index'])->middleware('permission:view promotions')->name('index');

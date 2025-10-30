@@ -18,19 +18,22 @@
     .table {
         font-family: 'Space Grotesk', sans-serif;
     }
-    .btn-action{
+
+    .btn-action {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 6px;
     }
+
     .btn-sm {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s ease;
     }
-    .btn:hover{
+
+    .btn:hover {
         transform: scale(1.05);
     }
 
@@ -40,13 +43,16 @@
         background: transparent !important;
         transition: background-color 0.2s ease, transform 0.2s ease;
     }
+
     .btn-light.border-0:hover {
         background-color: #f1f3f5 !important;
         transform: scale(1.05);
     }
+
     .btn-light.border-0:active {
         background-color: #e9ecef !important;
     }
+
 
     /* 🌈 Dropdown menu hiện đại */
     .dropdown-menu {
@@ -54,20 +60,37 @@
         font-size: 0.9rem;
         border: none;
         border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
         background-color: #ffffff;
         padding: 6px 0;
         opacity: 0;
         transform: translateY(8px);
         visibility: hidden;
         transition: all 0.25s ease;
+        z-index: 1050 !important;
     }
 
     /* Hiệu ứng xuất hiện mượt */
-    .show > .dropdown-menu {
+    .show>.dropdown-menu {
         opacity: 1;
         transform: translateY(0);
         visibility: visible;
+        z-index: 1050 !important;
+    }
+
+    /* Đảm bảo dropdown container có position relative */
+    .dropdown,
+    .dropup,
+    .dropend,
+    .dropstart {
+        position: relative;
+    }
+
+    /* Đảm bảo table cell chứa dropdown có overflow visible */
+    .table td.dropdown,
+    .table td .dropdown {
+        position: relative;
+        overflow: visible !important;
     }
 
     /* ✨ Mục trong menu */
@@ -86,30 +109,28 @@
         text-align: left;
         cursor: pointer;
     }
+
     .dropdown-item i {
         width: 18px;
         text-align: center;
     }
+
     .dropdown-item:hover {
         background-color: #f1f3f5;
         color: #212529 !important;
         transform: translateX(2px);
     }
-    
+
     /* Fix form trong dropdown */
     .dropdown-menu form {
         margin: 0;
     }
+
     .dropdown-menu form button.dropdown-item {
         font-family: inherit;
         font-size: inherit;
     }
 
-    /* 🧩 Fix DataTables bị che dropdown */
-    table.dataTable td {
-        overflow: visible !important;
-    }
-    
     /* Stats Cards Styling - Giống trang quản lý khuyến mãi */
     .card.bg-primary,
     .card.bg-success,
@@ -129,7 +150,8 @@
         transform: translateY(-5px);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
-      .card {
+
+    .card {
         border-radius: 8px;
         overflow: hidden;
     }
@@ -137,12 +159,12 @@
     .card-header {
         border-bottom: 2px solid #e9ecef;
     }
+
     /* Badge styling */
     .badge {
         padding: 0.5em 0.75em;
         font-weight: 500;
     }
-    
 </style>
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 @stack('styles')
@@ -154,6 +176,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <!-- Include AJAX Form Handler for all admin pages -->
 <script src="{{ asset('js/admin/ajax-form-handler.js') }}"></script>
+
 @stack('scripts')
 @endsection
 

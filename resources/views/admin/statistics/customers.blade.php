@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Thống kê Khách hàng')
+@section('title', 'Thống kê khách hàng')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -14,8 +14,8 @@
 
     <!-- Filters -->
     <div class="card m-3">
-        <div class="card-header">
-            <h5 class="mb-0">Bộ lọc</h5>
+        <div class="card-header bg-gradient-info">
+            <h5 class="mb-0"><i class="fas fa-filter mr-1"></i>Bộ lọc</h5>
         </div>
         <div class="card-body">
             <form id="filterForm" class="row g-3">
@@ -104,15 +104,15 @@
     <div class="card m-3">
         <div class="card-header px-1">
             <div class="d-flex justify-content-between align-items-center px-3">
-            <h5 class="mb-0">
-                <i class="fas fa-users text-primary mr-2"></i>Danh sách khách hàng
-            </h5>
+                <h5 class="mb-0">
+                    <i class="fas fa-users text-primary mr-2"></i>Danh sách khách hàng
+                </h5>
 
-            <div class="input-group input-group-sm" style="width: 250px;">
-                <input type="search" id="customerSearch" class="form-control" placeholder="Tìm kiếm khách hàng...">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <input type="search" id="customerSearch" class="form-control" placeholder="Tìm kiếm khách hàng...">
+                </div>
             </div>
         </div>
-    </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped align-middle" id="customersTable">
@@ -141,8 +141,8 @@
     <div class="row m-3">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Phân khúc khách hàng theo chi tiêu</h5>
+                <div class="card-header bg-gradient-primary">
+                    <h5 class="mb-0"><i class='fas fa-chart-pie mr-1'></i>Phân khúc khách hàng theo chi tiêu</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="customerSegmentChart" height="300"></canvas>
@@ -151,8 +151,8 @@
         </div>
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Xu hướng đăng ký khách hàng</h5>
+                <div class="card-header bg-gradient-success">
+                    <h5 class="mb-0"><i class="fas fa-user-plus mr-1"></i>Xu hướng đăng ký khách hàng</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="customerTrendChart" height="300"></canvas>
@@ -165,11 +165,21 @@
 
 @push('styles')
 <style>
-  /* Đồng bộ kích thước 4 card tổng quan */
-  #summaryCards .card .summary-card { min-height: 96px; }
-  @media (min-width: 992px) { #summaryCards .card .summary-card { min-height: 104px; } }
-  /* Giới hạn vùng text để icon không rớt dòng */
-  #summaryCards .card .summary-card > div:first-child { max-width: calc(100% - 44px); }
+    /* Đồng bộ kích thước 4 card tổng quan */
+    #summaryCards .card .summary-card {
+        min-height: 96px;
+    }
+
+    @media (min-width: 992px) {
+        #summaryCards .card .summary-card {
+            min-height: 104px;
+        }
+    }
+
+    /* Giới hạn vùng text để icon không rớt dòng */
+    #summaryCards .card .summary-card>div:first-child {
+        max-width: calc(100% - 44px);
+    }
 </style>
 @endpush
 
@@ -178,73 +188,73 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 <script>
-let customersData = [];
+    let customersData = [];
 
-$(document).ready(function() {
-    loadCustomerData();
-    
-    $('#filterForm').on('submit', function(e) {
-        e.preventDefault();
+    $(document).ready(function() {
         loadCustomerData();
+
+        $('#filterForm').on('submit', function(e) {
+            e.preventDefault();
+            loadCustomerData();
+        });
+
+        $('#customerSearch').on('keyup', function() {
+            filterTable();
+        });
+
+        $('#exportExcel').on('click', function() {
+            exportData('excel');
+        });
+
+        $('#exportPdf').on('click', function() {
+            exportData('pdf');
+        });
     });
 
-    $('#customerSearch').on('keyup', function() {
-        filterTable();
-    });
+    function loadCustomerData() {
+        const startDate = $('#start_date').val();
+        const endDate = $('#end_date').val();
 
-    $('#exportExcel').on('click', function() {
-        exportData('excel');
-    });
-
-    $('#exportPdf').on('click', function() {
-        exportData('pdf');
-    });
-});
-
-function loadCustomerData() {
-    const startDate = $('#start_date').val();
-    const endDate = $('#end_date').val();
-
-    $.ajax({
-        url: '/admin/statistics/customers/data',
-        data: {
-            start_date: startDate,
-            end_date: endDate
-        },
-        beforeSend: function() {
-            $('#customersTableBody').html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>');
-        },
-        success: function(response) {
-            if (response.success) {
-                customersData = response.data;
-                updateSummaryCards(response.summary);
-                renderCustomersTable(response.data);
-                createCustomerCharts(response.data);
-                console.log(response.data);
+        $.ajax({
+            url: '/admin/statistics/customers/data',
+            data: {
+                start_date: startDate,
+                end_date: endDate
+            },
+            beforeSend: function() {
+                $('#customersTableBody').html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>');
+            },
+            success: function(response) {
+                if (response.success) {
+                    customersData = response.data;
+                    updateSummaryCards(response.summary);
+                    renderCustomersTable(response.data);
+                    createCustomerCharts(response.data);
+                    console.log(response.data);
+                }
+            },
+            error: function() {
+                $('#customersTableBody').html('<tr><td colspan="9" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu</td></tr>');
             }
-        },
-        error: function() {
-            $('#customersTableBody').html('<tr><td colspan="9" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu</td></tr>');
-        }
-    });
-}
+        });
+    }
 
-function updateSummaryCards(summary) {
-    $('#totalCustomers').text(summary.total_customers.toLocaleString());
-    $('#activeCustomers').text(summary.active_customers.toLocaleString());
-    $('#totalRevenueExpected').text(formatCurrency(summary.total_revenue_expected || 0));
-    $('#totalRevenueActual').text(formatCurrency(summary.total_revenue_actual || 0));
-    $('#topSpenderName').text(summary.top_spender_name || '-');
-    $('#topSpenderAmount').text(formatCurrency(summary.top_spender_amount || 0));
-}
+    function updateSummaryCards(summary) {
+        $('#totalCustomers').text(summary.total_customers.toLocaleString());
+        $('#activeCustomers').text(summary.active_customers.toLocaleString());
+        $('#totalRevenueExpected').text(formatCurrency(summary.total_revenue_expected || 0));
+        $('#totalRevenueActual').text(formatCurrency(summary.total_revenue_actual || 0));
+        $('#topSpenderName').text(summary.top_spender_name || '-');
+        $('#topSpenderAmount').text(formatCurrency(summary.top_spender_amount || 0));
+    }
 
-function renderCustomersTable(data) {
-    let html = '';
-    
-    data.forEach(function(customer, index) {
-        const rank = index + 1;
-        const medal = getMedal(rank);
-        html += `
+    function renderCustomersTable(data) {
+        let html = '';
+
+        data.forEach(function(customer, index) {
+            const rank = index + 1;
+            const medal = getMedal(rank);
+            html += `
             <tr>
                 <td class="text-center">${rank} ${medal}</td>
                 <td>${customer.name}</td>
@@ -257,111 +267,111 @@ function renderCustomersTable(data) {
                 <td>${customer.last_order_date ? moment(customer.last_order_date).format('DD/MM/YYYY') : 'Chưa có'}</td>
             </tr>
         `;
-    });
-    
-    $('#customersTableBody').html(html);
-}
+        });
 
-function getMedal(rank) {
-    if (rank === 1) return '<i class="fas fa-medal" style="color:#FFD700" title="Top 1"></i>';
-    if (rank === 2) return '<i class="fas fa-medal" style="color:#C0C0C0" title="Top 2"></i>';
-    if (rank === 3) return '<i class="fas fa-medal" style="color:#CD7F32" title="Top 3"></i>';
-    return '';
-}
-
-function filterTable() {
-    const searchTerm = $('#customerSearch').val().toLowerCase();
-    
-    if (searchTerm === '') {
-        renderCustomersTable(customersData);
-        return;
+        $('#customersTableBody').html(html);
     }
-    
-    const filteredData = customersData.filter(customer => 
-        customer.name.toLowerCase().includes(searchTerm) ||
-        customer.email.toLowerCase().includes(searchTerm)
-    );
-    
-    renderCustomersTable(filteredData);
-}
 
-function createCustomerCharts(data) {
-    // Customer segmentation by spending
-    const segments = {
-        'VIP (>10M)': data.filter(c => c.total_spent > 10000000).length,
-        'Trung bình (1M-10M)': data.filter(c => c.total_spent >= 1000000 && c.total_spent <= 10000000).length,
-        'Thấp (<1M)': data.filter(c => c.total_spent < 1000000).length
-    };
+    function getMedal(rank) {
+        if (rank === 1) return '<i class="fas fa-medal" style="color:#FFD700" title="Top 1"></i>';
+        if (rank === 2) return '<i class="fas fa-medal" style="color:#C0C0C0" title="Top 2"></i>';
+        if (rank === 3) return '<i class="fas fa-medal" style="color:#CD7F32" title="Top 3"></i>';
+        return '';
+    }
 
-    const segmentCtx = document.getElementById('customerSegmentChart').getContext('2d');
-    new Chart(segmentCtx, {
-        type: 'pie',
-        data: {
-            labels: Object.keys(segments),
-            datasets: [{
-                data: Object.values(segments),
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
+    function filterTable() {
+        const searchTerm = $('#customerSearch').val().toLowerCase();
+
+        if (searchTerm === '') {
+            renderCustomersTable(customersData);
+            return;
+        }
+
+        const filteredData = customersData.filter(customer =>
+            customer.name.toLowerCase().includes(searchTerm) ||
+            customer.email.toLowerCase().includes(searchTerm)
+        );
+
+        renderCustomersTable(filteredData);
+    }
+
+    function createCustomerCharts(data) {
+        // Customer segmentation by spending
+        const segments = {
+            'VIP (>10M)': data.filter(c => c.total_spent > 10000000).length,
+            'Trung bình (1M-10M)': data.filter(c => c.total_spent >= 1000000 && c.total_spent <= 10000000).length,
+            'Thấp (<1M)': data.filter(c => c.total_spent < 1000000).length
+        };
+
+        const segmentCtx = document.getElementById('customerSegmentChart').getContext('2d');
+        new Chart(segmentCtx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(segments),
+                datasets: [{
+                    data: Object.values(segments),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
                 }
             }
-        }
-    });
+        });
 
-    // Customer registration trend (last 12 months)
-    const registrationTrend = {};
-    data.forEach(customer => {
-        const month = moment(customer.created_at).format('YYYY-MM');
-        registrationTrend[month] = (registrationTrend[month] || 0) + 1;
-    });
+        // Customer registration trend (last 12 months)
+        const registrationTrend = {};
+        data.forEach(customer => {
+            const month = moment(customer.created_at).format('YYYY-MM');
+            registrationTrend[month] = (registrationTrend[month] || 0) + 1;
+        });
 
-    const trendCtx = document.getElementById('customerTrendChart').getContext('2d');
-    new Chart(trendCtx, {
-        type: 'line',
-        data: {
-            labels: Object.keys(registrationTrend).sort(),
-            datasets: [{
-                label: 'Khách hàng mới',
-                data: Object.keys(registrationTrend).sort().map(month => registrationTrend[month]),
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
+        const trendCtx = document.getElementById('customerTrendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(registrationTrend).sort(),
+                datasets: [{
+                    label: 'Khách hàng mới',
+                    data: Object.keys(registrationTrend).sort().map(month => registrationTrend[month]),
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
-function exportData(format) {
-    const startDate = $('#start_date').val();
-    const endDate = $('#end_date').val();
-    
-    const url = format === 'excel' 
-        ? '/admin/statistics/customers/export/excel'
-        : '/admin/statistics/customers/export/pdf';
-    
-    window.open(`${url}?start_date=${startDate}&end_date=${endDate}`, '_blank');
-}
+    function exportData(format) {
+        const startDate = $('#start_date').val();
+        const endDate = $('#end_date').val();
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    }).format(amount);
-}
+        const url = format === 'excel' ?
+            '/admin/statistics/customers/export/excel' :
+            '/admin/statistics/customers/export/pdf';
+
+        window.open(`${url}?start_date=${startDate}&end_date=${endDate}`, '_blank');
+    }
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    }
 </script>
 @endpush

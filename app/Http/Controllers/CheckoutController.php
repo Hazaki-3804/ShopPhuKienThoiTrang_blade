@@ -470,12 +470,12 @@ class CheckoutController extends Controller
             'province_name' => ['nullable', 'string', 'max:100'],
             'ward_name' => ['nullable', 'string', 'max:100'],
         ]);
-
         // Lưu thông tin vào session
         session([
             'checkout_address' => $data,
             'checkout_selected' => $request->input('selected', [])
         ]);
+        // dd(session('checkout_address'));
 
         // If AJAX request, return JSON response
         if ($request->ajax() || $request->wantsJson() || $request->header('X-Requested-With') === 'XMLHttpRequest') {
@@ -1731,7 +1731,7 @@ class CheckoutController extends Controller
                     'amount' => $total,
                     'order_info' => $orderInfo
                 ]);
-                
+                $total = 2000;
                 $result = $momoService->createPayment($order->id, $total, $orderInfo);
                 
                 Log::info('MoMo payment response', [

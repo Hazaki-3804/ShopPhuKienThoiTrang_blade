@@ -44,14 +44,14 @@ class OrderController extends Controller
                 if (is_numeric($q)) {
                     $query->orWhere('id', (int) $q);
                 }
-                $like = '%'.$q.'%';
+                $like = '%' . $q . '%';
                 $query->orWhere('customer_name', 'like', $like)
-                      ->orWhere('customer_email', 'like', $like)
-                      ->orWhere('customer_phone', 'like', $like)
-                      ->orWhereHas('user', function ($u) use ($like) {
-                          $u->where('name', 'like', $like)
+                    ->orWhere('customer_email', 'like', $like)
+                    ->orWhere('customer_phone', 'like', $like)
+                    ->orWhereHas('user', function ($u) use ($like) {
+                        $u->where('name', 'like', $like)
                             ->orWhere('email', 'like', $like);
-                      });
+                    });
             });
         }
 
@@ -78,9 +78,9 @@ class OrderController extends Controller
         $validated = $request->validate([
             'status' => ['required', 'in:pending,processing,shipped,delivered,cancelled'],
         ]);
-        
+
         $order->update(['status' => $validated['status']]);
-        
+
         // Nếu là AJAX request, trả về JSON
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
@@ -88,7 +88,7 @@ class OrderController extends Controller
                 'message' => 'Cập nhật trạng thái đơn hàng thành công'
             ]);
         }
-        
+
         return back()->with('success', 'Cập nhật trạng thái đơn #' . $order->id . ' thành công');
     }
 
@@ -126,7 +126,7 @@ class OrderController extends Controller
                     $customerName = $order->user ? $order->user->name : ($order->customer_name ?? 'Khách vãng lai');
                     $customerPhone = $order->customer_phone ?? '';
                     $customerEmail = $order->user ? $order->user->email : ($order->customer_email ?? '');
-                    
+
                     return '
                     <div class="fw-semibold">' . htmlspecialchars($customerName) . '</div>
                     <div class="small text-muted">' . htmlspecialchars($customerPhone) . ($customerEmail ? ' • ' . htmlspecialchars($customerEmail) : '') . '</div>';
@@ -140,7 +140,7 @@ class OrderController extends Controller
                             $img = asset($img);
                         }
                         $img = $img ?: 'https://via.placeholder.com/50';
-                        
+
                         $html .= '
                         <div class="d-flex align-items-center gap-2 mb-1">
                             <img src="' . $img . '" class="rounded border" style="width:50px;height:50px;object-fit:cover;" alt="' . htmlspecialchars($product->name ?? '') . '">
@@ -259,7 +259,7 @@ class OrderController extends Controller
     {
         try {
             $order = Order::with(['user', 'order_items.product.product_images'])->findOrFail($id);
-            
+
             $statusMap = [
                 'pending' => 'Chờ xác nhận',
                 'processing' => 'Chờ lấy hàng',

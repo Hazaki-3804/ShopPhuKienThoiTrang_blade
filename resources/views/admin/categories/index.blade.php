@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý danh mục')
+@section('title', 'Danh sách danh mục sản phẩm')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -251,7 +251,7 @@
                     }
                 },
                 {
-                    extend: 'csvHtml5', 
+                    extend: 'csvHtml5',
                     className: 'buttons-csv',
                     bom: true,
                     charset: 'utf-8',

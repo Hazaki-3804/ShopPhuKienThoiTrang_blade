@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý khách hàng')
+@section('title', 'Danh sách khách hàng')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -173,7 +173,7 @@
             <x-input-error name="address" />
             <div class="text-danger mt-1" id="edit_address_error" style="font-size: 12px; display: none;"></div>
         </div>
-                <!-- <div class="col-12 col-md-6">
+        <!-- <div class="col-12 col-md-6">
             <label for="edit_ward_id" class="form-label">Xã/Phường <span class="text-danger">*</span></label>
             <select class="form-control" id="edit_ward_id" name="ward_id" required>
                 <option value="">-- Chọn xã/phường --</option>
@@ -200,7 +200,7 @@
     <div class="mb-3 rounded-2">
         <input type="hidden" name="id" id="del_customer_id">
         <label for="delete_customer" class="form-label fw-bold">
-            Bạn có chắc chắn muốn xóa khách hàng này? 
+            Bạn có chắc chắn muốn xóa khách hàng này?
             <br>Dữ liệu sẽ không thể khôi phục.
         </label>
         <div class="text-danger mt-1"><strong>Lưu ý:</strong> Khách hàng có đơn hàng sẽ không thể xóa!</div>
@@ -209,25 +209,25 @@
 @endsection
 @push('styles')
 <style>
-/* Validation error styles */
-.form-control.is-invalid {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-}
+    /* Validation error styles */
+    .form-control.is-invalid {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
 
-.form-control.is-invalid:focus {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-}
+    .form-control.is-invalid:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
 
-/* Error message styling */
-[id$="_error"] {
-    font-weight: 500;
-}
+    /* Error message styling */
+    [id$="_error"] {
+        font-weight: 500;
+    }
 
-[id$="_error"] i {
-    margin-right: 4px;
-}
+    [id$="_error"] i {
+        margin-right: 4px;
+    }
 </style>
 @endpush
 @push('scripts')

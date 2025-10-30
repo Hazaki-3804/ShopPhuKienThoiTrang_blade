@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý sản phẩm')
+@section('title', 'Danh sách sản phẩm')
 @section('content_header')
 <span class="fw-semibold"></span>
 @stop
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-2 col-md-4 col-sm-6">
             <div class="card bg-success text-white">
                 <div class="card-body">
@@ -112,39 +112,39 @@
 
     <!-- Main Table Card -->
     <div class="card m-3">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <!-- Left side - Search and Filters -->
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <!-- Left side - Search and Filters -->
             <div class="flex-grow-1">
                 <input type="search" id="productSearch"
                     class="form-control form-control-sm me-2"
                     placeholder="Tìm kiếm sản phẩm..."
                     style="max-width: 200px;">
-            
+
             </div>
 
             <!-- Right side - Bulk actions, Add button and Export -->
             <div class="d-flex align-items-center">
-            
+
                 <select id="categoryFilter" class="form-control form-control-sm mr-2" style="max-width: 170px;">
                     <option value="">-- Tất cả danh mục --</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
-            
+
                 <select id="statusFilter" class="form-control form-control-sm mr-2" style="max-width: 170px;">
                     <option value="">-- Tất cả trạng thái --</option>
                     <option value="1">Đang bán</option>
                     <option value="0">Tạm dừng</option>
                 </select>
-            
-            <!-- Bulk delete button (hidden by default) -->
+
+                <!-- Bulk delete button (hidden by default) -->
                 @if(auth()->user()->can('delete products'))
                 <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
                     <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
                 </button>
                 @endif
-                
+
                 @if(auth()->user()->can('create products'))
                 <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm mr-2" title="Thêm sản phẩm">
                     <i class="fas fa-plus mr-1"></i> Thêm sản phẩm mới
@@ -219,7 +219,7 @@
                 <select class="form-control" id="add_category_id" name="category_id" required>
                     <option value="">-- Chọn danh mục --</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -275,7 +275,7 @@
                 <select class="form-control" id="edit_category_id" name="category_id" required>
                     <option value="">-- Chọn danh mục --</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -448,8 +448,7 @@
             order: [
                 [7, 'desc']
             ],
-            columnDefs: [
-                {
+            columnDefs: [{
                     targets: 0, // Cột checkbox
                     orderable: false,
                     searchable: false,
@@ -531,7 +530,7 @@
             let status = $(this).data('status');
             let created = $(this).data('created');
             let image = $(this).data('image');
-            
+
             $('#view_id').text(productId);
             $('#view_name').text(productName);
             $('#view_category').text(category);
@@ -540,14 +539,14 @@
             $('#view_status').text(status);
             $('#view_created').text(created);
             $('#view_image').attr('src', image);
-            
+
             if (productDescription && productDescription.trim() !== '') {
                 productDescription = productDescription.replace(/\.\s*/g, '.<br>');
                 $('#view_description').html(productDescription);
             } else {
                 $('#view_description').html('<em class="text-muted">Chưa có mô tả</em>');
             }
-            
+
             // Store data for edit button
             $('#editFromView').data({
                 'id': productId,
@@ -576,7 +575,7 @@
             let price = $(this).data('price');
             let stock = $(this).data('stock');
             let status = $(this).data('status');
-            
+
             $('#edit_product_id').val(productId);
             $('#edit_name').val(productName);
             $('#edit_description').val(productDescription || '');
@@ -589,7 +588,7 @@
         $(document).on('click', '.delete-product', function() {
             let productId = $(this).data('id');
             let productName = $(this).data('name');
-            
+
             $('#del_product_id').val(productId);
             $('#del_product_name').text(productName);
         });
@@ -609,11 +608,11 @@
         // Individual checkbox
         $(document).on('change', '.product-checkbox', function() {
             updateSelectedProducts();
-            
+
             // Update select all checkbox
             const totalCheckboxes = $('.product-checkbox').length;
             const checkedCheckboxes = $('.product-checkbox:checked').length;
-            
+
             $('#selectAll').prop('indeterminate', checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes);
             $('#selectAll').prop('checked', checkedCheckboxes === totalCheckboxes);
         });
@@ -624,10 +623,10 @@
             $('.product-checkbox:checked').each(function() {
                 selectedProducts.push($(this).val());
             });
-            
+
             const count = selectedProducts.length;
             $('#selectedCount').text(count);
-            
+
             if (count > 0) {
                 $('#bulkDeleteBtn').show();
             } else {
@@ -639,7 +638,7 @@
         $('#bulkDeleteBtn').on('click', function() {
             const count = selectedProducts.length;
             $('#bulkDeleteCount').text(count);
-            
+
             // Show selected products list
             let productsList = '<strong>Sản phẩm được chọn:</strong><ul class="mt-2">';
             $('.product-checkbox:checked').each(function() {
@@ -659,7 +658,7 @@
                 success: function(response) {
                     if (response.success) {
                         const stats = response.stats;
-                        
+
                         // Update each statistic card with animation
                         $('.card.bg-primary .card-body h3').fadeOut(200, function() {
                             $(this).text(stats.total_products).fadeIn(200);
@@ -691,15 +690,15 @@
         // Handle bulk delete form submission
         $('#bulkDeleteModal form').on('submit', function(e) {
             e.preventDefault();
-            
+
             // Add selected IDs to form data
             const formData = new FormData(this);
             selectedProducts.forEach(function(id) {
                 formData.append('ids[]', id);
             });
-            
+
             const url = $(this).attr('action');
-            
+
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -712,15 +711,15 @@
                 success: function(response) {
                     $('#bulkDeleteModal .close[data-dismiss="modal"]').trigger('click');
                     productsTable.ajax.reload(null, false);
-                    
+
                     // Update statistics
                     updateProductStats();
-                    
+
                     // Reset selections
                     selectedProducts = [];
                     $('#selectAll').prop('checked', false).prop('indeterminate', false);
                     $('#bulkDeleteBtn').hide();
-                    
+
                     // Show toast
                     const toastType = response.type || 'success';
                     if (typeof AjaxFormHandler !== 'undefined') {
@@ -743,54 +742,54 @@
 
 <!-- Initialize AJAX Form Handler -->
 <script>
-$(document).ready(function() {
-    // Kiểm tra và hiển thị toast từ localStorage
-    const toastMessage = localStorage.getItem('toast_message');
-    const toastType = localStorage.getItem('toast_type');
-    
-    if (toastMessage) {
-        // Xóa khỏi localStorage
-        localStorage.removeItem('toast_message');
-        localStorage.removeItem('toast_type');
-        
-        // Hiển thị toast
-        if (typeof Swal !== 'undefined') {
-            const iconMap = {
-                'success': 'success',
-                'error': 'error',
-                'warning': 'warning',
-                'info': 'info'
-            };
-            
-            const titleMap = {
-                'success': 'Thành công!',
-                'error': 'Lỗi!',
-                'warning': 'Cảnh báo!',
-                'info': 'Thông tin!'
-            };
-            
-            Swal.fire({
-                icon: iconMap[toastType] || 'success',
-                title: titleMap[toastType] || 'Thành công!',
-                html: toastMessage,
-                timer: 3000,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top-end'
+    $(document).ready(function() {
+        // Kiểm tra và hiển thị toast từ localStorage
+        const toastMessage = localStorage.getItem('toast_message');
+        const toastType = localStorage.getItem('toast_type');
+
+        if (toastMessage) {
+            // Xóa khỏi localStorage
+            localStorage.removeItem('toast_message');
+            localStorage.removeItem('toast_type');
+
+            // Hiển thị toast
+            if (typeof Swal !== 'undefined') {
+                const iconMap = {
+                    'success': 'success',
+                    'error': 'error',
+                    'warning': 'warning',
+                    'info': 'info'
+                };
+
+                const titleMap = {
+                    'success': 'Thành công!',
+                    'error': 'Lỗi!',
+                    'warning': 'Cảnh báo!',
+                    'info': 'Thông tin!'
+                };
+
+                Swal.fire({
+                    icon: iconMap[toastType] || 'success',
+                    title: titleMap[toastType] || 'Thành công!',
+                    html: toastMessage,
+                    timer: 3000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }
+        }
+
+        if (typeof AjaxFormHandler !== 'undefined') {
+            AjaxFormHandler.init({
+                table: 'productsTable',
+                forms: ['#addProductModal form', '#editProductModal form', '#deleteProductModal form'],
+                onSuccess: function(response) {
+                    // Update statistics after successful operations
+                    updateProductStats();
+                }
             });
         }
-    }
-    
-    if (typeof AjaxFormHandler !== 'undefined') {
-        AjaxFormHandler.init({
-            table: 'productsTable',
-            forms: ['#addProductModal form', '#editProductModal form', '#deleteProductModal form'],
-            onSuccess: function(response) {
-                // Update statistics after successful operations
-                updateProductStats();
-            }
-        });
-    }
-});
+    });
 </script>
 @endpush

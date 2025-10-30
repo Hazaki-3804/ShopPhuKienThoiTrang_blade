@@ -8,7 +8,7 @@
 <div class="shadow-sm rounded bg-white py-2">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center px-3">
-        <h4 class="fw-semibold m-0"><i class="fas fa-cogs me-2"></i>Cài đặt hệ thống</h4>
+        <h4 class="fw-semibold m-0">Cài đặt hệ thống</h4>
         <x-admin.breadcrumbs :items="[['name' => 'Trang chủ'], ['name' => 'Cài đặt']]" />
     </div>
 
@@ -37,39 +37,66 @@
             </div>
         @endif
 
-        <!-- Nav Tabs -->
-        <ul class="nav nav-pills-custom nav-fill mb-4" id="settingsTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">
-                    <i class="fas fa-info-circle d-block mb-2" style="font-size: 1.5rem;"></i>
-                    <span class="d-block">Thông tin chung</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                    <i class="fas fa-address-book d-block mb-2" style="font-size: 1.5rem;"></i>
-                    <span class="d-block">Liên hệ</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="social-tab" data-toggle="tab" href="#social" role="tab" aria-controls="social" aria-selected="false">
-                    <i class="fas fa-share-alt d-block mb-2" style="font-size: 1.5rem;"></i>
-                    <span class="d-block">Mạng xã hội</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="appearance-tab" data-toggle="tab" href="#appearance" role="tab" aria-controls="appearance" aria-selected="false">
-                    <i class="fas fa-palette d-block mb-2" style="font-size: 1.5rem;"></i>
-                    <span class="d-block">Giao diện</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="system-tab" data-toggle="tab" href="#system" role="tab" aria-controls="system" aria-selected="false">
-                    <i class="fas fa-server d-block mb-2" style="font-size: 1.5rem;"></i>
-                    <span class="d-block">Hệ thống</span>
-                </a>
-            </li>
-        </ul>
+        <!-- Modern Tab Navigation -->
+        <div class="settings-tabs-wrapper">
+            <ul class="nav nav-tabs-modern" id="settingsTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">
+                        <div class="tab-icon bg-gradient-primary">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="tab-content-text">
+                            <span class="tab-title">Thông tin chung</span>
+                            <small class="tab-desc">Cấu hình cơ bản</small>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab">
+                        <div class="tab-icon bg-gradient-success">
+                            <i class="fas fa-address-book"></i>
+                        </div>
+                        <div class="tab-content-text">
+                            <span class="tab-title">Liên hệ</span>
+                            <small class="tab-desc">Thông tin liên lạc</small>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="social-tab" data-toggle="tab" href="#social" role="tab">
+                        <div class="tab-icon bg-gradient-purple">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="tab-content-text">
+                            <span class="tab-title">Mạng xã hội</span>
+                            <small class="tab-desc">Liên kết social</small>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="appearance-tab" data-toggle="tab" href="#appearance" role="tab">
+                        <div class="tab-icon bg-gradient-warning">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="tab-content-text">
+                            <span class="tab-title">Giao diện</span>
+                            <small class="tab-desc">Logo & Favicon</small>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="system-tab" data-toggle="tab" href="#system" role="tab">
+                        <div class="tab-icon bg-gradient-secondary">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="tab-content-text">
+                            <span class="tab-title">Hệ thống</span>
+                            <small class="tab-desc">Cài đặt nâng cao</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
         <!-- Tab Content -->
         <div class="tab-content" id="settingsTabContent">
@@ -80,9 +107,14 @@
                     @method('PUT')
                     <input type="hidden" name="tab" value="general">
                     
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-info-circle mr-2"></i>Thông tin chung</h5>
+                    <div class="card modern-card">
+                        <div class="card-header bg-gradient-primary text-white">
+                            <div class="d-flex align-items-center">
+                                <div class="header-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h5 class="mb-0 ml-2">Thông tin chung</h5>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -135,7 +167,7 @@
                             </div>
                             
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <button type="submit" class="btn btn-primary bg-gradient-primary btn-sm px-5">
                                     <i class="fas fa-save mr-2"></i> Lưu cài đặt
                                 </button>
                             </div>
@@ -151,9 +183,14 @@
                     @method('PUT')
                     <input type="hidden" name="tab" value="contact">
                     
-                    <div class="card">
-                        <div class="card-header bg-info text-white">
-                            <h5 class="mb-0"><i class="fas fa-address-book mr-2"></i>Thông tin liên hệ</h5>
+                    <div class="card modern-card">
+                        <div class="card-header bg-gradient-info text-white">
+                            <div class="d-flex align-items-center">
+                                <div class="header-icon">
+                                    <i class="fas fa-address-book"></i>
+                                </div>
+                                <h5 class="mb-0 ml-2">Thông tin liên hệ</h5>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -202,7 +239,7 @@
                             </div>
                             
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-info btn-lg px-5">
+                                <button type="submit" class="btn btn-info bg-gradient-info btn-sm px-5">
                                     <i class="fas fa-save mr-2"></i> Lưu cài đặt
                                 </button>
                             </div>
@@ -218,9 +255,14 @@
                     @method('PUT')
                     <input type="hidden" name="tab" value="social">
                     
-                    <div class="card">
-                        <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
-                            <h5 class="mb-0"><i class="fas fa-share-alt mr-2"></i>Liên kết mạng xã hội</h5>
+                    <div class="card modern-card">
+                        <div class="card-header bg-gradient-purple text-white">
+                            <div class="d-flex align-items-center">
+                                <div class="header-icon">
+                                    <i class="fas fa-share-alt"></i>
+                                </div>
+                                <h5 class="mb-0 ml-2">Liên kết mạng xã hội</h5>
+                            </div>
                         </div>
                         <div class="card-body">
                             <p class="text-muted mb-4">
@@ -235,7 +277,7 @@
                                             <i class="fab fa-facebook text-primary"></i> Facebook
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fab fa-facebook"></i></span>
+                                            <span class="input-group-text p-2"><i class="fab fa-facebook"></i></span>
                                             <input type="url" class="form-control @error('contact_facebook') is-invalid @enderror" 
                                                    id="contact_facebook" name="contact_facebook" value="{{ old('contact_facebook', $settings['contact_facebook'] ?? '') }}" 
                                                    placeholder="https://www.facebook.com/yourpage">
@@ -252,7 +294,7 @@
                                             <i class="fab fa-instagram text-danger"></i> Instagram
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fab fa-instagram"></i></span>
+                                            <span class="input-group-text p-2"><i class="fab fa-instagram"></i></span>
                                             <input type="url" class="form-control @error('contact_instagram') is-invalid @enderror" 
                                                    id="contact_instagram" name="contact_instagram" value="{{ old('contact_instagram', $settings['contact_instagram'] ?? '') }}" 
                                                    placeholder="https://www.instagram.com/yourpage">
@@ -271,7 +313,7 @@
                                             <i class="fab fa-youtube text-danger"></i> YouTube
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fab fa-youtube"></i></span>
+                                            <span class="input-group-text p-2"><i class="fab fa-youtube"></i></span>
                                             <input type="url" class="form-control @error('contact_youtube') is-invalid @enderror" 
                                                    id="contact_youtube" name="contact_youtube" value="{{ old('contact_youtube', $settings['contact_youtube'] ?? '') }}" 
                                                    placeholder="https://www.youtube.com/yourchannel">
@@ -288,7 +330,7 @@
                                             <i class="fab fa-tiktok"></i> TikTok
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fab fa-tiktok"></i></span>
+                                            <span class="input-group-text p-2"><i class="fab fa-tiktok"></i></span>
                                             <input type="url" class="form-control @error('contact_tiktok') is-invalid @enderror" 
                                                    id="contact_tiktok" name="contact_tiktok" value="{{ old('contact_tiktok', $settings['contact_tiktok'] ?? '') }}" 
                                                    placeholder="https://www.tiktok.com/@yourpage">
@@ -301,7 +343,7 @@
                             </div>
                             
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-lg px-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                                <button type="submit" class="btn btn-primary bg-gradient-purple btn-sm px-5">
                                     <i class="fas fa-save mr-2"></i> Lưu cài đặt
                                 </button>
                             </div>
@@ -317,9 +359,14 @@
                     @method('PUT')
                     <input type="hidden" name="tab" value="appearance">
                     
-                    <div class="card">
-                        <div class="card-header bg-warning text-dark">
-                            <h5 class="mb-0"><i class="fas fa-palette mr-2"></i>Cài đặt giao diện</h5>
+                    <div class="card modern-card">
+                        <div class="card-header bg-gradient-warning text-dark">
+                            <div class="d-flex align-items-center">
+                                <div class="header-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                                <h5 class="mb-0 ml-2">Cài đặt giao diện</h5>
+                            </div>
                         </div>
                         <div class="card-body">
                             <!-- Logo Section -->
@@ -388,13 +435,13 @@
                                 </div>
                             </div>
 
-                            <div class="alert alert-info">
+                            <div class="alert alert-warning">
                                 <i class="fas fa-lightbulb mr-2"></i>
                                 <strong>Lưu ý:</strong> Ảnh sẽ được lưu vào thư mục <code>public/img/</code>. Ảnh cũ sẽ tự động bị xóa khi upload ảnh mới.
                             </div>
                             
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-warning btn-lg px-5">
+                                <button type="submit" class="btn btn-warning  bg-gradient-warning btn-sm px-5">
                                     <i class="fas fa-save mr-2"></i> Lưu cài đặt
                                 </button>
                             </div>
@@ -410,13 +457,18 @@
                     @method('PUT')
                     <input type="hidden" name="tab" value="system">
                     
-                    <div class="card">
-                        <div class="card-header bg-secondary text-white">
-                            <h5 class="mb-0"><i class="fas fa-server mr-2"></i>Cài đặt hệ thống</h5>
+                    <div class="card modern-card">
+                        <div class="card-header bg-gradient-secondary text-white">
+                            <div class="d-flex align-items-center">
+                                <div class="header-icon">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <h5 class="mb-0 ml-2">Cài đặt hệ thống</h5>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="alert alert-warning">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
                                 <strong>Cảnh báo:</strong> Các cài đặt này ảnh hưởng trực tiếp đến hoạt động của website. Vui lòng cân nhắc kỹ trước khi thay đổi.
                             </div>
 
@@ -427,14 +479,14 @@
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div>
                                                     <h6 class="card-title mb-1">
-                                                        <i class="fas fa-tools text-warning me-2"></i>Chế độ bảo trì
+                                                        <i class="fas fa-tools text-warning mr-1"></i>Chế độ bảo trì
                                                     </h6>
                                                     <p class="card-text text-muted small mb-0">
                                                         Khi bật, website sẽ hiển thị trang bảo trì cho tất cả người dùng (trừ admin). 
                                                         Sử dụng khi cần nâng cấp hoặc sửa chữa website.
                                                     </p>
                                                 </div>
-                                                <div class="form-check form-switch ms-3">
+                                                <div class="form-check form-switch ms-3 d-flex align-items-center">
                                                     <input class="form-check-input" type="checkbox" role="switch" id="maintenance_switch" 
                                                            {{ old('site_status', $settings['site_status'] ?? 'active') == 'maintenance' ? 'checked' : '' }}
                                                            onchange="document.getElementById('site_status').value = this.checked ? 'maintenance' : 'active'">
@@ -448,7 +500,7 @@
 
                             <div class="card border-secondary">
                                 <div class="card-header bg-light">
-                                    <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Thông tin hệ thống</h6>
+                                    <h6 class="mb-0"><i class="fas fa-info-circle mr-1"></i>Thông tin hệ thống</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -465,7 +517,7 @@
                             </div>
                             
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-secondary btn-lg px-5">
+                                <button type="submit" class="btn btn-secondary btn-sm px-5">
                                     <i class="fas fa-save mr-2"></i> Lưu cài đặt
                                 </button>
                             </div>
@@ -480,188 +532,329 @@
 
 @push('styles')
 <style>
-/* Tab Navigation - Pills Style */
-.nav-pills-custom {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.nav-pills-custom .nav-link {
-    color: #6c757d;
-    border-radius: 10px;
-    padding: 1.25rem 1rem;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    text-align: center;
-    background: transparent;
-    border: 2px solid transparent;
-}
-.nav-pills-custom .nav-link:hover {
-    color: #0d6efd;
-    background: rgba(13, 110, 253, 0.1);
-    border-color: rgba(13, 110, 253, 0.2);
-    transform: translateY(-2px);
-}
-.nav-pills-custom .nav-link.active {
-    color: #fff;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: transparent;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-.nav-pills-custom .nav-link i {
-    transition: transform 0.3s ease;
-}
-.nav-pills-custom .nav-link:hover i {
-    transform: scale(1.1);
-}
-.nav-pills-custom .nav-link.active i {
-    animation: pulse 2s infinite;
-}
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+/* ========================================
+   MODERN SETTINGS TAB DESIGN
+   ======================================== */
+
+/* Tab Wrapper */
+.settings-tabs-wrapper {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
 }
 
-/* Cards */
-.card {
+/* Modern Tab Navigation */
+.nav-tabs-modern {
     border: none;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.nav-tabs-modern .nav-item {
+    flex: 1;
+    min-width: 180px;
+}
+
+.nav-tabs-modern .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 2px solid transparent;
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 1.5rem;
+    background: #f8f9fa;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
     overflow: hidden;
 }
-.card-header {
-    border-bottom: none;
-    font-weight: 600;
-    padding: 1.25rem 1.5rem;
-    border-radius: 12px 12px 0 0;
-}
-.card-body {
-    padding: 1.5rem;
+
+.nav-tabs-modern .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-/* Form Controls */
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+.nav-tabs-modern .nav-link:hover::before {
+    opacity: 1;
 }
-.form-label {
-    margin-bottom: 0.5rem;
+
+.nav-tabs-modern .nav-link:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-tabs-modern .nav-link.active {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+/* Tab Icon */
+.tab-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #ffffff;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs-modern .nav-link:hover .tab-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.nav-tabs-modern .nav-link.active .tab-icon {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Tab Content Text */
+.tab-content-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+}
+
+.tab-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+}
+
+.tab-desc {
+    font-size: 0.75rem;
+    color: #6c757d;
+    transition: color 0.3s ease;
+}
+
+.nav-tabs-modern .nav-link.active .tab-title {
+    color: #1a1a1a;
+}
+
+.nav-tabs-modern .nav-link.active .tab-desc {
     color: #495057;
 }
+
+/* Gradient Backgrounds */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.bg-gradient-purple {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+}
+
+/* ========================================
+   MODERN CARDS
+   ======================================== */
+.modern-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.modern-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.modern-card .card-header {
+    border: none;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-card .card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    transform: translate(50%, -50%);
+}
+
+.header-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.modern-card .card-body {
+    padding: 2rem;
+}
+
+/* ========================================
+   FORM CONTROLS
+   ======================================== */
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+    transform: translateY(-1px);
+}
+
+.form-label {
+    margin-bottom: 0.75rem;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
 .form-label i {
-    width: 20px;
+    width: 22px;
     text-align: center;
+    margin-right: 4px;
 }
 
 /* Input Groups */
 .input-group-text {
-    background-color: #f8f9fa;
-    border-color: #ced4da;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #e9ecef;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+}
+
+.input-group .form-control:focus {
+    border-left: 2px solid #667eea;
 }
 
 /* Switch */
 .form-check-input {
-    width: 3rem;
-    height: 1.5rem;
+    width: 3.5rem;
+    height: 1.75rem;
     cursor: pointer;
-}
-.form-check-input:checked {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    border-radius: 2rem;
+    transition: all 0.3s ease;
 }
 
-/* Alerts */
+.form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+/* ========================================
+   ALERTS
+   ======================================== */
 .alert {
     border-left: 4px solid;
-}
-.alert-success {
-    border-left-color: #198754;
-}
-.alert-danger {
-    border-left-color: #dc3545;
-}
-.alert-warning {
-    border-left-color: #ffc107;
-}
-.alert-info {
-    border-left-color: #0dcaf0;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Buttons */
-.btn {
-    transition: all 0.3s ease;
+.alert-success {
+    border-left-color: #38ef7d;
+    background: linear-gradient(135deg, rgba(56, 239, 125, 0.1) 0%, rgba(17, 153, 142, 0.05) 100%);
 }
+
+.alert-danger {
+    border-left-color: #f5576c;
+    background: linear-gradient(135deg, rgba(213, 59, 79, 0.1) 0%, rgba(240, 147, 251, 0.05) 100%);
+}
+
+.alert-warning {
+    border-left-color: #fee140;
+    background: linear-gradient(135deg, rgba(254, 225, 64, 0.15) 0%, rgba(250, 112, 154, 0.08) 100%);
+}
+
+.alert-info {
+    border-left-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+.btn {
+    border-radius: 10px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
-}
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-}
-.btn-primary:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Preview Images */
-.img-thumbnail {
-    padding: 0.5rem;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 0.375rem;
+.btn:active {
+    transform: translateY(0);
+}
+#contact_facebook{
+    padding: 10px 0;
 }
 
-/* Card Headers with Gradient */
-.card-header.bg-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    border: none;
-}
-.card-header.bg-info {
-    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
-    border: none;
-}
-.card-header.bg-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%) !important;
-    border: none;
-}
-.card-header.bg-secondary {
-    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
-    border: none;
-}
-
-/* Form Enhancements */
-.form-control, .form-select {
-    border-radius: 8px;
-    border: 1.5px solid #dee2e6;
-    padding: 0.625rem 0.875rem;
-    transition: all 0.3s ease;
-}
-.form-control:focus, .form-select:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
-}
-.input-group-text {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border: 1.5px solid #dee2e6;
-    border-radius: 8px 0 0 8px;
-    font-weight: 500;
-}
-.input-group .form-control {
-    border-radius: 0 8px 8px 0;
-}
-
-/* Tab Content Animation */
+/* ========================================
+   ANIMATIONS
+   ======================================== */
 .tab-pane {
-    animation: fadeIn 0.4s ease-in-out;
+    animation: fadeInUp 0.5s ease-out;
 }
-@keyframes fadeIn {
+
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -669,77 +862,150 @@
     }
 }
 
-/* Upload Preview Box */
+/* ========================================
+   UPLOAD PREVIEW
+   ======================================== */
 .upload-preview-box {
     position: relative;
     width: 100%;
-    height: 150px;
-    border: 2px dashed #dee2e6;
-    border-radius: 12px;
+    height: 160px;
+    border: 3px dashed #e0e0e0;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f9fa;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
+
 .upload-preview-box:hover {
     border-color: #667eea;
-    background: #f0f0ff;
+    background: linear-gradient(135deg, #f0f0ff 0%, #ffffff 100%);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
 }
+
 .upload-preview-box.favicon-box {
-    height: 120px;
+    height: 130px;
 }
+
 .preview-image {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    border-radius: 8px;
 }
+
 .preview-placeholder {
     text-align: center;
+    transition: all 0.3s ease;
 }
+
+.upload-preview-box:hover .preview-placeholder i {
+    transform: scale(1.1);
+    color: #667eea;
+}
+
 .remove-image {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
+
 .upload-preview-box:hover .remove-image {
     opacity: 1;
 }
 
-/* Responsive */
+.remove-image:hover {
+    transform: scale(1.1) rotate(90deg);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
 @media (max-width: 992px) {
-    .nav-pills-custom .nav-link {
-        padding: 1rem 0.5rem;
-        font-size: 0.875rem;
+    .nav-tabs-modern .nav-item {
+        min-width: 150px;
     }
-    .nav-pills-custom .nav-link i {
-        font-size: 1.25rem !important;
-        margin-bottom: 0.5rem !important;
+    
+    .nav-tabs-modern .nav-link {
+        padding: 12px 16px;
+        gap: 10px;
+    }
+    
+    .tab-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+    
+    .tab-title {
+        font-size: 0.9rem;
+    }
+    
+    .tab-desc {
+        font-size: 0.7rem;
+    }
+    
+    .modern-card .card-body {
+        padding: 1.5rem;
     }
 }
+
 @media (max-width: 768px) {
-    .nav-pills-custom {
-        padding: 0.5rem;
+    .settings-tabs-wrapper {
+        padding: 6px;
     }
-    .nav-pills-custom .nav-link {
-        padding: 0.75rem 0.5rem;
+    
+    .nav-tabs-modern {
+        gap: 6px;
     }
-    .nav-pills-custom .nav-link span {
-        font-size: 0.75rem;
+    
+    .nav-tabs-modern .nav-item {
+        min-width: 100%;
+        flex: none;
     }
-    .nav-pills-custom .nav-link i {
-        font-size: 1rem !important;
-        margin-bottom: 0.25rem !important;
+    
+    .nav-tabs-modern .nav-link {
+        padding: 14px 16px;
+    }
+    
+    .tab-content-text {
+        flex: 1;
+    }
+    
+    
+    .modern-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    .btn {
+        padding: 0.65rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .tab-desc {
+        display: none;
+    }
+    
+    .header-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
     }
 }
 </style>

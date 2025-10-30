@@ -478,7 +478,6 @@
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     document.getElementById('modalImage').src = images[currentIndex];
   }
-<<<<<<< Updated upstream
 
   // Cập nhật tổng tiền khi thay đổi số lượng
   document.addEventListener('DOMContentLoaded', function() {
