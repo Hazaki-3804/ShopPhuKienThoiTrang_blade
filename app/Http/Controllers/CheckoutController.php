@@ -1620,14 +1620,6 @@ class CheckoutController extends Controller
         // Tính phí vận chuyển động từ database với khoảng cách thực tế
         $shippingFee = $this->calculateShippingFee($subtotal, $distance, $areaType);
         
-        // Log để debug phí vận chuyển
-        Log::info('Place Order - Shipping Fee Calculation', [
-            'address' => $addressData['customer_address'],
-            'distance' => $distance,
-            'area_type' => $areaType,
-            'subtotal' => $subtotal,
-            'shipping_fee' => $shippingFee
-        ]);
         $appliedDiscountId = null;
         
         // Bảo hiểm bảo vệ người tiêu dùng
@@ -1775,7 +1767,6 @@ class CheckoutController extends Controller
                 "returnUrl" => route('payos.success'),
                 "cancelUrl" => route('payos.cancel'),
             ];
-
             try {
                 $payosService = new PayosService();
                 $response = $payosService->createPaymentLink($data);
@@ -1785,12 +1776,10 @@ class CheckoutController extends Controller
                     return back()->with(['error' => 'Không thể tạo liên kết thanh toán PayOS. Vui lòng thử lại hoặc chọn phương thức thanh toán khác']);
                 }
             } catch (\Throwable $th) {
-                Log::error($th->getMessage());
                 return back()->with(['error' => 'Không thể tạo liên kết thanh toán PayOS. Vui lòng thử lại hoặc chọn phương thức thanh toán khác']);
             }
         }
         if ($paymentMethod === 'vnpay') {
-            Log::info('Payment method is vnpay', $order->id, $total);
             return redirect()->route('vnpay.create', ['order_id' => $order->id, 'total' => $total]);
         }
         if ($paymentMethod === 'sepay') {
