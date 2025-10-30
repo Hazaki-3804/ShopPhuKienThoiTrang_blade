@@ -9,15 +9,21 @@
 <style>
     /* Smooth collapse for group bodies */
     .group-card .card-body.collapse {
-    display: block;            /* keep layout flow */
-    max-height: 0;             /* animate height */
-    overflow: hidden;          /* hide overflowing content */
-    opacity: 0;                /* fade */
-    transition: max-height 0.2s ease, opacity 0.2s ease;
+        display: block;
+        /* keep layout flow */
+        max-height: 0;
+        /* animate height */
+        overflow: hidden;
+        /* hide overflowing content */
+        opacity: 0;
+        /* fade */
+        transition: max-height 0.2s ease, opacity 0.2s ease;
     }
+
     .group-card .card-body.collapse.show {
-    max-height: 1200px;        /* large enough for content */
-    opacity: 1;
+        max-height: 1200px;
+        /* large enough for content */
+        opacity: 1;
     }
 
     /* Subtle icon animation */
@@ -42,95 +48,95 @@
     </div>
     <div class="card-body">
         @php
-            $viLabels = [
-                // Sản phẩm
-                'view products' => 'Xem sản phẩm',
-                'create products' => 'Thêm sản phẩm',
-                'edit products' => 'Sửa sản phẩm',
-                'delete products' => 'Xóa sản phẩm',
+        $viLabels = [
+        // Sản phẩm
+        'view products' => 'Xem sản phẩm',
+        'create products' => 'Thêm sản phẩm',
+        'edit products' => 'Sửa sản phẩm',
+        'delete products' => 'Xóa sản phẩm',
 
-                // Danh mục
-                'view categories' => 'Xem danh mục',
-                'create categories' => 'Thêm danh mục',
-                'edit categories' => 'Sửa danh mục',
-                'delete categories' => 'Xóa danh mục',
+        // Danh mục
+        'view categories' => 'Xem danh mục',
+        'create categories' => 'Thêm danh mục',
+        'edit categories' => 'Sửa danh mục',
+        'delete categories' => 'Xóa danh mục',
 
-                // Đơn hàng
-                'view orders' => 'Xem đơn hàng',
-                'change status orders' => 'Thay đổi trạng thái đơn hàng',
-                'print orders' => 'In đơn hàng',
-                'view order detail' => 'Xem chi tiết đơn hàng',
+        // Đơn hàng
+        'view orders' => 'Xem đơn hàng',
+        'change status orders' => 'Thay đổi trạng thái đơn hàng',
+        'print orders' => 'In đơn hàng',
+        'view order detail' => 'Xem chi tiết đơn hàng',
 
-                // Khuyến mãi
-                'view promotions' => 'Xem khuyến mãi',
-                'create promotions' => 'Tạo khuyến mãi',
-                'edit promotions' => 'Sửa khuyến mãi',
-                'delete promotions' => 'Xóa khuyến mãi',
+        // Khuyến mãi
+        'view promotions' => 'Xem khuyến mãi',
+        'create promotions' => 'Tạo khuyến mãi',
+        'edit promotions' => 'Sửa khuyến mãi',
+        'delete promotions' => 'Xóa khuyến mãi',
 
-                // Phí vận chuyển
-                'view shipping fees' => 'Xem phí vận chuyển',
-                'create shipping fees' => 'Tạo phí vận chuyển',
-                'edit shipping fees' => 'Sửa phí vận chuyển',
-                'delete shipping fees' => 'Xóa phí vận chuyển',
+        // Phí vận chuyển
+        'view shipping fees' => 'Xem phí vận chuyển',
+        'create shipping fees' => 'Tạo phí vận chuyển',
+        'edit shipping fees' => 'Sửa phí vận chuyển',
+        'delete shipping fees' => 'Xóa phí vận chuyển',
 
-                // Khách hàng
-                'view customers' => 'Xem khách hàng',
-                'create customers' => 'Thêm khách hàng',
-                'edit customers' => 'Sửa khách hàng',
-                'delete customers' => 'Xóa khách hàng',
-                'lock/unlock customers' => 'Khóa/Mở khách hàng',
+        // Khách hàng
+        'view customers' => 'Xem khách hàng',
+        'create customers' => 'Thêm khách hàng',
+        'edit customers' => 'Sửa khách hàng',
+        'delete customers' => 'Xóa khách hàng',
+        'lock/unlock customers' => 'Khóa/Mở khách hàng',
 
-                // Bình luận
-                'view reviews' => 'Xem bình luận',
-                'hide reviews' => 'Ẩn bình luận',
-                'delete reviews' => 'Xóa bình luận',
+        // Bình luận
+        'view reviews' => 'Xem bình luận',
+        'hide reviews' => 'Ẩn bình luận',
+        'delete reviews' => 'Xóa bình luận',
 
-                // Nhân viên
-                'view staffs' => 'Xem nhân viên',
-                'create staffs' => 'Thêm nhân viên',
-                'edit staffs' => 'Sửa nhân viên',
-                'delete staffs' => 'Xóa nhân viên',
-                'lock/unlock staffs' => 'Khóa/Mở nhân viên',
+        // Nhân viên
+        'view staffs' => 'Xem nhân viên',
+        'create staffs' => 'Thêm nhân viên',
+        'edit staffs' => 'Sửa nhân viên',
+        'delete staffs' => 'Xóa nhân viên',
+        'lock/unlock staffs' => 'Khóa/Mở nhân viên',
+        'manage roles' => 'Phân quyền chung',
+        'manage permissions' => 'Phân quyền nhân viên',
 
-                // Thống kê & Hệ thống
-                'view reports' => 'Xem báo cáo',
-                'manage settings' => 'Cài đặt hệ thống',
-                'manage roles' => 'Quản lý vai trò',
-                'manage permissions' => 'Phân quyền',
-            ];
+        // Thống kê & Hệ thống
+        'view reports' => 'Xem báo cáo',
+        'manage settings' => 'Cài đặt hệ thống',
+        ];
 
-            $groups = [
-                'Sản phẩm' => [
-                    'view products', 'create products', 'edit products', 'delete products'
-                ],
-                'Danh mục' => [
-                    'view categories', 'create categories', 'edit categories', 'delete categories'
-                ],
-                'Đơn hàng' => [
-                    'view orders', 'change status orders', 'print orders','view order detail'
-                ],
-                'Khuyến mãi' => [
-                    'view promotions', 'create promotions', 'edit promotions', 'delete promotions'
-                ],
-                'Phí vận chuyển' => [
-                    'view shipping fees', 'create shipping fees', 'edit shipping fees', 'delete shipping fees'
-                ],
-                'Khách hàng' => [
-                    'view customers', 'create customers', 'edit customers', 'delete customers', 'lock/unlock customers'
-                ],
-                'Bình luận' => [
-                    'view reviews', 'hide reviews', 'delete reviews'
-                ],
-                'Nhân viên' => [
-                    'view staffs', 'create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs'
-                ],
-                'Thống kê' => [
-                    'view reports'
-                ],
-                'Hệ thống' => [
-                    'manage settings', 'manage roles', 'manage permissions'
-                ],
-            ];
+        $groups = [
+        'Sản phẩm' => [
+        'view products', 'create products', 'edit products', 'delete products'
+        ],
+        'Danh mục' => [
+        'view categories', 'create categories', 'edit categories', 'delete categories'
+        ],
+        'Đơn hàng' => [
+        'view orders', 'change status orders', 'print orders','view order detail'
+        ],
+        'Khuyến mãi' => [
+        'view promotions', 'create promotions', 'edit promotions', 'delete promotions'
+        ],
+        'Phí vận chuyển' => [
+        'view shipping fees', 'create shipping fees', 'edit shipping fees', 'delete shipping fees'
+        ],
+        'Khách hàng' => [
+        'view customers', 'create customers', 'edit customers', 'delete customers', 'lock/unlock customers'
+        ],
+        'Bình luận' => [
+        'view reviews', 'hide reviews', 'delete reviews'
+        ],
+        'Nhân viên' => [
+        'view staffs', 'create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs', 'manage roles', 'manage permissions'
+        ],
+        'Thống kê' => [
+        'view reports'
+        ],
+        'Hệ thống' => [
+        'manage settings'
+        ],
+        ];
         @endphp
         <form action="{{ route('admin.users.permissions.update', ['id' => $user->id]) }}" id="form-staff-permissions" method="POST">
             @csrf
@@ -152,57 +158,57 @@
                 @foreach($groups as $groupName => $permKeys)
                 @php
                 switch ($groupName) {
-                    case 'Sản phẩm':
-                        $icon = 'boxes';
-                        $bg = 'bg-primary';
-                        break;
-                    case 'Danh mục':
-                        $icon = 'list-ul';
-                        $bg = 'bg-success';
-                        break;
-                    case 'Đơn hàng':
-                        $icon = 'file-text';
-                        $bg = 'bg-info';
-                        break;
-                    case 'Khuyến mãi':
-                        $icon = 'cash';
-                        $bg = 'bg-warning';
-                        break;
-                    case 'Phí vận chuyển':
-                        $icon = 'truck';
-                        $bg = 'bg-danger';
-                        break;
-                    case 'Khách hàng':
-                        $icon = 'person';
-                        $bg = 'bg-primary';
-                        break;
-                    case 'Bình luận':
-                        $icon = 'chat';
-                        $bg = 'bg-success';
-                        break;
-                    case 'Nhân viên':
-                        $icon = 'person-fill-gear';
-                        $bg = 'bg-info';
-                        break;
-                    case 'Thống kê':
-                        $icon = 'bar-chart-line-fill';
-                        $bg = 'bg-warning';
-                        break;
-                    case 'Hệ thống':
-                        $icon = 'gear';
-                        $bg = 'bg-danger';
-                        break;
-                    default:
-                        $icon = 'stack';
-                        $bg = 'bg-secondary';
-                        break;
+                case 'Sản phẩm':
+                $icon = 'boxes';
+                $bg = 'bg-primary';
+                break;
+                case 'Danh mục':
+                $icon = 'list-ul';
+                $bg = 'bg-success';
+                break;
+                case 'Đơn hàng':
+                $icon = 'file-text';
+                $bg = 'bg-info';
+                break;
+                case 'Khuyến mãi':
+                $icon = 'cash';
+                $bg = 'bg-warning';
+                break;
+                case 'Phí vận chuyển':
+                $icon = 'truck';
+                $bg = 'bg-danger';
+                break;
+                case 'Khách hàng':
+                $icon = 'person';
+                $bg = 'bg-primary';
+                break;
+                case 'Bình luận':
+                $icon = 'chat';
+                $bg = 'bg-success';
+                break;
+                case 'Nhân viên':
+                $icon = 'person-fill-gear';
+                $bg = 'bg-info';
+                break;
+                case 'Thống kê':
+                $icon = 'bar-chart-line-fill';
+                $bg = 'bg-warning';
+                break;
+                case 'Hệ thống':
+                $icon = 'gear';
+                $bg = 'bg-danger';
+                break;
+                default:
+                $icon = 'stack';
+                $bg = 'bg-secondary';
+                break;
                 }
                 @endphp
                 <div class="card mb-3 border-0 shadow-sm group-card" data-group="{{ Str::slug($groupName) }}">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center" style="gap: 1rem">
                             <div class="d-flex align-items-center">
-                                <div class="d-flex align-items-center"style="min-width: 150px">
+                                <div class="d-flex align-items-center" style="min-width: 150px">
                                     <i class="bi bi-{{ $icon }} text-secondary mr-1"></i>
                                     <h6 class="m-0">{{ $groupName }}</h6>
                                 </div>
@@ -222,25 +228,25 @@
                     <div class="card-body py-3 collapse show" id="groupBody-{{ Str::slug($groupName) }}">
                         <div class="row">
                             @foreach($permKeys as $key)
-                                @php
-                                    $perm = $permissions->firstWhere('name', $key);
-                                    if (!$perm) continue;
-                                    $checked = $userPermissionNames->contains($perm->name);
-                                    $isDirect = isset($directPermissionNames) && $directPermissionNames->contains($perm->name);
-                                    $isInherited = isset($inheritedPermissionNames) && $inheritedPermissionNames->contains($perm->name);
-                                    $label = $viLabels[$perm->name] ?? $perm->name;
-                                    $searchKey = strtolower($perm->name . ' ' . $label . ' ' . $groupName);
-                                    $groupClass = 'group-'.Str::slug($groupName);
-                                @endphp
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-2 perm-item {{ $groupClass }}" data-name="{{ $searchKey }}">
-                                    <div class="form-check">
-                                        <input class="form-check-input perm-checkbox" type="checkbox" name="permissions[]" id="perm_{{ $perm->id }}" value="{{ $perm->name }}" {{ $checked ? 'checked' : '' }} {{ $isInherited && !$isDirect ? 'disabled checked' : '' }}>
-                                        <label class="form-check-label" for="perm_{{ $perm->id }}">{{ $label }}</label>
-                                        @if($isInherited && !$isDirect)
-                                            <div class="small text-muted">(Kế thừa từ vai trò)</div>
-                                        @endif
-                                    </div>
+                            @php
+                            $perm = $permissions->firstWhere('name', $key);
+                            if (!$perm) continue;
+                            $checked = $userPermissionNames->contains($perm->name);
+                            $isDirect = isset($directPermissionNames) && $directPermissionNames->contains($perm->name);
+                            $isInherited = isset($inheritedPermissionNames) && $inheritedPermissionNames->contains($perm->name);
+                            $label = $viLabels[$perm->name] ?? $perm->name;
+                            $searchKey = strtolower($perm->name . ' ' . $label . ' ' . $groupName);
+                            $groupClass = 'group-'.Str::slug($groupName);
+                            @endphp
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-2 perm-item {{ $groupClass }}" data-name="{{ $searchKey }}">
+                                <div class="form-check">
+                                    <input class="form-check-input perm-checkbox" type="checkbox" name="permissions[]" id="perm_{{ $perm->id }}" value="{{ $perm->name }}" {{ $checked ? 'checked' : '' }} {{ $isInherited && !$isDirect ? 'disabled checked' : '' }}>
+                                    <label class="form-check-label" for="perm_{{ $perm->id }}">{{ $label }}</label>
+                                    @if($isInherited && !$isDirect)
+                                    <div class="small text-muted">(Kế thừa từ vai trò)</div>
+                                    @endif
                                 </div>
+                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -264,11 +270,11 @@
         // Kiểm tra và hiển thị toast từ localStorage
         const toastMessage = localStorage.getItem('toast_message');
         const toastType = localStorage.getItem('toast_type');
-        
+
         if (toastMessage) {
             localStorage.removeItem('toast_message');
             localStorage.removeItem('toast_type');
-            
+
             if (typeof Swal !== 'undefined') {
                 const iconMap = {
                     'success': 'success',
@@ -276,14 +282,14 @@
                     'warning': 'warning',
                     'info': 'info'
                 };
-                
+
                 const titleMap = {
                     'success': 'Thành công!',
                     'error': 'Lỗi!',
                     'warning': 'Cảnh báo!',
                     'info': 'Thông tin!'
                 };
-                
+
                 Swal.fire({
                     icon: iconMap[toastType] || 'success',
                     title: titleMap[toastType] || 'Thành công!',
@@ -295,54 +301,54 @@
                 });
             }
         }
-        
+
         // Submit form qua AJAX
         const form = document.getElementById('form-staff-permissions');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const formData = new FormData(this);
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            
+
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
-            
+
             fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    localStorage.setItem('toast_message', data.message || 'Cập nhật quyền thành công!');
-                    localStorage.setItem('toast_type', 'success');
-                    window.location.reload();
-                } else {
-                    throw new Error(data.message || 'Có lỗi xảy ra!');
-                }
-            })
-            .catch(error => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-                
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        html: error.message,
-                        timer: 5000,
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-end'
-                    });
-                } else {
-                    alert(error.message);
-                }
-            });
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('toast_message', data.message || 'Cập nhật quyền thành công!');
+                        localStorage.setItem('toast_type', 'success');
+                        window.location.reload();
+                    } else {
+                        throw new Error(data.message || 'Có lỗi xảy ra!');
+                    }
+                })
+                .catch(error => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            html: error.message,
+                            timer: 5000,
+                            showConfirmButton: false,
+                            toast: true,
+                            position: 'top-end'
+                        });
+                    } else {
+                        alert(error.message);
+                    }
+                });
         });
 
         const search = document.getElementById('permSearch');
@@ -434,8 +440,8 @@
                 }
             });
         });
-            
-        
+
+
         // Khởi tạo nhãn cho tất cả group buttons
         groupCards.forEach(card => {
             const group = card.getAttribute('data-group');
@@ -455,6 +461,7 @@
         function setupDeps(viewName, dependentNames, groupSlug) {
             const viewCb = document.querySelector('input.perm-checkbox[value="' + viewName + '"]');
             const deps = dependentNames.map(v => document.querySelector('input.perm-checkbox[value="' + v + '"]'));
+
             function enforce(changedCb) {
                 if (!viewCb) return;
                 const anyOther = deps.some(cb => cb && cb.checked);
@@ -464,18 +471,22 @@
                 const card = document.querySelector('.group-card[data-group="' + groupSlug + '"]');
                 if (card) updateGroupButtonLabel(groupSlug);
             }
-            [viewCb, ...deps].forEach(cb => { if (cb) cb.addEventListener('change', function() { enforce(this); }); });
+            [viewCb, ...deps].forEach(cb => {
+                if (cb) cb.addEventListener('change', function() {
+                    enforce(this);
+                });
+            });
             enforce(null);
         }
 
-        setupDeps('view products', ['create products','edit products','delete products'], 'san-pham');
-        setupDeps('view categories', ['create categories','edit categories','delete categories'], 'danh-muc');
-        setupDeps('view orders', ['change status orders','print orders','view order detail'], 'don-hang');
-        setupDeps('view promotions', ['create promotions','edit promotions','delete promotions'], 'khuyen-mai');
-        setupDeps('view shipping fees', ['create shipping fees','edit shipping fees','delete shipping fees'], 'phi-van-chuyen');
-        setupDeps('view customers', ['edit customers','delete customers'], 'khach-hang');
-        setupDeps('view reviews', ['hide reviews','delete reviews'], 'binh-luan');
-        setupDeps('view staffs', ['create staffs','edit staffs','delete staffs'], 'nhan-vien');
+        setupDeps('view products', ['create products', 'edit products', 'delete products'], 'san-pham');
+        setupDeps('view categories', ['create categories', 'edit categories', 'delete categories'], 'danh-muc');
+        setupDeps('view orders', ['change status orders', 'print orders', 'view order detail'], 'don-hang');
+        setupDeps('view promotions', ['create promotions', 'edit promotions', 'delete promotions'], 'khuyen-mai');
+        setupDeps('view shipping fees', ['create shipping fees', 'edit shipping fees', 'delete shipping fees'], 'phi-van-chuyen');
+        setupDeps('view customers', ['edit customers', 'delete customers'], 'khach-hang');
+        setupDeps('view reviews', ['hide reviews', 'delete reviews'], 'binh-luan');
+        setupDeps('view staffs', ['create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs', 'manage permissions'], 'nhan-vien');
     });
 </script>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2025 at 03:04 PM
+-- Generation Time: Oct 30, 2025 at 10:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,10 +60,10 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('shop-nang-tho-cache-email_verify_code:22004294@st.vlute.edu.vn', 's:6:\"529394\";', 1761735953),
-('shop-nang-tho-cache-email_verify_expires:22004294@st.vlute.edu.vn', 'i:1761735953;', 1761735953),
-('shop-nang-tho-cache-email_verify_resend_count:22004294@st.vlute.edu.vn', 'i:0;', 1761736493),
-('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:37:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:11:\"Nhân viên\";s:1:\"c\";s:3:\"web\";}}}', 1761832397);
+('shop-nang-tho-cache-email_verify_code:22004294@st.vlute.edu.vn', 's:6:\"163762\";', 1761856483),
+('shop-nang-tho-cache-email_verify_expires:22004294@st.vlute.edu.vn', 'i:1761856483;', 1761856483),
+('shop-nang-tho-cache-email_verify_resend_count:22004294@st.vlute.edu.vn', 'i:1;', 1761857023),
+('shop-nang-tho-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:4:{s:1:\"a\";s:2:\"id\";s:1:\"b\";s:4:\"name\";s:1:\"c\";s:10:\"guard_name\";s:1:\"r\";s:5:\"roles\";}s:11:\"permissions\";a:37:{i:0;a:4:{s:1:\"a\";i:1;s:1:\"b\";s:13:\"view products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:4:{s:1:\"a\";i:2;s:1:\"b\";s:15:\"create products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:2;a:4:{s:1:\"a\";i:3;s:1:\"b\";s:13:\"edit products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:3;a:4:{s:1:\"a\";i:4;s:1:\"b\";s:15:\"delete products\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:4;a:4:{s:1:\"a\";i:5;s:1:\"b\";s:15:\"view categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:5;a:4:{s:1:\"a\";i:6;s:1:\"b\";s:17:\"create categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:6;a:4:{s:1:\"a\";i:7;s:1:\"b\";s:15:\"edit categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:7;a:4:{s:1:\"a\";i:8;s:1:\"b\";s:17:\"delete categories\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:8;a:4:{s:1:\"a\";i:9;s:1:\"b\";s:15:\"view promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:9;a:4:{s:1:\"a\";i:10;s:1:\"b\";s:17:\"create promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:10;a:4:{s:1:\"a\";i:11;s:1:\"b\";s:15:\"edit promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:11;a:4:{s:1:\"a\";i:12;s:1:\"b\";s:17:\"delete promotions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:12;a:4:{s:1:\"a\";i:13;s:1:\"b\";s:18:\"view shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:13;a:4:{s:1:\"a\";i:14;s:1:\"b\";s:20:\"create shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:14;a:4:{s:1:\"a\";i:15;s:1:\"b\";s:18:\"edit shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:15;a:4:{s:1:\"a\";i:16;s:1:\"b\";s:20:\"delete shipping fees\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:16;a:4:{s:1:\"a\";i:17;s:1:\"b\";s:11:\"view orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:17;a:4:{s:1:\"a\";i:18;s:1:\"b\";s:17:\"view order detail\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:18;a:4:{s:1:\"a\";i:19;s:1:\"b\";s:20:\"change status orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:19;a:4:{s:1:\"a\";i:20;s:1:\"b\";s:12:\"print orders\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:20;a:4:{s:1:\"a\";i:21;s:1:\"b\";s:14:\"view customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:21;a:4:{s:1:\"a\";i:22;s:1:\"b\";s:16:\"create customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:22;a:4:{s:1:\"a\";i:23;s:1:\"b\";s:14:\"edit customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:23;a:4:{s:1:\"a\";i:24;s:1:\"b\";s:16:\"delete customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:24;a:4:{s:1:\"a\";i:25;s:1:\"b\";s:21:\"lock/unlock customers\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:25;a:4:{s:1:\"a\";i:26;s:1:\"b\";s:12:\"view reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:26;a:4:{s:1:\"a\";i:27;s:1:\"b\";s:12:\"hide reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:27;a:4:{s:1:\"a\";i:28;s:1:\"b\";s:14:\"delete reviews\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:28;a:4:{s:1:\"a\";i:29;s:1:\"b\";s:11:\"view staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:29;a:4:{s:1:\"a\";i:30;s:1:\"b\";s:13:\"create staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:30;a:4:{s:1:\"a\";i:31;s:1:\"b\";s:11:\"edit staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:31;a:4:{s:1:\"a\";i:32;s:1:\"b\";s:13:\"delete staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:32;a:4:{s:1:\"a\";i:33;s:1:\"b\";s:18:\"lock/unlock staffs\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:33;a:4:{s:1:\"a\";i:34;s:1:\"b\";s:12:\"view reports\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:2:{i:0;i:1;i:1;i:2;}}i:34;a:4:{s:1:\"a\";i:35;s:1:\"b\";s:15:\"manage settings\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:35;a:4:{s:1:\"a\";i:36;s:1:\"b\";s:12:\"manage roles\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}i:36;a:4:{s:1:\"a\";i:37;s:1:\"b\";s:18:\"manage permissions\";s:1:\"c\";s:3:\"web\";s:1:\"r\";a:1:{i:0;i:1;}}}s:5:\"roles\";a:2:{i:0;a:3:{s:1:\"a\";i:1;s:1:\"b\";s:5:\"Admin\";s:1:\"c\";s:3:\"web\";}i:1;a:3:{s:1:\"a\";i:2;s:1:\"b\";s:11:\"Nhân viên\";s:1:\"c\";s:3:\"web\";}}}', 1761941281);
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(7, 2, '2025-10-28 04:29:04', '2025-10-28 04:29:04');
+(7, 2, '2025-10-28 04:29:04', '2025-10-28 04:29:04'),
+(8, 5, '2025-10-29 15:23:49', '2025-10-29 15:23:49');
 
 -- --------------------------------------------------------
 
@@ -140,7 +141,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', '2025-10-01 06:43:02', '2025-10-26 16:04:03'),
+(1, 'Mắt kính', 'Mắt kính thời trang', 'mat-kinh', '2025-10-01 06:43:02', '2025-10-30 16:36:11'),
 (2, 'Móng tay giả', 'Các loại móng giả', 'mong-tay', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (5, 'Túi xách', 'Túi xách, balo, ví nam nữ', 'tui_xach', '2025-09-19 08:50:54', '2025-09-19 08:50:54'),
 (10, 'Kẹp tóc', 'Kẹp tóc', 'kep-toc', '2025-09-20 00:33:39', '2025-09-20 01:18:54'),
@@ -173,8 +174,7 @@ CREATE TABLE `discounts` (
 --
 
 INSERT INTO `discounts` (`id`, `code`, `description`, `discount_type`, `discount_value`, `start_date`, `end_date`, `status`, `quantity`, `used_quantity`, `created_at`, `updated_at`) VALUES
-(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-30', 1, 100, 1, '2025-10-09 06:14:51', '2025-10-28 06:43:54'),
-(21, 'GIAM10%', NULL, 'percent', 10.00, '2025-10-28', '2025-10-29', 1, 100, 0, '2025-10-28 11:46:55', '2025-10-28 11:46:55');
+(1, 'GIAM5%', 'Chương trình Áp Dụng cho KH mua sản phẩm từ ngày 9/10', 'percent', 5.00, '2025-10-10', '2025-10-30', 1, 100, 1, '2025-10-09 06:14:51', '2025-10-28 06:43:54');
 
 -- --------------------------------------------------------
 
@@ -288,10 +288,19 @@ CREATE TABLE `model_has_permissions` (
 --
 
 INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
+(9, 'App\\Models\\User', 9),
+(10, 'App\\Models\\User', 9),
+(11, 'App\\Models\\User', 9),
+(12, 'App\\Models\\User', 9),
+(13, 'App\\Models\\User', 9),
+(14, 'App\\Models\\User', 9),
+(15, 'App\\Models\\User', 9),
+(16, 'App\\Models\\User', 9),
 (17, 'App\\Models\\User', 5),
 (18, 'App\\Models\\User', 5),
 (19, 'App\\Models\\User', 5),
 (20, 'App\\Models\\User', 5),
+(26, 'App\\Models\\User', 5),
 (27, 'App\\Models\\User', 5),
 (28, 'App\\Models\\User', 5);
 
@@ -315,7 +324,6 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 2),
 (2, 'App\\Models\\User', 5),
 (2, 'App\\Models\\User', 9),
-(2, 'App\\Models\\User', 13),
 (2, 'App\\Models\\User', 14),
 (3, 'App\\Models\\User', 17);
 
@@ -351,7 +359,14 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `user_id`, `customer_name`, `customer_email`, `customer_phone`, `total_price`, `status`, `shipping_address`, `payment_method`, `discount_id`, `discount_code`, `discount_amount`, `insurance_fee`, `shipping_fee`, `created_at`, `updated_at`) VALUES
 (60, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'delivered', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-10-28 04:30:10', '2025-10-29 13:53:51'),
 (61, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'cod', NULL, NULL, 0.00, 0.00, 30000, '2025-10-28 04:33:16', '2025-10-28 04:33:16'),
-(62, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-28 19:14:04', '2025-10-28 19:14:04');
+(62, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 160000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-28 19:14:04', '2025-10-28 19:14:04'),
+(63, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-29 14:40:02', '2025-10-29 14:40:02'),
+(64, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'momo', NULL, NULL, 0.00, 0.00, 30000, '2025-10-29 14:40:23', '2025-10-29 14:40:23'),
+(65, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'shipped', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'momo', NULL, NULL, 0.00, 0.00, 30000, '2025-10-29 14:41:47', '2025-10-30 16:36:30'),
+(66, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'shipped', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'momo', NULL, NULL, 0.00, 0.00, 30000, '2025-10-29 14:46:40', '2025-10-30 16:37:06'),
+(67, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'processing', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-30 16:37:49', '2025-10-30 20:08:31'),
+(68, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'pending', '123, Phường Hoàn Kiếm, Thành phố Hà Nội', 'payos', NULL, NULL, 0.00, 0.00, 30000, '2025-10-30 16:40:25', '2025-10-30 16:40:25'),
+(69, 2, 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '0967523456', 170000.00, 'delivered', '123, Phường Thục Phán, Cao Bằng', 'momo', NULL, NULL, 0.00, 0.00, 30000, '2025-10-30 16:42:05', '2025-10-30 17:50:31');
 
 -- --------------------------------------------------------
 
@@ -376,7 +391,14 @@ CREATE TABLE `order_items` (
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
 (66, 60, 13, 1, 130000.00, '2025-10-28 04:30:10', '2025-10-28 04:30:10'),
 (67, 61, 14, 1, 140000.00, '2025-10-28 04:33:16', '2025-10-28 04:33:16'),
-(68, 62, 13, 1, 130000.00, '2025-10-28 19:14:04', '2025-10-28 19:14:04');
+(68, 62, 13, 1, 130000.00, '2025-10-28 19:14:04', '2025-10-28 19:14:04'),
+(69, 63, 14, 1, 140000.00, '2025-10-29 14:40:02', '2025-10-29 14:40:02'),
+(70, 64, 14, 1, 140000.00, '2025-10-29 14:40:23', '2025-10-29 14:40:23'),
+(71, 65, 14, 1, 140000.00, '2025-10-29 14:41:47', '2025-10-29 14:41:47'),
+(72, 66, 14, 1, 140000.00, '2025-10-29 14:46:40', '2025-10-29 14:46:40'),
+(73, 67, 14, 1, 140000.00, '2025-10-30 16:37:49', '2025-10-30 16:37:49'),
+(74, 68, 14, 1, 140000.00, '2025-10-30 16:40:25', '2025-10-30 16:40:25'),
+(75, 69, 14, 1, 140000.00, '2025-10-30 16:42:05', '2025-10-30 16:42:05');
 
 -- --------------------------------------------------------
 
@@ -497,7 +519,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `status`, `created_at`, `updated_at`) VALUES
 (13, 5, 'B.202 Túi đeo vải Basic bow nơ dập nổi quai nhún thắt nơ 7x12x22', '✨ Túi đeo vai Basic Bow phong cách trẻ trung, nữ tính với điểm nhấn nơ dập nổi độc đáo.\n👜 Chất liệu vải mềm bền, quai nhún tinh tế, dễ phối với nhiều trang phục hằng ngày.\n📏 Kích thước: 7 x 12 x 22 cm, nhỏ gọn nhưng đủ sức chứa các vật dụng cần thiết như điện thoại, ví, son môi...\n🎀 Phù hợp đi học, đi chơi, dạo phố hay làm quà tặng cho bạn bè, người thân.', 130000.00, 26, 1, '2025-09-23 12:45:45', '2025-10-28 19:14:04'),
-(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 7, 1, '2025-09-23 12:45:54', '2025-10-28 04:33:16'),
+(14, 5, 'B.23 Túi đeo da chữ nhật Text bo góc quai nổi kèm móc 7x13x22', '✨ Túi đeo da hình chữ nhật với thiết kế bo góc mềm mại, hiện đại.\r\n👜 Quai đeo nổi chắc chắn, đi kèm móc tiện lợi, tạo điểm nhấn thời trang.\r\n📏 Kích thước: 7 x 13 x 22 cm, vừa vặn để mang theo điện thoại, ví tiền, mỹ phẩm và các vật dụng nhỏ khác.\r\n🎀 Chất liệu da bền đẹp, dễ vệ sinh, thích hợp dùng khi đi làm, đi chơi, dạo phố hay dự tiệc.\r\n🌸 Phong cách tối giản nhưng sang trọng, dễ dàng phối hợp với nhiều loại trang phục.', 140000.00, 0, 1, '2025-09-23 12:45:54', '2025-10-30 16:42:05'),
 (15, 5, 'B.22 Túi đeo chéo vải Bow nơ dập nổi nền màu thắt nơ hai bên 5x16x20', '✨ Túi đeo chéo vải với thiết kế nơ dập nổi tinh tế, nổi bật trên nền màu trẻ trung.\r\n🎀 Điểm nhấn độc đáo với hai chiếc nơ thắt hai bên, tạo phong cách nữ tính và dễ thương.\r\n📏 Kích thước: 5 x 16 x 20 cm, gọn nhẹ, phù hợp để mang theo điện thoại, ví, son và các vật dụng nhỏ xinh.\r\n👜 Quai đeo chéo tiện lợi, dễ điều chỉnh, giúp bạn thoải mái khi di chuyển.\r\n🌸 Chất liệu vải mềm mại, bền đẹp, thích hợp sử dụng hằng ngày, đi chơi, hẹn hò hay dạo phố.', 140000.00, 0, 1, '2025-09-23 12:46:08', '2025-10-28 00:52:25'),
 (16, 5, 'B.202 Túi đeo vải Basic Gentle Woman text dập nổi một màu 19x28', '✨ Túi đeo vải Basic với thiết kế tối giản, tinh tế.\r\n🖋️ Điểm nhấn độc đáo với dòng chữ Gentle Woman dập nổi trên nền một màu sang trọng.\r\n📏 Kích thước: 19 x 28 cm, vừa vặn để đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, phù hợp cho nhiều phong cách thời trang.\r\n🌸 Chất liệu vải cao cấp, bền đẹp, dễ phối đồ, mang lại sự thanh lịch cho người dùng.', 175000.00, 9, 1, '2025-09-23 12:46:17', '2025-10-07 04:00:40'),
 (17, 5, 'B.202 Túi đeo vải Gentle Woman text nổi quai lớn phối nơ hai bên 21x28', '✨ Túi đeo vải Gentle Woman với thiết kế hiện đại, tinh tế.\r\n🖋️ Điểm nhấn nổi bật với dòng chữ Gentle Woman dập nổi cùng quai bản lớn phối nơ hai bên duyên dáng.\r\n📏 Kích thước: 21 x 28 cm, thoải mái đựng điện thoại, ví, mỹ phẩm và những vật dụng cần thiết hằng ngày.\r\n👜 Thiết kế đeo vai/đeo chéo tiện lợi, dễ dàng kết hợp với nhiều phong cách thời trang.\r\n🌸 Chất liệu vải bền đẹp, mềm mại, mang lại sự thanh lịch và trẻ trung cho người dùng.', 165000.00, 24, 1, '2025-09-23 12:46:53', '2025-10-09 08:49:58'),
@@ -617,8 +639,7 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (168, 10, '2024 Ngọt Ngào Mát y2k Đen Kitty Dễ Thương Chấm Bi Ngôi Sao Lấy Kẹp Cá Mập', '🎀 Kẹp tóc Y2K 2024 ngọt ngào, thiết kế dễ thương với họa tiết Kitty, chấm bi và ngôi sao, màu đen trẻ trung.\r\n✨ Phong cách Y2K đáng yêu, phù hợp đi học, đi chơi hoặc tạo điểm nhấn cho tóc.\r\n💎 Chất liệu bền, nhẹ, kẹp chắc mà không làm hư tóc, thoải mái khi sử dụng cả ngày.\r\n🌟 Thiết kế cá mập tiện lợi, giữ tóc gọn gàng và nổi bật, cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng phụ kiện tóc cho bạn bè, người thân hoặc các cô gái yêu thích phong cách Y2K dễ thương.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo và phối hợp với nhiều kiểu tóc, trang phục khác nhau.', 35660.00, 49, 1, '2025-09-24 07:22:33', '2025-09-24 07:22:33'),
 (169, 10, 'Kẹp tóc hoạ tiết nơ cao cấp Kẹp tóc phong cách Hàn Quốc Kẹp búi củ tỏi tầng mây xinh xắn nhẹ nhàng', '🎀 Kẹp tóc họa tiết nơ cao cấp, phong cách Hàn Quốc, thiết kế kẹp búi củ tỏi tầng mây xinh xắn, nhẹ nhàng.\r\n✨ Phong cách nữ tính, thanh lịch, phù hợp đi học, đi chơi hoặc dự tiệc.\r\n💎 Chất liệu bền, nhẹ, giữ tóc chắc mà không làm hư tóc, thoải mái khi sử dụng cả ngày.\r\n🌟 Chi tiết nơ và thiết kế tầng mây tinh tế, tạo điểm nhấn nổi bật và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng phụ kiện tóc cho bạn bè, người thân hoặc các cô gái yêu thích phong cách Hàn Quốc.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo và phối hợp với nhiều kiểu tóc, trang phục khác nhau.', 27245.00, 37, 1, '2025-09-24 07:22:33', '2025-09-24 07:22:33'),
 (170, 10, 'kẹp tóc càng cua NOVSET kẹp tóc hàn quốc đẹp thiết kế kiểu dáng nhựa nhám có chọn màu Mã #KT_16881', '🎀 Kẹp tóc càng cua NOVSET [Mã #KT_16881], thiết kế Hàn Quốc, chất liệu nhựa nhám, kiểu dáng thời trang đẹp mắt.\r\n✨ Phong cách trẻ trung, dễ thương, phù hợp đi học, đi chơi hoặc tạo kiểu tóc năng động.\r\n💎 Chất liệu bền, nhẹ, giữ tóc chắc mà không làm hư tóc, thoải mái khi sử dụng cả ngày.\r\n🌟 Kiểu dáng nhám độc đáo, có thể chọn màu yêu thích, tạo điểm nhấn nổi bật và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng phụ kiện tóc cho bạn bè, người thân hoặc các cô gái yêu thích phong cách Hàn Quốc.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo và phối hợp với nhiều kiểu tóc, trang phục khác nhau.', 23000.00, 22, 1, '2025-09-24 07:22:33', '2025-09-24 07:22:33'),
-(171, 10, 'Kẹp Tóc Chấm Bi Đỏ Đa Năng Nổi Bật', '🎀 Kẹp tóc chấm bi đỏ đa năng, thiết kế nổi bật và dễ thương.\r\n✨ Phong cách trẻ trung, nữ tính, phù hợp đi học, đi chơi hoặc tạo điểm nhấn cho tóc.\r\n💎 Chất liệu bền, nhẹ, giữ tóc chắc mà không làm hư tóc, thoải mái khi sử dụng cả ngày.\r\n🌟 Họa tiết chấm bi đỏ nổi bật, tạo điểm nhấn sinh động và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng phụ kiện tóc cho bạn bè, người thân hoặc các cô gái yêu thích phong cách dễ thương.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo và phối hợp với nhiều kiểu tóc, trang phục khác nhau.', 31880.00, 26, 1, '2025-09-24 07:22:33', '2025-09-24 07:22:33'),
-(203, 1, 'a', 'xãas', 123456.00, 10, 1, '2025-10-28 18:23:03', '2025-10-28 18:23:22');
+(171, 10, 'Kẹp Tóc Chấm Bi Đỏ Đa Năng Nổi Bật', '🎀 Kẹp tóc chấm bi đỏ đa năng, thiết kế nổi bật và dễ thương.\r\n✨ Phong cách trẻ trung, nữ tính, phù hợp đi học, đi chơi hoặc tạo điểm nhấn cho tóc.\r\n💎 Chất liệu bền, nhẹ, giữ tóc chắc mà không làm hư tóc, thoải mái khi sử dụng cả ngày.\r\n🌟 Họa tiết chấm bi đỏ nổi bật, tạo điểm nhấn sinh động và cuốn hút ánh nhìn.\r\n💖 Lý tưởng làm quà tặng phụ kiện tóc cho bạn bè, người thân hoặc các cô gái yêu thích phong cách dễ thương.\r\n📦 Sản phẩm nhỏ gọn, tiện lợi mang theo và phối hợp với nhiều kiểu tóc, trang phục khác nhau.', 31880.00, 26, 1, '2025-09-24 07:22:33', '2025-09-24 07:22:33');
 
 -- --------------------------------------------------------
 
@@ -1048,7 +1069,7 @@ CREATE TABLE `reviews` (
 INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_hidden`, `created_at`, `updated_at`) VALUES
 (1, 32, 9, 5, 'Đẹp quá', 0, '2025-10-09 07:03:55', '2025-10-21 18:18:33'),
 (2, 30, 2, 5, 'Rất đẹp và vừa ý', 0, '2025-10-22 14:39:12', '2025-10-22 14:39:12'),
-(3, 13, 2, 5, 'Rất đẹp và rất hài lòng', 0, '2025-10-22 20:11:55', '2025-10-29 13:54:22');
+(3, 13, 2, 5, 'Rất đẹp và rất hài lòng', 0, '2025-10-22 20:11:55', '2025-10-30 04:56:51');
 
 -- --------------------------------------------------------
 
@@ -1140,7 +1161,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (24, 1),
 (25, 1),
 (26, 1),
-(26, 2),
 (27, 1),
 (28, 1),
 (29, 1),
@@ -1174,8 +1194,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('OwyIUSna2fvd18HTSYPcsSLLsUfTMtGx7sJ0ajvC', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVE1nWWZBanNKazYwZ0JKN3R1SlV4S2dZSDhlTk9xZ2Q5UTkzOHJSSiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9zaGlwcGluZy1mZWVzIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjIzOiJhZG1pbl9kYXNoYm9hcmRfdmlzaXRlZCI7YjoxO30=', 1761746619),
-('qOsWqNDYFpF58XMJnZmLrPwBPJCVnIFtwkiMLDYi', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQkdSVTltbUFHRXVnekFxVE9vT0FHWjBWREhkbnJrMmVGYTRraVo4byI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9jYXRlZ29yaWVzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjIzOiJhZG1pbl9kYXNoYm9hcmRfdmlzaXRlZCI7YjoxO30=', 1761746174);
+('2g75qvLD56c25fQt6XbOq7s3CThvUWMdhI6OTpp5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMVF6OTRhTHFjMXdwT3JoZFQwbWdXYWR1bkd2RUc0MndkRFNEaVliZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1761859729),
+('QwPUm3EkgnGCNgpm4j6ccsduruJBLcQTimM1tb8x', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoia1NEU3NjT0RXajhFdGhqSGpTUTVpanF5SXJvM09tTHBXMmVaenBtQSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9zZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoyMzoiYWRtaW5fZGFzaGJvYXJkX3Zpc2l0ZWQiO2I6MTtzOjE2OiJjaGVja291dF9hZGRyZXNzIjthOjY6e3M6MTM6ImN1c3RvbWVyX25hbWUiO3M6MTM6Ik5o4buxdCBLaOG6r2MiO3M6MTQ6ImN1c3RvbWVyX2VtYWlsIjtzOjI1OiJraGFjbmh1dDIwMDR2bGdAZ21haWwuY29tIjtzOjE0OiJjdXN0b21lcl9waG9uZSI7czoxMDoiMDk2NzUyMzQ1NiI7czoxNjoiY3VzdG9tZXJfYWRkcmVzcyI7czo1MToiMTIzLCBQaMaw4budbmcgSG/DoG4gS2nhur9tLCBUaMOgbmggcGjhu5EgSMOgIE7hu5lpIjtzOjEzOiJwcm92aW5jZV9uYW1lIjtzOjIyOiJUaMOgbmggcGjhu5EgSMOgIE7hu5lpIjtzOjk6IndhcmRfbmFtZSI7czoyMjoiUGjGsOG7nW5nIEhvw6BuIEtp4bq/bSI7fXM6MTc6ImNoZWNrb3V0X3NlbGVjdGVkIjthOjE6e2k6MDtzOjI6IjE0Ijt9fQ==', 1761861069),
+('zKWta42pqyg0tpA1jGvyBMLHoFt8idBt82HLNwFv', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMVB2WVMyQjBZZVdaajc4T0xZQzhiaWZON25QTzZpeWp4RTZSdTluayI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjIzOiJhZG1pbl9kYXNoYm9hcmRfdmlzaXRlZCI7YjoxO30=', 1761855579);
 
 -- --------------------------------------------------------
 
@@ -1197,8 +1218,8 @@ CREATE TABLE `settings` (
 
 INSERT INTO `settings` (`id`, `key_name`, `value`, `created_at`, `updated_at`) VALUES
 (1, 'site_name', 'Shop Nàng Thơ', '2025-10-28 19:43:14', '2025-10-29 03:16:30'),
-(2, 'site_description', 'Phụ kiện thời trang cao cấp', '2025-10-29 01:46:47', '2025-10-29 01:46:47'),
-(3, 'site_status', 'active', '2025-10-29 01:50:58', '2025-10-29 03:24:35'),
+(2, 'site_description', 'Phụ kiện thời trang nữ tính - Tỏa sáng phong cách riêng của bạn với những món đồ tinh tế và sang trọng.', '2025-10-29 01:46:47', '2025-10-29 01:46:47'),
+(3, 'site_status', 'active', '2025-10-29 01:50:58', '2025-10-30 14:16:32'),
 (4, 'site_logo', 'img/logo_shop.png', '2025-10-29 01:55:17', '2025-10-29 01:55:17'),
 (5, 'site_favicon', 'favicon.ico', '2025-10-29 01:57:23', '2025-10-29 01:57:23'),
 (6, 'contact_phone', '0779089258', '2025-10-29 01:45:00', '2025-10-29 01:45:00'),
@@ -1207,7 +1228,9 @@ INSERT INTO `settings` (`id`, `key_name`, `value`, `created_at`, `updated_at`) V
 (9, 'contact_facebook', 'https://www.facebook.com/', '2025-10-29 02:06:54', '2025-10-29 02:06:54'),
 (10, 'contact_instagram', 'https://www.instagram.com/', '2025-10-29 02:06:54', '2025-10-29 02:06:54'),
 (11, 'contact_youtube', 'https://www.youtube.com/', '2025-10-29 02:06:54', '2025-10-29 02:06:54'),
-(12, 'contact_tiktok', 'https://www.tiktok.com/vi-VN/', '2025-10-29 02:06:54', '2025-10-29 02:06:54');
+(12, 'contact_tiktok', 'https://www.tiktok.com/vi-VN/', '2025-10-29 02:06:54', '2025-10-29 02:06:54'),
+(13, 'contact_zalo', 'https://zalo.me/pc', '2025-10-31 04:28:27', '2025-10-31 04:28:27'),
+(14, 'contact_messenger', 'https://www.facebook.com', '2025-10-31 04:28:42', '2025-10-31 04:44:14');
 
 -- --------------------------------------------------------
 
@@ -1238,7 +1261,7 @@ CREATE TABLE `shipping_fees` (
 --
 
 INSERT INTO `shipping_fees` (`id`, `name`, `area_type`, `min_distance`, `max_distance`, `min_order_value`, `base_fee`, `per_km_fee`, `max_fee`, `is_free_shipping`, `priority`, `status`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Hỗ trợ ship 10k đa 20k cho đơn hàng từ 100k nội thành Vĩnh Long', 'local', 1.00, 19.00, 100000.00, 10000.00, 500.00, 20000.00, 0, 0, 1, 'Quy tắc cho nội thành Vĩnh Long', '2025-10-10 18:46:43', '2025-10-28 07:37:40'),
+(1, 'Hỗ trợ ship 10k đa 20k cho đơn hàng từ 10k nội thành Vĩnh Long', 'local', 1.00, 19.00, 10000.00, 10000.00, 500.00, 20000.00, 0, 0, 1, 'Quy tắc cho nội thành Vĩnh Long', '2025-10-10 18:46:43', '2025-10-29 16:08:28'),
 (2, 'Hỗ trợ ship 15k đa 30k cho đơn hàng từ 200k các khu vực khác', 'nearby', 20.00, NULL, 200000.00, 15000.00, 2000.00, 30000.00, 0, 80, 1, 'Quy tắc cho các khu vực lân cận và xa', '2025-10-10 18:46:43', '2025-10-10 18:46:43');
 
 -- --------------------------------------------------------
@@ -1271,11 +1294,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `phone`, `ward_id`, `address`, `email_verified_at`, `role_id`, `status`, `social_id`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Hazakiii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$xLBCPaNxGGPb0iTua3faieO.5oUG4pQIrft8SqL167zuOkTFdwIEa', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761495563/avatars/j5snmdriqkdpgel7gwvd.png', 'ztj5X7yTwoqn2eChadYSCaVgsRV5pa4AMYWXeemkS7lLfaExTtQ08gBXKro6', '2025-09-18 11:28:33', '2025-10-29 13:44:33'),
-(5, 'Minh Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$mddMfEUQ.Rhm.k9sbzZwTe/3.RQDKMZyMumo7Oh/itKuLoaBBBpBW', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, 'https://ui-avatars.com/api/?name=Minh+Th%C6%B0&background=random&color=fff&size=40', 'UFWTwch1CL9AlK9JIgkWLZenUeZXJgqD31WZKjffpTyDxu2SSXy25rkivkgb', '2025-09-28 06:12:54', '2025-10-29 13:45:35'),
+(2, 'Hazakiii', 'Nhựt Khắc', 'khacnhut2004vlg@gmail.com', '$2y$12$xLBCPaNxGGPb0iTua3faieO.5oUG4pQIrft8SqL167zuOkTFdwIEa', '0967523456', 29641, 'xã Cái Nhum, tỉnh Vĩnh Long, Việt Nam', '2025-09-18 11:28:33', 1, 1, 1, 'https://res.cloudinary.com/dtlzj7mfm/image/upload/v1761495563/avatars/j5snmdriqkdpgel7gwvd.png', 'OukzEsenMxFQMjZdXicG1qLFjvCziRT08zVAYBoWrwy9HMLb3D5ND5hjy0yi', '2025-09-18 11:28:33', '2025-10-29 13:44:33'),
+(5, 'Minh Thư', 'Minh Thư', 'le6168610@gmail.com', '$2y$12$mddMfEUQ.Rhm.k9sbzZwTe/3.RQDKMZyMumo7Oh/itKuLoaBBBpBW', '0779089257', 29845, 'xã Vĩnh Xuân, tỉnh Vĩnh Long', '2025-10-01 13:57:18', 2, 1, 0, 'https://ui-avatars.com/api/?name=Minh+Th%C6%B0&background=random&color=fff&size=40', 'mer5b1CpeijPsZgslLXZ6wsZMVEFmhgiZs6Ck3tqZz4GlUe9czqRzAO19Hso', '2025-09-28 06:12:54', '2025-10-29 13:45:35'),
 (9, 'Gia Đạt', 'Lê Nguyễn Gia Đạt', 'giadat18012002@gmail.com', '$2y$12$uiwTm9N0uuGSI62bewYi4Ov1Z8onkuTZOmH5I78vrk3Z/AkoE4tCW', '0932861734', 28783, '259/28 Khóm 11 Phường Long Châu, Tỉnh Vĩnh Long', '2025-10-13 17:43:53', 2, 1, NULL, NULL, 'B6dM7RwVdPpIg5obnoGJVuaCLPHsjNkolbKHeSpVcFPGJau9ykGLKJpLXfDF', '2025-10-09 07:00:12', '2025-10-29 13:46:48'),
 (14, 'Văn Tiến', 'Nguyễn Văn Tiến', 'a67429485@gmail.com', '$2y$12$hcvJ7.AsbqH/C3zgxLJUFuzwmI4/grBtO2A.bje18097QuCpeF6kW', '0192920234', NULL, 'Vĩnh Long', '2025-10-23 22:15:26', 2, 1, NULL, NULL, NULL, '2025-10-23 22:15:26', '2025-10-26 17:11:41'),
-(17, 'Hazaki', 'Khắc Nhựt', '22004294@st.vlute.edu.vn', '$2y$12$eKprdAir1xmRY8eKeUobd.1MvPot0tGR6GV7qph6/bRERBJmNdO3e', '0779089256', 4033, 'ấp định thới B, Xã cái nhum, tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'https://ui-avatars.com/api/?name=Kh%E1%BA%AFc+Nh%E1%BB%B1t&background=random&color=fff&size=40', NULL, '2025-10-29 11:04:53', '2025-10-29 11:04:53');
+(17, 'Hazaki', 'Khắc Nhựt', '22004294@st.vlute.edu.vn', '$2y$12$eKprdAir1xmRY8eKeUobd.1MvPot0tGR6GV7qph6/bRERBJmNdO3e', '0779089256', 4033, 'ấp định thới B, Xã cái nhum, tỉnh Vĩnh Long', NULL, 3, 1, NULL, 'https://ui-avatars.com/api/?name=Kh%E1%BA%AFc+Nh%E1%BB%B1t&background=random&color=fff&size=40', NULL, '2025-10-29 11:04:53', '2025-10-30 06:47:41'),
+(20, 'Khắc Minh', 'Nguyễn Khắc Minh', 'khacminh@gmaill.com', '$2y$12$8U/RgF42p0jCqzqObTA9LOkMXBNr5w9UR4cLKX9PNBinmBDtGrqZC', '0798928232', NULL, 'Bến Tre', '2025-10-30 18:28:28', 3, 1, NULL, 'storage/default-avatar.png', NULL, '2025-10-30 18:28:28', '2025-10-30 18:29:20');
 
 -- --------------------------------------------------------
 
@@ -4857,7 +4881,7 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
@@ -4869,7 +4893,7 @@ ALTER TABLE `cart_items`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `discounts`
@@ -4899,13 +4923,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -4923,19 +4947,19 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `product_discounts`
 --
 ALTER TABLE `product_discounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=239;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -4959,19 +4983,19 @@ ALTER TABLE `roles_ex`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `shipping_fees`
 --
 ALTER TABLE `shipping_fees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables

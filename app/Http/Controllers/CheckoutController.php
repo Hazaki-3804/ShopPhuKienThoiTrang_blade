@@ -1790,6 +1790,7 @@ class CheckoutController extends Controller
             }
         }
         if ($paymentMethod === 'vnpay') {
+            Log::info('Payment method is vnpay', $order->id, $total);
             return redirect()->route('vnpay.create', ['order_id' => $order->id, 'total' => $total]);
         }
         if ($paymentMethod === 'sepay') {

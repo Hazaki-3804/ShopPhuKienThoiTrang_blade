@@ -82,7 +82,7 @@
     <div class="card m-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <!-- Left side - Search -->
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 mr-2">
                 <input type="search" id="categorySearch"
                     class="form-control form-control-sm"
                     placeholder="Tìm kiếm danh mục..."
@@ -94,16 +94,16 @@
                 <!-- Bulk delete button (hidden by default) -->
                 @if(auth()->user()->can('delete categories'))
                 <button type="button" class="btn btn-danger btn-sm mr-2 rounded" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
-                    <i class="fas fa-trash mr-1"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
+                    <i class="fas fa-trash mr-1"></i><span class="d-none d-sm-inline">Xóa đã chọn (<span id="selectedCount">0</span>)</span>
                 </button>
                 @endif
 
                 @if(auth()->user()->can('create categories'))
                 <button type="button" class="btn btn-success btn-sm mr-2 rounded" data-toggle="modal" data-target="#addCategoryModal">
-                    <i class="fas fa-plus mr-1"></i> Thêm danh mục
+                    <i class="fas fa-plus mr-1"></i><span class="d-none d-sm-inline">Thêm danh mục</span>
                 </button>
                 <a href="{{ route('admin.categories.import') }}" class="btn btn-info btn-sm mr-2 rounded">
-                    <i class="fas fa-file-excel mr-1"></i> Import Excel
+                    <i class="fas fa-file-excel mr-1"></i><span class="d-none d-sm-inline">Import Excel</span>
                 </a>
                 @endif
 

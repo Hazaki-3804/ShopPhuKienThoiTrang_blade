@@ -114,7 +114,7 @@
     <div class="card m-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <!-- Left side - Search and Filters -->
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 mr-2">
                 <input type="search" id="productSearch"
                     class="form-control form-control-sm me-2"
                     placeholder="Tìm kiếm sản phẩm..."
@@ -123,16 +123,15 @@
             </div>
 
             <!-- Right side - Bulk actions, Add button and Export -->
-            <div class="d-flex align-items-center">
-
-                <select id="categoryFilter" class="form-control form-control-sm mr-2" style="max-width: 170px;">
+            <div class="btn-group">
+                <select id="categoryFilter" class="form-control form-control-sm rounded mr-2 d-none d-sm-inline" style="max-width: 170px;">
                     <option value="">-- Tất cả danh mục --</option>
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
 
-                <select id="statusFilter" class="form-control form-control-sm mr-2" style="max-width: 170px;">
+                <select id="statusFilter" class="form-control form-control-sm mr-2 rounded d-none d-sm-inline" style="max-width: 170px;">
                     <option value="">-- Tất cả trạng thái --</option>
                     <option value="1">Đang bán</option>
                     <option value="0">Tạm dừng</option>
@@ -140,18 +139,18 @@
 
                 <!-- Bulk delete button (hidden by default) -->
                 @if(auth()->user()->can('delete products'))
-                <button type="button" class="btn btn-danger btn-sm mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
-                    <i class="fas fa-trash"></i> Xóa đã chọn (<span id="selectedCount">0</span>)
+                <button type="button" class="btn btn-sm btn-danger rounded mr-2" id="bulkDeleteBtn" style="display: none;" data-toggle="modal" data-target="#bulkDeleteModal">
+                    <i class="fas fa-trash mr-1"></i><span class="d-none d-sm-inline">Xóa đã chọn (<span id="selectedCount">0</span>)</span>
                 </button>
                 @endif
 
                 @if(auth()->user()->can('create products'))
-                <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm mr-2" title="Thêm sản phẩm">
-                    <i class="fas fa-plus mr-1"></i> Thêm sản phẩm mới
+                <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm mr-2 rounded" title="Thêm sản phẩm">
+                    <i class="fas fa-plus mr-1"></i><span class="d-none d-sm-inline">Thêm sản phẩm mới</span>
                 </a>
                 @endif
-                <a href="{{ route('admin.products.import') }}" class="btn btn-info btn-sm mr-2" title="Import sản phẩm">
-                    <i class="fas fa-file-import mr-1"></i> Import sản phẩm
+                <a href="{{ route('admin.products.import') }}" class="btn btn-info btn-sm mr-2 rounded" title="Import sản phẩm">
+                    <i class="fas fa-file-import mr-1"></i> <span class="d-none d-sm-inline">Import sản phẩm</span>
                 </a>
 
                 <div class="dropdown">

@@ -84,14 +84,14 @@ class UserController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Cập nhật quyền cho nhân viên '.$user->name.' thành công!',
+                'message' => 'Cập nhật quyền cho nhân viên ' . $user->name . ' thành công!',
                 'type' => 'success'
             ]);
         }
 
         return redirect()
             ->route('admin.users.permissions.edit', ['id' => $user->id])
-            ->with('success', 'Cập nhật quyền cho nhân viên '.$user->name.' thành công!');
+            ->with('success', 'Cập nhật quyền cho nhân viên ' . $user->name . ' thành công!');
     }
 
     // Base permissions applied to all staff via Role "Nhân viên"
@@ -154,7 +154,7 @@ class UserController extends Controller
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('user_info', function ($user) {
-                
+
                 return '
                 <div class="d-flex align-items-center" style="gap: 10px;">
                     <img src="https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=random&color=fff&size=40" 
@@ -178,11 +178,11 @@ class UserController extends Controller
             })
             ->addColumn('role_badge', function ($user) {
                 $roleMap = [
-                    1 => ['Admin', 'primary','fas fa-user-shield'],
-                    2 => ['Nhân viên', 'info','fas fa-user-tie'],
-                    3 => ['Khách hàng', 'secondary','fas fa-user']
+                    1 => ['Admin', 'primary', 'fas fa-user-shield'],
+                    2 => ['Nhân viên', 'info', 'fas fa-user-tie'],
+                    3 => ['Khách hàng', 'secondary', 'fas fa-user']
                 ];
-                [$label, $color,$icon] = $roleMap[$user->role_id] ?? ['Unknown', 'dark','fas fa-user'];
+                [$label, $color, $icon] = $roleMap[$user->role_id] ?? ['Unknown', 'dark', 'fas fa-user'];
                 return "<span class=\"badge bg-{$color}\"><i class=\"{$icon}\"></i> {$label}</span>";
             })
             ->addColumn('actions', function ($user) {
@@ -524,7 +524,7 @@ class UserController extends Controller
     }
 
     // ==================== IMPORT EXCEL METHODS ====================
-    
+
     /**
      * Hiển thị trang import
      */
@@ -606,7 +606,7 @@ class UserController extends Controller
             // Tạo sheet hướng dẫn
             $instructionSheet = $spreadsheet->createSheet();
             $instructionSheet->setTitle('Hướng dẫn');
-            
+
             $instructions = [
                 ['HƯỚNG DẪN IMPORT NHÂN VIÊN'],
                 [''],
@@ -637,9 +637,9 @@ class UserController extends Controller
                 ['- PASSWORD123 (thiếu chữ thường, ký tự đặc biệt)'],
                 ['- Pass@1 (quá ngắn, dưới 8 ký tự)']
             ];
-            
+
             $instructionSheet->fromArray($instructions, null, 'A1');
-            
+
             // Style cho sheet hướng dẫn
             $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
             $instructionSheet->getStyle('A3:A8')->getFont()->setBold(true);
@@ -653,12 +653,11 @@ class UserController extends Controller
             $spreadsheet->setActiveSheetIndex(0);
 
             $writer = new Xlsx($spreadsheet);
-            $fileName = 'template_import_staff_' . date('YmdHis') . '.xlsx';
+            $fileName = 'file_mau_import_nhan_vien' .  date('Y-m-d') . '.xlsx';
             $tempFile = tempnam(sys_get_temp_dir(), $fileName);
             $writer->save($tempFile);
 
             return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
-
         } catch (\Exception $e) {
             Log::error('Download template error: ' . $e->getMessage());
             return back()->with('error', 'Có lỗi xảy ra khi tải file mẫu!');
@@ -689,11 +688,11 @@ class UserController extends Controller
 
             // Lấy header
             $header = array_map('trim', $rows[0]);
-            
+
             // Kiểm tra các cột bắt buộc
             $requiredColumns = ['Họ và tên', 'Email', 'Số điện thoại', 'Địa chỉ', 'Mật khẩu', 'Trạng thái'];
             $missingColumns = array_diff($requiredColumns, $header);
-            
+
             if (!empty($missingColumns)) {
                 return response()->json([
                     'success' => false,
@@ -703,18 +702,18 @@ class UserController extends Controller
 
             // Lấy dữ liệu (bỏ dòng header)
             $data = array_slice($rows, 1);
-            
+
             // Validate và chuẩn bị dữ liệu preview
             $previewData = [];
             $errors = [];
-            $existingEmails = User::pluck('email')->map(function($email) {
+            $existingEmails = User::pluck('email')->map(function ($email) {
                 return strtolower(trim($email));
             })->toArray();
             $emailsInFile = [];
 
             foreach ($data as $index => $row) {
                 $rowNumber = $index + 2; // +2 vì bắt đầu từ dòng 2
-                
+
                 // Bỏ qua dòng trống
                 if (empty(array_filter($row))) {
                     continue;
@@ -822,7 +821,6 @@ class UserController extends Controller
                 'error_rows' => count(array_filter($previewData, fn($item) => $item['has_error'])),
                 'errors' => $errors
             ]);
-
         } catch (\Exception $e) {
             Log::error('Preview import error: ' . $e->getMessage());
             return response()->json([
@@ -892,12 +890,11 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Đã import thành công {$importedCount} nhân viên!" . 
-                            (!empty($errors) ? " Có " . count($errors) . " lỗi." : ""),
+                'message' => "Đã import thành công {$importedCount} nhân viên!" .
+                    (!empty($errors) ? " Có " . count($errors) . " lỗi." : ""),
                 'imported_count' => $importedCount,
                 'errors' => $errors
             ]);
-
         } catch (\Exception $e) {
             Log::error('Process import error: ' . $e->getMessage());
             return response()->json([

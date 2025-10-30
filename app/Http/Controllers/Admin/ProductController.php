@@ -1069,7 +1069,7 @@ class ProductController extends Controller
             $spreadsheet->setActiveSheetIndex(0);
 
             $writer = new Xlsx($spreadsheet);
-            $fileName = 'template_import_products_' . date('YmdHis') . '.xlsx';
+            $fileName = 'file_mau_import_san_pham' .  date('Y-m-d') . '.xlsx';
             $tempFile = tempnam(sys_get_temp_dir(), $fileName);
             $writer->save($tempFile);
 

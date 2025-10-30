@@ -41,7 +41,9 @@ class SettingController extends Controller
             case 'social':
                 $rules = [
                     'contact_facebook' => 'nullable|url|max:255',
+                    'contact_messenger' => 'nullable|url|max:255',
                     'contact_instagram' => 'nullable|url|max:255',
+                    'contact_zalo' => 'nullable|url|max:255',
                     'contact_youtube' => 'nullable|url|max:255',
                     'contact_tiktok' => 'nullable|url|max:255',
                 ];
@@ -115,7 +117,9 @@ class SettingController extends Controller
                 case 'social':
                     $settingsData = [
                         'contact_facebook' => $request->input('contact_facebook', ''),
+                        'contact_messenger' => $request->input('contact_messenger', ''),
                         'contact_instagram' => $request->input('contact_instagram', ''),
+                        'contact_zalo' => $request->input('contact_zalo', ''),
                         'contact_youtube' => $request->input('contact_youtube', ''),
                         'contact_tiktok' => $request->input('contact_tiktok', ''),
                     ];

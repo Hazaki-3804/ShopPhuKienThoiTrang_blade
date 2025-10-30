@@ -176,6 +176,8 @@
         </div>
     </div>
 </div>
+<!-- Contact Widget -->
+<x-contact-widget />
 <!-- Chatbot -->
 <x-chatbot />
 @endsection

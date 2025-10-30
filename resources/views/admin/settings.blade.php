@@ -15,7 +15,7 @@
     <div class="m-3">
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
+            <i class="fas fa-check-circle mr-1"></i>{{ session('success') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -24,7 +24,7 @@
 
         @if($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle mr-2"></i>
+            <i class="fas fa-exclamation-circle mr-1"></i>
             <strong>Có lỗi xảy ra:</strong>
             <ul class="mb-0 mt-2">
                 @foreach($errors->all() as $error)
@@ -133,23 +133,30 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="mb-1">
+                                    <div class="mb-3">
                                         <label for="site_status" class="form-label fw-bold">
-                                            <i class="fas fa-toggle-on text-success"></i> Trạng thái website
+                                            <i class="fas fa-toggle-on text-success mr-1"></i> Trạng thái website
                                         </label>
-                                        <select class="form-select @error('site_status') is-invalid @enderror" id="site_status" name="site_status">
-                                            <option value="active" {{ old('site_status', $settings['site_status'] ?? 'active') == 'active' ? 'selected' : '' }}>
-                                                <i class="fas fa-check-circle"></i> Hoạt động
-                                            </option>
-                                            <option value="maintenance" {{ old('site_status', $settings['site_status'] ?? '') == 'maintenance' ? 'selected' : '' }}>
-                                                <i class="fas fa-tools"></i> Bảo trì
-                                            </option>
-                                        </select>
+
+                                        <div class="btn-group btn-group-toggle d-block" data-toggle="buttons">
+                                            <label class="btn btn-outline-success @if(old('site_status', $settings['site_status'] ?? 'active') == 'active') active @endif">
+                                                <input type="radio" name="site_status" id="status_active" value="active"
+                                                    @if(old('site_status', $settings['site_status'] ?? 'active' )=='active' ) checked @endif autocomplete="off">
+                                                <i class="fas fa-check-circle mr-1"></i> Hoạt động
+                                            </label>
+
+                                            <label class="btn btn-outline-warning @if(old('site_status', $settings['site_status'] ?? '') == 'maintenance') active @endif">
+                                                <input type="radio" name="site_status" id="status_maintenance" value="maintenance"
+                                                    @if(old('site_status', $settings['site_status'] ?? '' )=='maintenance' ) checked @endif autocomplete="off">
+                                                <i class="fas fa-tools mr-1"></i> Bảo trì
+                                            </label>
+                                        </div>
+
                                         @error('site_status')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
+                                        <small class="text-muted">Chọn "Bảo trì" để tạm đóng website</small>
                                     </div>
-                                    <small class="text-muted">Chọn "Bảo trì" để tạm đóng website</small>
                                 </div>
                             </div>
 
@@ -168,7 +175,7 @@
 
                             <div class="text-end mt-4">
                                 <button type="submit" class="btn btn-primary bg-gradient-primary btn-sm px-5">
-                                    <i class="fas fa-save mr-2"></i> Lưu cài đặt
+                                    <i class="fas fa-save mr-1"></i> Lưu cài đặt
                                 </button>
                             </div>
                         </div>
@@ -240,7 +247,7 @@
 
                             <div class="text-end mt-4">
                                 <button type="submit" class="btn btn-info bg-gradient-info btn-sm px-5">
-                                    <i class="fas fa-save mr-2"></i> Lưu cài đặt
+                                    <i class="fas fa-save mr-1"></i> Lưu cài đặt
                                 </button>
                             </div>
                         </div>
@@ -274,15 +281,31 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="contact_facebook" class="form-label fw-bold">
-                                            <i class="fab fa-facebook text-primary"></i> Facebook
+                                            <i class="fab fa-facebook text-primary"></i>Facebook
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text p-2"><i class="fab fa-facebook"></i></span>
+                                            <span class="input-group-text p-1"><i class="fab fa-facebook"></i></span>
                                             <input type="url" class="form-control @error('contact_facebook') is-invalid @enderror"
                                                 id="contact_facebook" name="contact_facebook" value="{{ old('contact_facebook', $settings['contact_facebook'] ?? '') }}"
                                                 placeholder="https://www.facebook.com/yourpage">
                                         </div>
                                         @error('contact_facebook')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="contact_messenger" class="form-label fw-bold">
+                                            <i class="bi bi-messenger text-pink"></i> Messenger
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-1"><i class="bi bi-messenger"></i></span>
+                                            <input type="url" class="form-control @error('contact_messenger') is-invalid @enderror"
+                                                id="contact_messenger" name="contact_messenger" value="{{ old('contact_messenger', $settings['contact_messenger'] ?? '') }}"
+                                                placeholder="https://m.me/yourpage">
+                                        </div>
+                                        @error('contact_messenger')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -294,12 +317,40 @@
                                             <i class="fab fa-instagram text-danger"></i> Instagram
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text p-2"><i class="fab fa-instagram"></i></span>
+                                            <span class="input-group-text p-1"><i class="fab fa-instagram"></i></span>
                                             <input type="url" class="form-control @error('contact_instagram') is-invalid @enderror"
                                                 id="contact_instagram" name="contact_instagram" value="{{ old('contact_instagram', $settings['contact_instagram'] ?? '') }}"
                                                 placeholder="https://www.instagram.com/yourpage">
                                         </div>
                                         @error('contact_instagram')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="contact_zalo" class="form-label fw-bold">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                                <path fill="#2962ff" d="M15,36V6.827l-1.211-0.811C8.64,8.083,5,13.112,5,19v10c0,7.732,6.268,14,14,14h10	c4.722,0,8.883-2.348,11.417-5.931V36H15z"></path>
+                                                <path fill="#eee" d="M29,5H19c-1.845,0-3.601,0.366-5.214,1.014C10.453,9.25,8,14.528,8,19	c0,6.771,0.936,10.735,3.712,14.607c0.216,0.301,0.357,0.653,0.376,1.022c0.043,0.835-0.129,2.365-1.634,3.742	c-0.162,0.148-0.059,0.419,0.16,0.428c0.942,0.041,2.843-0.014,4.797-0.877c0.557-0.246,1.191-0.203,1.729,0.083	C20.453,39.764,24.333,40,28,40c4.676,0,9.339-1.04,12.417-2.916C42.038,34.799,43,32.014,43,29V19C43,11.268,36.732,5,29,5z"></path>
+                                                <path fill="#2962ff" d="M36.75,27C34.683,27,33,25.317,33,23.25s1.683-3.75,3.75-3.75s3.75,1.683,3.75,3.75	S38.817,27,36.75,27z M36.75,21c-1.24,0-2.25,1.01-2.25,2.25s1.01,2.25,2.25,2.25S39,24.49,39,23.25S37.99,21,36.75,21z"></path>
+                                                <path fill="#2962ff" d="M31.5,27h-1c-0.276,0-0.5-0.224-0.5-0.5V18h1.5V27z"></path>
+                                                <path fill="#2962ff" d="M27,19.75v0.519c-0.629-0.476-1.403-0.769-2.25-0.769c-2.067,0-3.75,1.683-3.75,3.75	S22.683,27,24.75,27c0.847,0,1.621-0.293,2.25-0.769V26.5c0,0.276,0.224,0.5,0.5,0.5h1v-7.25H27z M24.75,25.5	c-1.24,0-2.25-1.01-2.25-2.25S23.51,21,24.75,21S27,22.01,27,23.25S25.99,25.5,24.75,25.5z"></path>
+                                                <path fill="#2962ff" d="M21.25,18h-8v1.5h5.321L13,26h0.026c-0.163,0.211-0.276,0.463-0.276,0.75V27h7.5	c0.276,0,0.5-0.224,0.5-0.5v-1h-5.321L21,19h-0.026c0.163-0.211,0.276-0.463,0.276-0.75V18z"></path>
+                                            </svg> Zalo
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text p-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 48 48">
+                                                    <path fill="#2962ff" d="M15,36V6.827l-1.211-0.811C8.64,8.083,5,13.112,5,19v10c0,7.732,6.268,14,14,14h10	c4.722,0,8.883-2.348,11.417-5.931V36H15z"></path>
+                                                    <path fill="#eee" d="M29,5H19c-1.845,0-3.601,0.366-5.214,1.014C10.453,9.25,8,14.528,8,19	c0,6.771,0.936,10.735,3.712,14.607c0.216,0.301,0.357,0.653,0.376,1.022c0.043,0.835-0.129,2.365-1.634,3.742	c-0.162,0.148-0.059,0.419,0.16,0.428c0.942,0.041,2.843-0.014,4.797-0.877c0.557-0.246,1.191-0.203,1.729,0.083	C20.453,39.764,24.333,40,28,40c4.676,0,9.339-1.04,12.417-2.916C42.038,34.799,43,32.014,43,29V19C43,11.268,36.732,5,29,5z"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="url" class="form-control @error('contact_zalo') is-invalid @enderror"
+                                                id="contact_zalo" name="contact_zalo" value="{{ old('contact_zalo', $settings['contact_zalo'] ?? '') }}"
+                                                placeholder="https://zalo.me/0779089258">
+                                        </div>
+                                        @error('contact_zalo')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -313,7 +364,7 @@
                                             <i class="fab fa-youtube text-danger"></i> YouTube
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text p-2"><i class="fab fa-youtube"></i></span>
+                                            <span class="input-group-text p-1"><i class="fab fa-youtube"></i></span>
                                             <input type="url" class="form-control @error('contact_youtube') is-invalid @enderror"
                                                 id="contact_youtube" name="contact_youtube" value="{{ old('contact_youtube', $settings['contact_youtube'] ?? '') }}"
                                                 placeholder="https://www.youtube.com/yourchannel">
@@ -330,7 +381,7 @@
                                             <i class="fab fa-tiktok"></i> TikTok
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text p-2"><i class="fab fa-tiktok"></i></span>
+                                            <span class="input-group-text p-1"><i class="fab fa-tiktok"></i></span>
                                             <input type="url" class="form-control @error('contact_tiktok') is-invalid @enderror"
                                                 id="contact_tiktok" name="contact_tiktok" value="{{ old('contact_tiktok', $settings['contact_tiktok'] ?? '') }}"
                                                 placeholder="https://www.tiktok.com/@yourpage">
@@ -344,7 +395,7 @@
 
                             <div class="text-end mt-4">
                                 <button type="submit" class="btn btn-primary bg-gradient-purple btn-sm px-5">
-                                    <i class="fas fa-save mr-2"></i> Lưu cài đặt
+                                    <i class="fas fa-save mr-1"></i> Lưu cài đặt
                                 </button>
                             </div>
                         </div>
@@ -371,7 +422,7 @@
                         <div class="card-body">
                             <!-- Logo Section -->
                             <div class="mb-4">
-                                <h6 class="text-primary mb-3"><i class="fas fa-image mr-2"></i>Logo Website</h6>
+                                <h6 class="text-dark mb-3"><i class="fas fa-image mr-1"></i>Logo Website</h6>
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="custom-file mb-3">
@@ -405,7 +456,7 @@
 
                             <!-- Favicon Section -->
                             <div class="mb-4">
-                                <h6 class="text-warning mb-3"><i class="fas fa-star mr-2"></i>Favicon</h6>
+                                <h6 class="text-dark mb-3"><i class="fas fa-star mr-1"></i>Favicon</h6>
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="custom-file mb-3">
@@ -436,13 +487,13 @@
                             </div>
 
                             <div class="alert alert-warning">
-                                <i class="fas fa-lightbulb mr-2"></i>
+                                <i class="fas fa-lightbulb mr-1"></i>
                                 <strong>Lưu ý:</strong> Ảnh sẽ được lưu vào thư mục <code>public/img/</code>. Ảnh cũ sẽ tự động bị xóa khi upload ảnh mới.
                             </div>
 
                             <div class="text-end mt-4">
                                 <button type="submit" class="btn btn-warning  bg-gradient-warning btn-sm px-5">
-                                    <i class="fas fa-save mr-2"></i> Lưu cài đặt
+                                    <i class="fas fa-save mr-1"></i> Lưu cài đặt
                                 </button>
                             </div>
                         </div>
@@ -518,7 +569,7 @@
 
                             <div class="text-end mt-4">
                                 <button type="submit" class="btn btn-secondary btn-sm px-5">
-                                    <i class="fas fa-save mr-2"></i> Lưu cài đặt
+                                    <i class="fas fa-save mr-1"></i> Lưu cài đặt
                                 </button>
                             </div>
                         </div>

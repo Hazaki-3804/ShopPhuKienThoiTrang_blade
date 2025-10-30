@@ -97,8 +97,8 @@
         // Thống kê & Hệ thống
         'view reports' => 'Xem báo cáo',
         'manage settings' => 'Cài đặt hệ thống',
-        'manage roles' => 'Quản lý vai trò',
-        'manage permissions' => 'Phân quyền',
+        'manage roles' => 'Phân quyền chung',
+        'manage permissions' => 'Phân quyền nhân viên',
         ];
 
         $groups = [
@@ -124,13 +124,13 @@
         'view reviews', 'hide reviews', 'delete reviews'
         ],
         'Nhân viên' => [
-        'view staffs', 'create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs'
+        'view staffs', 'create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs', 'manage roles', 'manage permissions'
         ],
         'Thống kê' => [
         'view reports'
         ],
         'Hệ thống' => [
-        'manage settings', 'manage roles', 'manage permissions'
+        'manage settings'
         ],
         ];
         @endphp
@@ -431,7 +431,7 @@
         setupDeps('view shipping fees', ['create shipping fees', 'edit shipping fees', 'delete shipping fees'], 'phi-van-chuyen');
         setupDeps('view customers', ['edit customers', 'delete customers'], 'khach-hang');
         setupDeps('view reviews', ['hide reviews', 'delete reviews'], 'binh-luan');
-        setupDeps('view staffs', ['create staffs', 'edit staffs', 'delete staffs'], 'nhan-vien');
+        setupDeps('view staffs', ['create staffs', 'edit staffs', 'delete staffs', 'lock/unlock staffs', 'manage permissions'], 'nhan-vien');
     });
 </script>
 @endpush

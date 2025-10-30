@@ -489,7 +489,7 @@ class CategoryController extends Controller
             $writer = new Xlsx($spreadsheet);
 
             // Set headers for download
-            $fileName = 'mau_import_danh_muc_' . date('Y-m-d_His') . '.xlsx';
+            $fileName = 'file_mau_import_danh_muc_san_pham' . date('Y-m-d') . '.xlsx';
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $fileName . '"');

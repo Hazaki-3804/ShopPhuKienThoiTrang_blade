@@ -4,11 +4,12 @@
 
 /* Table Container */
 .table-responsive {
-    border-radius: 8px;
-    box-shadow   : 0 2px 8px rgba(0, 0, 0, 0.05);
-    background   : #fff;
-    padding      : 8px 12px;
-    overflow     : visible !important;
+    border-radius   : 8px;
+    box-shadow      : 0 2px 8px rgba(0, 0, 0, 0.05);
+    background      : #fff;
+    padding         : 8px 12px;
+    /* overflow     : visible !important; */
+    overflow-x      : auto;
 }
 
 
