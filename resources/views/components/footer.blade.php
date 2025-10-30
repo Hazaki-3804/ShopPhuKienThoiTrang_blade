@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="col-lg-2 col-md-6">
-                    <h5 class="footer-title">Về chúng tôi</h5>
+                    <h5 class="footer-title mt-2">Về chúng tôi</h5>
                     <ul class="footer-links">
                         <li><a href="/"><i class="bi bi-chevron-right"></i> Trang chủ</a></li>
                         <li><a href="{{ route('shop.index') }}"><i class="bi bi-chevron-right"></i> Sản phẩm</a></li>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="col-lg-2 col-md-6">
-                    <h5 class="footer-title">Chính sách</h5>
+                    <h5 class="footer-title mt-2">Chính sách</h5>
                     <ul class="footer-links">
                         <li><a href="#"><i class="bi bi-chevron-right"></i> Chính sách đổi trả</a></li>
                         <li><a href="#"><i class="bi bi-chevron-right"></i> Chính sách bảo mật</a></li>
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="footer-title">Nhận tin khuyến mãi</h5>
+                    <h5 class="footer-title mt-2">Nhận tin khuyến mãi</h5>
                     <p class="footer-desc mb-3">Đăng ký để nhận ưu đãi độc quyền và xu hướng mới nhất</p>
                     <form class="newsletter-form mb-4" onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã đăng ký!')">
                         <div class="input-group">
